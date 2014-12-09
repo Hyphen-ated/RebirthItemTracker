@@ -2,7 +2,7 @@ import time
 import glob
 import os
 import pygame
-
+import re
 
 # some general variable stuff, i guess
 verbose = False
@@ -10,12 +10,67 @@ debug = True
 seek = 0
 framecount = 0
 read_delay = 60
-
+run_ended = True
 
 # just for debugging
 def log_msg(msg, level):
   if level=="V" and verbose: print msg
   if level=="D" and debug: print msg
+
+
+# just for the suffix of boss kill number lol
+def suffix(d):
+  return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
+
+
+def check_end_run(line,cur_line_num):
+  # declare global stuff
+  global run_ended
+  global bosses
+  global seed
+  global run_start_line
+  global collected_items
+  global last_run
+  if not run_ended:
+    died_to = ""
+    end_type = ""
+    if bosses and bosses[-1][0] in ['???','The Lamb','Mega Satan']:
+      end_type = "Won"
+    elif (seed != '') and line.startswith('RNG Start Seed:'):
+      end_type = "Reset"
+    elif line.startswith('Game Over.'):
+      end_type = "Death"
+      died_to = re.search('(?i)Killed by \((.*)\) spawned',line).group(1)
+    if end_type:
+      last_run = {
+        "bosses":bosses
+        , "items":collected_items
+        , "seed":seed
+        , "died_to":died_to
+        , "end_type":end_type
+      }
+      run_ended = True
+      log_msg("End of Run! %s" % last_run,"D")
+      if end_type != "Reset":
+        save_file(run_start_line,cur_line_num, seed)
+
+
+def save_file(start, end, seed):
+  global splitfile
+  global last_run
+  mkdir("run_logs")
+  timestamp = int(time.time())
+  seed = seed.replace(" ","")
+  data = "\n".join(splitfile[start:end+1])
+  data = "%s\nRUN_OVER_LINE\n%s" % (data, last_run)
+  with open("run_logs/%s%s.log" % (seed,timestamp),'wb') as f:
+    f.write(data)
+
+
+def mkdir(dn):
+  import os
+  if not os.path.isdir(dn):
+    os.mkdir(dn)
 
 
 # initialize isaac stuff
@@ -28,6 +83,10 @@ guppy_use = {"133","148"}
 health_ups = {"15","16","22","23","24","25","26","119","129","176","218","219","226","346"}
 range_ups = {"29","30","31","339"}
 filter_list = (use_items - guppy_use) | health_ups | range_ups
+current_room = ""
+run_start_line = 0
+bosses = []
+last_run = {}
 
 log_msg("Filtered items: %s" % ", ".join([item_name_map[id] for id in filter_list]),"D")
 
@@ -93,8 +152,19 @@ while not done:
 
 
     # process log's new output
-    for line in splitfile[seek:]:
+    for current_line_number,line in enumerate(splitfile[seek:]):
       log_msg(line,"V")
+      # end floor boss defeated, hopefully?
+      if line.startswith('Mom clear time:'):
+        kill_time = int(line.split(" ")[-1])
+        # if you re-enter a room you get a "mom clear time" again, check for that.
+        # can you fight the same boss twice?
+        if current_room not in [x[0] for x in bosses]:
+          bosses.append((current_room, kill_time))
+          log_msg("Defeated %s%s boss %s at time %s" % (len(bosses),suffix(len(bosses)),current_room,kill_time),"D")
+      # check + handle the end of the run (order important here!)
+      # we want it after boss kill (so we have that handled) but before RNG Start Seed (so we can handle that)
+      check_end_run(line, current_line_number + seek)
       # start of a run
       if line.startswith('RNG Start Seed:'):
         # this assumes a fixed width, but from what i see it seems safe
@@ -102,6 +172,14 @@ while not done:
         log_msg("Starting new run, seed: %s" % seed,"D")
         collected_items = []
         log_msg("Emptied item array","D")
+        bosses = []
+        log_msg("Emptied boss array","D")
+        run_start_line = current_line_number + seek
+        run_ended = False
+      # entered a room, use to keep track of bosses
+      if line.startswith('Room'):
+        current_room = re.search('\((.*)\)',line).group(1)
+        log_msg("Entered room: %s" % current_room,"D")
       if line.startswith('Adding collectible'):
         # hacky string manip, idgaf
         space_split = line.split(" ")
