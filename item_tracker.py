@@ -143,10 +143,10 @@ while not done:
     # entire thing loaded into memory each loop -- see if maybe pruning log is possible for long sessions?
     content = ""
     try:
-      with open('log.txt', 'r') as f:
+      with open('../log.txt', 'r') as f:
         content = f.read()
     except Exception:
-      log_msg("No file found, skipping to next loop","D")
+      log_msg("log.txt not found, is the RebirthItemTracker directory in 'my games/Binding of Isaac Rebirth'?","D")
       continue
 
 
