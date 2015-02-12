@@ -4,6 +4,8 @@ import os
 import pygame
 import re
 
+from pygame.locals import *
+
 # some general variable stuff, i guess
 verbose = False
 debug = True
@@ -105,7 +107,8 @@ def get_image(path):
 
 # initialize pygame system stuff
 pygame.init()
-screen = pygame.display.set_mode((800, 80))
+pygame.display.set_caption("Rebirth Item Tracker")
+screen = pygame.display.set_mode((800, 80),HWSURFACE|DOUBLEBUF|RESIZABLE)
 done = False
 clock = pygame.time.Clock()
 my_font = pygame.font.SysFont("Arial", 16,bold=True)
@@ -116,6 +119,9 @@ while not done:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       done = True
+    elif event.type==VIDEORESIZE:
+      screen=pygame.display.set_mode(event.dict['size'],HWSURFACE|DOUBLEBUF|RESIZABLE)
+      pygame.display.flip()
 
   screen.fill((25,25,25))
   clock.tick(60)
