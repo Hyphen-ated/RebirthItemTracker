@@ -176,13 +176,6 @@ class BuildExe:
             shutil.rmtree('build')
 
 
-
-def zipdir(path, zip):
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            zip.write(os.path.join(root, file))
-
-
 if __name__ == '__main__':
     if operator.lt(len(sys.argv), 2):
         sys.argv.append('py2exe')
@@ -197,6 +190,4 @@ if __name__ == '__main__':
     shutil.copy('options.json', installDir)
     shutil.copy('items.txt', installDir)
     shutil.copy('README.md', installDir + 'README.txt')
-    zipf = zipfile.ZipFile('target/' + installName + '.zip', 'w')
-    zipdir(installDir, zipf)
-    zipf.close()
+    shutil.make_archive("target/" + installName, "zip", 'target', installName + "/")
