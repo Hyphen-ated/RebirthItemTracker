@@ -126,7 +126,7 @@ class IsaacTracker:
     result = self.try_layout(item_icon_size, False)
     while result is False:
       item_icon_size -= 1
-      if item_icon_size < self.options["min_spacing"]:
+      if item_icon_size < self.options["min_spacing"] or item_icon_size < 4:
         result = self.try_layout(item_icon_size, True)
       else:
         result = self.try_layout(item_icon_size, False)
@@ -140,8 +140,8 @@ class IsaacTracker:
     cur_column = 0
     for index,item in enumerate([x for x in self.collected_items if x not in self.filter_list]):
       #check to see if we are about to go off the right edge
-      if icon_width * (cur_column + 1) > self.options["width"]:
-        if (not force_layout) and 16 + icon_width * (cur_row + 2) > self.options["height"]:
+      if icon_width * (cur_column) + 64 > self.options["width"]:
+        if (not force_layout) and 16 + icon_width * (cur_row + 1) + 64 > self.options["height"]:
           return False
         cur_row += 1
         cur_column = 0
