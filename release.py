@@ -195,6 +195,7 @@ if __name__ == '__main__':
     shutil.copytree('collectibles/', installDir + 'collectibles/')
     shutil.copy('dist/item_tracker.exe', installDir)
     shutil.copy('options.json', installDir)
+    shutil.copy('items.txt', installDir)
     shutil.copy('README.md', installDir + 'README.txt')
     zipf = zipfile.ZipFile('target/' + installName + '.zip', 'w')
     zipdir(installDir, zipf)
