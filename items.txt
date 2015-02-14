@@ -141,17 +141,17 @@
    }, 
    "029": {
       "name": "Mom's Underwear", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "030": {
       "name": "Mom's Heels", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "031": {
       "name": "Mom's Lipstick", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "032": {
@@ -626,7 +626,7 @@
    }, 
    "129": {
       "name": "Bucket of Lard", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "130": {
@@ -706,7 +706,7 @@
    }, 
    "145": {
       "name": "Guppy's Head", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "146": {
@@ -1071,12 +1071,12 @@
    }, 
    "218": {
       "name": "Placenta", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "219": {
       "name": "Old Bandage", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "220": {
@@ -1666,7 +1666,7 @@
    }, 
    "339": {
       "name": "Safety Pin", 
-      "shown": false, 
+      "shown": true,
       "text": ""
    }, 
    "340": {
