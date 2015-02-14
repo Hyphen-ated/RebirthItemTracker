@@ -120,23 +120,36 @@ class IsaacTracker:
 
 
   def reflow(self):
+    item_icon_size = 64
+    result = self.try_layout(item_icon_size, False)
+    while result is False:
+      item_icon_size -= 1
+      if item_icon_size < 24:
+        result = self.try_layout(item_icon_size, True)
+      else:
+        result = self.try_layout(item_icon_size, False)
+
+    self.collected_item_info = result
+
+
+  def try_layout(self, icon_width, force_layout):
     new_item_info = []
-    icon_width = 64
     cur_row = 0
     cur_column = 0
-
     for index,item in enumerate([x for x in self.collected_items if x not in self.filter_list]):
       #check to see if we are about to go off the right edge
       if icon_width * (cur_column + 1) > self.options["width"]:
+        if (not force_layout) and 16 + icon_width * (cur_row + 2) > self.options["height"]:
+          return False
         cur_row += 1
         cur_column = 0
 
       item_info = Bunch(id = item,
                         x = icon_width * cur_column,
-                        y = 16 + icon_width * cur_row)
+                        y =  16 + icon_width * cur_row)
       new_item_info.append(item_info)
       cur_column += 1
-    self.collected_item_info = new_item_info
+    return new_item_info
 
 
   def run(self):
