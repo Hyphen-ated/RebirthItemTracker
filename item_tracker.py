@@ -3,6 +3,7 @@ import glob
 import os
 import pygame
 import re
+import json
 
 from pygame.locals import *
 
@@ -33,6 +34,19 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
+    self.options = self.load_options()
+
+
+  def load_options(self):
+    with open("options.json", "r") as json_file:
+      options = json.load(json_file)
+    return options
+
+  def save_options(self):
+    with open("options.json", "w") as json_file:
+      json.dump(self.options, json_file)
+
+
 
   # just for debugging
   def log_msg(self, msg, level):
@@ -40,8 +54,9 @@ class IsaacTracker:
     if level=="D" and self.debug: print msg
 
 
+
   # just for the suffix of boss kill number lol
-  def suffix(self,d):
+  def suffix(self, d):
     return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
 
 
@@ -102,7 +117,7 @@ class IsaacTracker:
     # initialize pygame system stuff
     pygame.init()
     pygame.display.set_caption("Rebirth Item Tracker")
-    screen = pygame.display.set_mode((800, 80),HWSURFACE|DOUBLEBUF|RESIZABLE)
+    screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
     done = False
     clock = pygame.time.Clock()
     my_font = pygame.font.SysFont("Arial", 16,bold=True)
@@ -113,8 +128,11 @@ class IsaacTracker:
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           done = True
-        elif event.type==VIDEORESIZE: 
-          screen=pygame.display.set_mode(event.dict['size'],HWSURFACE|DOUBLEBUF|RESIZABLE)
+        elif event.type==VIDEORESIZE:
+          screen=pygame.display.set_mode(event.dict['size'], RESIZABLE)
+          self.options["width"] = event.dict["w"]
+          self.options["height"] = event.dict["h"]
+          self.save_options()
           pygame.display.flip()
 
 
@@ -190,7 +208,7 @@ class IsaacTracker:
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
             self.collected_items.append(item_id)
             pass
-        
+
         self.seek = len(self.splitfile)
 
 
