@@ -122,11 +122,11 @@ class IsaacTracker:
 
 
   def reflow(self):
-    item_icon_size = 64
+    item_icon_size = self.options["default_spacing"]
     result = self.try_layout(item_icon_size, False)
     while result is False:
       item_icon_size -= 1
-      if item_icon_size < 24:
+      if item_icon_size < self.options["min_spacing"]:
         result = self.try_layout(item_icon_size, True)
       else:
         result = self.try_layout(item_icon_size, False)
