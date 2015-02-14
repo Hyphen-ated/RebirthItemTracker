@@ -4,15 +4,17 @@ import os
 import pygame
 import re
 import json
-
 from pygame.locals import *
+
 
 #convenience class that lets you basically have dictionaries that you access with dot notation
 # (copy pasted from the internet, i have no idea how this works)
 class Bunch:
     __init__ = lambda self, **kw: setattr(self, '__dict__', kw)
 
+
 class IsaacTracker:
+
 
   def __init__(self, verbose=False, debug=False, read_delay=60):
     # some general variable stuff, i guess
@@ -44,23 +46,21 @@ class IsaacTracker:
     self.options = self.load_options()
 
 
-
   def load_options(self):
     with open("options.json", "r") as json_file:
       options = json.load(json_file)
     return options
+
 
   def save_options(self):
     with open("options.json", "w") as json_file:
       json.dump(self.options, json_file)
 
 
-
   # just for debugging
   def log_msg(self, msg, level):
     if level=="V" and self.verbose: print msg
     if level=="D" and self.debug: print msg
-
 
 
   # just for the suffix of boss kill number lol
@@ -107,7 +107,6 @@ class IsaacTracker:
     import os
     if not os.path.isdir(dn):
       os.mkdir(dn)
-
 
 
   # image library stuff, from openbookproject.net
@@ -214,7 +213,7 @@ class IsaacTracker:
 
         # process log's new output
         for current_line_number,line in enumerate(self.splitfile[self.seek:]):
-          #self.log_msg(line,"V")
+          self.log_msg(line,"V")
           # end floor boss defeated, hopefully?
           if line.startswith('Mom clear time:'):
             kill_time = int(line.split(" ")[-1])
@@ -255,5 +254,5 @@ class IsaacTracker:
         self.seek = len(self.splitfile)
 
 
-rt = IsaacTracker(verbose=True, debug=True)
+rt = IsaacTracker(verbose=False, debug=False)
 rt.run()
