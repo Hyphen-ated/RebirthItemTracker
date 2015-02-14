@@ -214,7 +214,7 @@ class IsaacTracker:
 
         # process log's new output
         for current_line_number,line in enumerate(self.splitfile[self.seek:]):
-          self.log_msg(line,"V")
+          #self.log_msg(line,"V")
           # end floor boss defeated, hopefully?
           if line.startswith('Mom clear time:'):
             kill_time = int(line.split(" ")[-1])
