@@ -1,14 +1,22 @@
+# This is a pygame2exe script I found on the internet, mashed together with some code to build
+# a release for the item tracker. Here is where you can set the name for the release zip file and for
+# the install dir inside it.
+
+installName = 'RebirthItemTracker-0.2'
+
+
 # This will create a dist directory containing the executable file, all the data
 # directories. All Libraries will be bundled in executable file.
 #
-# Run the build process by entering 'pygame2exe.py' or
-# 'python pygame2exe.py' in a console prompt.
+# Run the build process by entering 'release.py' or
+# 'python release.py' in a console prompt.
 #
 # To build exe, python, pygame, and py2exe have to be installed. After
 # building exe none of this libraries are needed.
 #Please Note have a backup file in a different directory as if it crashes you 
 #will loose it all!(I lost 6 months of work because I did not do this)
- 
+
+
  
 try:
     from distutils.core import setup
@@ -17,6 +25,9 @@ try:
     import glob, fnmatch
     import sys, os, shutil
     import operator
+    import shutil
+    import zipfile
+
 except ImportError, message:
     raise SystemExit,  "Unable to load module. %s" % message
  
@@ -163,9 +174,20 @@ class BuildExe:
         
         if os.path.isdir('build'): #Clean up build dir
             shutil.rmtree('build')
- 
+
+
 if __name__ == '__main__':
     if operator.lt(len(sys.argv), 2):
         sys.argv.append('py2exe')
     BuildExe().run() #Run generation
-    raw_input("Press any key to continue") #Pause to let user see that things ends 
+
+    #item tracker release artifact construction
+    if os.path.isdir('target/'):
+      shutil.rmtree('target/')
+    installDir = 'target/' + installName + '/'
+    shutil.copytree('collectibles/', installDir + 'collectibles/')
+    shutil.copy('dist/item_tracker.exe', installDir)
+    shutil.copy('options.json', installDir)
+    shutil.copy('items.txt', installDir)
+    shutil.copy('README.md', installDir + 'README.txt')
+    shutil.make_archive("target/" + installName, "zip", 'target', installName + "/")
