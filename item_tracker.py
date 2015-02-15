@@ -230,7 +230,8 @@ class IsaacTracker:
       # draw item pickup text, if applicable
       if (self.last_item_pickup_time + (self.options["message_duration"] * 60) > self.framecount
           and len(self.collected_items) > 0
-          and self.options["show_description"]):
+          and self.options["show_description"]
+          and self.run_start_frame + 120 < self.framecount):
         id_padded = self.collected_items[-1].zfill(3)
         item_info = self.items_info[id_padded]
         desc = self.generateItemDescription(item_info)
@@ -308,8 +309,7 @@ class IsaacTracker:
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
             # ignore repeated pickups of space bar items, or starting items (too early)
-            if (not (item_info.get("space") and item_id in self.collected_items)
-                and self.run_start_frame + 60 < self.framecount):
+            if not (item_info.get("space") and item_id in self.collected_items):
               self.collected_items.append(item_id)
               self.last_item_pickup_time = self.framecount
             else:
