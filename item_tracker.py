@@ -195,6 +195,11 @@ class IsaacTracker:
       desc = ": " + desc
     return desc
 
+
+  def color(self, string):
+    return pygame.color.Color(str(string))
+
+
   def run(self):
     # initialize pygame system stuff
     pygame.init()
@@ -219,7 +224,7 @@ class IsaacTracker:
           pygame.display.flip()
 
 
-      screen.fill((25,25,25))
+      screen.fill(self.color(self.options["background_color"]))
       clock.tick(60)
 
       # draw item pickup text, if applicable
@@ -229,11 +234,11 @@ class IsaacTracker:
         id_padded = self.collected_items[-1].zfill(3)
         item_info = self.items_info[id_padded]
         desc = self.generateItemDescription(item_info)
-        item_text = my_font.render("%s%s" % (item_info["name"], desc), True, (255,255,255))
+        item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
         screen.blit(item_text,(2,2))
       elif self.options["show_seed"]:
         # draw seed text:
-        seed_text = my_font.render("Seed: %s" % self.seed, True, (255,255,255))
+        seed_text = my_font.render("Seed: %s" % self.seed, True, self.color(self.options["text_color"]))
         screen.blit(seed_text,(2,2))
 
       # draw items on screen, excluding filtered items:
