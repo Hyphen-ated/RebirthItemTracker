@@ -298,10 +298,15 @@ class IsaacTracker:
             item_id = space_split[2]
             item_name = " ".join(space_split[3:])[1:-1]
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
-            self.collected_items.append(item_id)
-            self.last_item_pickup_time = self.framecount
-            self.reflow()
-            pass
+            id_padded = item_id.zfill(3)
+            item_info = self.items_info[id_padded]
+            # ignore repeated pickups of space bar items
+            if not (item_info.get("space") and item_id in self.collected_items):
+              self.collected_items.append(item_id)
+              self.last_item_pickup_time = self.framecount
+              self.reflow()
+            else:
+              self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
 
         self.seek = len(self.splitfile)
 
