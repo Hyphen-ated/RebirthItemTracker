@@ -26,7 +26,6 @@ class IsaacTracker:
     self.collected_items = []
     self.collected_item_info = []
     self.seed = ""
-    # filter_list = {"105"}
     self.current_room = ""
     self.run_start_line = 0
     self.bosses = []
@@ -155,6 +154,47 @@ class IsaacTracker:
     return new_item_info
 
 
+  def generateItemDescription(self, item_info):
+    desc = ""
+    text = item_info.get("text")
+    dmg = item_info.get("dmg")
+    dmgx = item_info.get("dmgx")
+    delay = item_info.get("delay")
+    delayx = item_info.get("delayx")
+    health = item_info.get("health")
+    speed = item_info.get("speed")
+    shotspeed = item_info.get("shotspeed")
+    tearrange = item_info.get("range")
+    height = item_info.get("height")
+    tears = item_info.get("tears")
+    if dmg:
+      desc += dmg + " dmg, "
+    if dmgx:
+      desc += "x" + dmgx + " dmg, "
+    if tears:
+      desc += tears + " tears, "
+    if delay:
+      desc += delay + " tear delay, "
+    if delayx:
+      desc += "x" + delayx + " tear delay, "
+    if health:
+      desc += health + " health, "
+    if shotspeed:
+      desc += shotspeed + " shotspeed, "
+    if tearrange:
+      desc += tearrange + " range, "
+    if height:
+      desc += height + " height, "
+    if speed:
+      desc += speed + " speed, "
+    if text:
+      desc += text
+    if desc.endswith(", "):
+      desc = desc[:-2]
+    if len(desc) > 0:
+      desc = ": " + desc
+    return desc
+
   def run(self):
     # initialize pygame system stuff
     pygame.init()
@@ -186,45 +226,7 @@ class IsaacTracker:
       if self.last_item_pickup_time + self.options["message_duration"] > time.time() and len(self.collected_items) > 0:
         id_padded = self.collected_items[-1].zfill(3)
         item_info = self.items_info[id_padded]
-        desc = ""
-        text = item_info.get("text")
-        dmg = item_info.get("dmg")
-        dmgx = item_info.get("dmgx")
-        delay = item_info.get("delay")
-        delayx = item_info.get("delayx")
-        speed = item_info.get("speed")
-        shotspeed = item_info.get("shotspeed")
-        tearrange = item_info.get("range")
-        height = item_info.get("height")
-        tears = item_info.get("tears")
-
-        if dmg:
-          desc += dmg + " dmg, "
-        if dmgx:
-          desc += "x" + dmgx + " dmg, "
-        if tears:
-          desc += tears + " tears, "
-        if delay:
-          desc += delay + " tear delay, "
-        if delayx:
-          desc += "x" + delayx + " tear delay, "
-        if shotspeed:
-          desc += shotspeed + " shotspeed, "
-        if tearrange:
-          desc += tearrange + " range, "
-        if height:
-          desc += height + " height, "
-        if speed:
-          desc += speed + " speed, "
-
-        if text:
-          desc += text
-
-        if desc.endswith(", "):
-          desc = desc[:-2]
-
-        if len(desc) > 0:
-          desc = ": " + desc
+        desc = self.generateItemDescription(item_info)
         item_text = my_font.render("%s%s" % (item_info["name"], desc), True, (255,255,255))
         screen.blit(item_text,(2,2))
       else:
