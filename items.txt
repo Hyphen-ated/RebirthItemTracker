@@ -2,9 +2,12 @@
    "001": {
       "name": "The Sad Onion", 
       "shown": true, 
+      "tears": "0.7", 
       "text": ""
    }, 
    "002": {
+      "delay": "3", 
+      "delayx": "2.1", 
       "name": "The Inner Eye", 
       "shown": true, 
       "text": ""
@@ -15,21 +18,29 @@
       "text": ""
    }, 
    "004": {
+      "dmg": "0.5", 
+      "dmgx": "1.5", 
       "name": "Cricket's Head", 
       "shown": true, 
       "text": ""
    }, 
    "005": {
+      "height": "1", 
       "name": "My Reflection", 
+      "range": "1.5", 
       "shown": true, 
-      "text": ""
+      "text": "Boomerang Tears"
    }, 
    "006": {
+      "height": "0.45", 
       "name": "Number One", 
+      "range": "-15.78", 
       "shown": true, 
+      "tears": "1.5", 
       "text": ""
    }, 
    "007": {
+      "dmg": "1", 
       "name": "Blood of the Martyr", 
       "shown": true, 
       "text": ""
@@ -55,8 +66,14 @@
       "text": ""
    }, 
    "012": {
+      "dmg": "0.3", 
+      "dmgx": "1.5", 
+      "health": "1", 
+      "height": "0.5", 
       "name": "Magic Mushroom", 
+      "range": "5.25", 
       "shown": true, 
+      "speed": "0.3", 
       "text": ""
    }, 
    "013": {
@@ -65,8 +82,11 @@
       "text": ""
    }, 
    "014": {
+      "height": "0.5", 
       "name": "Roid Rage", 
+      "range": "5.25", 
       "shown": true, 
+      "speed": "0.6", 
       "text": ""
    }, 
    "015": {
@@ -75,9 +95,10 @@
       "text": ""
    }, 
    "016": {
+      "health": "2", 
       "name": "Raw Liver", 
       "shown": false, 
-      "text": ""
+      "text": "Full Heal"
    }, 
    "017": {
       "name": "Skeleton Key", 
@@ -110,21 +131,25 @@
       "text": ""
    }, 
    "023": {
+      "health": "1", 
       "name": "Dinner", 
       "shown": false, 
       "text": ""
    }, 
    "024": {
+      "health": "1", 
       "name": "Dessert", 
       "shown": false, 
       "text": ""
    }, 
    "025": {
+      "health": "1", 
       "name": "Breakfast", 
       "shown": false, 
       "text": ""
    }, 
    "026": {
+      "health": "1", 
       "name": "Rotten Meat", 
       "shown": false, 
       "text": ""
@@ -132,31 +157,40 @@
    "027": {
       "name": "Wooden Spoon", 
       "shown": true, 
+      "speed": "0.3", 
       "text": ""
    }, 
    "028": {
       "name": "The Belt", 
       "shown": true, 
+      "speed": "0.3", 
       "text": ""
    }, 
    "029": {
+      "height": "0.5", 
       "name": "Mom's Underwear", 
-      "shown": true,
+      "range": "5.25", 
+      "shown": true, 
       "text": ""
    }, 
    "030": {
+      "height": "0.5", 
       "name": "Mom's Heels", 
-      "shown": true,
+      "range": "5.25", 
+      "shown": true, 
       "text": ""
    }, 
    "031": {
+      "height": "0.5", 
       "name": "Mom's Lipstick", 
-      "shown": true,
+      "range": "5.25", 
+      "shown": true, 
       "text": ""
    }, 
    "032": {
       "name": "Wire Coat Hanger", 
       "shown": true, 
+      "tears": "0.7", 
       "text": ""
    }, 
    "033": {
@@ -220,9 +254,10 @@
       "text": ""
    }, 
    "046": {
+      "luck": "1", 
       "name": "Lucky Foot", 
       "shown": true, 
-      "text": ""
+      "text": "Other luck-related benefits"
    }, 
    "047": {
       "name": "Doctor's Remote", 
@@ -237,22 +272,26 @@
    "049": {
       "name": "Shoop Da Whoop", 
       "shown": false, 
-      "text": ""
+      "text": "Scales with Damage"
    }, 
    "050": {
+      "dmg": "1", 
       "name": "Steven", 
       "shown": true, 
       "text": ""
    }, 
    "051": {
+      "dmg": "1", 
       "name": "Pentagram", 
       "shown": true, 
       "text": ""
    }, 
    "052": {
+      "delayx": "2.5", 
+      "dmgx": "3", 
       "name": "Dr. Fetus", 
       "shown": true, 
-      "text": ""
+      "text": "Bomb shots"
    }, 
    "053": {
       "name": "Magneto", 
@@ -327,16 +366,21 @@
    "069": {
       "name": "Chocolate Milk", 
       "shown": true, 
-      "text": ""
+      "text": "Charge tears; max is 4x dmg"
    }, 
    "070": {
+      "dmg": "1", 
       "name": "Growth Hormones", 
       "shown": true, 
+      "speed": "0.4", 
       "text": ""
    }, 
    "071": {
+      "height": "1.5", 
       "name": "Mini Mush", 
+      "range": "-4.25", 
       "shown": true, 
+      "speed": "0.3", 
       "text": ""
    }, 
    "072": {
@@ -375,14 +419,18 @@
       "text": ""
    }, 
    "079": {
+      "dmg": "1", 
       "name": "The Mark", 
       "shown": true, 
+      "speed": "0.2", 
       "text": ""
    }, 
    "080": {
+      "dmg": "0.5", 
       "name": "The Pact", 
       "shown": true, 
-      "text": ""
+      "tears": "0.7", 
+      "text": "2 Soul Hearts"
    }, 
    "081": {
       "name": "Dead Cat", 
@@ -395,9 +443,11 @@
       "text": ""
    }, 
    "083": {
+      "dmg": "0.7", 
       "name": "The Nail", 
       "shown": false, 
-      "text": ""
+      "speed": "-0.18", 
+      "text": "+1 Soul Heart; Crush rocks"
    }, 
    "084": {
       "name": "We Need To Go Deeper", 
@@ -430,6 +480,7 @@
       "text": ""
    }, 
    "090": {
+      "dmg": "1", 
       "name": "The Small Rock", 
       "shown": true, 
       "text": ""
@@ -440,9 +491,10 @@
       "text": ""
    }, 
    "092": {
+      "health": "1", 
       "name": "Super Bandage", 
       "shown": true, 
-      "text": ""
+      "text": "2 Soul Hearts"
    }, 
    "093": {
       "name": "The Gamekid", 
@@ -485,8 +537,14 @@
       "text": ""
    }, 
    "101": {
+      "dmg": "0.3", 
+      "health": "1", 
+      "height": "0.5", 
       "name": "The Halo", 
+      "range": "0.25", 
       "shown": true, 
+      "speed": "0.3", 
+      "tears": "0.2", 
       "text": ""
    }, 
    "102": {
@@ -570,9 +628,10 @@
       "text": ""
    }, 
    "118": {
+      "delayx": "3", 
       "name": "Brimstone", 
       "shown": true, 
-      "text": ""
+      "text": "Blood laser; 13 hits"
    }, 
    "119": {
       "name": "Blood Bag", 
@@ -582,17 +641,26 @@
    "120": {
       "name": "Odd Mushroom (Thin)", 
       "shown": true, 
-      "text": ""
+      "speed": "0.3", 
+      "tears": "1.7", 
+      "text": "dmg * 0.9 - 0.4"
    }, 
    "121": {
+      "dmg": "0.3", 
+      "health": "1", 
+      "height": "0.5", 
       "name": "Odd Mushroom (Thick)", 
+      "range": "0.25", 
       "shown": true, 
+      "speed": "-0.1", 
       "text": ""
    }, 
    "122": {
+      "dmg": "1.5", 
       "name": "Whore of Babylon", 
       "shown": true, 
-      "text": ""
+      "speed": "0.3", 
+      "text": "only works with low red health"
    }, 
    "123": {
       "name": "Monster Manual", 
@@ -610,6 +678,7 @@
       "text": ""
    }, 
    "126": {
+      "dmg": "1.2", 
       "name": "Razor Blade", 
       "shown": false, 
       "text": ""
@@ -625,14 +694,16 @@
       "text": ""
    }, 
    "129": {
+      "health": "2", 
       "name": "Bucket of Lard", 
-      "shown": true,
+      "shown": true, 
+      "speed": "-0.2", 
       "text": ""
    }, 
    "130": {
       "name": "A Pony", 
       "shown": false, 
-      "text": ""
+      "text": "Flying; min speed 1.5"
    }, 
    "131": {
       "name": "Bomb Bag", 
@@ -642,7 +713,7 @@
    "132": {
       "name": "A Lump of Coal", 
       "shown": true, 
-      "text": ""
+      "text": "Damage based on distance"
    }, 
    "133": {
       "name": "Guppy's Paw", 
@@ -670,6 +741,8 @@
       "text": ""
    }, 
    "138": {
+      "dmg": "0.3", 
+      "health": "1", 
       "name": "Stigmata", 
       "shown": true, 
       "text": ""
@@ -696,7 +769,9 @@
    }, 
    "143": {
       "name": "Speed Ball", 
+      "shotspeed": "0.2", 
       "shown": true, 
+      "speed": "0.3", 
       "text": ""
    }, 
    "144": {
@@ -706,7 +781,7 @@
    }, 
    "145": {
       "name": "Guppy's Head", 
-      "shown": true,
+      "shown": true, 
       "text": ""
    }, 
    "146": {
@@ -725,9 +800,12 @@
       "text": ""
    }, 
    "149": {
+      "delay": "10", 
+      "delayx": "2", 
+      "height": "13", 
       "name": "Ipecac", 
       "shown": true, 
-      "text": ""
+      "text": "Explosive shots, +40 flat dmg"
    }, 
    "150": {
       "name": "Tough Love", 
@@ -740,19 +818,22 @@
       "text": ""
    }, 
    "152": {
+      "dmgx": "0.65",
       "name": "Technology 2", 
       "shown": true, 
       "text": ""
    }, 
    "153": {
+      "delay": "3",
+      "delayx" : "2.1",
       "name": "Mutant Spider", 
       "shown": true, 
-      "text": ""
+      "text": "Quad shot"
    }, 
    "154": {
       "name": "Chemical Peel", 
       "shown": true, 
-      "text": ""
+      "text": "Every other shot +2 flat dmg"
    }, 
    "155": {
       "name": "The Peeper", 
@@ -767,7 +848,7 @@
    "157": {
       "name": "Bloody Lust", 
       "shown": true, 
-      "text": ""
+      "text": "Extra damage when you get hit"
    }, 
    "158": {
       "name": "Crystal Ball", 
@@ -805,7 +886,9 @@
       "text": ""
    }, 
    "165": {
+      "dmg": "1", 
       "name": "Cat-O-Nine-Tails", 
+      "shotspeed": "0.23", 
       "shown": true, 
       "text": ""
    }, 
@@ -825,6 +908,10 @@
       "text": ""
    }, 
    "169": {
+      "delay":"3",
+      "delayx":"2.1",
+      "dmg": "4",
+      "dmgx": "2",
       "name": "Polyphemus", 
       "shown": true, 
       "text": ""
@@ -860,7 +947,9 @@
       "text": ""
    }, 
    "176": {
+      "health": "1", 
       "name": "Stem Cells", 
+      "shotspeed": "0.16", 
       "shown": false, 
       "text": ""
    }, 
@@ -887,22 +976,31 @@
    "181": {
       "name": "White Pony", 
       "shown": false, 
-      "text": ""
+      "speed": "Sets to 1.5", 
+      "text": "Flying; min speed 1.5"
    }, 
    "182": {
+      "dmgx": "2.3",
+      "height": "0.75", 
       "name": "Sacred Heart", 
+      "range": "0.375", 
+      "shotspeed": "-0.25", 
       "shown": true, 
-      "text": ""
+      "tears": "-0.4", 
+      "text": "+1 flat dmg"
    }, 
    "183": {
       "name": "Toothpicks", 
+      "shotspeed": "0.16", 
       "shown": true, 
+      "tears": "0.7", 
       "text": ""
    }, 
    "184": {
+      "health": "1", 
       "name": "Holy Grail", 
       "shown": true, 
-      "text": ""
+      "text": "Flying"
    }, 
    "185": {
       "name": "Dead Dove", 
@@ -925,8 +1023,14 @@
       "text": ""
    }, 
    "189": {
+      "dmg": "0.3", 
+      "health": "1", 
+      "height": "1", 
       "name": "SMB Super Fan", 
+      "range": "0.5", 
       "shown": true, 
+      "speed": "0.2", 
+      "tears": "0.2", 
       "text": ""
    }, 
    "190": {
@@ -945,14 +1049,17 @@
       "text": ""
    }, 
    "193": {
-      "name": "MEAT!", 
+      "dmg": "0.3", 
+      "health": "1", 
+      "name": "Meat!", 
       "shown": true, 
       "text": ""
    }, 
    "194": {
-      "name": "Magic 8 Ball", 
+      "name": "Magic 8-Ball", 
+      "shotspeed": "0.16", 
       "shown": true, 
-      "text": ""
+      "text": "Free Tarot Card"
    }, 
    "195": {
       "name": "Mom's Coin Purse", 
@@ -960,12 +1067,16 @@
       "text": ""
    }, 
    "196": {
-      "name": "Squeezy", 
+      "name": "Mr. Squeezy", 
       "shown": true, 
-      "text": ""
+      "tears": "0.4", 
+      "text": "2 Soul Hearts"
    }, 
    "197": {
+      "dmg": "0.5", 
+      "height": "0.5", 
       "name": "Jesus Juice", 
+      "range": "0.25", 
       "shown": true, 
       "text": ""
    }, 
@@ -985,9 +1096,10 @@
       "text": ""
    }, 
    "201": {
+      "dmg": "0.3", 
       "name": "Iron Bar", 
       "shown": true, 
-      "text": ""
+      "text": "Concussive tears"
    }, 
    "202": {
       "name": "Midas Touch", 
@@ -1010,9 +1122,11 @@
       "text": ""
    }, 
    "206": {
+      "dmg": "1", 
       "name": "The Guillotine", 
       "shown": true, 
-      "text": ""
+      "tears": "0.16", 
+      "text": "Detached head"
    }, 
    "207": {
       "name": "Ball of Bandages", 
@@ -1020,9 +1134,10 @@
       "text": ""
    }, 
    "208": {
+      "dmg": "1", 
       "name": "Champion Belt", 
       "shown": true, 
-      "text": ""
+      "text": "More champion enemies"
    }, 
    "209": {
       "name": "Butt Bombs", 
@@ -1051,8 +1166,9 @@
    }, 
    "214": {
       "name": "Anemic", 
+      "range": "5", 
       "shown": true, 
-      "text": ""
+      "text": "Blood creep upon taking damage"
    }, 
    "215": {
       "name": "Goat Head", 
@@ -1060,9 +1176,10 @@
       "text": ""
    }, 
    "216": {
+      "dmg": "1", 
       "name": "Ceremonial Robes", 
       "shown": true, 
-      "text": ""
+      "text": "3 Sin Hearts"
    }, 
    "217": {
       "name": "Mom's Wig", 
@@ -1070,14 +1187,16 @@
       "text": ""
    }, 
    "218": {
+      "health": "1", 
       "name": "Placenta", 
-      "shown": true,
-      "text": ""
+      "shown": true, 
+      "text": "Regen Health"
    }, 
    "219": {
+      "health": "1 (Empty)", 
       "name": "Old Bandage", 
-      "shown": true,
-      "text": ""
+      "shown": true, 
+      "text": "Red Hearts can drop upon taking damage"
    }, 
    "220": {
       "name": "Sad Bombs", 
@@ -1092,6 +1211,7 @@
    "222": {
       "name": "Anti-Gravity", 
       "shown": true, 
+      "tears": "0.32", 
       "text": ""
    }, 
    "223": {
@@ -1101,8 +1221,10 @@
    }, 
    "224": {
       "name": "Cricket's Body", 
+      "range": "-10", 
       "shown": true, 
-      "text": ""
+      "tears": "0.16", 
+      "text": "Splash damage"
    }, 
    "225": {
       "name": "Gimpy", 
@@ -1120,8 +1242,9 @@
       "text": ""
    }, 
    "228": {
-      "name": "Mom's Perfume:", 
+      "name": "Mom's Perfume", 
       "shown": true, 
+      "tears": "0.16", 
       "text": ""
    }, 
    "229": {
@@ -1130,9 +1253,11 @@
       "text": ""
    }, 
    "230": {
+      "dmg": "1.5", 
       "name": "Abaddon", 
       "shown": true, 
-      "text": ""
+      "speed": "0.2", 
+      "text": "6 Sin Hearts; Fear chance"
    }, 
    "231": {
       "name": "Ball of Tar", 
@@ -1145,9 +1270,10 @@
       "text": ""
    }, 
    "233": {
+      "height": "7", 
       "name": "Tiny Planet", 
       "shown": true, 
-      "text": ""
+      "text": "Orbital tears"
    }, 
    "234": {
       "name": "Infestation 2", 
@@ -1160,9 +1286,11 @@
       "text": ""
    }, 
    "237": {
+      "dmg": "1.5", 
       "name": "Death's Touch", 
       "shown": true, 
-      "text": ""
+      "tears": "-0.3", 
+      "text": "Piercing"
    }, 
    "238": {
       "name": "Key Piece #1", 
@@ -1177,7 +1305,8 @@
    "240": {
       "name": "Experimental Treatment", 
       "shown": true, 
-      "text": ""
+      "speed": " ()", 
+      "text": "Changes stats randomly up or down"
    }, 
    "241": {
       "name": "Contract From Below", 
@@ -1202,7 +1331,7 @@
    "245": {
       "name": "20/20", 
       "shown": true, 
-      "text": ""
+      "text": "Double shot"
    }, 
    "246": {
       "name": "Blue Map", 
@@ -1240,6 +1369,8 @@
       "text": ""
    }, 
    "253": {
+      "health": "1", 
+      "luck": "1", 
       "name": "Magic Scab", 
       "shown": true, 
       "text": ""
@@ -1247,11 +1378,13 @@
    "254": {
       "name": "Blood Clot", 
       "shown": true, 
-      "text": ""
+      "text": "Every other shot: +1 flat dmg; +5 range"
    }, 
    "255": {
       "name": "Screw", 
+      "shotspeed": "0.2", 
       "shown": true, 
+      "tears": "0.5", 
       "text": ""
    }, 
    "256": {
@@ -1270,9 +1403,10 @@
       "text": ""
    }, 
    "259": {
+      "dmg": "1", 
       "name": "Dark Matter", 
       "shown": true, 
-      "text": ""
+      "text": "Fear chance"
    }, 
    "260": {
       "name": "Black Candle", 
@@ -1467,12 +1601,14 @@
    "299": {
       "name": "Taurus", 
       "shown": true, 
-      "text": ""
+      "speed": "-0.3", 
+      "text": "Speed increases until you unicorn"
    }, 
    "300": {
       "name": "Aries", 
       "shown": true, 
-      "text": ""
+      "speed": "0.25", 
+      "text": "Contact damage"
    }, 
    "301": {
       "name": "Cancer", 
@@ -1492,7 +1628,7 @@
    "304": {
       "name": "Libra", 
       "shown": true, 
-      "text": ""
+      "text": "Evens out stats"
    }, 
    "305": {
       "name": "Scorpio", 
@@ -1502,12 +1638,18 @@
    "306": {
       "name": "Sagittarius", 
       "shown": true, 
-      "text": ""
+      "speed": "0.2", 
+      "text": "Piercing"
    }, 
    "307": {
+      "dmg": "0.5", 
+      "health": "1", 
       "name": "Capricorn", 
+      "range": "1.5", 
       "shown": true, 
-      "text": ""
+      "speed": "0.1", 
+      "tears": "0.16", 
+      "text": "1 Coin; 1 Bomb; 1 Key"
    }, 
    "308": {
       "name": "Aquarius", 
@@ -1517,22 +1659,27 @@
    "309": {
       "name": "Pisces", 
       "shown": true, 
+      "tears": "0.16", 
       "text": ""
    }, 
    "310": {
+      "delayx": "2", 
+      "dmgx": "2", 
       "name": "Eve's Mascara", 
-      "shown": true,
+      "shotspeed": "-0.5", 
+      "shown": true, 
       "text": ""
    }, 
    "311": {
       "name": "Judas' Shadow", 
       "shown": true, 
-      "text": ""
+      "text": "Double damage after reviving"
    }, 
    "312": {
+      "health": "1", 
       "name": "Maggy's Bow", 
       "shown": true, 
-      "text": ""
+      "text": "Red Hearts count double"
    }, 
    "313": {
       "name": "Holy Mantle", 
@@ -1540,9 +1687,11 @@
       "text": ""
    }, 
    "314": {
+      "health": "1", 
       "name": "Thunder Thighs", 
       "shown": true, 
-      "text": ""
+      "speed": "-0.4", 
+      "text": "Crush rocks"
    }, 
    "315": {
       "name": "Strange Attractor", 
@@ -1620,14 +1769,22 @@
       "text": ""
    }, 
    "330": {
+      "delay": "-2",
+      "delayx": ".25",
+      "dmgx": "0.2",
       "name": "Soy Milk", 
       "shown": true, 
       "text": ""
    }, 
    "331": {
-      "name": "GodHead", 
+      "dmg": "0.5", 
+      "height": "0.8", 
+      "name": "Godhead", 
+      "range": "1.2", 
+      "shotspeed": "-0.3", 
       "shown": true, 
-      "text": ""
+      "tears": "-0.3", 
+      "text": "Tear aura"
    }, 
    "332": {
       "name": "Lazarus' Rags", 
@@ -1640,6 +1797,7 @@
       "text": ""
    }, 
    "334": {
+      "health": "3", 
       "name": "The Body", 
       "shown": true, 
       "text": ""
@@ -1650,9 +1808,12 @@
       "text": ""
    }, 
    "336": {
+      "height": "-0.5", 
       "name": "Dead Onion", 
+      "range": "0.25", 
+      "shotspeed": "-0.4", 
       "shown": true, 
-      "text": ""
+      "text": "Piercing"
    }, 
    "337": {
       "name": "Broken Watch", 
@@ -1665,29 +1826,39 @@
       "text": ""
    }, 
    "339": {
+      "height": "0.5", 
       "name": "Safety Pin", 
-      "shown": true,
-      "text": ""
+      "range": "5.25", 
+      "shotspeed": "0.16", 
+      "shown": true, 
+      "text": "1 Sin Heart"
    }, 
    "340": {
       "name": "Caffeine Pill", 
       "shown": true, 
-      "text": ""
+      "speed": "0.3", 
+      "text": "Size down; Free pill"
    }, 
    "341": {
       "name": "Torn Photo", 
+      "shotspeed": "0.16", 
       "shown": true, 
+      "tears": "0.7", 
       "text": ""
    }, 
    "342": {
+      "health": "1", 
       "name": "Blue Cap", 
+      "shotspeed": "-0.16", 
       "shown": true, 
+      "tears": "0.7", 
       "text": ""
    }, 
    "343": {
+      "luck": "1", 
       "name": "Latch Key", 
       "shown": true, 
-      "text": ""
+      "text": "2 Keys"
    }, 
    "344": {
       "name": "Match Book", 
@@ -1695,11 +1866,15 @@
       "text": ""
    }, 
    "345": {
+      "dmg": "1", 
+      "height": "0.5", 
       "name": "Synthoil", 
+      "range": "5.25", 
       "shown": true, 
       "text": ""
    }, 
    "346": {
+      "health": "1", 
       "name": "A Snack", 
       "shown": false, 
       "text": ""
