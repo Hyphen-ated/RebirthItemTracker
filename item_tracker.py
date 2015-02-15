@@ -28,7 +28,6 @@ class IsaacTracker:
     self.collected_items = []
     self.collected_item_info = []
     self.seed = ""
-    # filter_list = {"105"}
     self.current_room = ""
     self.run_start_line = 0
     self.bosses = []
@@ -36,6 +35,7 @@ class IsaacTracker:
     self._image_library = {}
     self.filter_list = []
     self.items_info = {}
+    self.last_item_pickup_time = 0
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
 
@@ -54,7 +54,7 @@ class IsaacTracker:
 
   def save_options(self):
     with open("options.json", "w") as json_file:
-      json.dump(self.options, json_file)
+      json.dump(self.options, json_file, indent=3, sort_keys=True)
 
 
   # just for debugging
@@ -153,6 +153,47 @@ class IsaacTracker:
     return new_item_info
 
 
+  def generateItemDescription(self, item_info):
+    desc = ""
+    text = item_info.get("text")
+    dmg = item_info.get("dmg")
+    dmgx = item_info.get("dmgx")
+    delay = item_info.get("delay")
+    delayx = item_info.get("delayx")
+    health = item_info.get("health")
+    speed = item_info.get("speed")
+    shotspeed = item_info.get("shotspeed")
+    tearrange = item_info.get("range")
+    height = item_info.get("height")
+    tears = item_info.get("tears")
+    if dmg:
+      desc += dmg + " dmg, "
+    if dmgx:
+      desc += "x" + dmgx + " dmg, "
+    if tears:
+      desc += tears + " tears, "
+    if delay:
+      desc += delay + " tear delay, "
+    if delayx:
+      desc += "x" + delayx + " tear delay, "
+    if health:
+      desc += health + " health, "
+    if shotspeed:
+      desc += shotspeed + " shotspeed, "
+    if tearrange:
+      desc += tearrange + " range, "
+    if height:
+      desc += height + " height, "
+    if speed:
+      desc += speed + " speed, "
+    if text:
+      desc += text
+    if desc.endswith(", "):
+      desc = desc[:-2]
+    if len(desc) > 0:
+      desc = ": " + desc
+    return desc
+
   def run(self):
     # initialize pygame system stuff
     pygame.init()
@@ -180,9 +221,19 @@ class IsaacTracker:
       screen.fill((25,25,25))
       clock.tick(60)
 
-      # draw seed text:
-      seed_text = my_font.render("Seed: %s" % self.seed, True, (255,255,255))
-      screen.blit(seed_text,(2,2))
+      # draw item pickup text, if applicable
+      if (self.last_item_pickup_time + self.options["message_duration"] > time.time()
+          and len(self.collected_items) > 0
+          and self.options["show_description"]):
+        id_padded = self.collected_items[-1].zfill(3)
+        item_info = self.items_info[id_padded]
+        desc = self.generateItemDescription(item_info)
+        item_text = my_font.render("%s%s" % (item_info["name"], desc), True, (255,255,255))
+        screen.blit(item_text,(2,2))
+      elif self.options["show_seed"]:
+        # draw seed text:
+        seed_text = my_font.render("Seed: %s" % self.seed, True, (255,255,255))
+        screen.blit(seed_text,(2,2))
 
       # draw items on screen, excluding filtered items:
       for item in self.collected_item_info:
@@ -248,6 +299,7 @@ class IsaacTracker:
             item_name = " ".join(space_split[3:])[1:-1]
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
             self.collected_items.append(item_id)
+            self.last_item_pickup_time = time.time()
             self.reflow()
             pass
 

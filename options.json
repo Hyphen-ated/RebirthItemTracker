@@ -1,1 +1,9 @@
-{"width": 800, "height": 80, "default_spacing": 64, "min_spacing": 24}
+{
+   "default_spacing": 64, 
+   "height": 80, 
+   "message_duration": 7, 
+   "min_spacing": 24, 
+   "show_description": true,
+   "show_seed": true,
+   "width": 800
+}
