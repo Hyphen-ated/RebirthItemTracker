@@ -196,62 +196,74 @@
    "033": {
       "name": "The Bible", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "034": {
       "name": "The Book of Belial", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "035": {
       "name": "The Necronomicon", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "036": {
       "name": "The Poop", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "037": {
       "name": "Mr. Boom", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "038": {
       "name": "Tammy's Head", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "039": {
       "name": "Mom's Bra", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "040": {
       "name": "Kamikaze", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "041": {
       "name": "Mom's Pad:", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "042": {
       "name": "Bob's Rotten Head", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "044": {
       "name": "Teleport", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "045": {
       "name": "Yum Heart", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "046": {
       "luck": "1", 
@@ -262,7 +274,8 @@
    "047": {
       "name": "Doctor's Remote", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "048": {
       "name": "Cupid's Arrow", 
@@ -272,7 +285,8 @@
    "049": {
       "name": "Shoop Da Whoop", 
       "shown": false, 
-      "text": "Scales with Damage"
+      "text": "Scales with Damage",
+      "space": true
    }, 
    "050": {
       "dmg": "1", 
@@ -311,7 +325,8 @@
    "056": {
       "name": "Lemon Mishap", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "057": {
       "name": "Distant Admiration", 
@@ -321,7 +336,8 @@
    "058": {
       "name": "Book of Shadows", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "060": {
       "name": "The Ladder", 
@@ -346,12 +362,14 @@
    "065": {
       "name": "Anarchist's Cookbook", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "066": {
       "name": "The Hourglass", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "067": {
       "name": "Sister Maggy", 
@@ -411,12 +429,14 @@
    "077": {
       "name": "My Little Unicorn", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "078": {
       "name": "Book of Revelations", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "079": {
       "dmg": "1", 
@@ -447,22 +467,26 @@
       "name": "The Nail", 
       "shown": false, 
       "speed": "-0.18", 
-      "text": "+1 Soul Heart; Crush rocks"
+      "text": "+1 Soul Heart; Crush rocks",
+      "space": true
    }, 
    "084": {
       "name": "We Need To Go Deeper", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "085": {
       "name": "Deck of Cards", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "086": {
       "name": "Monstro's Tooth", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "087": {
       "name": "Loki's Horns", 
@@ -499,7 +523,8 @@
    "093": {
       "name": "The Gamekid", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "094": {
       "name": "Sack of Pennies", 
@@ -519,7 +544,8 @@
    "097": {
       "name": "The Book of Sin", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "098": {
       "name": "The Relic", 
@@ -550,7 +576,8 @@
    "102": {
       "name": "Mom's Bottle of Pills", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "103": {
       "name": "The Common Cold", 
@@ -565,7 +592,8 @@
    "105": {
       "name": "The D6", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "106": {
       "name": "Mr. Mega", 
@@ -575,7 +603,8 @@
    "107": {
       "name": "Pinking Shears", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "108": {
       "name": "The Wafer", 
@@ -595,7 +624,8 @@
    "111": {
       "name": "The Bean", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "112": {
       "name": "Guardian Angel", 
@@ -665,12 +695,14 @@
    "123": {
       "name": "Monster Manual", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "124": {
       "name": "Dead Sea Scrolls", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "125": {
       "name": "Bobby - Bomb", 
@@ -681,12 +713,14 @@
       "dmg": "1.2", 
       "name": "Razor Blade", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "127": {
       "name": "Forget Me Now", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "128": {
       "name": "Forever Alone", 
@@ -703,7 +737,8 @@
    "130": {
       "name": "A Pony", 
       "shown": false, 
-      "text": "Flying; min speed 1.5"
+      "text": "Flying; min speed 1.5",
+      "space": true
    }, 
    "131": {
       "name": "Bomb Bag", 
@@ -718,7 +753,8 @@
    "133": {
       "name": "Guppy's Paw", 
       "shown": true, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "134": {
       "name": "Guppy's Tail", 
@@ -728,7 +764,8 @@
    "135": {
       "name": "IV Bag", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "136": {
       "name": "Best Friend", 
@@ -738,7 +775,8 @@
    "137": {
       "name": "Remote Detonator", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "138": {
       "dmg": "0.3", 
@@ -782,17 +820,20 @@
    "145": {
       "name": "Guppy's Head", 
       "shown": true, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "146": {
       "name": "Prayer Card", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "147": {
       "name": "Notched Axe", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "148": {
       "name": "Infestation", 
@@ -853,7 +894,8 @@
    "158": {
       "name": "Crystal Ball", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "159": {
       "name": "Spirit of the Night", 
@@ -863,7 +905,8 @@
    "160": {
       "name": "Crack The Sky", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "161": {
       "name": "Ankh", 
@@ -883,7 +926,8 @@
    "164": {
       "name": "The Candle", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "165": {
       "dmg": "1", 
@@ -895,7 +939,8 @@
    "166": {
       "name": "D20", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "167": {
       "name": "Harlequin Baby", 
@@ -924,7 +969,8 @@
    "171": {
       "name": "Spider Butt", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "172": {
       "name": "Sacrificial Dagger", 
@@ -944,7 +990,8 @@
    "175": {
       "name": "Dad's Key", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "176": {
       "health": "1", 
@@ -956,7 +1003,8 @@
    "177": {
       "name": "Portable Slot", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "178": {
       "name": "Holy Water", 
@@ -977,7 +1025,8 @@
       "name": "White Pony", 
       "shown": false, 
       "speed": "Sets to 1.5", 
-      "text": "Flying; min speed 1.5"
+      "text": "Flying; min speed 1.5",
+      "space": true
    }, 
    "182": {
       "dmgx": "2.3",
@@ -1010,7 +1059,8 @@
    "186": {
       "name": "Blood Rights", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "187": {
       "name": "Guppy's Hairball", 
@@ -1046,7 +1096,8 @@
    "192": {
       "name": "Telepathy for Dummies", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "193": {
       "dmg": "0.3", 
@@ -1290,7 +1341,7 @@
       "name": "Death's Touch", 
       "shown": true, 
       "tears": "-0.3", 
-      "text": "Piercing"
+      "text": "Scythes; Piercing"
    }, 
    "238": {
       "name": "Key Piece #1", 
@@ -1516,87 +1567,104 @@
    "282": {
       "name": "How To Jump", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "283": {
       "name": "D100", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "284": {
       "name": "D4", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "285": {
       "name": "D10", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "286": {
       "name": "Blank Card", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "287": {
       "name": "Book of Secrets", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "288": {
       "name": "Box of Spiders", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "289": {
       "name": "Red Candle", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "290": {
       "name": "The Jar", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "291": {
       "name": "FLUSH!", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "292": {
       "name": "The Satanic Bible", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "293": {
       "name": "Head of Krampus", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "294": {
       "name": "Butter Bean", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "295": {
       "name": "Magic Fingers", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "296": {
       "name": "Converter", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "297": {
       "name": "Pandora's Box", 
-      "shown": false, 
-      "text": ""
+      "shown": false,
+      "text": "",
+      "space": true
    }, 
    "298": {
       "name": "Unicorn Stump", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "299": {
       "name": "Taurus", 
@@ -1741,17 +1809,20 @@
    "324": {
       "name": "Undefined", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "325": {
       "name": "Scissors", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "326": {
       "name": "Breath of Life", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "327": {
       "name": "The Polaroid", 
@@ -1823,7 +1894,8 @@
    "338": {
       "name": "Boomerang", 
       "shown": false, 
-      "text": ""
+      "text": "",
+      "space": true
    }, 
    "339": {
       "height": "0.5", 
