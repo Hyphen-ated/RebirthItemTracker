@@ -52,7 +52,7 @@ class IsaacTracker:
 
   def save_options(self):
     with open("options.json", "w") as json_file:
-      json.dump(self.options, json_file)
+      json.dump(self.options, json_file, indent=3, sort_keys=True)
 
 
 
@@ -223,13 +223,15 @@ class IsaacTracker:
       clock.tick(60)
 
       # draw item pickup text, if applicable
-      if self.last_item_pickup_time + self.options["message_duration"] > time.time() and len(self.collected_items) > 0:
+      if (self.last_item_pickup_time + self.options["message_duration"] > time.time()
+          and len(self.collected_items) > 0
+          and self.options["show_description"]):
         id_padded = self.collected_items[-1].zfill(3)
         item_info = self.items_info[id_padded]
         desc = self.generateItemDescription(item_info)
         item_text = my_font.render("%s%s" % (item_info["name"], desc), True, (255,255,255))
         screen.blit(item_text,(2,2))
-      else:
+      elif self.options["show_seed"]:
         # draw seed text:
         seed_text = my_font.render("Seed: %s" % self.seed, True, (255,255,255))
         screen.blit(seed_text,(2,2))
