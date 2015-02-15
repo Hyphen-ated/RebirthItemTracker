@@ -222,7 +222,7 @@ class IsaacTracker:
       clock.tick(60)
 
       # draw item pickup text, if applicable
-      if (self.last_item_pickup_time + self.options["message_duration"] > time.time()
+      if (self.last_item_pickup_time + (self.options["message_duration"] * 60) > self.framecount
           and len(self.collected_items) > 0
           and self.options["show_description"]):
         id_padded = self.collected_items[-1].zfill(3)
@@ -299,7 +299,7 @@ class IsaacTracker:
             item_name = " ".join(space_split[3:])[1:-1]
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
             self.collected_items.append(item_id)
-            self.last_item_pickup_time = time.time()
+            self.last_item_pickup_time = self.framecount
             self.reflow()
             pass
 
