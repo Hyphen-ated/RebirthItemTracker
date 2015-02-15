@@ -30,6 +30,7 @@ class IsaacTracker:
     self.seed = ""
     self.current_room = ""
     self.run_start_line = 0
+    self.run_start_frame = 0
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
@@ -281,6 +282,7 @@ class IsaacTracker:
             # this assumes a fixed width, but from what i see it seems safe
             self.seed = line[16:25]
             self.log_msg("Starting new run, seed: %s" % self.seed,"D")
+            self.run_start_frame = self.framecount
             self.collected_items = []
             self.log_msg("Emptied item array","D")
             self.bosses = []
@@ -300,13 +302,14 @@ class IsaacTracker:
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
-            # ignore repeated pickups of space bar items
-            if not (item_info.get("space") and item_id in self.collected_items):
+            # ignore repeated pickups of space bar items, or starting items (too early)
+            if (not (item_info.get("space") and item_id in self.collected_items)
+                and self.run_start_frame + 60 < self.framecount):
               self.collected_items.append(item_id)
               self.last_item_pickup_time = self.framecount
-              self.reflow()
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
+            self.reflow()
 
         self.seek = len(self.splitfile)
 
