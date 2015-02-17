@@ -2,7 +2,7 @@
 # a release for the item tracker. Here is where you can set the name for the release zip file and for
 # the install dir inside it.
 
-installName = 'RebirthItemTracker-0.3'
+installName = 'RebirthItemTracker-0.4'
 
 
 # This will create a dist directory containing the executable file, all the data
