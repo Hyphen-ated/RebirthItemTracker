@@ -167,6 +167,8 @@ class IsaacTracker:
     tearrange = item_info.get("range")
     height = item_info.get("height")
     tears = item_info.get("tears")
+    soulhearts = item_info.get("soulhearts")
+    sinhearts = item_info.get("sinhearts")
     if dmg:
       desc += dmg + " dmg, "
     if dmgx:
@@ -177,8 +179,6 @@ class IsaacTracker:
       desc += delay + " tear delay, "
     if delayx:
       desc += "x" + delayx + " tear delay, "
-    if health:
-      desc += health + " health, "
     if shotspeed:
       desc += shotspeed + " shotspeed, "
     if tearrange:
@@ -187,6 +187,12 @@ class IsaacTracker:
       desc += height + " height, "
     if speed:
       desc += speed + " speed, "
+    if health:
+      desc += health + " health, "
+    if soulhearts:
+      desc += soulhearts + " soul hearts, "
+    if sinhearts:
+      desc += sinhearts + " sin hearts, "
     if text:
       desc += text
     if desc.endswith(", "):
@@ -230,7 +236,8 @@ class IsaacTracker:
       # draw item pickup text, if applicable
       if (self.last_item_pickup_time + (self.options["message_duration"] * 60) > self.framecount
           and len(self.collected_items) > 0
-          and self.options["show_description"]):
+          and self.options["show_description"]
+          and self.run_start_frame + 120 < self.framecount):
         id_padded = self.collected_items[-1].zfill(3)
         item_info = self.items_info[id_padded]
         desc = self.generateItemDescription(item_info)
@@ -308,8 +315,7 @@ class IsaacTracker:
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
             # ignore repeated pickups of space bar items, or starting items (too early)
-            if (not (item_info.get("space") and item_id in self.collected_items)
-                and self.run_start_frame + 60 < self.framecount):
+            if not (item_info.get("space") and item_id in self.collected_items):
               self.collected_items.append(item_id)
               self.last_item_pickup_time = self.framecount
             else:
