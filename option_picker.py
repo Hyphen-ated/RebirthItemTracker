@@ -9,13 +9,13 @@ import re
   standard save + load options functions, from item_tracker.py. save_options modified a bit to take a parameter
 """
 def load_options():
-  with open("options.json", "r") as json_file:
+  with open("../options.json", "r") as json_file:
     options = json.load(json_file)
   return options
 
 
 def save_options(options):
-  with open("options.json", "w") as json_file:
+  with open("../options.json", "w") as json_file:
     json.dump(options, json_file, indent=3, sort_keys=True)
 
 
