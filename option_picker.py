@@ -82,16 +82,25 @@ options = load_options()
 root = Tk()
 
 
-# generate text options by looping over option types
+# generate numeric options by looping over option types
 entries = {}
+nextrow = 0
 vcmd = (root.register(OnValidate), 
         '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 for index, opt in enumerate(["message_duration","min_spacing","default_spacing"]):
-  Label(root, text=pretty_name(opt)).grid(row=index)
+  Label(root, text=pretty_name(opt)).grid(row=nextrow)
   entries[opt] = Entry(root,validate="key",validatecommand=vcmd)
-  entries[opt].grid(row=index,column=1)
+  entries[opt].grid(row=nextrow,column=1)
   entries[opt].insert(0,options.get(opt))
+  nextrow += 1
 
+# generate text options by looping over option types
+for index, opt in enumerate(["item_details_link"]):
+  Label(root, text=pretty_name(opt)).grid(row=nextrow)
+  entries[opt] = Entry(root)
+  entries[opt].grid(row=nextrow,column=1)
+  entries[opt].insert(0,options.get(opt))
+  nextrow += 1
 
 # generate buttons by looping over option types
 buttons = {}

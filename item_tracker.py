@@ -1,6 +1,7 @@
 import time
 import glob
 import os
+import webbrowser
 import pygame
 import re
 import json
@@ -244,7 +245,14 @@ class IsaacTracker:
 
   def load_selected_detail_page(self):
     #todo open browser if this is not None
-    self.selected_item_idx
+    if not self.selected_item_idx:
+      return
+    url = self.options.get("item_details_link")
+    if not url:
+      return
+    item_id = self.collected_item_info[self.selected_item_idx].id
+    url = url.replace("$ID", item_id)
+    webbrowser.open(url, autoraise=True)
     return
 
   def adjust_selected_item(self, amount):
@@ -308,9 +316,12 @@ class IsaacTracker:
         elif event.type==MOUSEMOTION:
           if pygame.mouse.get_focused():
             x, y = pygame.mouse.get_pos()
-            self.selected_item_idx = self.item_position_index[y][x]
-            if self.selected_item_idx:
-              self.item_message_start_time = self.framecount
+            if y < len(self.item_position_index):
+              selected_row = self.item_position_index[y]
+              if x < len(selected_row):
+                self.selected_item_idx = selected_row[x]
+                if self.selected_item_idx:
+                  self.item_message_start_time = self.framecount
         elif event.type==KEYDOWN:
           if len(self.collected_items) > 0:
             if event.key == pygame.K_RIGHT:
@@ -357,8 +368,7 @@ class IsaacTracker:
           screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
 
       if (self.selected_item_idx
-      and self.item_message_countdown_in_progress()
-      and not self.item_pickup_countdown_in_progress()):
+      and self.item_message_countdown_in_progress()):
         item = self.collected_item_info[self.selected_item_idx]
         screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
         pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
