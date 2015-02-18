@@ -4,6 +4,7 @@ import os
 import pygame
 import re
 import json
+import subprocess
 from pygame.locals import *
 
 
@@ -228,6 +229,16 @@ class IsaacTracker:
           self.save_options()
           self.reflow()
           pygame.display.flip()
+        elif event.type==MOUSEBUTTONDOWN and event.button==3:
+          if os.path.isfile("optionpicker/option_picker.exe"):
+            self.log_msg("Starting option picker from .exe","D")
+            subprocess.call(os.path.join('optionpicker',"option_picker.exe"),shell=True)
+          elif os.path.isfile("option_picker.py"):
+            self.log_msg("Starting option picker from .py","D")
+            subprocess.call("python option_picker.py",shell=True)
+          else:
+            self.log_msg("No option_picker found!","D")
+          self.options = self.load_options()
 
 
       screen.fill(self.color(self.options["background_color"]))
