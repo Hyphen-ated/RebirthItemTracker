@@ -28,6 +28,8 @@ class IsaacTracker:
     # initialize isaac stuff
     self.collected_items = []
     self.collected_item_info = []
+    self.num_displayed_items = 0
+    self.selected_item_idx = None
     self.seed = ""
     self.current_room = ""
     self.run_start_line = 0
@@ -37,7 +39,9 @@ class IsaacTracker:
     self._image_library = {}
     self.filter_list = []
     self.items_info = {}
-    self.last_item_pickup_time = 0
+    self.item_message_start_time = 0
+    self.item_pickup_time = 0
+    self.item_position_index = []
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
 
@@ -114,7 +118,7 @@ class IsaacTracker:
   # image library stuff, from openbookproject.net
   def get_image(self, path):
     image = self._image_library.get(path)
-    if image == None:
+    if image is None:
       canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
       image = pygame.image.load(canonicalized_path)
       scaled_image = pygame.transform.scale(image,(image.get_size()[0] * 2,image.get_size()[1] * 2))
@@ -122,10 +126,28 @@ class IsaacTracker:
     return image
 
 
+  def build_position_index(self):
+    w = self.options["width"]
+    h = self.options["height"]
+    # 2d array of size h, w
+    self.item_position_index = [[None for x in xrange(w)] for y in xrange(h)]
+    self.num_displayed_items = 0
+    for item in self.collected_item_info:
+      if item.shown:
+        self.num_displayed_items += 1
+        for y in range(item.y, item.y + 64):
+          if y >= h:
+            continue
+          row = self.item_position_index[y]
+          for x in range(item.x, item.x + 64):
+            if x >= w:
+              continue
+            row[x] = item.index
+
   def reflow(self):
     item_icon_size = self.options["default_spacing"]
     result = self.try_layout(item_icon_size, False)
-    while result is False:
+    while result is None:
       item_icon_size -= 1
       if item_icon_size < self.options["min_spacing"] or item_icon_size < 4:
         result = self.try_layout(item_icon_size, True)
@@ -134,24 +156,38 @@ class IsaacTracker:
 
     self.collected_item_info = result
 
+    self.build_position_index()
+
 
   def try_layout(self, icon_width, force_layout):
     new_item_info = []
     cur_row = 0
     cur_column = 0
-    for index,item in enumerate([x for x in self.collected_items if x not in self.filter_list]):
-      #check to see if we are about to go off the right edge
-      if icon_width * (cur_column) + 64 > self.options["width"]:
-        if (not force_layout) and 16 + icon_width * (cur_row + 1) + 64 > self.options["height"]:
-          return False
-        cur_row += 1
-        cur_column = 0
+    index = 0
+    for item_id in self.collected_items:
+      if item_id not in self.filter_list:
+        #check to see if we are about to go off the right edge
+        if icon_width * (cur_column) + 64 > self.options["width"]:
+          if (not force_layout) and 16 + icon_width * (cur_row + 1) + 64 > self.options["height"]:
+            return None
+          cur_row += 1
+          cur_column = 0
 
-      item_info = Bunch(id = item,
-                        x = icon_width * cur_column,
-                        y =  16 + icon_width * cur_row)
-      new_item_info.append(item_info)
-      cur_column += 1
+        item_info = Bunch(id = item_id,
+                          x = icon_width * cur_column,
+                          y =  16 + icon_width * cur_row,
+                          shown = True,
+                          index = index)
+        new_item_info.append(item_info)
+        cur_column += 1
+      else:
+        item_info = Bunch(id = item_id,
+                          x = icon_width * cur_column,
+                          y =  16 + icon_width * cur_row,
+                          shown = False,
+                          index = index)
+        new_item_info.append(item_info)
+      index += 1
     return new_item_info
 
 
@@ -206,6 +242,46 @@ class IsaacTracker:
   def color(self, string):
     return pygame.color.Color(str(string))
 
+  def load_selected_detail_page(self):
+    #todo open browser if this is not None
+    self.selected_item_idx
+    return
+
+  def adjust_selected_item(self, amount):
+    itemlength = len(self.collected_item_info)
+    if self.num_displayed_items < 1:
+      return
+    if self.selected_item_idx is None and amount > 0:
+      self.selected_item_idx = 0
+    elif self.selected_item_idx is None and amount < 0:
+      self.selected_item_idx = itemlength - 1
+    else:
+      done = False
+      while not done:
+        self.selected_item_idx += amount
+        # clamp it to the range (0, length)
+        self.selected_item_idx = (self.selected_item_idx + itemlength) % itemlength
+        done = self.collected_item_info[self.selected_item_idx].shown
+
+    self.item_message_start_time = self.framecount
+
+  def item_message_countdown_in_progress(self):
+    return self.item_message_start_time + (self.options["message_duration"] * 60) > self.framecount
+
+  def item_pickup_countdown_in_progress(self):
+    return self.item_pickup_time + (self.options["message_duration"] * 60) > self.framecount
+
+  def write_item_text(self, my_font, screen):
+    item_idx = self.selected_item_idx
+    if item_idx is None and self.item_pickup_countdown_in_progress():
+      item_idx = -1
+    if item_idx is None:
+      return
+    id_padded = self.collected_items[item_idx].zfill(3)
+    item_info = self.items_info[id_padded]
+    desc = self.generateItemDescription(item_info)
+    item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
+    screen.blit(item_text, (2, 2))
 
   def run(self):
     # initialize pygame system stuff
@@ -229,39 +305,64 @@ class IsaacTracker:
           self.save_options()
           self.reflow()
           pygame.display.flip()
-        elif event.type==MOUSEBUTTONDOWN and event.button==3:
-          if os.path.isfile("optionpicker/option_picker.exe"):
-            self.log_msg("Starting option picker from .exe","D")
-            subprocess.call(os.path.join('optionpicker',"option_picker.exe"),shell=True)
-          elif os.path.isfile("option_picker.py"):
-            self.log_msg("Starting option picker from .py","D")
-            subprocess.call("python option_picker.py",shell=True)
-          else:
-            self.log_msg("No option_picker found!","D")
-          self.options = self.load_options()
+        elif event.type==MOUSEMOTION:
+          if pygame.mouse.get_focused():
+            x, y = pygame.mouse.get_pos()
+            self.selected_item_idx = self.item_position_index[y][x]
+            if self.selected_item_idx:
+              self.item_message_start_time = self.framecount
+        elif event.type==KEYDOWN:
+          if len(self.collected_items) > 0:
+            if event.key == pygame.K_RIGHT:
+              self.adjust_selected_item(1)
+            elif event.key == pygame.K_LEFT:
+              self.adjust_selected_item(-1)
+            elif event.key == pygame.K_RETURN:
+              self.load_selected_detail_page()
+        elif event.type==MOUSEBUTTONDOWN:
+          if event.button==1:
+            self.load_selected_detail_page()
+          if event.button==3:
+            if os.path.isfile("optionpicker/option_picker.exe"):
+              self.log_msg("Starting option picker from .exe","D")
+              subprocess.call(os.path.join('optionpicker',"option_picker.exe"),shell=True)
+            elif os.path.isfile("option_picker.py"):
+              self.log_msg("Starting option picker from .py","D")
+              subprocess.call("python option_picker.py",shell=True)
+            else:
+              self.log_msg("No option_picker found!","D")
+            self.options = self.load_options()
 
 
       screen.fill(self.color(self.options["background_color"]))
       clock.tick(60)
 
       # draw item pickup text, if applicable
-      if (self.last_item_pickup_time + (self.options["message_duration"] * 60) > self.framecount
-          and len(self.collected_items) > 0
-          and self.options["show_description"]
-          and self.run_start_frame + 120 < self.framecount):
-        id_padded = self.collected_items[-1].zfill(3)
-        item_info = self.items_info[id_padded]
-        desc = self.generateItemDescription(item_info)
-        item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
-        screen.blit(item_text,(2,2))
+      if (len(self.collected_items) > 0
+      and self.options["show_description"]
+      and self.run_start_frame + 120 < self.framecount
+      and self.item_message_countdown_in_progress()):
+        self.write_item_text(my_font, screen)
       elif self.options["show_seed"]:
         # draw seed text:
         seed_text = my_font.render("Seed: %s" % self.seed, True, self.color(self.options["text_color"]))
         screen.blit(seed_text,(2,2))
 
+      if not self.item_message_countdown_in_progress():
+        self.selected_item_idx = None
+
       # draw items on screen, excluding filtered items:
       for item in self.collected_item_info:
+        if item.shown:
+          screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
+
+      if (self.selected_item_idx
+      and self.item_message_countdown_in_progress()
+      and not self.item_pickup_countdown_in_progress()):
+        item = self.collected_item_info[self.selected_item_idx]
         screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
+        pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
+
 
       pygame.display.flip()
 
@@ -328,7 +429,8 @@ class IsaacTracker:
             # ignore repeated pickups of space bar items, or starting items (too early)
             if not (item_info.get("space") and item_id in self.collected_items):
               self.collected_items.append(item_id)
-              self.last_item_pickup_time = self.framecount
+              self.item_message_start_time = self.framecount
+              self.item_pickup_time = self.framecount
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
             self.reflow()
