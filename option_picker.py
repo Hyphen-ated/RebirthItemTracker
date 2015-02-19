@@ -84,7 +84,7 @@ def OnValidate(d, i, P, s, S, v, V, W):
 # load options, create root
 options = load_options()
 root = Tk()
-
+root.wm_title("Item Tracker Options")
 
 # generate numeric options by looping over option types
 numeric_entry_keys = ["message_duration","min_spacing","default_spacing"]

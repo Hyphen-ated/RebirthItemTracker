@@ -10,3 +10,7 @@ Download it here: https://github.com/Hyphen-ated/RebirthItemTracker/releases (ge
 To use it, first extract that zip file so the RebirthItemTracker directory ends up the same folder as Rebirth's "log.txt", then run the exe inside.
 
 log.txt is usually at c:\users\ (you) \Documents\my games\Binding of Isaac Rebirth\
+
+You can right click anywhere in the window to get an options screen.
+
+You can mouse over items you've picked up to see their stats again, and click on them to open platinumgod.co.uk in your browser for more information about that item. (arrow keys and enter also work.)
