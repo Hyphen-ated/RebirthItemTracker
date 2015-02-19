@@ -48,8 +48,12 @@ def save():
   # callback for the "save" option -- rejiggers options and saves to options.json, then quits
   global root
   global options
+  global numeric_entry_keys
   for key, value in entries.iteritems():
-    options[key] = int(value.get())
+    if key in numeric_entry_keys:
+      options[key] = int(value.get())
+    else:
+      options[key] = value.get()
   for key, value in checks.iteritems():
     options[key] = True if value.get() else False
   save_options(options)
@@ -83,6 +87,7 @@ root = Tk()
 
 
 # generate numeric options by looping over option types
+numeric_entry_keys = ["message_duration","min_spacing","default_spacing"]
 entries = {}
 nextrow = 0
 vcmd = (root.register(OnValidate), 
