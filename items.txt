@@ -29,7 +29,7 @@
       "name": "My Reflection", 
       "range": "1.5", 
       "shown": true, 
-      "text": "Boomerang Tears"
+      "text": "boomerang tears"
    }, 
    "006": {
       "height": "0.45", 
@@ -48,17 +48,17 @@
    "008": {
       "name": "Brother Bobby", 
       "shown": true, 
-      "text": ""
+      "text": "3.5 dmg"
    }, 
    "009": {
       "name": "Skatole", 
       "shown": true, 
-      "text": ""
+      "text": "flies don't attack you"
    }, 
    "010": {
       "name": "Halo of Flies", 
       "shown": true, 
-      "text": ""
+      "text": "two fly orbitals"
    }, 
    "011": {
       "name": "1UP", 
@@ -77,9 +77,10 @@
       "text": ""
    }, 
    "013": {
-      "name": "The Virus", 
+      "name": "The Virus",
+      "speed": "-0.1",
       "shown": true, 
-      "text": ""
+      "text": "speed delayed"
    }, 
    "014": {
       "height": "0.5", 
@@ -98,7 +99,7 @@
       "health": "2", 
       "name": "Raw Liver", 
       "shown": false, 
-      "text": "Full Heal"
+      "text": "full heal"
    }, 
    "017": {
       "name": "Skeleton Key", 
@@ -202,7 +203,7 @@
    "034": {
       "name": "The Book of Belial", 
       "shown": false, 
-      "text": "2 dmg, x1.5 dmg with blood of the martyr",
+      "text": "2 dmg, x1.5 dmg with blood of the martyr. guarantees deals.",
       "space": true
    }, 
    "035": {
@@ -226,7 +227,7 @@
    "038": {
       "name": "Tammy's Head", 
       "shown": false, 
-      "text": "",
+      "text": "its tears get +25 flat dmg",
       "space": true
    }, 
    "039": {
@@ -242,7 +243,7 @@
       "space": true
    }, 
    "041": {
-      "name": "Mom's Pad:", 
+      "name": "Mom's Pad",
       "shown": false, 
       "text": "",
       "space": true
@@ -274,7 +275,7 @@
    "047": {
       "name": "Doctor's Remote", 
       "shown": false, 
-      "text": "",
+      "text": "x20 damage",
       "space": true
    }, 
    "048": {
@@ -384,7 +385,7 @@
    "069": {
       "name": "Chocolate Milk", 
       "shown": true, 
-      "text": "charge tears, max is 4x dmg"
+      "text": "charge tears, max is 4x dmg and 2.5x delay"
    }, 
    "070": {
       "dmg": "1", 
@@ -459,9 +460,10 @@
       "text": ""
    }, 
    "082": {
-      "name": "Lord of the Pit", 
+      "name": "Lord of the Pit",
+      "speed": "0.3",
       "shown": true, 
-      "text": ""
+      "text": "speed delayed"
    }, 
    "083": {
       "dmg": "0.7", 
@@ -505,10 +507,12 @@
       "text": "based on luck"
    }, 
    "090": {
-      "dmg": "1", 
+      "dmg": "1",
+      "speed": "-0.2",
+      "tears": "0.2",
       "name": "The Small Rock", 
       "shown": true, 
-      "text": ""
+      "text": "speed and tears delayed"
    }, 
    "091": {
       "name": "Spelunker Hat", 
@@ -619,9 +623,10 @@
       "text": "0.04 dmg per penny"
    }, 
    "110": {
-      "name": "Mom's Contacts", 
+      "name": "Mom's Contacts",
+      "range": "0.25",
       "shown": true, 
-      "text": ""
+      "text": "range delayed"
    }, 
    "111": {
       "name": "The Bean", 
@@ -667,9 +672,10 @@
    }, 
    "119": {
       "health": "1",
+      "speed": "0.3",
       "name": "Blood Bag", 
       "shown": false, 
-      "text": ""
+      "text": "speed delayed"
    }, 
    "120": {
       "name": "Odd Mushroom (Thin)", 
@@ -928,7 +934,7 @@
    "164": {
       "name": "The Candle", 
       "shown": false, 
-      "text": "up to 184 dmg",
+      "text": "up to 184 dmg, usually around 115",
       "space": true
    }, 
    "165": {
@@ -964,7 +970,7 @@
       "text": ""
    }, 
    "170": {
-      "name": "Daddy Longlegs", 
+      "name": "Daddy's Love",
       "shown": true, 
       "text": "40 dmg per stomp"
    }, 
@@ -1178,7 +1184,7 @@
       "dmg": "1", 
       "name": "The Guillotine", 
       "shown": true, 
-      "tears": "0.16", 
+      "delay": "-1",
       "text": "detached head"
    }, 
    "207": {
@@ -1266,7 +1272,7 @@
    "222": {
       "name": "Anti-Gravity", 
       "shown": true, 
-      "tears": "0.32", 
+      "delay": "-2",
       "text": "hovering tears"
    }, 
    "223": {
@@ -1278,7 +1284,7 @@
       "name": "Cricket's Body", 
       "range": "-10", 
       "shown": true, 
-      "tears": "0.16", 
+      "delay": "-1",
       "text": "split shots deal 1/2 damage"
    }, 
    "225": {
@@ -1302,7 +1308,7 @@
    "228": {
       "name": "Mom's Perfume", 
       "shown": true, 
-      "tears": "0.16", 
+      "delay": "-1",
       "text": "fear"
    }, 
    "229": {
@@ -1727,7 +1733,7 @@
       "range": "1.5", 
       "shown": true, 
       "speed": "0.1", 
-      "tears": "0.16", 
+      "delay": "-1",
       "text": "1 coin, 1 bomb, 1 key"
    }, 
    "308": {
@@ -1738,7 +1744,7 @@
    "309": {
       "name": "Pisces", 
       "shown": true, 
-      "tears": "0.16", 
+      "delay": "-1",
       "text": ""
    }, 
    "310": {
@@ -1795,7 +1801,7 @@
    "319": {
       "name": "Cain's Other Eye", 
       "shown": true, 
-      "text": ""
+      "text": "3.5 dmg"
    }, 
    "320": {
       "name": "???'s Only Friend", 
@@ -1907,7 +1913,7 @@
    "338": {
       "name": "Boomerang", 
       "shown": false, 
-      "text": "",
+      "text": "deals 2x your damage",
       "space": true
    }, 
    "339": {
