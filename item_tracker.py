@@ -368,6 +368,7 @@ class IsaacTracker:
           screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
 
       if (self.selected_item_idx
+      and self.selected_item_idx < len(self.collected_item_info)
       and self.item_message_countdown_in_progress()):
         item = self.collected_item_info[self.selected_item_idx]
         screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
