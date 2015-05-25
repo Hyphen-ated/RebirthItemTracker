@@ -121,7 +121,7 @@ for index, opt in enumerate(["background_color","text_color"]):
 
 # generate checkboxes, with special exception for show_description for message duration
 checks = {}
-for index, opt in enumerate(["show_description", "show_seed"]):
+for index, opt in enumerate(["show_description", "show_seed", "word_wrap"]):
   checks[opt] = IntVar()
   c = Checkbutton(root, text=pretty_name(opt), variable=checks[opt])
   c.grid(row=len(entries)+len(buttons),column=index)

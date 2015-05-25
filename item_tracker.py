@@ -7,6 +7,7 @@ import re
 import json
 import subprocess
 from pygame.locals import *
+from pygame_helpers import *
 
 
 #convenience class that lets you basically have dictionaries that you access with dot notation
@@ -22,6 +23,7 @@ class IsaacTracker:
     # some general variable stuff, i guess
     self.verbose = verbose
     self.debug = debug
+    self.text_height = 0
     self.seek = 0
     self.framecount = 0
     self.read_delay = read_delay
@@ -43,6 +45,7 @@ class IsaacTracker:
     self.item_message_start_time = 0
     self.item_pickup_time = 0
     self.item_position_index = []
+    self.current_floor = () # 2-tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
 
@@ -169,14 +172,14 @@ class IsaacTracker:
       if item_id not in self.filter_list:
         #check to see if we are about to go off the right edge
         if icon_width * (cur_column) + 64 > self.options["width"]:
-          if (not force_layout) and 16 + icon_width * (cur_row + 1) + 64 > self.options["height"]:
+          if (not force_layout) and self.text_height + icon_width * (cur_row + 1) + 64 > self.options["height"]:
             return None
           cur_row += 1
           cur_column = 0
 
         item_info = Bunch(id = item_id,
                           x = icon_width * cur_column,
-                          y =  16 + icon_width * cur_row,
+                          y =  self.text_height + icon_width * cur_row,
                           shown = True,
                           index = index)
         new_item_info.append(item_info)
@@ -184,7 +187,7 @@ class IsaacTracker:
       else:
         item_info = Bunch(id = item_id,
                           x = icon_width * cur_column,
-                          y =  16 + icon_width * cur_row,
+                          y =  self.text_height + icon_width * cur_row,
                           shown = False,
                           index = index)
         new_item_info.append(item_info)
@@ -284,12 +287,16 @@ class IsaacTracker:
     if item_idx is None and self.item_pickup_countdown_in_progress():
       item_idx = -1
     if item_idx is None:
+      self.text_height = 19
+      self.reflow()
       return
     id_padded = self.collected_items[item_idx].zfill(3)
     item_info = self.items_info[id_padded]
     desc = self.generateItemDescription(item_info)
-    item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
-    screen.blit(item_text, (2, 2))
+    self.text_height = draw_text(screen,"%s%s" % (item_info["name"], desc), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=self.options["word_wrap"])
+    self.reflow()
+    # item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
+    # screen.blit(item_text, (2, 2))
 
   def run(self):
     # initialize pygame system stuff
@@ -343,6 +350,7 @@ class IsaacTracker:
             else:
               self.log_msg("No option_picker found!","D")
             self.options = self.load_options()
+            self.reflow()
 
 
       screen.fill(self.color(self.options["background_color"]))
@@ -356,8 +364,13 @@ class IsaacTracker:
         self.write_item_text(my_font, screen)
       elif self.options["show_seed"]:
         # draw seed text:
-        seed_text = my_font.render("Seed: %s" % self.seed, True, self.color(self.options["text_color"]))
-        screen.blit(seed_text,(2,2))
+        self.text_height = draw_text(screen,"Seed: %s" % self.seed, self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
+        self.reflow()
+      else:
+        # can only happen if you turn seed + item descriptions off in options while its running
+        if self.text_height != 0:
+          self.text_height = 0
+          self.reflow()
 
       if not self.item_message_countdown_in_progress():
         self.selected_item_idx = None
@@ -386,9 +399,9 @@ class IsaacTracker:
         try:
           with open('../log.txt', 'r') as f:
             content = f.read()
-        except Exception:
+        except Exception as e:
           self.log_msg("log.txt not found, is the RebirthItemTracker directory in 'my games/Binding of Isaac Rebirth'?","D")
-          continue
+          raise Exception("Log Not Found")
 
 
         self.splitfile = content.splitlines()
@@ -428,6 +441,8 @@ class IsaacTracker:
           if line.startswith('Room'):
             self.current_room = re.search('\((.*)\)',line).group(1)
             self.log_msg("Entered room: %s" % self.current_room,"D")
+          if line.startswith('Level::Init'):
+            self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1,2]])
           if line.startswith('Adding collectible'):
             # hacky string manip, idgaf
             space_split = line.split(" ")
@@ -449,5 +464,9 @@ class IsaacTracker:
         self.seek = len(self.splitfile)
 
 
-rt = IsaacTracker(verbose=False, debug=False)
-rt.run()
+try:
+  rt = IsaacTracker(verbose=False, debug=False)
+  rt.run()
+except Exception as e:
+  import traceback
+  traceback.print_exc()
