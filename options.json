@@ -8,5 +8,8 @@
    "show_description": true, 
    "show_seed": true, 
    "text_color": "#FFFFFF", 
-   "width": 800
+   "width": 800, 
+   "word_wrap": true, 
+   "xposition": 100,
+   "yposition": 100
 }

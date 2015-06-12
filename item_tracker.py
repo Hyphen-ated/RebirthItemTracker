@@ -6,6 +6,7 @@ import pygame
 import re
 import json
 import subprocess
+import pygameWindowInfo
 from pygame.locals import *
 from pygame_helpers import *
 
@@ -299,6 +300,7 @@ class IsaacTracker:
     # screen.blit(item_text, (2, 2))
 
   def run(self):
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
     # initialize pygame system stuff
     pygame.init()
     pygame.display.set_caption("Rebirth Item Tracker")
@@ -306,12 +308,16 @@ class IsaacTracker:
     done = False
     clock = pygame.time.Clock()
     my_font = pygame.font.SysFont("Arial", 16,bold=True)
-
+    winInfo = pygameWindowInfo.PygameWindowInfo()
 
     while not done:
       # pygame logic
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
+          winPos = winInfo.getWindowPosition()
+          self.options["xposition"] = winPos["left"]
+          self.options["yposition"] = winPos["top"]
+          self.save_options()
           done = True
         elif event.type==VIDEORESIZE:
           screen=pygame.display.set_mode(event.dict['size'], RESIZABLE)
