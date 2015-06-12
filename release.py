@@ -13,7 +13,7 @@ shutil.copytree('collectibles/', installDir + 'collectibles/')
 
 #first build the main tracker using the horrible ugly pygame2exe script
 subprocess.call("pygame2exe.py item_tracker.py", shell=True, stdout=sys.stdout, stderr=sys.stderr)
-shutil.copy('dist/item_tracker.exe', installDir)
+shutil.move('dist/item_tracker.exe', installDir)
 
 #then build the option builder using normal py2exe
 sys.argv.append('py2exe')
