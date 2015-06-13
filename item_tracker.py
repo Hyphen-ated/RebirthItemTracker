@@ -458,6 +458,9 @@ class IsaacTracker:
             self.log_msg("Emptied boss array","D")
             self.run_start_line = current_line_number + self.seek
             self.run_ended = False
+            with open("seed.txt", "w") as f:
+              f.write(self.seed)
+
           # entered a room, use to keep track of bosses
           if line.startswith('Room'):
             self.current_room = re.search('\((.*)\)',line).group(1)
@@ -473,6 +476,10 @@ class IsaacTracker:
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
+            with open("itemInfo.txt", "w") as f:
+              desc = self.generateItemDescription(item_info)
+              f.write(item_info["name"] + ":" + desc)
+
             # ignore repeated pickups of space bar items, or starting items (too early)
             if not (item_info.get("space") and item_id in self.collected_items):
               self.collected_items.append(item_id)
