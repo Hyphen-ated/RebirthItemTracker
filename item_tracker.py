@@ -31,6 +31,7 @@ class IsaacTracker:
     self.framecount = 0
     self.read_delay = read_delay
     self.run_ended = True
+    self.log_not_found = False
     # initialize isaac stuff
     self.collected_items = []
     self.collected_item_info = []
@@ -301,6 +302,12 @@ class IsaacTracker:
     # item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
     # screen.blit(item_text, (2, 2))
 
+  def load_log_file(self, path):
+    if os.path.isfile(path):
+      return open(path, 'r').read()
+    else:
+      return None
+
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
     # initialize pygame system stuff
@@ -313,6 +320,7 @@ class IsaacTracker:
     winInfo = None
     if platform.system() == "Windows":
       winInfo = pygameWindowInfo.PygameWindowInfo()
+    userprofile_dir = os.environ['USERPROFILE']
 
     while not done:
       # pygame logic
@@ -367,13 +375,16 @@ class IsaacTracker:
       screen.fill(self.color(self.options["background_color"]))
       clock.tick(60)
 
+      if self.log_not_found:
+        draw_text(screen,"log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt", self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=True)
+
       # draw item pickup text, if applicable
       if (len(self.collected_items) > 0
       and self.options["show_description"]
       and self.run_start_frame + 120 < self.framecount
       and self.item_message_countdown_in_progress()):
         self.write_item_text(my_font, screen)
-      elif self.options["show_seed"]:
+      elif self.options["show_seed"] and not self.log_not_found:
         # draw seed text:
         self.text_height = draw_text(screen,"Seed: %s" % self.seed, self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
         self.reflow()
@@ -405,15 +416,14 @@ class IsaacTracker:
 
       # process log stuff every read_delay frames
       if self.framecount % self.read_delay == 0:
+        self.log_not_found = False
         # entire thing loaded into memory each loop -- see if maybe pruning log is possible for long sessions?
-        content = ""
-        try:
-          with open('../log.txt', 'r') as f:
-            content = f.read()
-        except Exception as e:
-          self.log_msg("log.txt not found, is the RebirthItemTracker directory in 'my games/Binding of Isaac Rebirth'?","D")
-          raise Exception("Log Not Found")
-
+        content = self.load_log_file('../log.txt')
+        if content is None:
+          content = self.load_log_file(userprofile_dir + '/Documents/My Games/Binding of Isaac Rebirth/log.txt')
+        if content is None:
+          self.log_not_found = True
+          content = ""
 
         self.splitfile = content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
