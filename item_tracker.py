@@ -13,11 +13,14 @@ if platform.system() == "Windows":
 from pygame.locals import *
 from pygame_helpers import *
 
-
-#convenience class that lets you basically have dictionaries that you access with dot notation
-# (copy pasted from the internet, i have no idea how this works)
-class Bunch:
-    __init__ = lambda self, **kw: setattr(self, '__dict__', kw)
+class ItemInfo:
+  def __init__(self, id, x, y, index, shown=True, floor=False):
+    self.id = id
+    self.x = x
+    self.y = y
+    self.shown = shown
+    self.index = index
+    self.floor = floor
 
 
 class IsaacTracker:
@@ -28,14 +31,15 @@ class IsaacTracker:
     self.verbose = verbose
     self.debug = debug
     self.text_height = 0
+    self.text_margin_size = 16
     self.seek = 0
     self.framecount = 0
     self.read_delay = read_delay
     self.run_ended = True
     self.log_not_found = False
     # initialize isaac stuff
-    self.collected_items = []
-    self.collected_item_info = []
+    self.collected_items = [] #list of string item ids with zeros stripped
+    self.collected_item_info = [] #list of iteminfo dicts
     self.num_displayed_items = 0
     self.selected_item_idx = None
     self.seed = ""
@@ -45,7 +49,7 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
-    self.filter_list = []
+    self.filter_list = [] #list of string item ids with zeros stripped
     self.items_info = {}
     self.item_message_start_time = 0
     self.item_pickup_time = 0
@@ -59,6 +63,21 @@ class IsaacTracker:
         self.filter_list.append(itemid.lstrip("0"))
 
     self.options = self.load_options()
+
+    self.floor_id_to_label = {
+      "f1": "B1",
+      "f2": "B2",
+      "f3": "C1",
+      "f4": "C2",
+      "f5": "D1",
+      "f6": "D2",
+      "f7": "W1",
+      "f8": "W2",
+      "f9": "CATH",
+      "f10": "SHEOL",
+      "f11": "CHEST",
+      "f12": "DARK"
+      }
 
 
   def load_options(self):
@@ -142,7 +161,7 @@ class IsaacTracker:
     self.item_position_index = [[None for x in xrange(w)] for y in xrange(h)]
     self.num_displayed_items = 0
     for item in self.collected_item_info:
-      if item.shown:
+      if item.shown and not item.floor:
         self.num_displayed_items += 1
         for y in range(item.y, item.y + 64):
           if y >= h:
@@ -169,30 +188,45 @@ class IsaacTracker:
 
 
   def try_layout(self, icon_width, force_layout):
+    icon_height = icon_width
     new_item_info = []
     cur_row = 0
     cur_column = 0
     index = 0
+    vert_padding = 0
+    if self.options['show_floors']:
+      vert_padding = self.text_margin_size
     for item_id in self.collected_items:
+
       if item_id not in self.filter_list:
+
         #check to see if we are about to go off the right edge
-        if icon_width * (cur_column) + 64 > self.options["width"]:
-          if (not force_layout) and self.text_height + icon_width * (cur_row + 1) + 64 > self.options["height"]:
+        if icon_width * (cur_column) + icon_width > self.options["width"]:
+          if (not force_layout) and self.text_height + (icon_height + vert_padding) * (cur_row + 1) + icon_height > self.options["height"]:
             return None
           cur_row += 1
           cur_column = 0
 
-        item_info = Bunch(id = item_id,
-                          x = icon_width * cur_column,
-                          y =  self.text_height + icon_width * cur_row,
-                          shown = True,
-                          index = index)
-        new_item_info.append(item_info)
-        cur_column += 1
+        if item_id.startswith('f'):
+          item_info = ItemInfo(id = item_id,
+                               x = icon_width * cur_column,
+                               y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                               shown = True,
+                               index = index,
+                               floor = True)
+          new_item_info.append(item_info)
+        else:
+          item_info = ItemInfo(id = item_id,
+                            x = icon_width * cur_column,
+                            y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                            shown = True,
+                            index = index)
+          new_item_info.append(item_info)
+          cur_column += 1
       else:
-        item_info = Bunch(id = item_id,
+        item_info = ItemInfo(id = item_id,
                           x = icon_width * cur_column,
-                          y =  self.text_height + icon_width * cur_row,
+                          y =  self.text_height +  (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
                           shown = False,
                           index = index)
         new_item_info.append(item_info)
@@ -323,6 +357,11 @@ class IsaacTracker:
       pass
     return ""
 
+  def id_to_image(self, id):
+    return 'collectibles/collectibles_%s.png' % id.zfill(3)
+
+
+
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
     # initialize pygame system stuff
@@ -413,16 +452,26 @@ class IsaacTracker:
       if not self.item_message_countdown_in_progress():
         self.selected_item_idx = None
 
+      floor_to_draw = None
       # draw items on screen, excluding filtered items:
       for item in self.collected_item_info:
         if item.shown:
-          screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
+          if item.floor:
+            floor_to_draw = item
+          else:
+            screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+            if floor_to_draw:
+              f = floor_to_draw
+              pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
+              image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
+              screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
+              floor_to_draw = None
 
       if (self.selected_item_idx
       and self.selected_item_idx < len(self.collected_item_info)
       and self.item_message_countdown_in_progress()):
         item = self.collected_item_info[self.selected_item_idx]
-        screen.blit(self.get_image('collectibles/collectibles_%s.png' % item.id.zfill(3)), (item.x, item.y))
+        screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
         pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
 
 
@@ -483,6 +532,10 @@ class IsaacTracker:
             self.log_msg("Entered room: %s" % self.current_room,"D")
           if line.startswith('Level::Init'):
             self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1,2]])
+            if self.options['show_floors']:
+              floorid = 'f' + self.current_floor[0]
+              self.collected_items.append(floorid)
+            self.reflow()
           if line.startswith('Adding collectible'):
             # hacky string manip, idgaf
             space_split = line.split(" ")
