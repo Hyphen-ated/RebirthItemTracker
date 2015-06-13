@@ -377,6 +377,7 @@ class IsaacTracker:
       winInfo = pygameWindowInfo.PygameWindowInfo()
     userprofile_dir = os.environ['USERPROFILE']
 
+    del os.environ['SDL_VIDEO_WINDOW_POS']
     while not done:
       # pygame logic
       for event in pygame.event.get():
@@ -460,7 +461,7 @@ class IsaacTracker:
             floor_to_draw = item
           else:
             screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
-            if floor_to_draw:
+            if floor_to_draw and self.options["show_floors"]:
               f = floor_to_draw
               pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
               image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
@@ -532,9 +533,8 @@ class IsaacTracker:
             self.log_msg("Entered room: %s" % self.current_room,"D")
           if line.startswith('Level::Init'):
             self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1,2]])
-            if self.options['show_floors']:
-              floorid = 'f' + self.current_floor[0]
-              self.collected_items.append(floorid)
+            floorid = 'f' + self.current_floor[0]
+            self.collected_items.append(floorid)
             self.reflow()
           if line.startswith('Adding collectible'):
             # hacky string manip, idgaf
