@@ -2,7 +2,8 @@ import os, sys, shutil, subprocess ,py2exe
 from distutils.core import setup
 
 #Here is where you can set the name for the release zip file and for the install dir inside it.
-installName = 'RebirthItemTracker-0.5'
+version = "0.5"
+installName = 'RebirthItemTracker-' + version
 
 #target is where we assemble our final install. dist is where py2exe produces exes and their dependencies
 if os.path.isdir('target/'):
@@ -28,4 +29,6 @@ shutil.copy('items.txt', installDir)
 shutil.copy('seed.txt', installDir)
 shutil.copy('itemInfo.txt', installDir)
 shutil.copy('README.md', installDir + 'README.txt')
+with open(installDir + "version.txt", 'w') as f:
+  f.write(version)
 shutil.make_archive("target/" + installName, "zip", 'target', installName + "/")

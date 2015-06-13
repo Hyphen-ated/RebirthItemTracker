@@ -7,6 +7,7 @@ import pygame
 import re
 import json
 import subprocess
+import urllib2
 if platform.system() == "Windows":
   import pygameWindowInfo
 from pygame.locals import *
@@ -308,11 +309,26 @@ class IsaacTracker:
     else:
       return None
 
+  #returns text to put in the titlebar
+  def check_for_update(self):
+    try:
+      github_info_json = urllib2.urlopen("https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
+      info = json.loads(github_info_json)
+      latest_version = info["name"]
+      with open('version.txt', 'r') as f:
+
+        if(latest_version != f.read()):
+          return " (new version available)"
+    except Exception as e:
+      pass
+    return ""
+
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
     # initialize pygame system stuff
     pygame.init()
-    pygame.display.set_caption("Rebirth Item Tracker")
+    update_notifier = self.check_for_update()
+    pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
     done = False
     clock = pygame.time.Clock()
