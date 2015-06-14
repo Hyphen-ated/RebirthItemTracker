@@ -38,7 +38,7 @@ class IsaacTracker:
     self.run_ended = True
     self.log_not_found = False
     # initialize isaac stuff
-    self.collected_items = [] #list of string item ids with zeros stripped
+    self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
     self.collected_item_info = [] #list of iteminfo dicts
     self.num_displayed_items = 0
     self.selected_item_idx = None
@@ -49,7 +49,7 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
-    self.filter_list = [] #list of string item ids with zeros stripped
+    self.filter_list = [] #list of string item ids with zeros stripped, they are items we don't want to see
     self.items_info = {}
     self.item_message_start_time = 0
     self.item_pickup_time = 0
@@ -76,7 +76,11 @@ class IsaacTracker:
       "f9": "CATH",
       "f10": "SHEOL",
       "f11": "CHEST",
-      "f12": "DARK"
+      "f12": "DARK",
+      "f1x": "BXL",
+      "f3x": "CXL",
+      "f5x": "DXL",
+      "f7x": "WXL",
       }
 
 
@@ -325,11 +329,14 @@ class IsaacTracker:
     item_idx = self.selected_item_idx
     if item_idx is None and self.item_pickup_countdown_in_progress():
       item_idx = -1
-    if item_idx is None:
+    if item_idx is None or len(self.collected_items) < item_idx :
       self.text_height = 19
       self.reflow()
       return
-    id_padded = self.collected_items[item_idx].zfill(3)
+    item = self.collected_items[item_idx]
+    if item.startswith('f'):
+      return
+    id_padded = item.zfill(3)
     item_info = self.items_info[id_padded]
     desc = self.generateItemDescription(item_info)
     self.text_height = draw_text(screen,"%s%s" % (item_info["name"], desc), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=self.options["word_wrap"])
@@ -361,6 +368,11 @@ class IsaacTracker:
     return 'collectibles/collectibles_%s.png' % id.zfill(3)
 
 
+  def draw_floor(self, f, screen, my_font):
+    pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
+    image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
+    screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
+    floor_to_draw = None
 
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
@@ -461,12 +473,13 @@ class IsaacTracker:
             floor_to_draw = item
           else:
             screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+            #don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
             if floor_to_draw and self.options["show_floors"]:
-              f = floor_to_draw
-              pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
-              image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
-              screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
-              floor_to_draw = None
+              self.draw_floor(floor_to_draw, screen, my_font)
+
+      #also draw the floor if we hit the end, so the current floor is visible
+      if floor_to_draw and self.options["show_floors"]:
+        self.draw_floor(floor_to_draw, screen, my_font)
 
       if (self.selected_item_idx
       and self.selected_item_idx < len(self.collected_item_info)
@@ -536,6 +549,12 @@ class IsaacTracker:
             floorid = 'f' + self.current_floor[0]
             self.collected_items.append(floorid)
             self.reflow()
+          if line.startswith('Curse of the Labyrinth!'):
+            prev = self.collected_items.pop()
+            #it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
+            if prev.startswith('f'):
+              prev += 'x'
+              self.collected_items.append(prev)
           if line.startswith('Adding collectible'):
             # hacky string manip, idgaf
             space_split = line.split(" ")
