@@ -38,7 +38,7 @@ class IsaacTracker:
     self.run_ended = True
     self.log_not_found = False
     # initialize isaac stuff
-    self.collected_items = [] #list of string item ids with zeros stripped
+    self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
     self.collected_item_info = [] #list of iteminfo dicts
     self.num_displayed_items = 0
     self.selected_item_idx = None
@@ -49,7 +49,7 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
-    self.filter_list = [] #list of string item ids with zeros stripped
+    self.filter_list = [] #list of string item ids with zeros stripped, they are items we don't want to see
     self.items_info = {}
     self.item_message_start_time = 0
     self.item_pickup_time = 0
@@ -364,6 +364,11 @@ class IsaacTracker:
     return 'collectibles/collectibles_%s.png' % id.zfill(3)
 
 
+  def draw_floor(self, f, screen, my_font):
+    pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
+    image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
+    screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
+    floor_to_draw = None
 
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
@@ -464,12 +469,13 @@ class IsaacTracker:
             floor_to_draw = item
           else:
             screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+            #don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
             if floor_to_draw and self.options["show_floors"]:
-              f = floor_to_draw
-              pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
-              image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
-              screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
-              floor_to_draw = None
+              self.draw_floor(floor_to_draw, screen, my_font)
+
+      #also draw the floor if we hit the end, so the current floor is visible
+      if floor_to_draw and self.options["show_floors"]:
+        self.draw_floor(floor_to_draw, screen, my_font)
 
       if (self.selected_item_idx
       and self.selected_item_idx < len(self.collected_item_info)
