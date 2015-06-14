@@ -76,7 +76,11 @@ class IsaacTracker:
       "f9": "CATH",
       "f10": "SHEOL",
       "f11": "CHEST",
-      "f12": "DARK"
+      "f12": "DARK",
+      "f1x": "BXL",
+      "f3x": "CXL",
+      "f5x": "DXL",
+      "f7x": "WXL",
       }
 
 
@@ -545,6 +549,12 @@ class IsaacTracker:
             floorid = 'f' + self.current_floor[0]
             self.collected_items.append(floorid)
             self.reflow()
+          if line.startswith('Curse of the Labyrinth!'):
+            prev = self.collected_items.pop()
+            #it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
+            if prev.startswith('f'):
+              prev += 'x'
+              self.collected_items.append(prev)
           if line.startswith('Adding collectible'):
             # hacky string manip, idgaf
             space_split = line.split(" ")
