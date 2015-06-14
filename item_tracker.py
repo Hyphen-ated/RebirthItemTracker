@@ -325,11 +325,14 @@ class IsaacTracker:
     item_idx = self.selected_item_idx
     if item_idx is None and self.item_pickup_countdown_in_progress():
       item_idx = -1
-    if item_idx is None:
+    if item_idx is None or len(self.collected_items) < item_idx :
       self.text_height = 19
       self.reflow()
       return
-    id_padded = self.collected_items[item_idx].zfill(3)
+    item = self.collected_items[item_idx]
+    if item.startswith('f'):
+      return
+    id_padded = item.zfill(3)
     item_info = self.items_info[id_padded]
     desc = self.generateItemDescription(item_info)
     self.text_height = draw_text(screen,"%s%s" % (item_info["name"], desc), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=self.options["word_wrap"])
