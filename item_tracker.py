@@ -21,6 +21,7 @@ class ItemInfo:
     self.shown = shown
     self.index = index
     self.floor = floor
+    self.rerolled = False
 
 
 class IsaacTracker:
@@ -558,6 +559,11 @@ class IsaacTracker:
               self.collected_items.append(prev)
           if line.startswith('Spawn co-player!'):
             self.spawned_coop_baby = current_line_number + self.seek
+          if re.search("Added \d+ Collectibles", line):
+            self.log_msg("Reroll detected!","D")
+            for item in self.collected_item_info:
+              if not item.floor:
+                item.rerolled = True
           if line.startswith('Adding collectible'):
             if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
               self.log_msg("Skipped duplicate item line from baby presence","D")
