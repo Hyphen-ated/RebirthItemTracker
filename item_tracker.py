@@ -358,15 +358,14 @@ class IsaacTracker:
       self.log_not_found = True
       return
 
-    if os.path.isfile(path):
-      length = len(self.content)
-      size = os.path.getsize(path)
-      if length > size or length == 0:  # New log file or first time loading the log
-        self.content = open(path, 'rb').read()
-      elif length < size:  # append existing content
-        f = open(path, 'rb')
-        f.seek(length + 1)
-        self.content += f.read()
+    length = len(self.content)
+    size = os.path.getsize(path)
+    if length > size or length == 0:  # New log file or first time loading the log
+      self.content = open(path, 'rb').read()
+    elif length < size:  # append existing content
+      f = open(path, 'rb')
+      f.seek(length + 1)
+      self.content += f.read()
 
   #returns text to put in the titlebar
   def check_for_update(self):
