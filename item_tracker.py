@@ -14,16 +14,6 @@ if platform.system() == "Windows":
 from pygame.locals import *
 from pygame_helpers import *
 
-def convert_to_gs(surf):
-  return
-  width, height = surf.get_size()
-  for x in range(width):
-    for y in range(height):
-      red, green, blue, alpha = surf.get_at((x, y))
-      average = (red + green + blue) // 3
-      gs_color = (average, average, average, alpha)
-      surf.set_at((x, y), gs_color)
-
 class ItemInfo:
   def __init__(self, id, x, y, index, shown=True, floor=False):
     self.id = id
@@ -620,7 +610,7 @@ class IsaacTracker:
           self.reflow()
 
 try:
-  rt = IsaacTracker(verbose=True, debug=True, read_delay=20)
+  rt = IsaacTracker(verbose=False, debug=False, read_delay=20)
   rt.run()
 except Exception as e:
   import traceback
