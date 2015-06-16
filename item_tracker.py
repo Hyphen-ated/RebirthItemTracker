@@ -27,7 +27,7 @@ class ItemInfo:
 class IsaacTracker:
 
 
-  def __init__(self, verbose=False, debug=False, read_delay=60):
+  def __init__(self, verbose=False, debug=False, read_delay=1):
     # some general variable stuff, i guess
     self.verbose = verbose
     self.debug = debug
@@ -458,7 +458,7 @@ class IsaacTracker:
 
 
       screen.fill(self.color(self.options["background_color"]))
-      clock.tick(60)
+      clock.tick(int(self.options.get("framerate")))
 
       if self.log_not_found:
         draw_text(screen,"log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt", self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=True)
@@ -511,7 +511,7 @@ class IsaacTracker:
       self.framecount += 1
 
       # process log stuff every read_delay frames
-      if self.framecount % self.read_delay == 0:
+      if self.framecount % (int(self.options.get("framerate"))*self.read_delay) == 0:
         self.load_log_file()
         self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
