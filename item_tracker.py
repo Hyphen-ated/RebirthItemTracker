@@ -323,10 +323,10 @@ class IsaacTracker:
     self.item_message_start_time = self.framecount
 
   def item_message_countdown_in_progress(self):
-    return self.item_message_start_time + (self.options["message_duration"] * 60) > self.framecount
+    return self.item_message_start_time + (self.options["message_duration"] * self.options["framerate"]) > self.framecount
 
   def item_pickup_countdown_in_progress(self):
-    return self.item_pickup_time + (self.options["message_duration"] * 60) > self.framecount
+    return self.item_pickup_time + (self.options["message_duration"] * self.options["framerate"]) > self.framecount
 
   def write_item_text(self, my_font, screen):
     item_idx = self.selected_item_idx
@@ -458,7 +458,7 @@ class IsaacTracker:
 
 
       screen.fill(self.color(self.options["background_color"]))
-      clock.tick(int(self.options.get("framerate")))
+      clock.tick(int(self.options["framerate"]))
 
       if self.log_not_found:
         draw_text(screen,"log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt", self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=True)
@@ -511,7 +511,7 @@ class IsaacTracker:
       self.framecount += 1
 
       # process log stuff every read_delay frames
-      if self.framecount % (int(self.options.get("framerate"))*self.read_delay) == 0:
+      if self.framecount % (int(self.options["framerate"])*self.read_delay) == 0:
         self.load_log_file()
         self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
