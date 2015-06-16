@@ -491,9 +491,7 @@ class IsaacTracker:
           if item.floor:
             floor_to_draw = item
           else:
-            image = self.get_image(self.id_to_image(item.id))
-            convert_to_gs(image)
-            screen.blit(image, (item.x, item.y))
+            screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
             #don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
             if floor_to_draw and self.options["show_floors"]:
               self.draw_floor(floor_to_draw, screen, my_font)
