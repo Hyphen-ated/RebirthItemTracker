@@ -38,6 +38,7 @@ class IsaacTracker:
     self.read_delay = read_delay
     self.run_ended = True
     self.log_not_found = False
+    self.content = ""
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
     self.collected_item_info = [] #list of iteminfo dicts
@@ -346,11 +347,26 @@ class IsaacTracker:
     # item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
     # screen.blit(item_text, (2, 2))
 
-  def load_log_file(self, path):
+  def load_log_file(self):
+    self.log_not_found = False
+    path = None
+    for check in ('../log.txt', os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/log.txt'):
+      if os.path.isfile(check):
+        path = check
+        break
+    if path == None:
+      self.log_not_found = True
+      return
+
     if os.path.isfile(path):
-      return open(path, 'r').read()
-    else:
-      return None
+      length = len(self.content)
+      size = os.path.getsize(path)
+      if length > size or length == 0:  # New log file or first time loading the log
+        self.content = open(path, 'rb').read()
+      elif length < size:  # append existing content
+        f = open(path, 'rb')
+        f.seek(length + 1)
+        self.content += f.read()
 
   #returns text to put in the titlebar
   def check_for_update(self):
@@ -497,16 +513,8 @@ class IsaacTracker:
 
       # process log stuff every read_delay frames
       if self.framecount % self.read_delay == 0:
-        self.log_not_found = False
-        # entire thing loaded into memory each loop -- see if maybe pruning log is possible for long sessions?
-        content = self.load_log_file('../log.txt')
-        if content is None:
-          content = self.load_log_file(userprofile_dir + '/Documents/My Games/Binding of Isaac Rebirth/log.txt')
-        if content is None:
-          self.log_not_found = True
-          content = ""
-
-        self.splitfile = content.splitlines()
+        self.load_log_file()
+        self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
         if self.seek > len(self.splitfile):
           self.log_msg("Current line number longer than lines in file, returning to start of file","D")
