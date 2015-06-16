@@ -75,10 +75,10 @@ class IsaacTracker:
       "f6": "D2",
       "f7": "W1",
       "f8": "W2",
-      "f9": "CATH",
-      "f10": "SHEOL",
-      "f11": "CHEST",
-      "f12": "DARK",
+      "f9": "SHEOL",
+      "f10": "CATH",
+      "f11": "DARK",
+      "f12": "CHEST",
       "f1x": "BXL",
       "f3x": "CXL",
       "f5x": "DXL",
@@ -512,7 +512,7 @@ class IsaacTracker:
           self.log_msg("Current line number longer than lines in file, returning to start of file","D")
           self.seek = 0
 
-
+        should_reflow = False
         # process log's new output
         for current_line_number,line in enumerate(self.splitfile[self.seek:]):
           self.log_msg(line,"V")
@@ -548,15 +548,17 @@ class IsaacTracker:
             self.log_msg("Entered room: %s" % self.current_room,"D")
           if line.startswith('Level::Init'):
             self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1,2]])
-            floorid = 'f' + self.current_floor[0]
-            self.collected_items.append(floorid)
-            self.reflow()
+            floor = int(self.current_floor[0])
+            alt = self.current_floor[1]
+            # special handling for cath and chest
+            if alt == '1' and (floor == 9 or  floor == 11):
+              floor += 1
+            self.collected_items.append('f' + str(floor))
+            should_reflow = True
           if line.startswith('Curse of the Labyrinth!'):
-            prev = self.collected_items.pop()
             #it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
-            if prev.startswith('f'):
-              prev += 'x'
-              self.collected_items.append(prev)
+            if self.collected_items[-1].startswith('f'):
+              self.collected_items[-1] += 'x'
           if line.startswith('Spawn co-player!'):
             self.spawned_coop_baby = current_line_number + self.seek
           if re.search("Added \d+ Collectibles", line):
@@ -590,10 +592,11 @@ class IsaacTracker:
               self.item_pickup_time = self.framecount
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
-            self.reflow()
+            should_reflow = True
 
         self.seek = len(self.splitfile)
-
+        if should_reflow:
+          self.reflow()
 
 try:
   rt = IsaacTracker(verbose=False, debug=False)
