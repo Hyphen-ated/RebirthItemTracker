@@ -21,6 +21,7 @@ class ItemInfo:
     self.shown = shown
     self.index = index
     self.floor = floor
+    self.rerolled = False
 
 
 class IsaacTracker:
@@ -55,6 +56,7 @@ class IsaacTracker:
     self.item_pickup_time = 0
     self.item_position_index = []
     self.current_floor = () # 2-tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
+    self.spawned_coop_baby = 0 # last spawn of a co op baby
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
 
@@ -555,11 +557,24 @@ class IsaacTracker:
             if prev.startswith('f'):
               prev += 'x'
               self.collected_items.append(prev)
+          if line.startswith('Spawn co-player!'):
+            self.spawned_coop_baby = current_line_number + self.seek
+          if re.search("Added \d+ Collectibles", line):
+            self.log_msg("Reroll detected!","D")
+            for item in self.collected_item_info:
+              if not item.floor:
+                item.rerolled = True
           if line.startswith('Adding collectible'):
+            if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
+              self.log_msg("Skipped duplicate item line from baby presence","D")
+              continue
             # hacky string manip, idgaf
             space_split = line.split(" ")
             # string has the form "Adding collectible 105 (The D6)"
             item_id = space_split[2]
+            if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.collected_items) + 10) and item_id in self.collected_items:
+              self.log_msg("Skipped duplicate item line from baby entry","D")
+              continue
             item_name = " ".join(space_split[3:])[1:-1]
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
             id_padded = item_id.zfill(3)
