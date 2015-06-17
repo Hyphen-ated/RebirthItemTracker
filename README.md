@@ -7,9 +7,11 @@ Here's a screenshot: http://i.imgur.com/BOjJ9WT.png
 
 Download it here: https://github.com/Hyphen-ated/RebirthItemTracker/releases (get the latest file that doesn't have "source code" in the name)
 
-To use it, first extract that zip file so the RebirthItemTracker directory ends up the same folder as Rebirth's "log.txt", then run the exe inside.
+To use it, first extract that zip file and then run the exe inside.
 
-log.txt is usually at c:\users\ (you) \Documents\my games\Binding of Isaac Rebirth\
+It tries to read log.txt from inside c:\users\ (you) \Documents\my games\Binding of Isaac Rebirth\
+
+If it's unable to find that file, you might need to put the tracker folder into that rebirth folder.
 
 You can right click anywhere in the window to get an options screen.
 
