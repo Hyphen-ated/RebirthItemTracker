@@ -38,7 +38,8 @@ class IsaacTracker:
     self.read_delay = read_delay
     self.run_ended = True
     self.log_not_found = False
-    self.content = ""
+    self.content = "" #cached contents of log
+    self.splitfile = [] #log split into lines
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
     self.collected_item_info = [] #list of iteminfo dicts
@@ -323,10 +324,10 @@ class IsaacTracker:
     self.item_message_start_time = self.framecount
 
   def item_message_countdown_in_progress(self):
-    return self.item_message_start_time + (self.options["message_duration"] * self.options["framerate"]) > self.framecount
+    return self.item_message_start_time + (self.options["message_duration"] * self.options["framerate_limit"]) > self.framecount
 
   def item_pickup_countdown_in_progress(self):
-    return self.item_pickup_time + (self.options["message_duration"] * self.options["framerate"]) > self.framecount
+    return self.item_pickup_time + (self.options["message_duration"] * self.options["framerate_limit"]) > self.framecount
 
   def write_item_text(self, my_font, screen):
     item_idx = self.selected_item_idx
@@ -358,13 +359,13 @@ class IsaacTracker:
       self.log_not_found = True
       return
 
-    length = len(self.content)
-    size = os.path.getsize(path)
-    if length > size or length == 0:  # New log file or first time loading the log
+    cached_length = len(self.content)
+    file_size = os.path.getsize(path)
+    if cached_length > file_size or cached_length == 0:  # New log file or first time loading the log
       self.content = open(path, 'rb').read()
-    elif length < size:  # append existing content
+    elif cached_length < file_size:  # append existing content
       f = open(path, 'rb')
-      f.seek(length + 1)
+      f.seek(cached_length + 1)
       self.content += f.read()
 
   #returns text to put in the titlebar
@@ -458,7 +459,7 @@ class IsaacTracker:
 
 
       screen.fill(self.color(self.options["background_color"]))
-      clock.tick(int(self.options["framerate"]))
+      clock.tick(int(self.options["framerate_limit"]))
 
       if self.log_not_found:
         draw_text(screen,"log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt", self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=True)
@@ -510,8 +511,8 @@ class IsaacTracker:
 
       self.framecount += 1
 
-      # process log stuff every read_delay frames
-      if self.framecount % (int(self.options["framerate"])*self.read_delay) == 0:
+      # process log stuff every read_delay frames. making sure to truncate to an integer or else it might never mod to 0
+      if self.framecount % int(int(self.options["framerate_limit"])*self.read_delay) == 0:
         self.load_log_file()
         self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)

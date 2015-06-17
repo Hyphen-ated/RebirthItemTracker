@@ -87,12 +87,12 @@ root = Tk()
 root.wm_title("Item Tracker Options")
 
 # generate numeric options by looping over option types
-numeric_entry_keys = ["message_duration","min_spacing","default_spacing", "framerate"]
+numeric_entry_keys = ["message_duration","min_spacing","default_spacing", "framerate_limit"]
 entries = {}
 nextrow = 0
 vcmd = (root.register(OnValidate), 
         '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
-for index, opt in enumerate(["message_duration","min_spacing","default_spacing", "framerate"]):
+for index, opt in enumerate(["message_duration","min_spacing","default_spacing", "framerate_limit"]):
   Label(root, text=pretty_name(opt)).grid(row=nextrow)
   entries[opt] = Entry(root,validate="key",validatecommand=vcmd)
   entries[opt].grid(row=nextrow,column=1)
