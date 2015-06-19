@@ -85,6 +85,7 @@ def OnValidate(d, i, P, s, S, v, V, W):
 options = load_options()
 root = Tk()
 root.wm_title("Item Tracker Options")
+root.resizable(False,False)
 
 # generate numeric options by looping over option types
 numeric_entry_keys = ["message_duration","min_spacing","default_spacing", "framerate_limit"]
@@ -124,10 +125,10 @@ checks = {}
 for index, opt in enumerate(["show_description", "show_seed", "show_floors", "word_wrap"]):
   checks[opt] = IntVar()
   c = Checkbutton(root, text=pretty_name(opt), variable=checks[opt])
-  c.grid(row=len(entries)+len(buttons),column=index)
+  c.grid(row=len(entries)+1+index/2,column=index%2) # 2 checkboxes per row
   if options.get(opt):
     c.select()
-  # for greying out the thing ugh
+  # Disable letting the user set the message duration if the show description option is disabled.
   if opt=="show_description":
     c.configure(command=checkbox_callback)
     if not options.get("show_description"):

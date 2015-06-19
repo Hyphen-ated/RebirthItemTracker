@@ -21,7 +21,6 @@ class ItemInfo:
     self.shown = shown
     self.index = index
     self.floor = floor
-    self.rerolled = False
 
 
 class IsaacTracker:
@@ -52,6 +51,7 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
+    self._grey_image_library = {}
     self.filter_list = [] #list of string item ids with zeros stripped, they are items we don't want to see
     self.items_info = {}
     self.item_message_start_time = 0
@@ -94,9 +94,9 @@ class IsaacTracker:
     return options
 
 
-  def save_options(self):
+  def save_options(self, options):
     with open("options.json", "w") as json_file:
-      json.dump(self.options, json_file, indent=3, sort_keys=True)
+      json.dump(options, json_file, indent=3, sort_keys=True)
 
 
   # just for debugging
@@ -161,6 +161,22 @@ class IsaacTracker:
       self._image_library[path] = scaled_image
     return image
 
+  def get_grey_image(self, path):
+    image = self._grey_image_library.get(path)
+    if image is None:
+      canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
+      image = pygame.image.load(canonicalized_path)
+      scaled_image = pygame.transform.scale(image,(image.get_size()[0] * 2,image.get_size()[1] * 2))
+      #Greyscake code from https://groups.google.com/forum/#!topic/pygame-mirror-on-google-groups/YhGnCFMtrtQ
+      width, height = scaled_image.get_size()
+      for x in range(width):
+        for y in range(height):
+          red, green, blue, alpha = scaled_image.get_at((x, y))
+          L = 0.3 * red + 0.59 * green + 0.11 * blue
+          gs_color = (L, L, L, alpha)
+          scaled_image.set_at((x, y), gs_color)
+      self._grey_image_library[path] = scaled_image
+    return image
 
   def build_position_index(self):
     w = self.options["width"]
@@ -390,7 +406,13 @@ class IsaacTracker:
     pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
     image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
     screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
-    floor_to_draw = None
+
+
+  def draw_item(self, item, screen):
+    if False:
+      screen.blit(self.get_grey_image(self.id_to_image(item.id)), (item.x, item.y))
+    else:
+      screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
 
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
@@ -399,13 +421,13 @@ class IsaacTracker:
     update_notifier = self.check_for_update()
     pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
+    pygame.display.set_icon(self.get_image("collectibles/collectibles_333.png"))
     done = False
     clock = pygame.time.Clock()
     my_font = pygame.font.SysFont("Arial", 16,bold=True)
     winInfo = None
     if platform.system() == "Windows":
       winInfo = pygameWindowInfo.PygameWindowInfo()
-    userprofile_dir = os.environ['USERPROFILE']
 
     del os.environ['SDL_VIDEO_WINDOW_POS']
     while not done:
@@ -416,13 +438,13 @@ class IsaacTracker:
             winPos = winInfo.getWindowPosition()
             self.options["xposition"] = winPos["left"]
             self.options["yposition"] = winPos["top"]
-            self.save_options()
+            self.save_options(self.options)
           done = True
         elif event.type==VIDEORESIZE:
           screen=pygame.display.set_mode(event.dict['size'], RESIZABLE)
           self.options["width"] = event.dict["w"]
           self.options["height"] = event.dict["h"]
-          self.save_options()
+          self.save_options(self.options)
           self.reflow()
           pygame.display.flip()
         elif event.type==MOUSEMOTION:
@@ -490,7 +512,7 @@ class IsaacTracker:
           if item.floor:
             floor_to_draw = item
           else:
-            screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+            self.draw_item(item, screen)
             #don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
             if floor_to_draw and self.options["show_floors"]:
               self.draw_floor(floor_to_draw, screen, my_font)
@@ -503,7 +525,7 @@ class IsaacTracker:
       and self.selected_item_idx < len(self.collected_item_info)
       and self.item_message_countdown_in_progress()):
         item = self.collected_item_info[self.selected_item_idx]
-        screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+        self.draw_item(item, screen)
         pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
 
 
