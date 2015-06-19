@@ -161,23 +161,6 @@ class IsaacTracker:
       self._image_library[path] = scaled_image
     return image
 
-  def get_grey_image(self, path):
-    image = self._grey_image_library.get(path)
-    if image is None:
-      canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-      image = pygame.image.load(canonicalized_path)
-      scaled_image = pygame.transform.scale(image,(image.get_size()[0] * 2,image.get_size()[1] * 2))
-      #Greyscake code from https://groups.google.com/forum/#!topic/pygame-mirror-on-google-groups/YhGnCFMtrtQ
-      width, height = scaled_image.get_size()
-      for x in range(width):
-        for y in range(height):
-          red, green, blue, alpha = scaled_image.get_at((x, y))
-          L = 0.3 * red + 0.59 * green + 0.11 * blue
-          gs_color = (L, L, L, alpha)
-          scaled_image.set_at((x, y), gs_color)
-      self._grey_image_library[path] = scaled_image
-    return image
-
   def build_position_index(self):
     w = self.options["width"]
     h = self.options["height"]
@@ -409,9 +392,6 @@ class IsaacTracker:
 
 
   def draw_item(self, item, screen):
-    if False:
-      screen.blit(self.get_grey_image(self.id_to_image(item.id)), (item.x, item.y))
-    else:
       screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
 
   def run(self):
@@ -593,9 +573,7 @@ class IsaacTracker:
             self.spawned_coop_baby = current_line_number + self.seek
           if re.search("Added \d+ Collectibles", line):
             self.log_msg("Reroll detected!","D")
-            for item in self.collected_item_info:
-              if not item.floor:
-                item.rerolled = True
+            # To be implemented
           if line.startswith('Adding collectible'):
             if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
               self.log_msg("Skipped duplicate item line from baby presence","D")
