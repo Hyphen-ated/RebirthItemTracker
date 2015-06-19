@@ -51,7 +51,6 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
-    self._grey_image_library = {}
     self.filter_list = [] #list of string item ids with zeros stripped, they are items we don't want to see
     self.items_info = {}
     self.item_message_start_time = 0
