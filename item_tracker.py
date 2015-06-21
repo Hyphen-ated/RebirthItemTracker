@@ -41,7 +41,8 @@ class IsaacTracker:
     self.splitfile = [] #log split into lines
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
-    self.collected_item_info = [] #list of iteminfo dicts
+    self.rolled_items = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
+    self.collected_item_info = [] #list of "immutable" ItemInfo objects used for determining the layout to draw
     self.num_displayed_items = 0
     self.selected_item_idx = None
     self.seed = ""
@@ -160,6 +161,7 @@ class IsaacTracker:
       self._image_library[path] = scaled_image
     return image
 
+
   def build_position_index(self):
     w = self.options["width"]
     h = self.options["height"]
@@ -204,7 +206,7 @@ class IsaacTracker:
       vert_padding = self.text_margin_size
     for item_id in self.collected_items:
 
-      if item_id not in self.filter_list:
+      if item_id not in self.filter_list and (not item_id in self.rolled_items or self.options["show_rerolled_items"]):
 
         #check to see if we are about to go off the right edge
         if icon_width * (cur_column) + icon_width > self.options["width"]:
@@ -317,7 +319,8 @@ class IsaacTracker:
         self.selected_item_idx += amount
         # clamp it to the range (0, length)
         self.selected_item_idx = (self.selected_item_idx + itemlength) % itemlength
-        done = self.collected_item_info[self.selected_item_idx].shown
+        selected_type = self.collected_item_info[self.selected_item_idx]
+        done = selected_type.shown and not selected_type.floor
 
     self.item_message_start_time = self.framecount
 
@@ -391,7 +394,11 @@ class IsaacTracker:
 
 
   def draw_item(self, item, screen):
-      screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+    image = self.get_image(self.id_to_image(item.id))
+    screen.blit(image, (item.x, item.y))
+    if item.id in self.rolled_items:
+      roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("105")), (image.get_size()[0]/2, image.get_size()[1]/2))
+      screen.blit(roll_icon, (item.x,item.y))
 
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
@@ -456,6 +463,7 @@ class IsaacTracker:
             else:
               self.log_msg("No option_picker found!","D")
             self.options = self.load_options()
+            self.selected_item_idx = None # Clear this to avoid overlapping an item that may have been hidden
             self.reflow()
 
 
@@ -512,8 +520,8 @@ class IsaacTracker:
 
       self.framecount += 1
 
-      # process log stuff every read_delay frames. making sure to truncate to an integer or else it might never mod to 0
-      if self.framecount % int(int(self.options["framerate_limit"])*self.read_delay) == 0:
+      # process log stuff every read_delay seconds. making sure to truncate to an integer or else it might never mod to 0
+      if self.framecount % int(self.options["framerate_limit"]*self.read_delay) == 0:
         self.load_log_file()
         self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
@@ -572,7 +580,7 @@ class IsaacTracker:
             self.spawned_coop_baby = current_line_number + self.seek
           if re.search("Added \d+ Collectibles", line):
             self.log_msg("Reroll detected!","D")
-            # To be implemented
+            self.rolled_items = [item for item in self.collected_items if item[0] != 'f']
           if line.startswith('Adding collectible'):
             if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
               self.log_msg("Skipped duplicate item line from baby presence","D")
