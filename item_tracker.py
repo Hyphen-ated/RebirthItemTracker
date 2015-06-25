@@ -508,8 +508,9 @@ class IsaacTracker:
       and self.selected_item_idx < len(self.collected_item_info)
       and self.item_message_countdown_in_progress()):
         item = self.collected_item_info[self.selected_item_idx]
-        screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
-        pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
+        if item.id not in self.floor_id_to_label:
+            screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+            pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
 
 
       pygame.display.flip()
