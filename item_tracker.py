@@ -351,7 +351,13 @@ class IsaacTracker:
   def load_log_file(self):
     self.log_not_found = False
     path = None
-    for check in ('../log.txt', os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/log.txt'):
+    if platform.system() == "Windows":
+        logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
+    elif platform.system() == "Linux":
+        logfile_location = os.path.expanduser('~') + '/.local/share/binding of isaac rebirth/'
+    elif platform.system() == "Darwin":
+        logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
+    for check in ('../log.txt', logfile_location + 'log.txt'):
       if os.path.isfile(check):
         path = check
         break
@@ -405,7 +411,6 @@ class IsaacTracker:
     winInfo = None
     if platform.system() == "Windows":
       winInfo = pygameWindowInfo.PygameWindowInfo()
-    userprofile_dir = os.environ['USERPROFILE']
 
     del os.environ['SDL_VIDEO_WINDOW_POS']
     while not done:
