@@ -351,7 +351,13 @@ class IsaacTracker:
   def load_log_file(self):
     self.log_not_found = False
     path = None
-    for check in ('../log.txt', os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/log.txt'):
+    if platform.system() == "Windows":
+        logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
+    elif platform.system() == "Linux":
+        logfile_location = os.path.expanduser('~') + '/.local/share/binding of isaac rebirth/'
+    elif platform.system() == "Darwin":
+        logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
+    for check in ('../log.txt', logfile_location + 'log.txt'):
       if os.path.isfile(check):
         path = check
         break
@@ -405,7 +411,6 @@ class IsaacTracker:
     winInfo = None
     if platform.system() == "Windows":
       winInfo = pygameWindowInfo.PygameWindowInfo()
-    userprofile_dir = os.environ['USERPROFILE']
 
     del os.environ['SDL_VIDEO_WINDOW_POS']
     while not done:
@@ -503,8 +508,9 @@ class IsaacTracker:
       and self.selected_item_idx < len(self.collected_item_info)
       and self.item_message_countdown_in_progress()):
         item = self.collected_item_info[self.selected_item_idx]
-        screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
-        pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
+        if item.id not in self.floor_id_to_label:
+            screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
+            pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
 
 
       pygame.display.flip()
