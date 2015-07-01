@@ -1,4 +1,5 @@
+*.pyc
 .idea/
 dist/
 target/
-*.pyc
+run_logs/
