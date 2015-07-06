@@ -273,7 +273,7 @@
       "name": "Lucky Foot",
       "shown": true,
       "text": "better gambling chances"
-   }, 2
+   },
    "047": {
       "name": "Doctor's Remote",
       "shown": false,
