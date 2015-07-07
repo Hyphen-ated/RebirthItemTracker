@@ -459,7 +459,7 @@
    "081": {
       "name": "Dead Cat",
       "shown": true,
-      "text": "+8 lives, sets heart containers to 1"
+      "text": "+9 lives, sets heart containers to 1"
    },
    "082": {
       "name": "Lord of the Pit",
