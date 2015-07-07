@@ -2,17 +2,18 @@
    "background_color": "#191919", 
    "default_spacing": 64, 
    "framerate_limit": 30, 
-   "height": 159, 
+   "height": 203, 
    "item_details_link": "http://platinumgod.co.uk/rebirth?id=$ID", 
    "message_duration": 7, 
    "min_spacing": 24, 
    "show_description": true, 
    "show_floors": true, 
+   "show_health_ups": false, 
    "show_seed": true, 
    "size_multiplier": 3, 
    "text_color": "#FFFFFF", 
-   "width": 537, 
+   "width": 1854, 
    "word_wrap": false, 
-   "xposition": 178, 
-   "yposition": 546
+   "xposition": 1, 
+   "yposition": 457
 }

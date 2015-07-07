@@ -62,7 +62,15 @@ class IsaacTracker:
       self.items_info = json.load(items_file)
     for itemid, item in self.items_info.iteritems():
       if not item["shown"]:
-        self.filter_list.append(itemid.lstrip("0"))
+        # The following items are set to not be shown because they are purely health ups:
+        # <3 (015), Raw Liver (016), Lunch (022), Dinner (023), Dessert (024), Breakfast (025), Rotten Meat (026), Super Bandage (092), Stem Cells (176), Black Lotus (226), The Body (334), A Snack (346)
+        health_up_items = ["015", "016", "022", "023", "024", "025", "026", "092", "176", "226", "334", "346"]
+
+        if self.options["show_health_ups"] and itemid in health_up_items:
+          pass # Don't add health ups to the filter_list
+        else:
+          self.filter_list.append(itemid.lstrip("0"))
+
     self.floor_id_to_label = {
       "f1": "B1",
       "f2": "B2",

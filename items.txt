@@ -524,7 +524,7 @@
    "092": {
       "health": "1",
       "name": "Super Bandage",
-      "shown": true,
+      "shown": false,
       "soulhearts": "2",
       "text": ""
    },
@@ -1892,7 +1892,7 @@
    "334": {
       "health": "3",
       "name": "The Body",
-      "shown": true,
+      "shown": false,
       "text": "+3 heart containers"
    },
    "335": {
