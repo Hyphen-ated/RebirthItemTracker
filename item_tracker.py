@@ -167,7 +167,7 @@ class IsaacTracker:
             row[x] = item.index
 
   def reflow(self):
-    item_icon_size = self.options["default_spacing"]
+    item_icon_size = int(self.options["default_spacing"] * self.options["size_multiplier"] * .5)
     result = self.try_layout(item_icon_size, False)
     while result is None:
       item_icon_size -= 1
@@ -314,14 +314,16 @@ class IsaacTracker:
     if item_idx is None and self.item_pickup_countdown_in_progress():
       item_idx = -1
     if item_idx is None or len(self.collected_items) < item_idx :
-      # 19 pixels is the default line height, but we don't know what it is with the user's particular size_multiplier.
-      # Thus, we can just draw a space to ensure that the spacing is consistent whether any text is drawn or is not drawn.
+      # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
+      # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
       self.text_height = draw_text(
         screen,
         " ",
         self.color(self.options["text_color"]),
         pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
-        my_font, aa=True, wrap=self.options["word_wrap"]
+        my_font,
+        aa=True,
+        wrap=self.options["word_wrap"]
       )
       self.reflow()
       return
@@ -336,11 +338,11 @@ class IsaacTracker:
       "%s%s" % (item_info["name"], desc),
       self.color(self.options["text_color"]),
       pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
-      my_font, aa=True, wrap=self.options["word_wrap"]
+      my_font,
+      aa=True,
+      wrap=self.options["word_wrap"]
     )
     self.reflow()
-    # item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
-    # screen.blit(item_text, (2, 2))
 
   def load_log_file(self):
     self.log_not_found = False
@@ -386,7 +388,12 @@ class IsaacTracker:
     return 'collectibles/collectibles_%s.png' % id.zfill(3)
 
   def draw_floor(self, f, screen, my_font):
-    pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, int(f.y + 24 * self.options["size_multiplier"])), (f.x + 2, f.y), (int(f.x + 16 * self.options["size_multiplier"]), f.y)))
+    pygame.draw.lines(
+      screen,
+      self.color(self.options["text_color"]),
+      False,
+      ((f.x + 2, int(f.y + 24 * self.options["size_multiplier"])), (f.x + 2, f.y), (int(f.x + 16 * self.options["size_multiplier"]), f.y))
+    )
     image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
     screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
     floor_to_draw = None
@@ -416,14 +423,14 @@ class IsaacTracker:
             self.options["yposition"] = winPos["top"]
             self.save_options()
           done = True
-        elif event.type==VIDEORESIZE:
+        elif event.type == VIDEORESIZE:
           screen=pygame.display.set_mode(event.dict['size'], RESIZABLE)
           self.options["width"] = event.dict["w"]
           self.options["height"] = event.dict["h"]
           self.save_options()
           self.reflow()
           pygame.display.flip()
-        elif event.type==MOUSEMOTION:
+        elif event.type == MOUSEMOTION:
           if pygame.mouse.get_focused():
             x, y = pygame.mouse.get_pos()
             if y < len(self.item_position_index):
@@ -432,7 +439,7 @@ class IsaacTracker:
                 self.selected_item_idx = selected_row[x]
                 if self.selected_item_idx:
                   self.item_message_start_time = self.framecount
-        elif event.type==KEYDOWN:
+        elif event.type == KEYDOWN:
           if len(self.collected_items) > 0:
             if event.key == pygame.K_RIGHT:
               self.adjust_selected_item(1)
@@ -440,10 +447,10 @@ class IsaacTracker:
               self.adjust_selected_item(-1)
             elif event.key == pygame.K_RETURN:
               self.load_selected_detail_page()
-        elif event.type==MOUSEBUTTONDOWN:
-          if event.button==1:
+        elif event.type == MOUSEBUTTONDOWN:
+          if event.button == 1:
             self.load_selected_detail_page()
-          if event.button==3:
+          if event.button == 3:
             if os.path.isfile("optionpicker/option_picker.exe"):
               self.log_msg("Starting option picker from .exe","D")
               subprocess.call(os.path.join('optionpicker',"option_picker.exe"),shell=True)
@@ -459,7 +466,15 @@ class IsaacTracker:
       clock.tick(int(self.options["framerate_limit"]))
 
       if self.log_not_found:
-        draw_text(screen,"log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt", self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=True)
+        draw_text(
+          screen,
+          "log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt",
+          self.color(self.options["text_color"]),
+          pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
+          my_font,
+          aa=True,
+          wrap=True
+        )
 
       # draw item pickup text, if applicable
       if (len(self.collected_items) > 0
@@ -469,7 +484,14 @@ class IsaacTracker:
         self.write_item_text(my_font, screen)
       elif self.options["show_seed"] and not self.log_not_found:
         # draw seed text:
-        self.text_height = draw_text(screen,"Seed: %s" % self.seed, self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
+        self.text_height = draw_text(
+          screen,
+          "Seed: %s" % self.seed,
+          self.color(self.options["text_color"]),
+          pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
+          my_font,
+          aa=True
+        )
         self.reflow()
       else:
         # can only happen if you turn seed + item descriptions off in options while its running
@@ -488,11 +510,11 @@ class IsaacTracker:
             floor_to_draw = item
           else:
             screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
-            #don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
+            # don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
             if floor_to_draw and self.options["show_floors"]:
               self.draw_floor(floor_to_draw, screen, my_font)
 
-      #also draw the floor if we hit the end, so the current floor is visible
+      # also draw the floor if we hit the end, so the current floor is visible
       if floor_to_draw and self.options["show_floors"]:
         self.draw_floor(floor_to_draw, screen, my_font)
 
@@ -502,7 +524,12 @@ class IsaacTracker:
         item = self.collected_item_info[self.selected_item_idx]
         if item.id not in self.floor_id_to_label:
             screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
-            pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, int(32 * self.options["size_multiplier"]), int(32 * self.options["size_multiplier"])), 2)
+            pygame.draw.rect(
+              screen,
+              self.color(self.options["text_color"]),
+              (item.x, item.y, int(32 * self.options["size_multiplier"]), int(32 * self.options["size_multiplier"])),
+              2
+            )
 
       pygame.display.flip()
       self.framecount += 1
@@ -535,12 +562,12 @@ class IsaacTracker:
           if line.startswith('RNG Start Seed:'):
             # this assumes a fixed width, but from what i see it seems safe
             self.seed = line[16:25]
-            self.log_msg("Starting new run, seed: %s" % self.seed,"D")
+            self.log_msg("Starting new run, seed: %s" % self.seed, "D")
             self.run_start_frame = self.framecount
             self.collected_items = []
-            self.log_msg("Emptied item array","D")
+            self.log_msg("Emptied item array", "D")
             self.bosses = []
-            self.log_msg("Emptied boss array","D")
+            self.log_msg("Emptied boss array", "D")
             self.run_start_line = current_line_number + self.seek
             self.run_ended = False
             with open("seed.txt", "w") as f:
@@ -548,10 +575,10 @@ class IsaacTracker:
 
           # entered a room, use to keep track of bosses
           if line.startswith('Room'):
-            self.current_room = re.search('\((.*)\)',line).group(1)
-            self.log_msg("Entered room: %s" % self.current_room,"D")
+            self.current_room = re.search('\((.*)\)', line).group(1)
+            self.log_msg("Entered room: %s" % self.current_room, "D")
           if line.startswith('Level::Init'):
-            self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1,2]])
+            self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)", line).group(x) for x in [1,2]])
             floor = int(self.current_floor[0])
             alt = self.current_floor[1]
             # special handling for cath and chest
