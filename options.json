@@ -10,9 +10,9 @@
    "show_floors": true, 
    "show_health_ups": false, 
    "show_seed": true, 
-   "size_multiplier": 3, 
+   "size_multiplier": 2, 
    "text_color": "#FFFFFF", 
-   "width": 1854, 
+   "width": 1894, 
    "word_wrap": false, 
    "xposition": 1, 
    "yposition": 457
