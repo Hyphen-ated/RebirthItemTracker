@@ -676,7 +676,7 @@
       "health": "1",
       "speed": "0.3",
       "name": "Blood Bag",
-      "shown": false,
+      "shown": true,
       "text": "speed delayed"
    },
    "120": {
