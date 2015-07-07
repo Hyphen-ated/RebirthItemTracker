@@ -1242,7 +1242,7 @@
       "dmg": "1",
       "name": "Ceremonial Robes",
       "shown": true,
-      "sinhearts": "3",
+      "blackhearts": "3",
       "text": ""
    },
    "217": {
@@ -1299,7 +1299,7 @@
       "name": "Black Lotus",
       "health": "1",
       "soulhearts": "1",
-      "sinhearts": "1",
+      "blackhearts": "1",
       "shown": false,
       "text": ""
    },
@@ -1320,7 +1320,7 @@
       "text": ""
    },
    "230": {
-      "sinhearts": "6",
+      "blackhearts": "6",
       "dmg": "1.5",
       "name": "Abaddon",
       "shown": true,
@@ -1480,7 +1480,7 @@
    "260": {
       "name": "Black Candle",
       "shown": true,
-      "sinhearts": "1",
+      "blackhearts": "1",
       "text": "no floor curses, +25% devil deal chance"
    },
    "261": {
@@ -1491,7 +1491,7 @@
    "262": {
       "name": "Missing Page 2",
       "shown": true,
-      "sinhearts": "1",
+      "blackhearts": "1",
       "text": "deals 40 dmg to enemies on hit if 1 heart or lower"
    },
    "264": {
@@ -1926,7 +1926,7 @@
       "range": "5.25",
       "shotspeed": "0.16",
       "shown": true,
-      "sinhearts": "1",
+      "blackhearts": "1",
       "text": ""
    },
    "340": {
@@ -1960,7 +1960,7 @@
    "344": {
       "name": "Match Book",
       "shown": true,
-      "sinhearts": "1",
+      "blackhearts": "1",
       "text": "+3 bombs"
    },
    "345": {
