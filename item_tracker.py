@@ -23,26 +23,25 @@ class ItemInfo:
     self.floor = floor
     self.rerolled = False
 
-
 class IsaacTracker:
-
-
   def __init__(self, verbose=False, debug=False, read_delay=1):
-    # some general variable stuff, i guess
+    # Load all of the settings from the "options.json" file
+    self.options = self.load_options()
+
+    # Class variables
     self.verbose = verbose
     self.debug = debug
     self.text_height = 0
-    self.text_margin_size = 16
+    self.text_margin_size = int(8 * self.options["size_multiplier"])
     self.seek = 0
     self.framecount = 0
     self.read_delay = read_delay
     self.run_ended = True
     self.log_not_found = False
-    self.content = "" #cached contents of log
-    self.splitfile = [] #log split into lines
-    # initialize isaac stuff
-    self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
-    self.collected_item_info = [] #list of iteminfo dicts
+    self.content = "" # cached contents of log
+    self.splitfile = [] # log split into lines
+    self.collected_items = [] # list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
+    self.collected_item_info = [] # list of iteminfo dicts
     self.num_displayed_items = 0
     self.selected_item_idx = None
     self.seed = ""
@@ -52,7 +51,7 @@ class IsaacTracker:
     self.bosses = []
     self.last_run = {}
     self._image_library = {}
-    self.filter_list = [] #list of string item ids with zeros stripped, they are items we don't want to see
+    self.filter_list = [] # list of string item ids with zeros stripped, they are items we don't want to see
     self.items_info = {}
     self.item_message_start_time = 0
     self.item_pickup_time = 0
@@ -61,13 +60,9 @@ class IsaacTracker:
     self.spawned_coop_baby = 0 # last spawn of a co op baby
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
-
     for itemid, item in self.items_info.iteritems():
       if not item["shown"]:
         self.filter_list.append(itemid.lstrip("0"))
-
-    self.options = self.load_options()
-
     self.floor_id_to_label = {
       "f1": "B1",
       "f2": "B2",
@@ -85,30 +80,25 @@ class IsaacTracker:
       "f3x": "CXL",
       "f5x": "DXL",
       "f7x": "WXL",
-      }
-
+    }
 
   def load_options(self):
     with open("options.json", "r") as json_file:
       options = json.load(json_file)
     return options
 
-
   def save_options(self):
     with open("options.json", "w") as json_file:
       json.dump(self.options, json_file, indent=3, sort_keys=True)
-
 
   # just for debugging
   def log_msg(self, msg, level):
     if level=="V" and self.verbose: print msg
     if level=="D" and self.debug: print msg
 
-
   # just for the suffix of boss kill number lol
   def suffix(self, d):
     return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
-
 
   def check_end_run(self,line,cur_line_num):
     if not self.run_ended:
@@ -134,7 +124,6 @@ class IsaacTracker:
         if end_type != "Reset":
           self.save_file(self.run_start_line,cur_line_num, self.seed)
 
-
   def save_file(self, start, end, seed):
     self.mkdir("run_logs")
     timestamp = int(time.time())
@@ -144,12 +133,10 @@ class IsaacTracker:
     with open("run_logs/%s%s.log" % (seed,timestamp),'wb') as f:
       f.write(data)
 
-
   def mkdir(self, dn):
     import os
     if not os.path.isdir(dn):
       os.mkdir(dn)
-
 
   # image library stuff, from openbookproject.net
   def get_image(self, path):
@@ -157,10 +144,9 @@ class IsaacTracker:
     if image is None:
       canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
       image = pygame.image.load(canonicalized_path)
-      scaled_image = pygame.transform.scale(image,(image.get_size()[0] * 2,image.get_size()[1] * 2))
+      scaled_image = pygame.transform.scale(image, (int(image.get_size()[0] * self.options["size_multiplier"]), int(image.get_size()[1] * self.options["size_multiplier"])))
       self._image_library[path] = scaled_image
     return image
-
 
   def build_position_index(self):
     w = self.options["width"]
@@ -171,11 +157,11 @@ class IsaacTracker:
     for item in self.collected_item_info:
       if item.shown and not item.floor:
         self.num_displayed_items += 1
-        for y in range(item.y, item.y + 64):
+        for y in range(int(item.y), int(item.y + 32 * self.options["size_multiplier"])):
           if y >= h:
             continue
           row = self.item_position_index[y]
-          for x in range(item.x, item.x + 64):
+          for x in range(int(item.x), int(item.x + 32 * self.options["size_multiplier"])):
             if x >= w:
               continue
             row[x] = item.index
@@ -191,9 +177,7 @@ class IsaacTracker:
         result = self.try_layout(item_icon_size, False)
 
     self.collected_item_info = result
-
     self.build_position_index()
-
 
   def try_layout(self, icon_width, force_layout):
     icon_height = icon_width
@@ -205,11 +189,9 @@ class IsaacTracker:
     if self.options['show_floors']:
       vert_padding = self.text_margin_size
     for item_id in self.collected_items:
-
       if item_id not in self.filter_list:
-
-        #check to see if we are about to go off the right edge
-        if icon_width * (cur_column) + icon_width > self.options["width"]:
+        # check to see if we are about to go off the right edge
+        if icon_width * (cur_column) + 32 * self.options["size_multiplier"] > self.options["width"]:
           if (not force_layout) and self.text_height + (icon_height + vert_padding) * (cur_row + 1) + icon_height > self.options["height"]:
             return None
           cur_row += 1
@@ -225,22 +207,21 @@ class IsaacTracker:
           new_item_info.append(item_info)
         else:
           item_info = ItemInfo(id = item_id,
-                            x = icon_width * cur_column,
-                            y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
-                            shown = True,
-                            index = index)
+                               x = icon_width * cur_column,
+                               y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                               shown = True,
+                               index = index)
           new_item_info.append(item_info)
           cur_column += 1
       else:
         item_info = ItemInfo(id = item_id,
-                          x = icon_width * cur_column,
-                          y =  self.text_height +  (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
-                          shown = False,
-                          index = index)
+                             x = icon_width * cur_column,
+                             y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                             shown = False,
+                             index = index)
         new_item_info.append(item_info)
       index += 1
     return new_item_info
-
 
   def generateItemDescription(self, item_info):
     desc = ""
@@ -289,12 +270,11 @@ class IsaacTracker:
       desc = ": " + desc
     return desc
 
-
   def color(self, string):
     return pygame.color.Color(str(string))
 
   def load_selected_detail_page(self):
-    #todo open browser if this is not None
+    # TODO open browser if this is not None
     if not self.selected_item_idx:
       return
     url = self.options.get("item_details_link")
@@ -334,7 +314,15 @@ class IsaacTracker:
     if item_idx is None and self.item_pickup_countdown_in_progress():
       item_idx = -1
     if item_idx is None or len(self.collected_items) < item_idx :
-      self.text_height = 19
+      # 19 pixels is the default line height, but we don't know what it is with the user's particular size_multiplier.
+      # Thus, we can just draw a space to ensure that the spacing is consistent whether any text is drawn or is not drawn.
+      self.text_height = draw_text(
+        screen,
+        " ",
+        self.color(self.options["text_color"]),
+        pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
+        my_font, aa=True, wrap=self.options["word_wrap"]
+      )
       self.reflow()
       return
     item = self.collected_items[item_idx]
@@ -343,7 +331,13 @@ class IsaacTracker:
     id_padded = item.zfill(3)
     item_info = self.items_info[id_padded]
     desc = self.generateItemDescription(item_info)
-    self.text_height = draw_text(screen,"%s%s" % (item_info["name"], desc), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True, wrap=self.options["word_wrap"])
+    self.text_height = draw_text(
+      screen,
+      "%s%s" % (item_info["name"], desc),
+      self.color(self.options["text_color"]),
+      pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
+      my_font, aa=True, wrap=self.options["word_wrap"]
+    )
     self.reflow()
     # item_text = my_font.render("%s%s" % (item_info["name"], desc), True, self.color(self.options["text_color"]))
     # screen.blit(item_text, (2, 2))
@@ -391,9 +385,8 @@ class IsaacTracker:
   def id_to_image(self, id):
     return 'collectibles/collectibles_%s.png' % id.zfill(3)
 
-
   def draw_floor(self, f, screen, my_font):
-    pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, f.y + 48), (f.x + 2, f.y), (f.x + 32, f.y)))
+    pygame.draw.lines(screen, self.color(self.options["text_color"]), False, ((f.x + 2, int(f.y + 24 * self.options["size_multiplier"])), (f.x + 2, f.y), (int(f.x + 16 * self.options["size_multiplier"]), f.y)))
     image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
     screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
     floor_to_draw = None
@@ -407,7 +400,7 @@ class IsaacTracker:
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
     done = False
     clock = pygame.time.Clock()
-    my_font = pygame.font.SysFont("Arial", 16,bold=True)
+    my_font = pygame.font.SysFont("Arial", int(8 * self.options["size_multiplier"]), bold=True)
     winInfo = None
     if platform.system() == "Windows":
       winInfo = pygameWindowInfo.PygameWindowInfo()
@@ -462,7 +455,6 @@ class IsaacTracker:
             self.options = self.load_options()
             self.reflow()
 
-
       screen.fill(self.color(self.options["background_color"]))
       clock.tick(int(self.options["framerate_limit"]))
 
@@ -510,20 +502,18 @@ class IsaacTracker:
         item = self.collected_item_info[self.selected_item_idx]
         if item.id not in self.floor_id_to_label:
             screen.blit(self.get_image(self.id_to_image(item.id)), (item.x, item.y))
-            pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, 64,64), 2)
-
+            pygame.draw.rect(screen, self.color(self.options["text_color"]), (item.x, item.y, int(32 * self.options["size_multiplier"]), int(32 * self.options["size_multiplier"])), 2)
 
       pygame.display.flip()
-
       self.framecount += 1
 
       # process log stuff every read_delay frames. making sure to truncate to an integer or else it might never mod to 0
-      if self.framecount % int(int(self.options["framerate_limit"])*self.read_delay) == 0:
+      if self.framecount % int(int(self.options["framerate_limit"]) * self.read_delay) == 0:
         self.load_log_file()
         self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
         if self.seek > len(self.splitfile):
-          self.log_msg("Current line number longer than lines in file, returning to start of file","D")
+          self.log_msg("Current line number longer than lines in file, returning to start of file", "D")
           self.seek = 0
 
         should_reflow = False
@@ -537,7 +527,7 @@ class IsaacTracker:
             # can you fight the same boss twice?
             if self.current_room not in [x[0] for x in self.bosses]:
               self.bosses.append((self.current_room, kill_time))
-              self.log_msg("Defeated %s%s boss %s at time %s" % (len(self.bosses),self.suffix(len(self.bosses)),self.current_room,kill_time),"D")
+              self.log_msg("Defeated %s%s boss %s at time %s" % (len(self.bosses), self.suffix(len(self.bosses)), self.current_room, kill_time), "D")
           # check + handle the end of the run (order important here!)
           # we want it after boss kill (so we have that handled) but before RNG Start Seed (so we can handle that)
           self.check_end_run(line, current_line_number + self.seek)
@@ -612,9 +602,11 @@ class IsaacTracker:
         if should_reflow:
           self.reflow()
 
-try:
-  rt = IsaacTracker(verbose=False, debug=False)
-  rt.run()
-except Exception as e:
-  import traceback
-  traceback.print_exc()
+# Main  
+if __name__ == '__main__':
+  try:
+    rt = IsaacTracker(verbose=False, debug=False)
+    rt.run()
+  except Exception as e:
+    import traceback
+    traceback.print_exc()
