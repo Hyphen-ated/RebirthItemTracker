@@ -617,7 +617,7 @@
    "108": {
       "name": "The Wafer",
       "shown": true,
-      "text": "all dmg is reduced to half a heart"
+      "text": "all dmg reduced to half a heart"
    },
    "109": {
       "name": "Money = Power",
@@ -1702,7 +1702,7 @@
       "name": "Cancer",
       "shown": true,
       "soulhearts" : "3",
-      "text": "all dmg is reduced to half a heart (after getting hit once per room)"
+      "text": "all dmg reduced to half a heart (after getting hit once per room)"
    },
    "302": {
       "name": "Leo",
