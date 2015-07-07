@@ -403,6 +403,7 @@ class IsaacTracker:
     # initialize pygame system stuff
     pygame.init()
     update_notifier = self.check_for_update()
+    pygame.display.set_icon(pygame.image.load("collectibles/collectibles_076.png")) # The icon for X-Ray Vision
     pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
     done = False
