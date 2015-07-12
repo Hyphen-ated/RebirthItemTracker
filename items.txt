@@ -1,1976 +1,1980 @@
 {
    "001": {
-      "name": "The Sad Onion", 
-      "shown": true, 
-      "tears": "0.7", 
+      "name": "The Sad Onion",
+      "shown": true,
+      "tears": "0.7",
       "text": ""
-   }, 
+   },
    "002": {
-      "delay": "3", 
-      "delayx": "2.1", 
-      "name": "The Inner Eye", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "delay": "3",
+      "delayx": "2.1",
+      "name": "The Inner Eye",
+      "shown": true,
+      "text": "triple shot"
+   },
    "003": {
-      "name": "Spoon Bender", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Spoon Bender",
+      "shown": true,
+      "text": "homing tears"
+   },
    "004": {
-      "dmg": "0.5", 
-      "dmgx": "1.5", 
-      "name": "Cricket's Head", 
-      "shown": true, 
+      "dmg": "0.5",
+      "dmgx": "1.5",
+      "name": "Cricket's Head",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "005": {
-      "height": "1", 
-      "name": "My Reflection", 
-      "range": "1.5", 
-      "shown": true, 
+      "height": "1",
+      "name": "My Reflection",
+      "range": "1.5",
+      "shown": true,
       "text": "boomerang tears"
-   }, 
+   },
    "006": {
-      "height": "0.45", 
-      "name": "Number One", 
-      "range": "-15.78", 
-      "shown": true, 
-      "tears": "1.5", 
+      "height": "0.45",
+      "name": "Number One",
+      "range": "-15.78",
+      "shown": true,
+      "tears": "1.5",
       "text": ""
-   }, 
+   },
    "007": {
-      "dmg": "1", 
-      "name": "Blood of the Martyr", 
-      "shown": true, 
+      "dmg": "1",
+      "name": "Blood of the Martyr",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "008": {
-      "name": "Brother Bobby", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Brother Bobby",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear)"
+   },
    "009": {
-      "name": "Skatole", 
-      "shown": true, 
-      "text": "flies don't attack you"
-   }, 
+      "name": "Skatole",
+      "shown": true,
+      "text": "flies won't attack you"
+   },
    "010": {
-      "name": "Halo of Flies", 
-      "shown": true, 
+      "name": "Halo of Flies",
+      "shown": true,
       "text": "two fly orbitals"
-   }, 
+   },
    "011": {
-      "name": "1UP", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "1UP",
+      "shown": true,
+      "text": "+1 life"
+   },
    "012": {
-      "dmg": "0.3", 
-      "dmgx": "1.5", 
-      "health": "1", 
-      "height": "0.5", 
-      "name": "Magic Mushroom", 
-      "range": "5.25", 
-      "shown": true, 
-      "speed": "0.3", 
-      "text": ""
-   }, 
+      "dmg": "0.3",
+      "dmgx": "1.5",
+      "health": "1",
+      "height": "0.5",
+      "name": "Magic Mushroom",
+      "range": "5.25",
+      "shown": true,
+      "speed": "0.3",
+      "text": "size up"
+   },
    "013": {
       "name": "The Virus",
       "speed": "-0.1",
-      "shown": true, 
-      "text": "speed delayed"
-   }, 
+      "shown": true,
+      "text": "poison touch, speed delayed"
+   },
    "014": {
-      "height": "0.5", 
-      "name": "Roid Rage", 
-      "range": "5.25", 
-      "shown": true, 
-      "speed": "0.6", 
+      "height": "0.5",
+      "name": "Roid Rage",
+      "range": "5.25",
+      "shown": true,
+      "speed": "0.6",
       "text": ""
-   }, 
+   },
    "015": {
-      "name": "<3", 
-      "shown": false, 
-      "text": ""
-   }, 
-   "016": {
-      "health": "2", 
-      "name": "Raw Liver", 
-      "shown": false, 
+      "health": "1",
+      "name": "<3",
+      "shown": false,
       "text": "full heal"
-   }, 
+   },
+   "016": {
+      "health": "2",
+      "name": "Raw Liver",
+      "shown": false,
+      "text": "full heal"
+   },
    "017": {
-      "name": "Skeleton Key", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Skeleton Key",
+      "shown": true,
+      "text": "+99 keys"
+   },
    "018": {
-      "name": "A Dollar", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "A Dollar",
+      "shown": true,
+      "text": "+99 coins"
+   },
    "019": {
-      "name": "Boom!", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Boom!",
+      "shown": true,
+      "text": "+10 bombs"
+   },
    "020": {
-      "name": "Transcendence", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Transcendence",
+      "shown": true,
+      "text": "flight"
+   },
    "021": {
-      "name": "The Compass", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Compass",
+      "shown": true,
+      "text": "reveals special rooms"
+   },
    "022": {
-      "name": "Lunch", 
-      "shown": false, 
+      "health": "1",
+      "name": "Lunch",
+      "shown": false,
       "text": ""
-   }, 
+   },
    "023": {
-      "health": "1", 
-      "name": "Dinner", 
-      "shown": false, 
+      "health": "1",
+      "name": "Dinner",
+      "shown": false,
       "text": ""
-   }, 
+   },
    "024": {
-      "health": "1", 
-      "name": "Dessert", 
-      "shown": false, 
+      "health": "1",
+      "name": "Dessert",
+      "shown": false,
       "text": ""
-   }, 
+   },
    "025": {
-      "health": "1", 
-      "name": "Breakfast", 
-      "shown": false, 
+      "health": "1",
+      "name": "Breakfast",
+      "shown": false,
       "text": ""
-   }, 
+   },
    "026": {
-      "health": "1", 
-      "name": "Rotten Meat", 
-      "shown": false, 
+      "health": "1",
+      "name": "Rotten Meat",
+      "shown": false,
       "text": ""
-   }, 
+   },
    "027": {
-      "name": "Wooden Spoon", 
-      "shown": true, 
-      "speed": "0.3", 
+      "name": "Wooden Spoon",
+      "shown": true,
+      "speed": "0.3",
       "text": ""
-   }, 
+   },
    "028": {
-      "name": "The Belt", 
-      "shown": true, 
-      "speed": "0.3", 
+      "name": "The Belt",
+      "shown": true,
+      "speed": "0.3",
       "text": ""
-   }, 
+   },
    "029": {
-      "height": "0.5", 
-      "name": "Mom's Underwear", 
-      "range": "5.25", 
-      "shown": true, 
+      "height": "0.5",
+      "name": "Mom's Underwear",
+      "range": "5.25",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "030": {
-      "height": "0.5", 
-      "name": "Mom's Heels", 
-      "range": "5.25", 
-      "shown": true, 
+      "height": "0.5",
+      "name": "Mom's Heels",
+      "range": "5.25",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "031": {
-      "height": "0.5", 
-      "name": "Mom's Lipstick", 
-      "range": "5.25", 
-      "shown": true, 
+      "height": "0.5",
+      "name": "Mom's Lipstick",
+      "range": "5.25",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "032": {
-      "name": "Wire Coat Hanger", 
-      "shown": true, 
-      "tears": "0.7", 
+      "name": "Wire Coat Hanger",
+      "shown": true,
+      "tears": "0.7",
       "text": ""
-   }, 
+   },
    "033": {
-      "name": "The Bible", 
-      "shown": false, 
-      "text": "",
+      "name": "The Bible",
+      "shown": false,
+      "text": "temporary flight, instantly kills mom / it lives",
       "space": true
-   }, 
+   },
    "034": {
-      "name": "The Book of Belial", 
-      "shown": false, 
-      "text": "2 dmg, x1.5 dmg with blood of the martyr. guarantees deals.",
+      "name": "The Book of Belial",
+      "shown": false,
+      "text": "guarantees devil deals, x1.5 dmg with blood of the martyr, temporary +2 dmg",
       "space": true
-   }, 
+   },
    "035": {
-      "name": "The Necronomicon", 
-      "shown": false, 
-      "text": "",
+      "name": "The Necronomicon",
+      "shown": false,
+      "text": "deals 40 dmg to the room",
       "space": true
-   }, 
+   },
    "036": {
-      "name": "The Poop", 
-      "shown": false, 
-      "text": "",
+      "name": "The Poop",
+      "shown": false,
+      "text": "makes a poop",
       "space": true
-   }, 
+   },
    "037": {
-      "name": "Mr. Boom", 
-      "shown": false, 
-      "text": "110 dmg",
+      "name": "Mr. Boom",
+      "shown": false,
+      "text": "makes a bomb (110 dmg)",
       "space": true
-   }, 
+   },
    "038": {
-      "name": "Tammy's Head", 
-      "shown": false, 
-      "text": "its tears get +25 flat dmg",
+      "name": "Tammy's Head",
+      "shown": false,
+      "text": "shoots 10 tears (current dmg + 25)",
       "space": true
-   }, 
+   },
    "039": {
-      "name": "Mom's Bra", 
-      "shown": false, 
-      "text": "",
+      "name": "Mom's Bra",
+      "shown": false,
+      "text": "temporarily freezes enemies",
       "space": true
-   }, 
+   },
    "040": {
-      "name": "Kamikaze", 
-      "shown": false, 
-      "text": "",
+      "name": "Kamikaze",
+      "shown": false,
+      "text": "deals half heart dmg to self, 40 dmg explosion",
       "space": true
-   }, 
+   },
    "041": {
       "name": "Mom's Pad",
-      "shown": false, 
-      "text": "",
+      "shown": false,
+      "text": "temporarily fears enemies",
       "space": true
-   }, 
+   },
    "042": {
-      "name": "Bob's Rotten Head", 
-      "shown": false, 
-      "text": "",
+      "name": "Bob's Rotten Head",
+      "shown": false,
+      "text": "shoots a poison bomb (50 dmg + 6-8 / tick)",
       "space": true
-   }, 
+   },
    "044": {
-      "name": "Teleport", 
-      "shown": false, 
+      "name": "Teleport",
+      "shown": false,
       "text": "",
       "space": true
-   }, 
+   },
    "045": {
-      "name": "Yum Heart", 
-      "shown": false, 
-      "text": "",
+      "name": "Yum Heart",
+      "shown": false,
+      "text": "heals 1 heart",
       "space": true
-   }, 
+   },
    "046": {
-      "luck": "1", 
-      "name": "Lucky Foot", 
-      "shown": true, 
-      "text": "Other luck-related benefits"
-   }, 
+      "luck": "1",
+      "name": "Lucky Foot",
+      "shown": true,
+      "text": "better gambling chances"
+   },
    "047": {
-      "name": "Doctor's Remote", 
-      "shown": false, 
-      "text": "x20 damage",
+      "name": "Doctor's Remote",
+      "shown": false,
+      "text": "shoots a missle (current dmg x 20)",
       "space": true
-   }, 
+   },
    "048": {
-      "name": "Cupid's Arrow", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Cupid's Arrow",
+      "shown": true,
+      "text": "piercing tears"
+   },
    "049": {
-      "name": "Shoop Da Whoop", 
-      "shown": false, 
-      "text": "full laser deals damage stat * 7 dmg",
+      "name": "Shoop Da Whoop",
+      "shown": false,
+      "text": "shoots a blood laser (current dmg x 7)",
       "space": true
-   }, 
+   },
    "050": {
-      "dmg": "1", 
-      "name": "Steven", 
-      "shown": true, 
+      "dmg": "1",
+      "name": "Steven",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "051": {
-      "dmg": "1", 
-      "name": "Pentagram", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "dmg": "1",
+      "name": "Pentagram",
+      "shown": true,
+      "text": "+20% devil deal chance"
+   },
    "052": {
-      "delayx": "2.5", 
-      "dmgx": "3", 
-      "name": "Dr. Fetus", 
-      "shown": true, 
-      "text": "Bomb shots"
-   }, 
+      "delayx": "2.5",
+      "dmgx": "3",
+      "name": "Dr. Fetus",
+      "shown": true,
+      "text": "bomb tears"
+   },
    "053": {
-      "name": "Magneto", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Magneto",
+      "shown": true,
+      "text": "attracts pickups"
+   },
    "054": {
-      "name": "Treasure Map", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Treasure Map",
+      "shown": true,
+      "text": "reveals the floor layout"
+   },
    "055": {
-      "name": "Mom's Eye", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Mom's Eye",
+      "shown": true,
+      "text": "chance to shoot a 2nd tear backwards"
+   },
    "056": {
-      "name": "Lemon Mishap", 
-      "shown": false, 
-      "text": "",
+      "name": "Lemon Mishap",
+      "shown": false,
+      "text": "makes a pool of pee",
       "space": true
-   }, 
+   },
    "057": {
-      "name": "Distant Admiration", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Distant Admiration",
+      "shown": true,
+      "text": "orbital (5 dmg / tick)"
+   },
    "058": {
-      "name": "Book of Shadows", 
-      "shown": false, 
-      "text": "",
+      "name": "Book of Shadows",
+      "shown": false,
+      "text": "temporary invincibility",
       "space": true
-   }, 
+   },
    "060": {
-      "name": "The Ladder", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Ladder",
+      "shown": true,
+      "text": "can cross gaps"
+   },
    "062": {
-      "name": "Charm of the Vampire", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Charm of the Vampire",
+      "shown": true,
+      "text": "heals half heart every 13 enemy deaths"
+   },
    "063": {
-      "name": "The Battery", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Battery",
+      "shown": true,
+      "text": "can double charge activated items"
+   },
    "064": {
-      "name": "Steam Sale", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Steam Sale",
+      "shown": true,
+      "text": "all shop items are half price"
+   },
    "065": {
-      "name": "Anarchist's Cookbook", 
-      "shown": false, 
-      "text": "",
+      "name": "Anarchist's Cookbook",
+      "shown": false,
+      "text": "spawns 6 troll bombs",
       "space": true
-   }, 
+   },
    "066": {
-      "name": "The Hourglass", 
-      "shown": false, 
-      "text": "",
+      "name": "The Hourglass",
+      "shown": false,
+      "text": "temporarily slows enemies",
       "space": true
-   }, 
+   },
    "067": {
-      "name": "Sister Maggy", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Sister Maggy",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear)"
+   },
    "068": {
-      "name": "Technology", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Technology",
+      "shown": true,
+      "text": "laser tears (piercing)"
+   },
    "069": {
-      "name": "Chocolate Milk", 
-      "shown": true, 
-      "text": "charge tears, max is 4x dmg and 2.5x delay"
-   }, 
+      "name": "Chocolate Milk",
+      "shown": true,
+      "text": "charge tears (4x dmg)"
+   },
    "070": {
-      "dmg": "1", 
-      "name": "Growth Hormones", 
-      "shown": true, 
-      "speed": "0.4", 
+      "dmg": "1",
+      "name": "Growth Hormones",
+      "shown": true,
+      "speed": "0.4",
       "text": ""
-   }, 
+   },
    "071": {
-      "height": "1.5", 
-      "name": "Mini Mush", 
-      "range": "-4.25", 
-      "shown": true, 
-      "speed": "0.3", 
-      "text": ""
-   }, 
+      "height": "1.5",
+      "name": "Mini Mush",
+      "range": "-4.25",
+      "shown": true,
+      "speed": "0.3",
+      "text": "size down"
+   },
    "072": {
-      "name": "Rosary", 
+      "name": "Rosary",
       "shown": true,
       "soulhearts": "3",
-      "text": "puts the bible into lots of item pools"
-   }, 
+      "text": "puts the bible into all item pools"
+   },
    "073": {
-      "name": "Cube of Meat", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Cube of Meat",
+      "shown": true,
+      "text": "orbital (7 dmg / tick)"
+   },
    "074": {
-      "name": "A Quarter", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "A Quarter",
+      "shown": true,
+      "text": "+25 coins"
+   },
    "075": {
-      "name": "PhD", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "PhD",
+      "shown": true,
+      "text": "bad stat pills become good, free pill"
+   },
    "076": {
-      "name": "X-Ray Vision", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "X-Ray Vision",
+      "shown": true,
+      "text": "automatically opens secret and super secret rooms"
+   },
    "077": {
-      "name": "My Little Unicorn", 
-      "shown": false, 
-      "text": "",
+      "name": "My Little Unicorn",
+      "shown": false,
+      "text": "temporary invincibility, 40 contact dmg",
       "space": true
-   }, 
+   },
    "078": {
-      "name": "Book of Revelations", 
-      "shown": false, 
-      "text": "",
+      "name": "Book of Revelations",
+      "shown": false,
+      "text": "+1 soul heart, changes floor boss to a horseman",
       "space": true
-   }, 
+   },
    "079": {
-      "dmg": "1", 
-      "name": "The Mark", 
-      "shown": true, 
-      "speed": "0.2", 
-      "text": ""
-   }, 
+      "dmg": "1",
+      "name": "The Mark",
+      "shown": true,
+      "speed": "0.2",
+      "text": "+1 soul heart"
+   },
    "080": {
-      "dmg": "0.5", 
-      "name": "The Pact", 
-      "shown": true, 
-      "tears": "0.7", 
-      "text": "2 Soul Hearts"
-   }, 
+      "dmg": "0.5",
+      "name": "The Pact",
+      "shown": true,
+      "tears": "0.7",
+      "text": "+2 soul hearts"
+   },
    "081": {
-      "name": "Dead Cat", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Dead Cat",
+      "shown": true,
+      "text": "+9 lives, sets heart containers to 1"
+   },
    "082": {
       "name": "Lord of the Pit",
       "speed": "0.3",
-      "shown": true, 
-      "text": "speed delayed"
-   }, 
+      "shown": true,
+      "text": "flying, speed delayed"
+   },
    "083": {
-      "dmg": "0.7", 
-      "name": "The Nail", 
-      "shown": false, 
-      "speed": "-0.18", 
-      "text": "+1 soul heart, crush rocks",
+      "dmg": "0.7",
+      "name": "The Nail",
+      "shown": false,
+      "speed": "-0.18",
+      "text": "+1 soul heart, temporarily crush rocks",
       "space": true
-   }, 
+   },
    "084": {
-      "name": "We Need To Go Deeper", 
-      "shown": false, 
-      "text": "",
+      "name": "We Need To Go Deeper",
+      "shown": false,
+      "text": "spawns a trapdoor (10% chance of crawl space / black market)",
       "space": true
-   }, 
+   },
    "085": {
-      "name": "Deck of Cards", 
-      "shown": false, 
-      "text": "",
+      "name": "Deck of Cards",
+      "shown": false,
+      "text": "spawns a random tarot card",
       "space": true
-   }, 
+   },
    "086": {
-      "name": "Monstro's Tooth", 
-      "shown": false, 
-      "text": "",
+      "name": "Monstro's Tooth",
+      "shown": false,
+      "text": "summons monstro (120 dmg)",
       "space": true
-   }, 
+   },
    "087": {
-      "name": "Loki's Horns", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Loki's Horns",
+      "shown": true,
+      "text": "chance to shoot 4 tears instead of 1"
+   },
    "088": {
-      "name": "Little Chubby", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Little Chubby",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tick)"
+   },
    "089": {
-      "name": "Spider Bite", 
-      "shown": true, 
-      "text": "based on luck"
-   }, 
+      "name": "Spider Bite",
+      "shown": true,
+      "text": "chance to shoot a slowing tear"
+   },
    "090": {
       "dmg": "1",
       "speed": "-0.2",
       "tears": "0.2",
-      "name": "The Small Rock", 
-      "shown": true, 
+      "name": "The Small Rock",
+      "shown": true,
       "text": "speed and tears delayed"
-   }, 
+   },
    "091": {
-      "name": "Spelunker Hat", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Spelunker Hat",
+      "shown": true,
+      "text": "see adjacent special rooms on the map"
+   },
    "092": {
-      "health": "1", 
-      "name": "Super Bandage", 
+      "health": "1",
+      "name": "Super Bandage",
       "shown": true,
       "soulhearts": "2",
       "text": ""
-   }, 
+   },
    "093": {
-      "name": "The Gamekid", 
-      "shown": false, 
-      "text": "",
+      "name": "The Gamekid",
+      "shown": false,
+      "text": "temporary invincibility, 40 contact dmg",
       "space": true
-   }, 
+   },
    "094": {
-      "name": "Sack of Pennies", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Sack of Pennies",
+      "shown": true,
+      "text": "spawns a coin every 2 rooms cleared"
+   },
    "095": {
-      "name": "Robo-Baby", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Robo-Baby",
+      "shown": true,
+      "text": "familiar (3.5 dmg / laser)"
+   },
    "096": {
-      "name": "Little C.H.A.D.", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Little C.H.A.D.",
+      "shown": true,
+      "text": "spawns a half heart every 2 rooms cleared"
+   },
    "097": {
-      "name": "The Book of Sin", 
-      "shown": false, 
-      "text": "",
+      "name": "The Book of Sin",
+      "shown": false,
+      "text": "spawns a random pickup (excluding chests)",
       "space": true
-   }, 
+   },
    "098": {
-      "name": "The Relic", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Relic",
+      "shown": true,
+      "text": "spawns a soul heart every 4 rooms cleared"
+   },
    "099": {
-      "name": "Little Gish", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Little Gish",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear, chance to slow)"
+   },
    "100": {
-      "name": "Little Steven", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Little Steven",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear, homing tears)"
+   },
    "101": {
-      "dmg": "0.3", 
-      "health": "1", 
-      "height": "0.5", 
-      "name": "The Halo", 
-      "range": "0.25", 
-      "shown": true, 
-      "speed": "0.3", 
-      "tears": "0.2", 
+      "dmg": "0.3",
+      "health": "1",
+      "height": "0.5",
+      "name": "The Halo",
+      "range": "0.25",
+      "shown": true,
+      "speed": "0.3",
+      "tears": "0.2",
       "text": ""
-   }, 
+   },
    "102": {
-      "name": "Mom's Bottle of Pills", 
-      "shown": false, 
-      "text": "",
+      "name": "Mom's Bottle of Pills",
+      "shown": false,
+      "text": "spawns a random pill",
       "space": true
-   }, 
+   },
    "103": {
-      "name": "The Common Cold", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Common Cold",
+      "shown": true,
+      "text": "chance to shoot a poison tear"
+   },
    "104": {
-      "name": "The Parasite", 
-      "shown": true, 
-      "text": "split shots do x0.25 dmg"
-   }, 
+      "name": "The Parasite",
+      "shown": true,
+      "text": "tears split into 2 (doing current dmg / 4)"
+   },
    "105": {
-      "name": "The D6", 
-      "shown": false, 
-      "text": "",
+      "name": "The D6",
+      "shown": false,
+      "text": "replaces pedestal items with new ones",
       "space": true
-   }, 
+   },
    "106": {
-      "name": "Mr. Mega", 
-      "shown": true, 
-      "text": "bombs do 110 dmg instead of 50"
-   }, 
+      "name": "Mr. Mega",
+      "shown": true,
+      "text": "+5 bombs, bomb blast radius increased, bomb dmg increased from 50 to 110"
+   },
    "107": {
-      "name": "Pinking Shears", 
-      "shown": false, 
-      "text": "",
+      "name": "Pinking Shears",
+      "shown": false,
+      "text": "spawns a melee familiar",
       "space": true
-   }, 
+   },
    "108": {
-      "name": "The Wafer", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Wafer",
+      "shown": true,
+      "text": "all dmg reduced to half a heart"
+   },
    "109": {
-      "name": "Money = Power", 
-      "shown": true, 
-      "text": "0.04 dmg per penny"
-   }, 
+      "name": "Money = Power",
+      "shown": true,
+      "text": "+0.04 dmg per coin held"
+   },
    "110": {
       "name": "Mom's Contacts",
       "range": "0.25",
-      "shown": true, 
-      "text": "range delayed"
-   }, 
+      "shown": true,
+      "text": "chance to shoot a freeze tear, range delayed"
+   },
    "111": {
-      "name": "The Bean", 
-      "shown": false, 
-      "text": "26 dmg",
+      "name": "The Bean",
+      "shown": false,
+      "text": "26 dmg per use",
       "space": true
-   }, 
+   },
    "112": {
-      "name": "Guardian Angel", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Guardian Angel",
+      "shown": true,
+      "text": "orbital (7 dmg / tick)"
+   },
    "113": {
-      "name": "Demon Baby", 
-      "shown": true, 
-      "text": "3 dmg"
-   }, 
+      "name": "Demon Baby",
+      "shown": true,
+      "text": "familiar (3 dmg / tear)"
+   },
    "114": {
-      "name": "Mom's Knife", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Mom's Knife",
+      "shown": true,
+      "text": "replaces tears with a knife (current dmg x 2 / tick)"
+   },
    "115": {
-      "name": "Ouija Board", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Ouija Board",
+      "shown": true,
+      "text": "spectral tears"
+   },
    "116": {
-      "name": "9 Volt", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "9 Volt",
+      "shown": true,
+      "text": "quicker charge, fully charges current item on pickup"
+   },
    "117": {
-      "name": "Dead Bird", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Dead Bird",
+      "shown": true,
+      "text": "spawns a bird familiar when hit (2 dmg / tick)"
+   },
    "118": {
-      "delayx": "3", 
-      "name": "Brimstone", 
-      "shown": true, 
-      "text": "blood laser, 13 hits"
-   }, 
+      "delayx": "3",
+      "name": "Brimstone",
+      "shown": true,
+      "text": "replaces tears with a blood laser (current dmg x 13)"
+   },
    "119": {
       "health": "1",
       "speed": "0.3",
-      "name": "Blood Bag", 
-      "shown": false, 
+      "name": "Blood Bag",
+      "shown": true,
       "text": "speed delayed"
-   }, 
+   },
    "120": {
-      "name": "Odd Mushroom (Thin)", 
-      "shown": true, 
-      "speed": "0.3", 
-      "tears": "1.7", 
+      "name": "Odd Mushroom (Thin)",
+      "shown": true,
+      "speed": "0.3",
+      "tears": "1.7",
       "text": "dmg * 0.9 - 0.4"
-   }, 
+   },
    "121": {
-      "dmg": "0.3", 
-      "health": "1", 
-      "height": "0.5", 
-      "name": "Odd Mushroom (Thick)", 
-      "range": "0.25", 
-      "shown": true, 
-      "speed": "-0.1", 
+      "dmg": "0.3",
+      "health": "1",
+      "height": "0.5",
+      "name": "Odd Mushroom (Thick)",
+      "range": "0.25",
+      "shown": true,
+      "speed": "-0.1",
       "text": ""
-   }, 
+   },
    "122": {
-      "dmg": "1.5", 
-      "name": "Whore of Babylon", 
-      "shown": true, 
-      "speed": "0.3", 
-      "text": "only works with low red health"
-   }, 
+      "dmg": "1.5",
+      "name": "Whore of Babylon",
+      "shown": true,
+      "speed": "0.3",
+      "text": "only activated if at half a red heart or lower"
+   },
    "123": {
-      "name": "Monster Manual", 
-      "shown": false, 
-      "text": "",
+      "name": "Monster Manual",
+      "shown": false,
+      "text": "summons a random familiar",
       "space": true
-   }, 
+   },
    "124": {
-      "name": "Dead Sea Scrolls", 
-      "shown": false, 
-      "text": "random space item effect",
+      "name": "Dead Sea Scrolls",
+      "shown": false,
+      "text": "performs a random activated item effect",
       "space": true
-   }, 
+   },
    "125": {
-      "name": "Bobby - Bomb", 
-      "shown": true, 
+      "name": "Bobby - Bomb",
+      "shown": true,
       "text": "+5 bombs, homing bombs"
-   }, 
+   },
    "126": {
-      "name": "Razor Blade", 
-      "shown": false, 
-      "text": "1.2 dmg per use",
+      "name": "Razor Blade",
+      "shown": false,
+      "text": "deals 1 heart dmg to self, gives a temporary +1.2 dmg per use",
       "space": true
-   }, 
+   },
    "127": {
-      "name": "Forget Me Now", 
-      "shown": false, 
-      "text": "",
+      "name": "Forget Me Now",
+      "shown": false,
+      "text": "generates a new floor",
       "space": true
-   }, 
+   },
    "128": {
-      "name": "Forever Alone", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Forever Alone",
+      "shown": true,
+      "text": "orbital (2 dmg / tick)"
+   },
    "129": {
-      "health": "2", 
-      "name": "Bucket of Lard", 
-      "shown": true, 
-      "speed": "-0.2", 
+      "health": "2",
+      "name": "Bucket of Lard",
+      "shown": true,
+      "speed": "-0.2",
       "text": ""
-   }, 
+   },
    "130": {
-      "name": "A Pony", 
-      "shown": false, 
-      "text": "flying, min speed 1.5",
+      "name": "A Pony",
+      "shown": false,
+      "speed": "sets to 1.5",
+      "text": "flying, minimum speed 1.5",
       "space": true
-   }, 
+   },
    "131": {
-      "name": "Bomb Bag", 
-      "shown": true, 
-      "text": "drops a bomb every 2 rooms"
-   }, 
+      "name": "Bomb Bag",
+      "shown": true,
+      "text": "spawns a bomb every 2 rooms cleared"
+   },
    "132": {
-      "name": "A Lump of Coal", 
-      "shown": true, 
-      "text": "damage based on distance"
-   }, 
+      "name": "A Lump of Coal",
+      "shown": true,
+      "text": "+dmg based on distance travelled"
+   },
    "133": {
-      "name": "Guppy's Paw", 
-      "shown": true, 
-      "text": "turn 1 heart container to 3 soul hearts",
+      "name": "Guppy's Paw",
+      "shown": true,
+      "text": "-1 heart container and +3 soul hearts",
       "space": true
-   }, 
+   },
    "134": {
-      "name": "Guppy's Tail", 
-      "shown": true, 
-      "text": "spawn more gold chests"
-   }, 
+      "name": "Guppy's Tail",
+      "shown": true,
+      "text": "increased chance to find chests"
+   },
    "135": {
-      "name": "IV Bag", 
-      "shown": false, 
-      "text": "",
+      "name": "IV Bag",
+      "shown": false,
+      "text": "spawns coins and deals dmg to self",
       "space": true
-   }, 
+   },
    "136": {
-      "name": "Best Friend", 
-      "shown": false, 
-      "text": "110 dmg explosion"
-   }, 
+      "name": "Best Friend",
+      "shown": false,
+      "text": "spawns a decoy (110 dmg explosion)"
+   },
    "137": {
-      "name": "Remote Detonator", 
-      "shown": false, 
-      "text": "5 bombs",
+      "name": "Remote Detonator",
+      "shown": false,
+      "text": "+5 bombs, manually detonate bombs",
       "space": true
-   }, 
+   },
    "138": {
-      "dmg": "0.3", 
-      "health": "1", 
-      "name": "Stigmata", 
-      "shown": true, 
+      "dmg": "0.3",
+      "health": "1",
+      "name": "Stigmata",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "139": {
-      "name": "Mom's Purse", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Mom's Purse",
+      "shown": true,
+      "text": "can carry 2 trinkets instead of 1"
+   },
    "140": {
-      "name": "Bob's Curse", 
-      "shown": true, 
-      "text": "5 bombs"
-   }, 
+      "name": "Bob's Curse",
+      "shown": true,
+      "text": "+5 bombs, bombs deal poison dmg"
+   },
    "141": {
-      "name": "Pageant Boy", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Pageant Boy",
+      "shown": true,
+      "text": "spawns 7 coins"
+   },
    "142": {
-      "name": "Scapular", 
-      "shown": true, 
-      "text": "once per room, when you're hit to 1/2 red heart, gain a soul heart"
-   }, 
+      "name": "Scapular",
+      "shown": true,
+      "text": "+1 soul heart if hit to half a red heart (once per room)"
+   },
    "143": {
-      "name": "Speed Ball", 
-      "shotspeed": "0.2", 
-      "shown": true, 
-      "speed": "0.3", 
+      "name": "Speed Ball",
+      "shotspeed": "0.2",
+      "shown": true,
+      "speed": "0.3",
       "text": ""
-   }, 
+   },
    "144": {
-      "name": "Bum Friend", 
-      "shown": true, 
+      "name": "Bum Friend",
+      "shown": true,
       "text": "turns floor money into other pickups"
-   }, 
+   },
    "145": {
-      "name": "Guppy's Head", 
-      "shown": true, 
+      "name": "Guppy's Head",
+      "shown": true,
       "text": "spawn 2-4 blue flies",
       "space": true
-   }, 
+   },
    "146": {
-      "name": "Prayer Card", 
-      "shown": false, 
-      "text": "spawn eternal heart",
+      "name": "Prayer Card",
+      "shown": false,
+      "text": "gives an eternal heart",
       "space": true
-   }, 
+   },
    "147": {
-      "name": "Notched Axe", 
-      "shown": false, 
-      "text": "can break all the rocks and secret doors in the room",
+      "name": "Notched Axe",
+      "shown": false,
+      "text": "breaks rocks and secret doors",
       "space": true
-   }, 
+   },
    "148": {
-      "name": "Infestation", 
-      "shown": true, 
-      "text": "blue flies spawn when hit"
-   }, 
+      "name": "Infestation",
+      "shown": true,
+      "text": "spawns blue flies when hit"
+   },
    "149": {
-      "delay": "10", 
-      "delayx": "2", 
-      "height": "13", 
-      "name": "Ipecac", 
-      "shown": true, 
-      "text": "Explosive shots, +40 flat dmg"
-   }, 
+      "delay": "10",
+      "delayx": "2",
+      "height": "13",
+      "name": "Ipecac",
+      "shown": true,
+      "text": "explosive tears, +40 dmg"
+   },
    "150": {
-      "name": "Tough Love", 
-      "shown": true, 
-      "text": "teeth do x3.2 dmg, based on luck"
-   }, 
+      "name": "Tough Love",
+      "shown": true,
+      "text": "chance to fire teeth tears (current dmg x 3.2)"
+   },
    "151": {
-      "name": "The Mulligan", 
-      "shown": true, 
-      "text": "1/6 chance for blue fly on hit, effectively x1.33 damage"
-   }, 
+      "name": "The Mulligan",
+      "shown": true,
+      "text": "spawns blue flies (1/6 chance per tear hit)"
+   },
    "152": {
       "dmgx": "0.65",
-      "name": "Technology 2", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Technology 2",
+      "shown": true,
+      "text": "laser tears (piercing)"
+   },
    "153": {
       "delay": "3",
       "delayx" : "2.1",
-      "name": "Mutant Spider", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Mutant Spider",
+      "shown": true,
+      "text": "quad shot"
+   },
    "154": {
-      "name": "Chemical Peel", 
-      "shown": true, 
-      "text": "Every other shot +2 flat dmg"
-   }, 
+      "name": "Chemical Peel",
+      "shown": true,
+      "text": "+2 flat dmg every 2nd shot"
+   },
    "155": {
-      "name": "The Peeper", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "The Peeper",
+      "shown": true,
+      "text": "familiar (8 dmg / tick)"
+   },
    "156": {
-      "name": "Habit", 
-      "shown": true, 
-      "text": "recharge one tick of space charge when hit"
-   }, 
+      "name": "Habit",
+      "shown": true,
+      "text": "recharge 1 unit when hit"
+   },
    "157": {
-      "name": "Bloody Lust", 
-      "shown": true, 
-      "text": "more damage for the floor when you're hit, up to 6.5 dmg"
-   }, 
+      "name": "Bloody Lust",
+      "shown": true,
+      "text": "+dmg when hit (only for the current floor, max 6 hits)"
+   },
    "158": {
-      "name": "Crystal Ball", 
-      "shown": false, 
-      "text": "mapping plus card, rune, or soul heart",
+      "name": "Crystal Ball",
+      "shown": false,
+      "text": "reveals the floor and spawns a card / rune / soul heart",
       "space": true
-   }, 
+   },
    "159": {
-      "name": "Spirit of the Night", 
-      "shown": true, 
-      "text": "flight, spectral"
-   }, 
+      "name": "Spirit of the Night",
+      "shown": true,
+      "text": "flight, spectral tears"
+   },
    "160": {
-      "name": "Crack The Sky", 
-      "shown": false, 
-      "text": "each beam does 20 dmg",
+      "name": "Crack The Sky",
+      "shown": false,
+      "text": "create 5 beams (20 dmg)",
       "space": true
-   }, 
+   },
    "161": {
-      "name": "Ankh", 
-      "shown": true, 
-      "text": "respawn as blue baby"
-   }, 
+      "name": "Ankh",
+      "shown": true,
+      "text": "+1 life (will respawn as blue baby)"
+   },
    "162": {
-      "name": "Celtic Cross", 
-      "shown": true, 
-      "text": "shield when hit, based on luck"
-   }, 
+      "name": "Celtic Cross",
+      "shown": true,
+      "text": "chance to proc a temporary shield when hit"
+   },
    "163": {
-      "name": "Ghost Baby", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Ghost Baby",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear)"
+   },
    "164": {
-      "name": "The Candle", 
-      "shown": false, 
-      "text": "up to 184 dmg, usually around 115",
+      "name": "The Candle",
+      "shown": false,
+      "text": "shoots a flame (approx. 115 dmg)",
       "space": true
-   }, 
+   },
    "165": {
-      "dmg": "1", 
-      "name": "Cat-O-Nine-Tails", 
-      "shotspeed": "0.23", 
-      "shown": true, 
+      "dmg": "1",
+      "name": "Cat-O-Nine-Tails",
+      "shotspeed": "0.23",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "166": {
-      "name": "D20", 
-      "shown": false, 
-      "text": "",
+      "name": "D20",
+      "shown": false,
+      "text": "replaces pickups with new ones",
       "space": true
-   }, 
+   },
    "167": {
-      "name": "Harlequin Baby", 
-      "shown": true, 
-      "text": "each tear 4 dmg"
-   }, 
+      "name": "Harlequin Baby",
+      "shown": true,
+      "text": "familiar (4 dmg / tear)"
+   },
    "168": {
-      "name": "Epic Fetus", 
-      "shown": true, 
-      "text": "x20 damage "
-   }, 
+      "name": "Epic Fetus",
+      "shown": true,
+      "text": "replaces tears with missiles (current dmg x 20)"
+   },
    "169": {
-      "delay":"3",
-      "delayx":"2.1",
+      "delay": "3",
+      "delayx": "2.1",
       "dmg": "4",
       "dmgx": "2",
-      "name": "Polyphemus", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Polyphemus",
+      "shown": true,
+      "text": "pseudo-piercing tears"
+   },
    "170": {
       "name": "Daddy's Love",
-      "shown": true, 
-      "text": "40 dmg per stomp"
-   }, 
+      "shown": true,
+      "text": "familiar (40 dmg / stomp)"
+   },
    "171": {
-      "name": "Spider Butt", 
-      "shown": false, 
-      "text": "10 dmg to all enemies",
+      "name": "Spider Butt",
+      "shown": false,
+      "text": "temporarily slows enemies and deals 10 dmg",
       "space": true
-   }, 
+   },
    "172": {
-      "name": "Sacrificial Dagger", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Sacrificial Dagger",
+      "shown": true,
+      "text": "orbital (15 dmg / tick)"
+   },
    "173": {
-      "name": "Mitre", 
-      "shown": true, 
-      "text": "find more soul hearts"
-   }, 
+      "name": "Mitre",
+      "shown": true,
+      "text": "better chance of finding soul hearts"
+   },
    "174": {
-      "name": "Rainbow Baby", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Rainbow Baby",
+      "shown": true,
+      "text": "familiar (shoots random tears)"
+   },
    "175": {
-      "name": "Dad's Key", 
-      "shown": false, 
-      "text": "",
+      "name": "Dad's Key",
+      "shown": false,
+      "text": "opens all doors",
       "space": true
-   }, 
+   },
    "176": {
-      "health": "1", 
-      "name": "Stem Cells", 
-      "shotspeed": "0.16", 
-      "shown": false, 
+      "health": "1",
+      "name": "Stem Cells",
+      "shotspeed": "0.16",
+      "shown": false,
       "text": ""
-   }, 
+   },
    "177": {
-      "name": "Portable Slot", 
-      "shown": false, 
-      "text": "",
+      "name": "Portable Slot",
+      "shown": false,
+      "text": "acts like a slot machine",
       "space": true
-   }, 
+   },
    "178": {
-      "name": "Holy Water", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Holy Water",
+      "shown": true,
+      "text": "creates a pool when hit (8 dmg / tick)"
+   },
    "179": {
-      "name": "Fate", 
-      "shown": true, 
+      "name": "Fate",
+      "shown": true,
       "text": "flight, eternal heart"
-   }, 
+   },
    "180": {
-      "name": "The Black Bean", 
-      "shown": true, 
-      "text": "26 dmg"
-   }, 
+      "name": "The Black Bean",
+      "shown": true,
+      "text": "deals 26 dmg when hit"
+   },
    "181": {
-      "name": "White Pony", 
-      "shown": false, 
-      "speed": "Sets to 1.5", 
-      "text": "flying, min speed 1.5",
+      "name": "White Pony",
+      "shown": false,
+      "speed": "sets to 1.5",
+      "text": "flying, minimum speed 1.5",
       "space": true
-   }, 
+   },
    "182": {
       "dmgx": "2.3",
-      "height": "0.75", 
-      "name": "Sacred Heart", 
-      "range": "0.375", 
-      "shotspeed": "-0.25", 
-      "shown": true, 
-      "tears": "-0.4", 
+      "height": "0.75",
+      "name": "Sacred Heart",
+      "range": "0.375",
+      "shotspeed": "-0.25",
+      "shown": true,
+      "tears": "-0.4",
       "text": "+1 flat dmg, full heal"
-   }, 
+   },
    "183": {
-      "name": "Toothpicks", 
-      "shotspeed": "0.16", 
-      "shown": true, 
-      "tears": "0.7", 
+      "name": "Toothpicks",
+      "shotspeed": "0.16",
+      "shown": true,
+      "tears": "0.7",
       "text": ""
-   }, 
+   },
    "184": {
-      "health": "1", 
-      "name": "Holy Grail", 
-      "shown": true, 
+      "health": "1",
+      "name": "Holy Grail",
+      "shown": true,
       "text": "flight"
-   }, 
+   },
    "185": {
-      "name": "Dead Dove", 
-      "shown": true, 
-      "text": "flight, spectral"
-   }, 
+      "name": "Dead Dove",
+      "shown": true,
+      "text": "flight, spectral tears"
+   },
    "186": {
-      "name": "Blood Rights", 
-      "shown": false, 
-      "text": "40 dmg to all enemies",
+      "name": "Blood Rights",
+      "shown": false,
+      "text": "deals 1 heart dmg to self, deals 40 dmg to all enemies",
       "space": true
-   }, 
+   },
    "187": {
-      "name": "Guppy's Hairball", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Guppy's Hairball",
+      "shown": true,
+      "text": "familiar (3 dmg / tick)"
+   },
    "188": {
-      "name": "Abel", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Abel",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear)"
+   },
    "189": {
-      "dmg": "0.3", 
-      "health": "1", 
-      "height": "1", 
-      "name": "SMB Super Fan", 
-      "range": "0.5", 
-      "shown": true, 
-      "speed": "0.2", 
-      "tears": "0.2", 
+      "dmg": "0.3",
+      "health": "1",
+      "height": "1",
+      "name": "SMB Super Fan",
+      "range": "0.5",
+      "shown": true,
+      "speed": "0.2",
+      "tears": "0.2",
       "text": "full heal"
-   }, 
+   },
    "190": {
-      "name": "Pyro", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Pyro",
+      "shown": true,
+      "text": "+99 bombs"
+   },
    "191": {
-      "name": "3 Dollar Bill", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "3 Dollar Bill",
+      "shown": true,
+      "text": "random tear effects per room"
+   },
    "192": {
-      "name": "Telepathy for Dummies", 
-      "shown": false, 
-      "text": "",
+      "name": "Telepathy for Dummies",
+      "shown": false,
+      "text": "temporary homing tears",
       "space": true
-   }, 
+   },
    "193": {
-      "dmg": "0.3", 
-      "health": "1", 
-      "name": "Meat!", 
-      "shown": true, 
+      "dmg": "0.3",
+      "health": "1",
+      "name": "Meat!",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "194": {
-      "name": "Magic 8-Ball", 
-      "shotspeed": "0.16", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Magic 8-Ball",
+      "shotspeed": "0.16",
+      "shown": true,
+      "text": "spawns a random tarot card"
+   },
    "195": {
-      "name": "Mom's Coin Purse", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Mom's Coin Purse",
+      "shown": true,
+      "text": "spawns 4 random pills"
+   },
    "196": {
-      "name": "Mr. Squeezy", 
-      "shown": true, 
-      "tears": "0.4", 
-      "text": "2 Soul Hearts"
-   }, 
+      "name": "Mr. Squeezy",
+      "shown": true,
+      "tears": "0.4",
+      "text": "spawns 2 soul hearts"
+   },
    "197": {
-      "dmg": "0.5", 
-      "height": "0.5", 
-      "name": "Jesus Juice", 
-      "range": "0.25", 
-      "shown": true, 
+      "dmg": "0.5",
+      "height": "0.5",
+      "name": "Jesus Juice",
+      "range": "0.25",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "198": {
-      "name": "Box", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Box",
+      "shown": true,
+      "text": "spawns 1 coin, 1 key, 1 bomb, 1 heart, 1 card, 1 pill, and 1 trinket"
+   },
    "199": {
-      "name": "Mom's Key", 
-      "shown": true, 
-      "text": "2 keys, better chests"
-   }, 
+      "name": "Mom's Key",
+      "shown": true,
+      "text": "more pickups from chests, spawns 2 keys"
+   },
    "200": {
-      "name": "Mom's Eyeshadow", 
-      "shown": true, 
-      "text": "charm"
-   }, 
+      "name": "Mom's Eyeshadow",
+      "shown": true,
+      "text": "chance to shoot a charm tear"
+   },
    "201": {
-      "dmg": "0.3", 
-      "name": "Iron Bar", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "dmg": "0.3",
+      "name": "Iron Bar",
+      "shown": true,
+      "text": "chance to shoot a confusion tear"
+   },
    "202": {
-      "name": "Midas Touch", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Midas Touch",
+      "shown": true,
+      "text": "contact dmg equal to number of coins held"
+   },
    "203": {
-      "name": "Humbleing Bundle", 
-      "shown": true, 
-      "text": "doubles penny, key, bomb, heart pickups"
-   }, 
+      "name": "Humbleing Bundle",
+      "shown": true,
+      "text": "doubles penny, key, bomb, and heart pickups"
+   },
    "204": {
-      "name": "Fanny pack", 
-      "shown": true, 
-      "text": "can drop coin, bomb, or key when hit"
-   }, 
+      "name": "Fanny Pack",
+      "shown": true,
+      "text": "chance to spawn a coin, bomb, or key when hit"
+   },
    "205": {
-      "name": "Sharp plug", 
-      "shown": true, 
-      "text": "pay 2 health to recharge space item (only when at 0 charge)"
-   }, 
+      "name": "Sharp Plug",
+      "shown": true,
+      "text": "deals 2 heart dmg to self, fully recharges item (only when at 0 charge)"
+   },
    "206": {
-      "dmg": "1", 
-      "name": "The Guillotine", 
-      "shown": true, 
+      "dmg": "1",
+      "name": "The Guillotine",
+      "shown": true,
       "delay": "-1",
-      "text": "detached head"
-   }, 
+      "text": "orbital (7 dmg / tick)"
+   },
    "207": {
-      "name": "Ball of Bandages", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Ball of Bandages",
+      "shown": true,
+      "text": "orbital (7 dmg / tick)"
+   },
    "208": {
-      "dmg": "1", 
-      "name": "Champion Belt", 
-      "shown": true, 
-      "text": "more champion enemies"
-   }, 
+      "dmg": "1",
+      "name": "Champion Belt",
+      "shown": true,
+      "text": "greater chance of champion enemies"
+   },
    "209": {
-      "name": "Butt Bombs", 
-      "shown": true, 
-      "text": "5 bombs, 10 dmg to all enemies"
-   }, 
+      "name": "Butt Bombs",
+      "shown": true,
+      "text": "+5 bombs, bombs temporarily confuse all enemies, bombs deal 10 dmg to all enemies"
+   },
    "210": {
-      "name": "Gnawed Leaf", 
-      "shown": true, 
+      "name": "Gnawed Leaf",
+      "shown": true,
       "text": "turn invincible by standing still"
-   }, 
+   },
    "211": {
-      "name": "Spiderbaby", 
-      "shown": true, 
+      "name": "Spiderbaby",
+      "shown": true,
       "text": "spawn blue spiders when hit"
-   }, 
+   },
    "212": {
-      "name": "Guppy's Collar", 
-      "shown": true, 
+      "name": "Guppy's Collar",
+      "shown": true,
       "text": "50% chance to respawn"
-   }, 
+   },
    "213": {
-      "name": "Lost Contact", 
+      "name": "Lost Contact",
       "shown": true,
       "shotspeed": "-0.15",
       "text": "tears can hit enemy tears"
-   }, 
+   },
    "214": {
-      "name": "Anemic", 
-      "range": "5", 
-      "shown": true, 
-      "text": "blood creep when hit"
-   }, 
+      "name": "Anemic",
+      "range": "5",
+      "shown": true,
+      "text": "makes a trail of creep when hit"
+   },
    "215": {
-      "name": "Goat Head", 
-      "shown": true, 
-      "text": "guaranteed devil/angel rooms that stay open"
-   }, 
+      "name": "Goat Head",
+      "shown": true,
+      "text": "devil/angel rooms are always open"
+   },
    "216": {
-      "dmg": "1", 
-      "name": "Ceremonial Robes", 
+      "dmg": "1",
+      "name": "Ceremonial Robes",
       "shown": true,
       "sinhearts": "3",
       "text": ""
-   }, 
+   },
    "217": {
-      "name": "Mom's Wig", 
-      "shown": true, 
-      "text": "shooting spawns spiders based on luck"
-   }, 
+      "name": "Mom's Wig",
+      "shown": true,
+      "text": "chance to spawn a blue spider when shooting"
+   },
    "218": {
-      "health": "1", 
-      "name": "Placenta", 
-      "shown": true, 
-      "text": "regen health"
-   }, 
+      "health": "1",
+      "name": "Placenta",
+      "shown": true,
+      "text": "chance to heal half a heart every minute"
+   },
    "219": {
       "health": "1",
-      "name": "Old Bandage", 
-      "shown": true, 
-      "text": "red hearts can drop on hit"
-   }, 
+      "name": "Old Bandage",
+      "shown": true,
+      "text": "chance to drop a red heart on hit"
+   },
    "220": {
-      "name": "Sad Bombs", 
-      "shown": true, 
-      "text": "5 bombs, bombs shoot out 8 tears"
-   }, 
+      "name": "Sad Bombs",
+      "shown": true,
+      "text": "+5 bombs, bombs shoot out 8 tears"
+   },
    "221": {
-      "name": "Rubber Cement", 
-      "shown": true, 
-      "text": "can hit the same enemy multiple times"
-   }, 
+      "name": "Rubber Cement",
+      "shown": true,
+      "text": "bouncy tears"
+   },
    "222": {
-      "name": "Anti-Gravity", 
-      "shown": true, 
+      "name": "Anti-Gravity",
+      "shown": true,
       "delay": "-2",
       "text": "hovering tears"
-   }, 
+   },
    "223": {
-      "name": "Pyromaniac", 
-      "shown": true, 
-      "text": "5 bombs, explosions heal"
-   }, 
+      "name": "Pyromaniac",
+      "shown": true,
+      "text": "+5 bombs, explosions heal 1 red heart"
+   },
    "224": {
-      "name": "Cricket's Body", 
-      "range": "-10", 
-      "shown": true, 
+      "name": "Cricket's Body",
+      "range": "-10",
+      "shown": true,
       "delay": "-1",
-      "text": "split shots deal 1/2 damage"
-   }, 
+      "text": "tears split into 4 (dealing current dmg / 2)"
+   },
    "225": {
-      "name": "Gimpy", 
-      "shown": true, 
-      "text": "chance to drop soul or sin hearts on hit, dead enemies can drop half a red heart"
-   }, 
+      "name": "Gimpy",
+      "shown": true,
+      "text": "chance to spawn soul/black hearts on hit, chance for enemies to drop half a red heart"
+   },
    "226": {
       "name": "Black Lotus",
       "health": "1",
       "soulhearts": "1",
       "sinhearts": "1",
-      "shown": false, 
+      "shown": false,
       "text": ""
-   }, 
+   },
    "227": {
-      "name": "Piggy Bank", 
-      "shown": true, 
-      "text": "3 coins, when hit gain 1-2 coins"
-   }, 
+      "name": "Piggy Bank",
+      "shown": true,
+      "text": "+3 coins, 1-2 coins spawn on hit"
+   },
    "228": {
-      "name": "Mom's Perfume", 
-      "shown": true, 
+      "name": "Mom's Perfume",
+      "shown": true,
       "delay": "-1",
-      "text": "fear"
-   }, 
+      "text": "chance for tears to fear"
+   },
    "229": {
-      "name": "Monstro's Lung", 
-      "shown": true, 
+      "name": "Monstro's Lung",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "230": {
       "sinhearts": "6",
-      "dmg": "1.5", 
-      "name": "Abaddon", 
-      "shown": true, 
-      "speed": "0.2", 
-      "text": "lose red hearts, fear"
-   }, 
+      "dmg": "1.5",
+      "name": "Abaddon",
+      "shown": true,
+      "speed": "0.2",
+      "text": "lose red hearts, chance for tears to fear"
+   },
    "231": {
-      "name": "Ball of Tar", 
-      "shown": true, 
-      "text": "tears can slow enemies"
-   }, 
+      "name": "Ball of Tar",
+      "shown": true,
+      "text": "chance to shoot slowing tears, makes a trail of slowing creep"
+   },
    "232": {
-      "name": "Stop Watch", 
-      "shown": true, 
+      "name": "Stop Watch",
+      "shown": true,
+      "speed": "0.3",
       "text": "slows enemies"
-   }, 
+   },
    "233": {
-      "height": "7", 
-      "name": "Tiny Planet", 
-      "shown": true, 
+      "height": "7",
+      "name": "Tiny Planet",
+      "shown": true,
       "text": "orbiting tears"
-   }, 
+   },
    "234": {
-      "name": "Infestation 2", 
-      "shown": true, 
-      "text": "dead enemies become spiders"
-   }, 
+      "name": "Infestation 2",
+      "shown": true,
+      "text": "spawns a blue spider on enemy death"
+   },
    "236": {
-      "name": "E. Coli", 
-      "shown": true, 
+      "name": "E. Coli",
+      "shown": true,
       "text": "enemies turn to poop on touch"
-   }, 
+   },
    "237": {
-      "dmg": "1.5", 
-      "name": "Death's Touch", 
-      "shown": true, 
-      "tears": "-0.3", 
-      "text": "piercing"
-   }, 
+      "dmg": "1.5",
+      "name": "Death's Touch",
+      "shown": true,
+      "tears": "-0.3",
+      "text": "scythe tears (piercing)"
+   },
    "238": {
-      "name": "Key Piece #1", 
-      "shown": true, 
-      "text": "both key pieces together unlocks mega satan"
-   }, 
+      "name": "Key Piece #1",
+      "shown": true,
+      "text": "both key pieces together unlock the door to mega satan"
+   },
    "239": {
-      "name": "Key Piece #2", 
-      "shown": true, 
-      "text": "both key pieces together unlocks mega satan"
-   }, 
+      "name": "Key Piece #2",
+      "shown": true,
+      "text": "both key pieces together unlock the door to mega satan"
+   },
    "240": {
-      "name": "Experimental Treatment", 
-      "shown": true, 
+      "name": "Experimental Treatment",
+      "shown": true,
       "speed": "",
-      "text": "Changes stats randomly up or down"
-   }, 
+      "text": "randomly increases or decreases stats"
+   },
    "241": {
-      "name": "Contract From Below", 
-      "shown": true, 
-      "text": "doubles pickups, get more double boss fights"
-   }, 
+      "name": "Contract From Below",
+      "shown": true,
+      "text": "doubles pickups, increased chance of double boss fights"
+   },
    "242": {
-      "name": "Infamy", 
-      "shown": true, 
-      "text": "randomly blocks shots, facing doesn't matter"
-   }, 
+      "name": "Infamy",
+      "shown": true,
+      "text": "chance to block a projectile (from any direction)"
+   },
    "243": {
-      "name": "Trinity Shield", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Trinity Shield",
+      "shown": true,
+      "text": "blocks all projectiles from the front"
+   },
    "244": {
-      "name": "Tech.5", 
-      "shown": true, 
-      "text": "laser scales with dmg stat and ignores tears stat"
-   }, 
+      "name": "Tech.5",
+      "shown": true,
+      "text": "chance to fire an additional laser (scales with dmg, not affected by tear rate)"
+   },
    "245": {
-      "name": "20/20", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "20/20",
+      "shown": true,
+      "text": "double shot"
+   },
    "246": {
-      "name": "Blue Map", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Blue Map",
+      "shown": true,
+      "text": "reveals secret and super secret rooms"
+   },
    "247": {
-      "name": "BFFS!", 
-      "shown": true, 
-      "text": "x2 damage for familiars"
-   }, 
+      "name": "BFFS!",
+      "shown": true,
+      "text": "familiars do 2x dmg"
+   },
    "248": {
-      "name": "Hive Mind", 
-      "shown": true, 
-      "text": "x2 dmg for spiders and flies"
-   }, 
+      "name": "Hive Mind",
+      "shown": true,
+      "text": "blue spiders and flies do 2x dmg"
+   },
    "249": {
-      "name": "There's Options", 
-      "shown": true, 
-      "text": "2 items after each boss"
-   }, 
+      "name": "There's Options",
+      "shown": true,
+      "text": "choice of 2 items after each boss"
+   },
    "250": {
-      "name": "Bogo Bombs", 
-      "shown": true, 
+      "name": "Bogo Bombs",
+      "shown": true,
       "text": "bomb pickups become 2 bombs"
-   }, 
+   },
    "251": {
-      "name": "Starter Deck", 
-      "shown": true, 
+      "name": "Starter Deck",
+      "shown": true,
       "text": "pills become cards"
-   }, 
+   },
    "252": {
-      "name": "Little Baggy", 
-      "shown": true, 
+      "name": "Little Baggy",
+      "shown": true,
       "text": "cards become pills"
-   }, 
+   },
    "253": {
-      "health": "1", 
-      "luck": "1", 
-      "name": "Magic Scab", 
-      "shown": true, 
+      "health": "1",
+      "luck": "1",
+      "name": "Magic Scab",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "254": {
-      "name": "Blood Clot", 
-      "shown": true, 
-      "text": "Every other shot: +1 flat dmg, +5 range"
-   }, 
+      "name": "Blood Clot",
+      "shown": true,
+      "text": "+1 flat dmg every 2nd shot, +5 range"
+   },
    "255": {
-      "name": "Screw", 
-      "shotspeed": "0.2", 
-      "shown": true, 
-      "tears": "0.5", 
+      "name": "Screw",
+      "shotspeed": "0.2",
+      "shown": true,
+      "tears": "0.5",
       "text": ""
-   }, 
+   },
    "256": {
-      "name": "Hot Bombs", 
-      "shown": true, 
-      "text": "5 bombs, leaves fires that deal 22 dmg"
-   }, 
+      "name": "Hot Bombs",
+      "shown": true,
+      "text": "5 bombs, leaves fires (22 dmg / tick)"
+   },
    "257": {
-      "name": "Fire Mind", 
-      "shown": true, 
-      "text": "burns enemies, exploding tears for x2 dmg + 22"
-   }, 
+      "name": "Fire Mind",
+      "shown": true,
+      "text": "burns enemies, chance to shoot exploding tears (current dmg x 2 + 22)"
+   },
    "258": {
-      "name": "Missing No.", 
-      "shown": true, 
-      "text": "rerolls items every floor"
-   }, 
+      "name": "Missing No.",
+      "shown": true,
+      "text": "randomly replaces collected items on pickup and on the start of every floor"
+   },
    "259": {
-      "dmg": "1", 
-      "name": "Dark Matter", 
-      "shown": true, 
-      "text": "fear"
-   }, 
+      "dmg": "1",
+      "name": "Dark Matter",
+      "shown": true,
+      "text": "chance for tears to fear"
+   },
    "260": {
-      "name": "Black Candle", 
+      "name": "Black Candle",
       "shown": true,
       "sinhearts": "1",
-      "text": "no floor curses, more devil deals"
-   }, 
+      "text": "no floor curses, +25% devil deal chance"
+   },
    "261": {
-      "name": "Proptosis", 
-      "shown": true, 
-      "text": "between x2 and x1.3 dmg"
-   }, 
+      "name": "Proptosis",
+      "shown": true,
+      "text": "between x2 and x1.3 dmg based on range"
+   },
    "262": {
-      "name": "Missing Page 2", 
+      "name": "Missing Page 2",
       "shown": true,
       "sinhearts": "1",
-      "text": "if below 1.5 total hp, deals 40 dmg to enemies on hit"
-   }, 
+      "text": "deals 40 dmg to enemies on hit if 1 heart or lower"
+   },
    "264": {
-      "name": "Smart Fly", 
-      "shown": true, 
-      "text": "chases enemies after you get hit"
-   }, 
+      "name": "Smart Fly",
+      "shown": true,
+      "text": "spawns a fly familiar when hit (1.5 dmg / tick)"
+   },
    "265": {
-      "name": "Dry Baby", 
-      "shown": true, 
-      "text": "blocks projectiles, hits all enemies for 40 dmg"
-   }, 
+      "name": "Dry Baby",
+      "shown": true,
+      "text": "blocks projectiles, chance to deal 40 dmg to the room on block"
+   },
    "266": {
-      "name": "Juicy Sack", 
-      "shown": true, 
-      "text": "blue spiders"
-   }, 
+      "name": "Juicy Sack",
+      "shown": true,
+      "text": "spawns blue spiders, makes a trail of slowing creep"
+   },
    "267": {
-      "name": "Robo-Baby 2.0", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Robo-Baby 2.0",
+      "shown": true,
+      "text": "familiar (3.5 dmg / laser)"
+   },
    "268": {
-      "name": "Rotten Baby", 
-      "shown": true, 
-      "text": "shoots flies"
-   }, 
+      "name": "Rotten Baby",
+      "shown": true,
+      "text": "familiar (shoots blue flies)"
+   },
    "269": {
-      "name": "Headless Baby", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Headless Baby",
+      "shown": true,
+      "text": "makes a trail of creep"
+   },
    "270": {
-      "name": "Leech", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Leech",
+      "shown": true,
+      "text": "familiar (1.5 dmg / tick)"
+   },
    "271": {
-      "name": "Mystery Sack", 
-      "shown": true, 
-      "text": "drops hearts, coins, bombs, keys"
-   }, 
+      "name": "Mystery Sack",
+      "shown": true,
+      "text": "drops hearts, coins, bombs, or keys"
+   },
    "272": {
-      "name": "BBF", 
-      "shown": true, 
-      "text": "~70 dmg explosion"
-   }, 
+      "name": "BBF",
+      "shown": true,
+      "text": "familiar (70 dmg explosion)"
+   },
    "273": {
-      "name": "Bob's Brain", 
-      "shown": true, 
-      "text": "~70 dmg explosion"
-   }, 
+      "name": "Bob's Brain",
+      "shown": true,
+      "text": "familiar (approx. 69 dmg explosion)"
+   },
    "274": {
-      "name": "Best Bud", 
-      "shown": true, 
-      "text": "taking damage spawns attack fly"
-   }, 
+      "name": "Best Bud",
+      "shown": true,
+      "text": "spawns a fly orbital when hit (5 dmg / tick)"
+   },
    "275": {
-      "name": "Lil' Brimstone", 
-      "shown": true, 
-      "text": "31.5 dmg per shot"
-   }, 
+      "name": "Lil' Brimstone",
+      "shown": true,
+      "text": "familiar (31.5 dmg / blood laser)"
+   },
    "276": {
-      "name": "Isaac's Heart", 
-      "shown": true, 
-      "text": "you are invincible, heart takes damage"
-   }, 
+      "name": "Isaac's Heart",
+      "shown": true,
+      "text": "invincibility (but heart familiar takes dmg)"
+   },
    "277": {
-      "name": "Lil' Haunt", 
-      "shown": true, 
-      "text": "chases enemies, fear effect"
-   }, 
+      "name": "Lil' Haunt",
+      "shown": true,
+      "text": "familiar (chance to fear, 2 dmg / tick)"
+   },
    "278": {
-      "name": "Dark Bum", 
-      "shown": true, 
-      "text": "turns 1.5 red heart pickups to a soul heart or spider"
-   }, 
+      "name": "Dark Bum",
+      "shown": true,
+      "text": "converts 1.5 red heart pickups to a soul heart or spider"
+   },
    "279": {
-      "name": "Big Fan", 
-      "shown": true, 
-      "text": "slow orbitals"
-   }, 
+      "name": "Big Fan",
+      "shown": true,
+      "text": "orbital (2 dmg / tick)"
+   },
    "280": {
-      "name": "Sissy Long Legs", 
-      "shown": true, 
-      "text": "makes blue spiders"
-   }, 
+      "name": "Sissy Long Legs",
+      "shown": true,
+      "text": "spawns blue spiders"
+   },
    "281": {
-      "name": "Punching Bag", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Punching Bag",
+      "shown": true,
+      "text": "familiar (decoy)"
+   },
    "282": {
-      "name": "How To Jump", 
-      "shown": false, 
-      "text": "",
+      "name": "How To Jump",
+      "shown": false,
+      "text": "can jump over obstacles",
       "space": true
-   }, 
+   },
    "283": {
-      "name": "D100", 
-      "shown": false, 
-      "text": "rerolls current items and items+pickups in the room",
+      "name": "D100",
+      "shown": false,
+      "text": "does the combined effects of the D4, D6, and D20",
       "space": true
-   }, 
+   },
    "284": {
-      "name": "D4", 
-      "shown": false, 
-      "text": "rerolls current items",
+      "name": "D4",
+      "shown": false,
+      "text": "randomly replaces collected items",
       "space": true
-   }, 
+   },
    "285": {
-      "name": "D10", 
-      "shown": false, 
-      "text": "",
+      "name": "D10",
+      "shown": false,
+      "text": "replaces enemies with different random enemies",
       "space": true
-   }, 
+   },
    "286": {
-      "name": "Blank Card", 
-      "shown": false, 
-      "text": "works on runes and cards",
+      "name": "Blank Card",
+      "shown": false,
+      "text": "mimics the effect of the currently held card or rune",
       "space": true
-   }, 
+   },
    "287": {
-      "name": "Book of Secrets", 
-      "shown": false, 
+      "name": "Book of Secrets",
+      "shown": false,
       "text": "randomly get map, compass, or blue map for the floor",
       "space": true
-   }, 
+   },
    "288": {
-      "name": "Box of Spiders", 
-      "shown": false, 
-      "text": "make 2-4 blue spiders",
+      "name": "Box of Spiders",
+      "shown": false,
+      "text": "spawns 2-4 blue spiders",
       "space": true
-   }, 
+   },
    "289": {
-      "name": "Red Candle", 
-      "shown": false, 
-      "text": "each flame is 125 damage",
+      "name": "Red Candle",
+      "shown": false,
+      "text": "shoots a flame (approx. 78 dmg)",
       "space": true
-   }, 
+   },
    "290": {
-      "name": "The Jar", 
-      "shown": false, 
-      "text": "",
+      "name": "The Jar",
+      "shown": false,
+      "text": "stores red hearts for later",
       "space": true
-   }, 
+   },
    "291": {
-      "name": "FLUSH!", 
-      "shown": false, 
+      "name": "FLUSH!",
+      "shown": false,
       "text": "non-boss enemies turn to poop",
       "space": true
-   }, 
+   },
    "292": {
-      "name": "The Satanic Bible", 
-      "shown": false, 
-      "text": "get a sin heart",
-      "space": true
-   }, 
-   "293": {
-      "name": "Head of Krampus", 
-      "shown": false, 
-      "text": "4 beams, up to 462 dmg each",
-      "space": true
-   }, 
-   "294": {
-      "name": "Butter Bean", 
-      "shown": false, 
-      "text": "",
-      "space": true
-   }, 
-   "295": {
-      "name": "Magic Fingers", 
-      "shown": false, 
-      "text": "spend coins to deal x2 tear damage to all enemies",
-      "space": true
-   }, 
-   "296": {
-      "name": "Converter", 
-      "shown": false, 
-      "text": "2 soul or sin hearts turn into 1 red heart",
-      "space": true
-   }, 
-   "297": {
-      "name": "Pandora's Box", 
+      "name": "The Satanic Bible",
       "shown": false,
-      "text": "B1 2soul, B2 2bomb + 2key, C1 boss, C2 boss + 2soul, D1 4soul, D2 20coin, W1 2boss, W2 bible, sheol devil+sin, cath angel+white, DR coin, chest coin",
+      "text": "+1 black heart",
       "space": true
-   }, 
+   },
+   "293": {
+      "name": "Head of Krampus",
+      "shown": false,
+      "text": "create 4 blood lasers (approx. 451 dmg / laser)",
+      "space": true
+   },
+   "294": {
+      "name": "Butter Bean",
+      "shown": false,
+      "text": "knockback enemies",
+      "space": true
+   },
+   "295": {
+      "name": "Magic Fingers",
+      "shown": false,
+      "text": "deals current dmg x 2 to the room, takes 1 coin per use",
+      "space": true
+   },
+   "296": {
+      "name": "Converter",
+      "shown": false,
+      "text": "+1 heart container, -2 soul/black hearts",
+      "space": true
+   },
+   "297": {
+      "name": "Pandora's Box",
+      "shown": false,
+      "text": "spawns a reward based on the floor",
+      "space": true
+   },
    "298": {
-      "name": "Unicorn Stump", 
-      "shown": false, 
-      "text": "invincibility",
+      "name": "Unicorn Stump",
+      "shown": false,
+      "text": "temporary invincibility",
       "space": true
-   }, 
+   },
    "299": {
-      "name": "Taurus", 
-      "shown": true, 
-      "speed": "-0.3", 
+      "name": "Taurus",
+      "shown": true,
+      "speed": "-0.3",
       "text": "speed increases until you unicorn"
-   }, 
+   },
    "300": {
-      "name": "Aries", 
-      "shown": true, 
-      "speed": "0.25", 
-      "text": "18 contact damage if moving fast enough"
-   }, 
+      "name": "Aries",
+      "shown": true,
+      "speed": "0.25",
+      "text": "18 contact dmg if moving fast enough"
+   },
    "301": {
-      "name": "Cancer", 
+      "name": "Cancer",
       "shown": true,
       "soulhearts" : "3",
-      "text": "damage reduction after getting hit in a room"
-   }, 
+      "text": "all dmg reduced to half a heart (after getting hit once per room)"
+   },
    "302": {
-      "name": "Leo", 
-      "shown": true, 
+      "name": "Leo",
+      "shown": true,
       "text": "crush rocks"
-   }, 
+   },
    "303": {
-      "name": "Virgo", 
-      "shown": true, 
-      "text": "shield effect sometimes when hit, bad pills become good"
-   }, 
+      "name": "Virgo",
+      "shown": true,
+      "text": "chance to proc a temporary shield when hit, bad stat pills become good"
+   },
    "304": {
-      "name": "Libra", 
-      "shown": true, 
-      "text": "evens out stats, 6 bombs, 6 keys, 6 coins"
-   }, 
+      "name": "Libra",
+      "shown": true,
+      "text": "evens out stats, +6 bombs, +6 keys, +6 coins"
+   },
    "305": {
-      "name": "Scorpio", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Scorpio",
+      "shown": true,
+      "text": "chance to shoot a poison tear"
+   },
    "306": {
-      "name": "Sagittarius", 
-      "shown": true, 
-      "speed": "0.2", 
-      "text": "piercing"
-   }, 
+      "name": "Sagittarius",
+      "shown": true,
+      "speed": "0.2",
+      "text": "piercing tears"
+   },
    "307": {
-      "dmg": "0.5", 
-      "health": "1", 
-      "name": "Capricorn", 
-      "range": "1.5", 
-      "shown": true, 
-      "speed": "0.1", 
+      "dmg": "0.5",
+      "health": "1",
+      "name": "Capricorn",
+      "range": "1.5",
+      "shown": true,
+      "speed": "0.1",
       "delay": "-1",
-      "text": "1 coin, 1 bomb, 1 key"
-   }, 
+      "text": "+1 coin, +1 bomb, +1 key"
+   },
    "308": {
-      "name": "Aquarius", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Aquarius",
+      "shown": true,
+      "text": "makes a trail of creep"
+   },
    "309": {
-      "name": "Pisces", 
-      "shown": true, 
+      "name": "Pisces",
+      "shown": true,
       "delay": "-1",
-      "text": ""
-   }, 
+      "text": "knockback tears"
+   },
    "310": {
-      "delayx": "2", 
-      "dmgx": "2", 
-      "name": "Eve's Mascara", 
-      "shotspeed": "-0.5", 
-      "shown": true, 
+      "delayx": "2",
+      "dmgx": "2",
+      "name": "Eve's Mascara",
+      "shotspeed": "-0.5",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "311": {
-      "name": "Judas' Shadow", 
-      "shown": true, 
-      "text": "double damage after reviving"
-   }, 
+      "name": "Judas' Shadow",
+      "shown": true,
+      "text": "+1 life (will respawn as black judas)"
+   },
    "312": {
-      "health": "1", 
-      "name": "Maggy's Bow", 
-      "shown": true, 
-      "text": "red heart pickups count double"
-   }, 
+      "health": "1",
+      "name": "Maggy's Bow",
+      "shown": true,
+      "text": "red heart pickups count for double"
+   },
    "313": {
-      "name": "Holy Mantle", 
-      "shown": true, 
+      "name": "Holy Mantle",
+      "shown": true,
       "text": "1-hit shield for every room"
-   }, 
+   },
    "314": {
-      "health": "1", 
-      "name": "Thunder Thighs", 
-      "shown": true, 
-      "speed": "-0.4", 
+      "health": "1",
+      "name": "Thunder Thighs",
+      "shown": true,
+      "speed": "-0.4",
       "text": "crush rocks"
-   }, 
+   },
    "315": {
-      "name": "Strange Attractor", 
-      "shown": true, 
+      "name": "Strange Attractor",
+      "shown": true,
       "text": "tears attract enemies and pickups"
-   }, 
+   },
    "316": {
-      "name": "Cursed Eye", 
-      "shown": true, 
-      "text": "teleport if you're hit during first 1s of charge-up"
-   }, 
+      "name": "Cursed Eye",
+      "shown": true,
+      "text": "charge shots, random teleport if hit during the first second of charging"
+   },
    "317": {
-      "name": "Mysterious Liquid", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Mysterious Liquid",
+      "shown": true,
+      "text": "tears generate creep"
+   },
    "318": {
-      "name": "Gemini", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "Gemini",
+      "shown": true,
+      "text": "familiar (3 dmg / tick)"
+   },
    "319": {
-      "name": "Cain's Other Eye", 
-      "shown": true, 
-      "text": "3.5 dmg"
-   }, 
+      "name": "Cain's Other Eye",
+      "shown": true,
+      "text": "familiar (3.5 dmg / tear)"
+   },
    "320": {
-      "name": "???'s Only Friend", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "name": "???'s Only Friend",
+      "shown": true,
+      "text": "familiar (2.5 dmg / tick)"
+   },
    "321": {
-      "name": "Samson's Chains", 
-      "shown": true, 
-      "text": "ball does damage and breaks things"
-   }, 
+      "name": "Samson's Chains",
+      "shown": true,
+      "text": "familiar (5 dmg / tick, crushes rocks)"
+   },
    "322": {
-      "name": "Mongo Baby", 
-      "shown": true, 
-      "text": "copies other familiars or 3.5 dmg"
-   }, 
+      "name": "Mongo Baby",
+      "shown": true,
+      "text": "familiar (copies other familiars or 3.5 dmg / tear)"
+   },
    "323": {
-      "name": "Isaac's Tears", 
-      "shown": false, 
-      "text": "fires 8 tears, charges from shooting",
+      "name": "Isaac's Tears",
+      "shown": false,
+      "text": "fires 8 tears",
       "space": true
-   }, 
+   },
    "324": {
-      "name": "Undefined", 
-      "shown": false, 
-      "text": "teleport to item, secret, super secret, error, or black market",
+      "name": "Undefined",
+      "shown": false,
+      "text": "randomly teleport to item / secret / super secret / i am error room",
       "space": true
-   }, 
+   },
    "325": {
-      "name": "Scissors", 
-      "shown": false, 
-      "text": "cut off head, head keeps shooting",
+      "name": "Scissors",
+      "shown": false,
+      "text": "spawns a shooting head familiar",
       "space": true
-   }, 
+   },
    "326": {
-      "name": "Breath of Life", 
-      "shown": false, 
+      "name": "Breath of Life",
+      "shown": false,
       "text": "invincibility when charge bar hits zero",
       "space": true
-   }, 
+   },
    "327": {
-      "name": "The Polaroid", 
-      "shown": true, 
-      "text": "shield when hit at 1/2 heart, enter chest"
-   }, 
+      "name": "The Polaroid",
+      "shown": true,
+      "text": "temporary shield when hit at 1/2 heart, can enter the chest"
+   },
    "328": {
-      "name": "The Negative", 
-      "shown": true, 
-      "text": "damage enemies when hit at 1/2 heart, enter dark room"
-   }, 
+      "name": "The Negative",
+      "shown": true,
+      "text": "damage enemies when hit at 1/2 heart, can enter the dark room"
+   },
    "329": {
-      "name": "The Ludovico Technique", 
-      "shown": true, 
+      "name": "The Ludovico Technique",
+      "shown": true,
       "text": "remote control tears"
-   }, 
+   },
    "330": {
       "delay": "-2",
       "delayx": ".25",
       "dmgx": "0.2",
-      "name": "Soy Milk", 
-      "shown": true, 
+      "name": "Soy Milk",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "331": {
-      "dmg": "0.5", 
-      "height": "0.8", 
-      "name": "Godhead", 
-      "range": "1.2", 
-      "shotspeed": "-0.3", 
-      "shown": true, 
-      "tears": "-0.3", 
-      "text": "tear aura"
-   }, 
+      "dmg": "0.5",
+      "height": "0.8",
+      "name": "Godhead",
+      "range": "1.2",
+      "shotspeed": "-0.3",
+      "shown": true,
+      "tears": "-0.3",
+      "text": "damaging aura tears"
+   },
    "332": {
-      "name": "Lazarus' Rags", 
-      "shown": true, 
-      "text": "extra life, become lazarus 2"
-   }, 
+      "name": "Lazarus' Rags",
+      "shown": true,
+      "text": "+1 life (will respawn as revived lazarus)"
+   },
    "333": {
-      "name": "The Mind", 
-      "shown": true, 
-      "text": "full mapping"
-   }, 
+      "name": "The Mind",
+      "shown": true,
+      "text": "combined effects of treasure map, compass, and blue map"
+   },
    "334": {
-      "health": "3", 
-      "name": "The Body", 
-      "shown": true, 
-      "text": ""
-   }, 
+      "health": "3",
+      "name": "The Body",
+      "shown": true,
+      "text": "+3 heart containers"
+   },
    "335": {
-      "name": "The Soul", 
+      "name": "The Soul",
       "shown": true,
       "soulhearts": "2",
-      "text": "tear repulsion"
-   }, 
+      "text": "projectiles are repulsed"
+   },
    "336": {
-      "height": "-0.5", 
-      "name": "Dead Onion", 
-      "range": "0.25", 
-      "shotspeed": "-0.4", 
-      "shown": true, 
-      "text": "piercing"
-   }, 
+      "height": "-0.5",
+      "name": "Dead Onion",
+      "range": "0.25",
+      "shotspeed": "-0.4",
+      "shown": true,
+      "text": "piercing and spectral tears"
+   },
    "337": {
-      "name": "Broken Watch", 
-      "shown": true, 
-      "text": "slows or speeds enemies"
-   }, 
+      "name": "Broken Watch",
+      "shown": true,
+      "text": "chance to slow (or speed up) enemies"
+   },
    "338": {
-      "name": "Boomerang", 
-      "shown": false, 
-      "text": "deals 2x your damage",
+      "name": "Boomerang",
+      "shown": false,
+      "text": "deals current dmg x 2",
       "space": true
-   }, 
+   },
    "339": {
-      "height": "0.5", 
-      "name": "Safety Pin", 
-      "range": "5.25", 
-      "shotspeed": "0.16", 
+      "height": "0.5",
+      "name": "Safety Pin",
+      "range": "5.25",
+      "shotspeed": "0.16",
       "shown": true,
       "sinhearts": "1",
       "text": ""
-   }, 
+   },
    "340": {
-      "name": "Caffeine Pill", 
-      "shown": true, 
-      "speed": "0.3", 
+      "name": "Caffeine Pill",
+      "shown": true,
+      "speed": "0.3",
       "text": "size down, free pill"
-   }, 
+   },
    "341": {
-      "name": "Torn Photo", 
-      "shotspeed": "0.16", 
-      "shown": true, 
-      "tears": "0.7", 
+      "name": "Torn Photo",
+      "shotspeed": "0.16",
+      "shown": true,
+      "tears": "0.7",
       "text": ""
-   }, 
+   },
    "342": {
-      "health": "1", 
-      "name": "Blue Cap", 
-      "shotspeed": "-0.16", 
-      "shown": true, 
-      "tears": "0.7", 
+      "health": "1",
+      "name": "Blue Cap",
+      "shotspeed": "-0.16",
+      "shown": true,
+      "tears": "0.7",
       "text": ""
-   }, 
+   },
    "343": {
-      "luck": "1", 
-      "name": "Latch Key", 
+      "luck": "1",
+      "name": "Latch Key",
       "shown": true,
       "soulhearts": "1",
-      "text": "2 Keys"
-   }, 
+      "text": "+2 keys"
+   },
    "344": {
-      "name": "Match Book", 
+      "name": "Match Book",
       "shown": true,
       "sinhearts": "1",
-      "text": "3 bombs"
-   }, 
+      "text": "+3 bombs"
+   },
    "345": {
-      "dmg": "1", 
-      "height": "0.5", 
-      "name": "Synthoil", 
-      "range": "5.25", 
-      "shown": true, 
+      "dmg": "1",
+      "height": "0.5",
+      "name": "Synthoil",
+      "range": "5.25",
+      "shown": true,
       "text": ""
-   }, 
+   },
    "346": {
-      "health": "1", 
-      "name": "A Snack", 
-      "shown": false, 
+      "health": "1",
+      "name": "A Snack",
+      "shown": false,
       "text": ""
    }
 }
