@@ -41,7 +41,7 @@ class IsaacTracker:
     self.splitfile = [] #log split into lines
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
-    self.rolled_items = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
+    self.rolled_item_indices = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
     self.collected_item_info = [] #list of "immutable" ItemInfo objects used for determining the layout to draw
     self.num_displayed_items = 0
     self.selected_item_idx = None
@@ -206,7 +206,7 @@ class IsaacTracker:
       vert_padding = self.text_margin_size
     for item_id in self.collected_items:
 
-      if item_id not in self.filter_list and (not item_id in self.rolled_items or self.options["show_rerolled_items"]):
+      if item_id not in self.filter_list and (not index in self.rolled_item_indices or self.options["show_rerolled_items"]):
 
         #check to see if we are about to go off the right edge
         if icon_width * (cur_column) + icon_width > self.options["width"]:
@@ -396,8 +396,8 @@ class IsaacTracker:
   def draw_item(self, item, screen):
     image = self.get_image(self.id_to_image(item.id))
     screen.blit(image, (item.x, item.y))
-    if item.id in self.rolled_items:
-      roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("105")), (image.get_size()[0]/2, image.get_size()[1]/2))
+    if item.index in self.rolled_item_indices:
+      roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("284")), (image.get_size()[0]/2, image.get_size()[1]/2))
       screen.blit(roll_icon, (item.x,item.y))
 
   def run(self):
@@ -550,6 +550,7 @@ class IsaacTracker:
             self.seed = line[16:25]
             self.log_msg("Starting new run, seed: %s" % self.seed,"D")
             self.run_start_frame = self.framecount
+            self.rolled_item_indices = []
             self.collected_items = []
             self.log_msg("Emptied item array","D")
             self.bosses = []
@@ -580,7 +581,7 @@ class IsaacTracker:
             self.spawned_coop_baby = current_line_number + self.seek
           if re.search("Added \d+ Collectibles", line):
             self.log_msg("Reroll detected!","D")
-            self.rolled_items = [item for item in self.collected_items if item[0] != 'f']
+            self.rolled_item_indices = [index for index,item in enumerate(self.collected_items) if item[0] != 'f']
           if line.startswith('Adding collectible'):
             if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
               self.log_msg("Skipped duplicate item line from baby presence","D")
