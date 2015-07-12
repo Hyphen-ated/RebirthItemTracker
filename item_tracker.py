@@ -421,7 +421,7 @@ class IsaacTracker:
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           if platform.system() == "Windows":
-            winPos = winInfo.getWindowPosition()
+            winPos = winInfo.getScreenPosition()
             self.options["xposition"] = winPos["left"]
             self.options["yposition"] = winPos["top"]
             self.save_options(self.options)
