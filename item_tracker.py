@@ -564,6 +564,7 @@ class IsaacTracker:
             self.run_start_frame = self.framecount
             self.rolled_item_indices = []
             self.collected_items = []
+            self.guppy_items = []
             self.log_msg("Emptied item array","D")
             self.bosses = []
             self.log_msg("Emptied boss array","D")
