@@ -10,6 +10,7 @@
    "show_floors": true, 
    "show_rerolled_items": false,
    "show_seed": true, 
+   "show_guppy": false,
    "text_color": "#FFFFFF", 
    "width": 800,
    "word_wrap": false,

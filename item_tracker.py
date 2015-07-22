@@ -22,7 +22,6 @@ class ItemInfo:
     self.index = index
     self.floor = floor
 
-
 class IsaacTracker:
 
 
@@ -41,6 +40,7 @@ class IsaacTracker:
     self.splitfile = [] #log split into lines
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
+    self.guppy_items = [] #list of guppy items collected, probably redundant, oh well
     self.rolled_item_indices = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
     self.collected_item_info = [] #list of "immutable" ItemInfo objects used for determining the layout to draw
     self.num_displayed_items = 0
@@ -413,7 +413,7 @@ class IsaacTracker:
     update_notifier = self.check_for_update()
     pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
-    pygame.display.set_icon(self.get_image("collectibles/collectibles_333.png"))
+    pygame.display.set_icon(self.get_image("collectibles\collectibles_333.png"))
     done = False
     clock = pygame.time.Clock()
     my_font = pygame.font.SysFont("Arial", 16,bold=True)
@@ -487,7 +487,13 @@ class IsaacTracker:
         self.write_item_text(my_font, screen)
       elif self.options["show_seed"] and not self.log_not_found:
         # draw seed text:
-        self.text_height = draw_text(screen,"Seed: %s" % self.seed, self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
+        guppy = ""
+        if self.options["show_guppy"]:
+            guppy = " - Guppy: {}".format(len(self.guppy_items))
+        self.text_height = draw_text(screen,"Seed: {}{}".format(self.seed,guppy), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
+        self.reflow()
+      elif self.options["show_guppy"] and not self.log_not_found:
+        self.text_height = draw_text(screen,"Guppy: {}".format(len(self.guppy_items)), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
         self.reflow()
       else:
         # can only happen if you turn seed + item descriptions off in options while its running
@@ -614,6 +620,8 @@ class IsaacTracker:
               self.item_pickup_time = self.framecount
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
+            if item_id in ["81","133","134","145","187","212"] and item_id not in self.guppy_items:
+              self.guppy_items.append(item_id)
             should_reflow = True
 
         self.seek = len(self.splitfile)
