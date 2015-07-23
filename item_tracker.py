@@ -489,7 +489,11 @@ class IsaacTracker:
         # draw seed text:
         guppy = ""
         if self.options["show_guppy"]:
-            guppy = " - Guppy: {}".format(len(self.guppy_items))
+            if len(self.guppy_items) >= 3:
+              am_i_guppy = " \o/"
+            else:
+              am_i_guppy = ""
+            guppy = " - Guppy: {}{}".format(len(self.guppy_items),am_i_guppy)
         self.text_height = draw_text(screen,"Seed: {}{}".format(self.seed,guppy), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
         self.reflow()
       elif self.options["show_guppy"] and not self.log_not_found:
