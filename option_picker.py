@@ -88,12 +88,12 @@ root.wm_title("Item Tracker Options")
 root.resizable(False,False)
 
 # generate numeric options by looping over option types
-numeric_entry_keys = ["message_duration","min_spacing","default_spacing", "framerate_limit"]
+numeric_entry_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]
 entries = {}
 nextrow = 0
 vcmd = (root.register(OnValidate), 
         '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
-for index, opt in enumerate(["message_duration","min_spacing","default_spacing", "framerate_limit"]):
+for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
   Label(root, text=pretty_name(opt)).grid(row=nextrow)
   entries[opt] = Entry(root,validate="key",validatecommand=vcmd)
   entries[opt].grid(row=nextrow,column=1)
@@ -122,7 +122,7 @@ for index, opt in enumerate(["background_color","text_color"]):
 
 # generate checkboxes, with special exception for show_description for message duration
 checks = {}
-for index, opt in enumerate(["show_description", "show_seed", "show_floors", "show_rerolled_items", "word_wrap"]):
+for index, opt in enumerate(["show_description", "show_seed", "show_floors", "show_rerolled_items", "show_health_ups", "word_wrap"]):
   checks[opt] = IntVar()
   c = Checkbutton(root, text=pretty_name(opt), variable=checks[opt])
   c.grid(row=len(entries)+1+index/2,column=index%2) # 2 checkboxes per row
