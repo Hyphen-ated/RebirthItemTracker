@@ -258,7 +258,7 @@ class IsaacTracker:
     height = item_info.get("height")
     tears = item_info.get("tears")
     soulhearts = item_info.get("soulhearts")
-    blackhearts = item_info.get("blackhearts")
+    sinhearts = item_info.get("sinhearts")
     if dmg:
       desc += dmg + " dmg, "
     if dmgx:
@@ -281,8 +281,8 @@ class IsaacTracker:
       desc += health + " health, "
     if soulhearts:
       desc += soulhearts + " soul hearts, "
-    if blackhearts:
-      desc += blackhearts + " black hearts, "
+    if sinhearts:
+      desc += sinhearts + " sin hearts, "
     if text:
       desc += text
     if desc.endswith(", "):
