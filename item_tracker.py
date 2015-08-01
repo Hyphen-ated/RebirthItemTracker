@@ -192,19 +192,19 @@ class IsaacTracker:
 
   def reflow(self):
     item_icon_size = int(self.options["default_spacing"] * self.options["size_multiplier"] * .5)
-    result = self.try_layout(item_icon_size, False)
+    item_icon_footprint = item_icon_size
+    result = self.try_layout(item_icon_footprint, item_icon_size, False)
     while result is None:
-      item_icon_size -= 1
-      if item_icon_size < self.options["min_spacing"] or item_icon_size < 4:
-        result = self.try_layout(item_icon_size, True)
+      item_icon_footprint -= 1
+      if item_icon_footprint < self.options["min_spacing"] or item_icon_footprint < 4:
+        result = self.try_layout(item_icon_footprint, item_icon_size, True)
       else:
-        result = self.try_layout(item_icon_size, False)
+        result = self.try_layout(item_icon_footprint, item_icon_size, False)
 
     self.collected_item_info = result
     self.build_position_index()
 
-  def try_layout(self, icon_width, force_layout):
-    icon_height = icon_width
+  def try_layout(self, icon_footprint, icon_size, force_layout):
     new_item_info = []
     cur_row = 0
     cur_column = 0
@@ -219,32 +219,32 @@ class IsaacTracker:
       and (not index in self.rolled_item_indices or self.options["show_rerolled_items"]):
 
         #check to see if we are about to go off the right edge
-        if icon_width * (cur_column) + 32 * self.options["size_multiplier"] > self.options["width"]:
-          if (not force_layout) and self.text_height + (icon_height + vert_padding) * (cur_row + 1) + icon_height > self.options["height"]:
+        if icon_footprint * (cur_column) + 32 * self.options["size_multiplier"] > self.options["width"]:
+          if (not force_layout) and self.text_height + (icon_footprint + vert_padding) * (cur_row + 1) + icon_size + vert_padding > self.options["height"]:
             return None
           cur_row += 1
           cur_column = 0
 
         if item_id.startswith('f'):
           item_info = ItemInfo(id = item_id,
-                               x = icon_width * cur_column,
-                               y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                               x = icon_footprint * cur_column,
+                               y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
                                shown = True,
                                index = index,
                                floor = True)
           new_item_info.append(item_info)
         else:
           item_info = ItemInfo(id = item_id,
-                               x = icon_width * cur_column,
-                               y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                               x = icon_footprint * cur_column,
+                               y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
                                shown = True,
                                index = index)
           new_item_info.append(item_info)
           cur_column += 1
       else:
         item_info = ItemInfo(id = item_id,
-                             x = icon_width * cur_column,
-                             y =  self.text_height + (icon_height * cur_row) + (vert_padding * (cur_row + 1)),
+                             x = icon_footprint * cur_column,
+                             y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
                              shown = False,
                              index = index)
         new_item_info.append(item_info)
@@ -509,7 +509,7 @@ class IsaacTracker:
           "log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt",
           self.color(self.options["text_color"]),
           pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
-          my_font,
+          self.font,
           aa=True,
           wrap=True
         )
