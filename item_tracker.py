@@ -527,16 +527,16 @@ class IsaacTracker:
 
         seed = ""
         guppy = ""
-
         if self.options["show_seed"]:
           seed = "Seed: " + self.seed
-          guppy = " - "
 
         if self.options["show_guppy_count"]:
             if len(self.guppy_items) >= 3:
-              guppy += "Guppy: yes"
+              guppy += " - Guppy: yes"
             else:
-              guppy += "Guppy: " + str(len(self.guppy_items))
+              guppy += " - Guppy: " + str(len(self.guppy_items))
+        else:
+          guppy = ""
 
         self.text_height = draw_text(screen,
                                      "{}{}".format(seed,guppy),
