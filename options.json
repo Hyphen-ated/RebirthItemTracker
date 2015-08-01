@@ -8,14 +8,14 @@
    "min_spacing": 24, 
    "show_description": true, 
    "show_floors": true, 
-   "show_health_ups": false, 
-   "show_rerolled_items": false,
+   "show_health_ups": true, 
+   "show_rerolled_items": false, 
    "show_seed": true, 
    "show_space_items": false, 
    "size_multiplier": 2, 
    "text_color": "#FFFFFF", 
    "width": 800,
-   "word_wrap": false,
+   "word_wrap": false, 
    "xposition": 100,
    "yposition": 100
 }
