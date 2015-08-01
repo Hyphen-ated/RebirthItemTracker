@@ -11,6 +11,7 @@
    "show_health_ups": false, 
    "show_rerolled_items": false,
    "show_seed": true, 
+   "show_space_items": false, 
    "size_multiplier": 2, 
    "text_color": "#FFFFFF", 
    "width": 800,

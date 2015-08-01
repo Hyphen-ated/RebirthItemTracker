@@ -54,6 +54,9 @@ class IsaacTracker:
     self.last_run = {}
     self._image_library = {}
     self.filter_list = [] # list of string item ids with zeros stripped, they are items we don't want to see
+    self.guppy_list = []
+    self.space_list = []
+    self.healthonly_list = []
     self.items_info = {}
     self.item_message_start_time = 0
     self.item_pickup_time = 0
@@ -68,11 +71,14 @@ class IsaacTracker:
       self.items_info = json.load(items_file)
     for itemid, item in self.items_info.iteritems():
       if not item["shown"]:
-          self.filter_list.append(itemid.lstrip("0"))
+        self.filter_list.append(itemid.lstrip("0"))
+      if "guppy" in item and item["guppy"]:
+        self.guppy_list.append(itemid.lstrip("0"))
+      if "space" in item and item["space"]:
+        self.space_list.append(itemid.lstrip("0"))
+      if "healthonly" in item and item["healthonly"]:
+        self.healthonly_list.append(itemid.lstrip("0"))
 
-    # The following items are set to not be shown because they are purely health ups:
-    # <3 (015), Raw Liver (016), Lunch (022), Dinner (023), Dessert (024), Breakfast (025), Rotten Meat (026), Super Bandage (092), Black Lotus (226), The Body (334), A Snack (346)
-    self. health_up_items = ["015", "016", "022", "023", "024", "025", "026", "092", "226", "334", "346"]
 
     self.floor_id_to_label = {
       "f1": "B1",
@@ -208,7 +214,8 @@ class IsaacTracker:
       vert_padding = self.text_margin_size
     for item_id in self.collected_items:
       if item_id not in self.filter_list \
-      and (not item_id in self.health_up_items or self.options["show_health_ups"])\
+      and (not item_id in self.healthonly_list or self.options["show_health_ups"])\
+      and (not item_id in self.space_list or item_id in self.guppy_list or self.options["show_space_items"])\
       and (not index in self.rolled_item_indices or self.options["show_rerolled_items"]):
 
         #check to see if we are about to go off the right edge

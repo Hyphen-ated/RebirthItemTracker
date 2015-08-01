@@ -93,13 +93,15 @@
    "015": {
       "health": "1",
       "name": "<3",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": "full heal"
    },
    "016": {
       "health": "2",
       "name": "Raw Liver",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": "full heal"
    },
    "017": {
@@ -130,31 +132,36 @@
    "022": {
       "health": "1",
       "name": "Lunch",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    },
    "023": {
       "health": "1",
       "name": "Dinner",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    },
    "024": {
       "health": "1",
       "name": "Dessert",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    },
    "025": {
       "health": "1",
       "name": "Breakfast",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    },
    "026": {
       "health": "1",
       "name": "Rotten Meat",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    },
    "027": {
@@ -198,73 +205,73 @@
    },
    "033": {
       "name": "The Bible",
-      "shown": false,
+      "shown": true,
       "text": "temporary flight, instantly kills mom / it lives",
       "space": true
    },
    "034": {
       "name": "The Book of Belial",
-      "shown": false,
+      "shown": true,
       "text": "guarantees deals, x1.5 dmg with blood of the martyr, temporary +2 dmg",
       "space": true
    },
    "035": {
       "name": "The Necronomicon",
-      "shown": false,
+      "shown": true,
       "text": "deals 40 dmg to the room",
       "space": true
    },
    "036": {
       "name": "The Poop",
-      "shown": false,
+      "shown": true,
       "text": "makes a poop",
       "space": true
    },
    "037": {
       "name": "Mr. Boom",
-      "shown": false,
+      "shown": true,
       "text": "makes a bomb (110 dmg)",
       "space": true
    },
    "038": {
       "name": "Tammy's Head",
-      "shown": false,
+      "shown": true,
       "text": "shoots 10 tears (current dmg + 25)",
       "space": true
    },
    "039": {
       "name": "Mom's Bra",
-      "shown": false,
+      "shown": true,
       "text": "temporarily freezes enemies",
       "space": true
    },
    "040": {
       "name": "Kamikaze",
-      "shown": false,
+      "shown": true,
       "text": ".5 heart dmg to self, 40 dmg explosion",
       "space": true
    },
    "041": {
       "name": "Mom's Pad",
-      "shown": false,
+      "shown": true,
       "text": "temporarily fears enemies",
       "space": true
    },
    "042": {
       "name": "Bob's Rotten Head",
-      "shown": false,
+      "shown": true,
       "text": "shoots a poison bomb (50 dmg + 6-8 / tick)",
       "space": true
    },
    "044": {
       "name": "Teleport",
-      "shown": false,
+      "shown": true,
       "text": "",
       "space": true
    },
    "045": {
       "name": "Yum Heart",
-      "shown": false,
+      "shown": true,
       "text": "heals 1 heart",
       "space": true
    },
@@ -276,7 +283,7 @@
    },
    "047": {
       "name": "Doctor's Remote",
-      "shown": false,
+      "shown": true,
       "text": "shoots a missile (current dmg x 20)",
       "space": true
    },
@@ -287,7 +294,7 @@
    },
    "049": {
       "name": "Shoop Da Whoop",
-      "shown": false,
+      "shown": true,
       "text": "shoots a blood laser (current dmg x 7)",
       "space": true
    },
@@ -327,7 +334,7 @@
    },
    "056": {
       "name": "Lemon Mishap",
-      "shown": false,
+      "shown": true,
       "text": "makes a pool of pee",
       "space": true
    },
@@ -338,7 +345,7 @@
    },
    "058": {
       "name": "Book of Shadows",
-      "shown": false,
+      "shown": true,
       "text": "temporary invincibility",
       "space": true
    },
@@ -364,13 +371,13 @@
    },
    "065": {
       "name": "Anarchist's Cookbook",
-      "shown": false,
+      "shown": true,
       "text": "spawns 6 troll bombs",
       "space": true
    },
    "066": {
       "name": "The Hourglass",
-      "shown": false,
+      "shown": true,
       "text": "temporarily slows enemies",
       "space": true
    },
@@ -432,13 +439,13 @@
    },
    "077": {
       "name": "My Little Unicorn",
-      "shown": false,
+      "shown": true,
       "text": "temporary invincibility, 40 contact dmg",
       "space": true
    },
    "078": {
       "name": "Book of Revelations",
-      "shown": false,
+      "shown": true,
       "text": "+1 soul heart, changes floor boss to a horseman",
       "space": true
    },
@@ -459,6 +466,7 @@
    "081": {
       "name": "Dead Cat",
       "shown": true,
+      "guppy": true,
       "text": "+9 lives, sets heart containers to 1"
    },
    "082": {
@@ -470,26 +478,26 @@
    "083": {
       "dmg": "0.7",
       "name": "The Nail",
-      "shown": false,
+      "shown": true,
       "speed": "-0.18",
       "text": "+1 soul heart, temporarily crush rocks",
       "space": true
    },
    "084": {
       "name": "We Need To Go Deeper",
-      "shown": false,
+      "shown": true,
       "text": "spawns a trapdoor (10% chance of crawl space / black market)",
       "space": true
    },
    "085": {
       "name": "Deck of Cards",
-      "shown": false,
+      "shown": true,
       "text": "spawns a random tarot card",
       "space": true
    },
    "086": {
       "name": "Monstro's Tooth",
-      "shown": false,
+      "shown": true,
       "text": "summons monstro (120 dmg)",
       "space": true
    },
@@ -524,13 +532,14 @@
    "092": {
       "health": "1",
       "name": "Super Bandage",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "soulhearts": "2",
       "text": ""
    },
    "093": {
       "name": "The Gamekid",
-      "shown": false,
+      "shown": true,
       "text": "temporary invincibility, 40 contact dmg",
       "space": true
    },
@@ -551,7 +560,7 @@
    },
    "097": {
       "name": "The Book of Sin",
-      "shown": false,
+      "shown": true,
       "text": "spawns a random pickup",
       "space": true
    },
@@ -583,7 +592,7 @@
    },
    "102": {
       "name": "Mom's Bottle of Pills",
-      "shown": false,
+      "shown": true,
       "text": "spawns a random pill",
       "space": true
    },
@@ -599,7 +608,7 @@
    },
    "105": {
       "name": "The D6",
-      "shown": false,
+      "shown": true,
       "text": "rerolls pedestal items",
       "space": true
    },
@@ -610,7 +619,7 @@
    },
    "107": {
       "name": "Pinking Shears",
-      "shown": false,
+      "shown": true,
       "text": "spawns a melee familiar",
       "space": true
    },
@@ -632,7 +641,7 @@
    },
    "111": {
       "name": "The Bean",
-      "shown": false,
+      "shown": true,
       "text": "26 dmg per use",
       "space": true
    },
@@ -705,13 +714,13 @@
    },
    "123": {
       "name": "Monster Manual",
-      "shown": false,
+      "shown": true,
       "text": "summons a random familiar",
       "space": true
    },
    "124": {
       "name": "Dead Sea Scrolls",
-      "shown": false,
+      "shown": true,
       "text": "performs a random effect",
       "space": true
    },
@@ -722,13 +731,13 @@
    },
    "126": {
       "name": "Razor Blade",
-      "shown": false,
+      "shown": true,
       "text": "deals 1 heart dmg to self, gives a temporary +1.2 dmg per use",
       "space": true
    },
    "127": {
       "name": "Forget Me Now",
-      "shown": false,
+      "shown": true,
       "text": "generates a new floor",
       "space": true
    },
@@ -746,7 +755,7 @@
    },
    "130": {
       "name": "A Pony",
-      "shown": false,
+      "shown": true,
       "text": "flying, minimum speed 1.5",
       "space": true
    },
@@ -763,28 +772,30 @@
    "133": {
       "name": "Guppy's Paw",
       "shown": true,
+      "guppy": true,
       "text": "-1 heart container and +3 soul hearts",
       "space": true
    },
    "134": {
       "name": "Guppy's Tail",
       "shown": true,
+      "guppy": true,
       "text": "increased chance to find chests"
    },
    "135": {
       "name": "IV Bag",
-      "shown": false,
+      "shown": true,
       "text": "spawns coins and deals dmg to self",
       "space": true
    },
    "136": {
       "name": "Best Friend",
-      "shown": false,
+      "shown": true,
       "text": "spawns a decoy (110 dmg explosion)"
    },
    "137": {
       "name": "Remote Detonator",
-      "shown": false,
+      "shown": true,
       "text": "+5 bombs, manually detonate bombs",
       "space": true
    },
@@ -830,18 +841,19 @@
    "145": {
       "name": "Guppy's Head",
       "shown": true,
+      "guppy": true,
       "text": "spawn 2-4 blue flies",
       "space": true
    },
    "146": {
       "name": "Prayer Card",
-      "shown": false,
+      "shown": true,
       "text": "gives an eternal heart",
       "space": true
    },
    "147": {
       "name": "Notched Axe",
-      "shown": false,
+      "shown": true,
       "text": "breaks rocks and secret doors",
       "space": true
    },
@@ -903,7 +915,7 @@
    },
    "158": {
       "name": "Crystal Ball",
-      "shown": false,
+      "shown": true,
       "text": "reveals the floor and spawns a card, rune, or soul heart",
       "space": true
    },
@@ -914,7 +926,7 @@
    },
    "160": {
       "name": "Crack The Sky",
-      "shown": false,
+      "shown": true,
       "text": "create 5 beams (20 dmg)",
       "space": true
    },
@@ -935,7 +947,7 @@
    },
    "164": {
       "name": "The Candle",
-      "shown": false,
+      "shown": true,
       "text": "shoots a flame (approx. 115 dmg)",
       "space": true
    },
@@ -948,7 +960,7 @@
    },
    "166": {
       "name": "D20",
-      "shown": false,
+      "shown": true,
       "text": "rerolls pickups",
       "space": true
    },
@@ -978,7 +990,7 @@
    },
    "171": {
       "name": "Spider Butt",
-      "shown": false,
+      "shown": true,
       "text": "temporarily slows enemies and deals 10 dmg",
       "space": true
    },
@@ -999,7 +1011,7 @@
    },
    "175": {
       "name": "Dad's Key",
-      "shown": false,
+      "shown": true,
       "text": "opens all doors (not deals)",
       "space": true
    },
@@ -1007,12 +1019,12 @@
       "health": "1",
       "name": "Stem Cells",
       "shotspeed": "0.16",
-      "shown": false,
+      "shown": true,
       "text": ""
    },
    "177": {
       "name": "Portable Slot",
-      "shown": false,
+      "shown": true,
       "text": "acts like a slot machine",
       "space": true
    },
@@ -1033,7 +1045,7 @@
    },
    "181": {
       "name": "White Pony",
-      "shown": false,
+      "shown": true,
       "text": "flying, minimum speed 1.5",
       "space": true
    },
@@ -1067,13 +1079,14 @@
    },
    "186": {
       "name": "Blood Rights",
-      "shown": false,
+      "shown": true,
       "text": "deals 1 heart dmg to self, deals 40 dmg to all enemies",
       "space": true
    },
    "187": {
       "name": "Guppy's Hairball",
       "shown": true,
+      "guppy": true,
       "text": "familiar (3 dmg / tick)"
    },
    "188": {
@@ -1104,7 +1117,7 @@
    },
    "192": {
       "name": "Telepathy for Dummies",
-      "shown": false,
+      "shown": true,
       "text": "temporary homing tears",
       "space": true
    },
@@ -1217,6 +1230,7 @@
    "212": {
       "name": "Guppy's Collar",
       "shown": true,
+      "guppy": true,
       "text": "50% chance to respawn"
    },
    "213": {
@@ -1298,7 +1312,8 @@
       "health": "1",
       "soulhearts": "1",
       "sinhearts": "1",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    },
    "227": {
@@ -1584,103 +1599,103 @@
    },
    "282": {
       "name": "How To Jump",
-      "shown": false,
+      "shown": true,
       "text": "can jump over obstacles",
       "space": true
    },
    "283": {
       "name": "D100",
-      "shown": false,
+      "shown": true,
       "text": "rerolls current items and items+pickups in the room",
       "space": true
    },
    "284": {
       "name": "D4",
-      "shown": false,
+      "shown": true,
       "text": "rerolls current items",
       "space": true
    },
    "285": {
       "name": "D10",
-      "shown": false,
+      "shown": true,
       "text": "rerolls enemies in the room",
       "space": true
    },
    "286": {
       "name": "Blank Card",
-      "shown": false,
+      "shown": true,
       "text": "mimics the effect of the currently held card or rune",
       "space": true
    },
    "287": {
       "name": "Book of Secrets",
-      "shown": false,
+      "shown": true,
       "text": "randomly get map, compass, or blue map for the floor",
       "space": true
    },
    "288": {
       "name": "Box of Spiders",
-      "shown": false,
+      "shown": true,
       "text": "spawns 2-4 blue spiders",
       "space": true
    },
    "289": {
       "name": "Red Candle",
-      "shown": false,
+      "shown": true,
       "text": "shoots a flame (up to 125 dmg)",
       "space": true
    },
    "290": {
       "name": "The Jar",
-      "shown": false,
+      "shown": true,
       "text": "stores red hearts for later",
       "space": true
    },
    "291": {
       "name": "FLUSH!",
-      "shown": false,
+      "shown": true,
       "text": "non-boss enemies turn to poop",
       "space": true
    },
    "292": {
       "name": "The Satanic Bible",
-      "shown": false,
+      "shown": true,
       "text": "+1 sin heart",
       "space": true
    },
    "293": {
       "name": "Head of Krampus",
-      "shown": false,
+      "shown": true,
       "text": "create 4 blood lasers (approx. 451 dmg / laser)",
       "space": true
    },
    "294": {
       "name": "Butter Bean",
-      "shown": false,
+      "shown": true,
       "text": "knock back enemies",
       "space": true
    },
    "295": {
       "name": "Magic Fingers",
-      "shown": false,
+      "shown": true,
       "text": "deals current dmg x 2 to the room, takes 1 coin per use",
       "space": true
    },
    "296": {
       "name": "Converter",
-      "shown": false,
+      "shown": true,
       "text": "+1 heart container, -2 soul/black hearts",
       "space": true
    },
    "297": {
       "name": "Pandora's Box",
-      "shown": false,
+      "shown": true,
       "text": "B1 2soul, B2 2bomb + 2key, C1 boss, C2 boss + 2soul, D1 4soul, D2 20coin, W1 2boss, W2 bible, sheol devil+sin, cath angel+white, DR coin, chest coin",
       "space": true
    },
    "298": {
       "name": "Unicorn Stump",
-      "shown": false,
+      "shown": true,
       "text": "temporary invincibility",
       "space": true
    },
@@ -1822,25 +1837,25 @@
    },
    "323": {
       "name": "Isaac's Tears",
-      "shown": false,
+      "shown": true,
       "text": "fires 8 tears",
       "space": true
    },
    "324": {
       "name": "Undefined",
-      "shown": false,
+      "shown": true,
       "text": "randomly teleport to item, secret, super secret, error, or black market",
       "space": true
    },
    "325": {
       "name": "Scissors",
-      "shown": false,
+      "shown": true,
       "text": "spawns a shooting head familiar",
       "space": true
    },
    "326": {
       "name": "Breath of Life",
-      "shown": false,
+      "shown": true,
       "text": "invincibility when charge bar hits zero",
       "space": true
    },
@@ -1890,7 +1905,8 @@
    "334": {
       "health": "3",
       "name": "The Body",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": "+3 heart containers"
    },
    "335": {
@@ -1914,7 +1930,7 @@
    },
    "338": {
       "name": "Boomerang",
-      "shown": false,
+      "shown": true,
       "text": "deals current dmg x 2",
       "space": true
    },
@@ -1972,7 +1988,8 @@
    "346": {
       "health": "1",
       "name": "A Snack",
-      "shown": false,
+      "shown": true,
+      "healthonly": true,
       "text": ""
    }
 }
