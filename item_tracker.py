@@ -410,7 +410,7 @@ class IsaacTracker:
         if(latest_version != f.read()):
           return " (new version available)"
     except Exception as e:
-      pass
+      self.log_msg("Failed to find update info: " + e.message, "D")
     return ""
 
   def id_to_image(self, id):
