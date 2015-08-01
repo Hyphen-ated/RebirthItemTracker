@@ -377,6 +377,7 @@ class IsaacTracker:
   def load_log_file(self):
     self.log_not_found = False
     path = None
+    logfile_location = ""
     if platform.system() == "Windows":
         logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
     elif platform.system() == "Linux":
@@ -521,26 +522,28 @@ class IsaacTracker:
       and self.run_start_frame + 120 < self.framecount
       and self.item_message_countdown_in_progress()):
         self.write_item_text(self.font, screen)
-      elif self.options["show_seed"] and not self.log_not_found:
-        # draw seed text:
+      elif (self.options["show_seed"] or self.options["show_guppy_count"]) and not self.log_not_found:
+        # draw seed/guppy text:
+
+        seed = ""
         guppy = ""
-        if self.options["show_guppy"]:
+
+        if self.options["show_seed"]:
+          seed = "Seed: " + self.seed
+          guppy = " - "
+
+        if self.options["show_guppy_count"]:
             if len(self.guppy_items) >= 3:
-              am_i_guppy = " \o/"
+              guppy += "Guppy: yes"
             else:
-              am_i_guppy = ""
-            guppy = " - Guppy: {}{}".format(len(self.guppy_items),am_i_guppy)
-        self.text_height = draw_text(screen,"Seed: {}{}".format(self.seed,guppy), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
-        self.reflow()
-      elif self.options["show_guppy"] and not self.log_not_found:
-        self.text_height = draw_text(
-          screen,
-          "Guppy: {}".format(len(self.guppy_items)),
-          self.color(self.options["text_color"]), 
-          pygame.Rect(2,2,self.options["width"]-2, self.options["height"]-2),
-          my_font,
-          aa=True
-        )
+              guppy += "Guppy: " + str(len(self.guppy_items))
+
+        self.text_height = draw_text(screen,
+                                     "{}{}".format(seed,guppy),
+                                     self.color(self.options["text_color"]),
+                                     pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2),
+                                     self.font,
+                                     aa=True)
         self.reflow()
       else:
         # can only happen if you turn seed + item descriptions off in options while its running

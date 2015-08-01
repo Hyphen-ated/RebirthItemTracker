@@ -8,7 +8,7 @@
    "min_spacing": 24, 
    "show_description": true, 
    "show_floors": true,
-   "show_guppy": false,
+   "show_guppy_count": false,
    "show_health_ups": true,
    "show_rerolled_items": false,
    "show_seed": true,
