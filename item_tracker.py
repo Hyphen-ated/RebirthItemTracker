@@ -42,6 +42,7 @@ class IsaacTracker:
 
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
+    self.guppy_items = [] #list of guppy items collected, probably redundant, oh well
     self.rolled_item_indices = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
     self.collected_item_info = [] #list of "immutable" ItemInfo objects used for determining the layout to draw
     self.num_displayed_items = 0
@@ -522,12 +523,22 @@ class IsaacTracker:
         self.write_item_text(self.font, screen)
       elif self.options["show_seed"] and not self.log_not_found:
         # draw seed text:
+        guppy = ""
+        if self.options["show_guppy"]:
+            if len(self.guppy_items) >= 3:
+              am_i_guppy = " \o/"
+            else:
+              am_i_guppy = ""
+            guppy = " - Guppy: {}{}".format(len(self.guppy_items),am_i_guppy)
+        self.text_height = draw_text(screen,"Seed: {}{}".format(self.seed,guppy), self.color(self.options["text_color"]), pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2), my_font, aa=True)
+        self.reflow()
+      elif self.options["show_guppy"] and not self.log_not_found:
         self.text_height = draw_text(
           screen,
-          "Seed: %s" % self.seed,
-          self.color(self.options["text_color"]),
-          pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
-          self.font,
+          "Guppy: {}".format(len(self.guppy_items)),
+          self.color(self.options["text_color"]), 
+          pygame.Rect(2,2,self.options["width"]-2, self.options["height"]-2),
+          my_font,
           aa=True
         )
         self.reflow()
@@ -604,6 +615,7 @@ class IsaacTracker:
             self.run_start_frame = self.framecount
             self.rolled_item_indices = []
             self.collected_items = []
+            self.guppy_items = []
             self.log_msg("Emptied item array", "D")
             self.bosses = []
             self.log_msg("Emptied boss array", "D")
@@ -660,17 +672,17 @@ class IsaacTracker:
               self.item_pickup_time = self.framecount
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
+            if item_id in ["81","133","134","145","187","212"] and item_id not in self.guppy_items:
+              self.guppy_items.append(item_id)
             should_reflow = True
 
         self.seek = len(self.splitfile)
         if should_reflow:
           self.reflow()
 
-# Main  
-if __name__ == '__main__':
-  try:
-    rt = IsaacTracker(verbose=False, debug=False)
-    rt.run()
-  except Exception as e:
-    import traceback
-    traceback.print_exc()
+try:
+  rt = IsaacTracker(verbose=False, debug=False)
+  rt.run()
+except Exception as e:
+  import traceback
+  traceback.print_exc()
