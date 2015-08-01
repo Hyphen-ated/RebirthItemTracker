@@ -110,7 +110,7 @@
    "018": {
       "name": "A Dollar",
       "shown": true,
-      "text": "+99 coins"
+      "text": "+99 cents"
    },
    "019": {
       "name": "Boom!",
@@ -205,7 +205,7 @@
    "034": {
       "name": "The Book of Belial",
       "shown": false,
-      "text": "guarantees devil deals, x1.5 dmg with blood of the martyr, temporary +2 dmg",
+      "text": "guarantees deals, x1.5 dmg with blood of the martyr, temporary +2 dmg",
       "space": true
    },
    "035": {
@@ -241,7 +241,7 @@
    "040": {
       "name": "Kamikaze",
       "shown": false,
-      "text": "deals half heart dmg to self, 40 dmg explosion",
+      "text": ".5 heart dmg to self, 40 dmg explosion",
       "space": true
    },
    "041": {
@@ -277,13 +277,13 @@
    "047": {
       "name": "Doctor's Remote",
       "shown": false,
-      "text": "shoots a missle (current dmg x 20)",
+      "text": "shoots a missile (current dmg x 20)",
       "space": true
    },
    "048": {
       "name": "Cupid's Arrow",
       "shown": true,
-      "text": "piercing tears"
+      "text": "piercing"
    },
    "049": {
       "name": "Shoop Da Whoop",
@@ -301,7 +301,7 @@
       "dmg": "1",
       "name": "Pentagram",
       "shown": true,
-      "text": "+20% devil deal chance"
+      "text": "+20% deal chance"
    },
    "052": {
       "delayx": "2.5",
@@ -387,7 +387,7 @@
    "069": {
       "name": "Chocolate Milk",
       "shown": true,
-      "text": "charge tears (4x dmg)"
+      "text": "charge tears (max is 4x dmg and 2.5x delay)"
    },
    "070": {
       "dmg": "1",
@@ -408,7 +408,7 @@
       "name": "Rosary",
       "shown": true,
       "soulhearts": "3",
-      "text": "puts the bible into all item pools"
+      "text": "puts the bible into most item pools"
    },
    "073": {
       "name": "Cube of Meat",
@@ -418,7 +418,7 @@
    "074": {
       "name": "A Quarter",
       "shown": true,
-      "text": "+25 coins"
+      "text": "+25 cents"
    },
    "075": {
       "name": "PhD",
@@ -447,14 +447,14 @@
       "name": "The Mark",
       "shown": true,
       "speed": "0.2",
-      "text": "+1 soul heart"
+      "soulhearts": "1"
    },
    "080": {
       "dmg": "0.5",
       "name": "The Pact",
       "shown": true,
       "tears": "0.7",
-      "text": "+2 soul hearts"
+      "soulhearts": "2"
    },
    "081": {
       "name": "Dead Cat",
@@ -552,7 +552,7 @@
    "097": {
       "name": "The Book of Sin",
       "shown": false,
-      "text": "spawns a random pickup (excluding chests)",
+      "text": "spawns a random pickup",
       "space": true
    },
    "098": {
@@ -595,12 +595,12 @@
    "104": {
       "name": "The Parasite",
       "shown": true,
-      "text": "tears split into 2 (doing current dmg / 4)"
+      "text": "shots split in 2 pieces, each does 1/4 damage"
    },
    "105": {
       "name": "The D6",
       "shown": false,
-      "text": "replaces pedestal items with new ones",
+      "text": "rerolls pedestal items",
       "space": true
    },
    "106": {
@@ -670,7 +670,7 @@
       "delayx": "3",
       "name": "Brimstone",
       "shown": true,
-      "text": "replaces tears with a blood laser (current dmg x 13)"
+      "text": "tears become blood laser, hits 12 or 13 times"
    },
    "119": {
       "health": "1",
@@ -701,7 +701,7 @@
       "name": "Whore of Babylon",
       "shown": true,
       "speed": "0.3",
-      "text": "only activated if at half a red heart or lower"
+      "text": "only works with low red health"
    },
    "123": {
       "name": "Monster Manual",
@@ -712,7 +712,7 @@
    "124": {
       "name": "Dead Sea Scrolls",
       "shown": false,
-      "text": "performs a random activated item effect",
+      "text": "performs a random effect",
       "space": true
    },
    "125": {
@@ -747,7 +747,6 @@
    "130": {
       "name": "A Pony",
       "shown": false,
-      "speed": "sets to 1.5",
       "text": "flying, minimum speed 1.5",
       "space": true
    },
@@ -759,7 +758,7 @@
    "132": {
       "name": "A Lump of Coal",
       "shown": true,
-      "text": "+dmg based on distance travelled"
+      "text": "+dmg based on tear distance"
    },
    "133": {
       "name": "Guppy's Paw",
@@ -867,7 +866,7 @@
    "151": {
       "name": "The Mulligan",
       "shown": true,
-      "text": "spawns blue flies (1/6 chance per tear hit)"
+      "text": "1/6 chance for blue fly on tear hit, effectively x1.33 damage"
    },
    "152": {
       "dmgx": "0.65",
@@ -895,17 +894,17 @@
    "156": {
       "name": "Habit",
       "shown": true,
-      "text": "recharge 1 unit when hit"
+      "text": "recharge one tick of space charge when hit"
    },
    "157": {
       "name": "Bloody Lust",
       "shown": true,
-      "text": "+dmg when hit (only for the current floor, max 6 hits)"
+      "text": "+dmg when hit (only for the current floor, max +6.5 dmg at 6 hits)"
    },
    "158": {
       "name": "Crystal Ball",
       "shown": false,
-      "text": "reveals the floor and spawns a card / rune / soul heart",
+      "text": "reveals the floor and spawns a card, rune, or soul heart",
       "space": true
    },
    "159": {
@@ -927,7 +926,7 @@
    "162": {
       "name": "Celtic Cross",
       "shown": true,
-      "text": "chance to proc a temporary shield when hit"
+      "text": "shield when hit, based on luck"
    },
    "163": {
       "name": "Ghost Baby",
@@ -950,7 +949,7 @@
    "166": {
       "name": "D20",
       "shown": false,
-      "text": "replaces pickups with new ones",
+      "text": "rerolls pickups",
       "space": true
    },
    "167": {
@@ -970,7 +969,7 @@
       "dmgx": "2",
       "name": "Polyphemus",
       "shown": true,
-      "text": "pseudo-piercing tears"
+      "text": "excess damage pierces"
    },
    "170": {
       "name": "Daddy's Love",
@@ -1001,7 +1000,7 @@
    "175": {
       "name": "Dad's Key",
       "shown": false,
-      "text": "opens all doors",
+      "text": "opens all doors (not deals)",
       "space": true
    },
    "176": {
@@ -1035,7 +1034,6 @@
    "181": {
       "name": "White Pony",
       "shown": false,
-      "speed": "sets to 1.5",
       "text": "flying, minimum speed 1.5",
       "space": true
    },
@@ -1121,7 +1119,7 @@
       "name": "Magic 8-Ball",
       "shotspeed": "0.16",
       "shown": true,
-      "text": "spawns a random tarot card"
+      "text": "spawns a random card"
    },
    "195": {
       "name": "Mom's Coin Purse",
@@ -1155,23 +1153,23 @@
    "200": {
       "name": "Mom's Eyeshadow",
       "shown": true,
-      "text": "chance to shoot a charm tear"
+      "text": "chance to shoot charm tears"
    },
    "201": {
       "dmg": "0.3",
       "name": "Iron Bar",
       "shown": true,
-      "text": "chance to shoot a confusion tear"
+      "text": "chance to shoot confusion tears"
    },
    "202": {
       "name": "Midas Touch",
       "shown": true,
-      "text": "contact dmg equal to number of coins held"
+      "text": "contact dmg equal to number of cents held"
    },
    "203": {
       "name": "Humbleing Bundle",
       "shown": true,
-      "text": "doubles penny, key, bomb, and heart pickups"
+      "text": "doubles coin, key, bomb, and heart pickups"
    },
    "204": {
       "name": "Fanny Pack",
@@ -1204,7 +1202,7 @@
    "209": {
       "name": "Butt Bombs",
       "shown": true,
-      "text": "+5 bombs, bombs temporarily confuse all enemies, bombs deal 10 dmg to all enemies"
+      "text": "+5 bombs, bombs confuse all enemies, bombs deal 10 dmg to all enemies"
    },
    "210": {
       "name": "Gnawed Leaf",
@@ -1248,7 +1246,7 @@
    "217": {
       "name": "Mom's Wig",
       "shown": true,
-      "text": "chance to spawn a blue spider when shooting"
+      "text": "chance to spawn blue spiders when shooting"
    },
    "218": {
       "health": "1",
@@ -1288,7 +1286,7 @@
       "range": "-10",
       "shown": true,
       "delay": "-1",
-      "text": "tears split into 4 (dealing current dmg / 2)"
+      "text": "shots split in 4 pieces, each deals half damage"
    },
    "225": {
       "name": "Gimpy",
@@ -1306,13 +1304,13 @@
    "227": {
       "name": "Piggy Bank",
       "shown": true,
-      "text": "+3 coins, 1-2 coins spawn on hit"
+      "text": "+3 cents, 1-2 pennies spawn on hit"
    },
    "228": {
       "name": "Mom's Perfume",
       "shown": true,
       "delay": "-1",
-      "text": "chance for tears to fear"
+      "text": "chance to shoot fear shots"
    },
    "229": {
       "name": "Monstro's Lung",
@@ -1325,7 +1323,7 @@
       "name": "Abaddon",
       "shown": true,
       "speed": "0.2",
-      "text": "lose red hearts, chance for tears to fear"
+      "text": "lose red hearts, chance for fear shots"
    },
    "231": {
       "name": "Ball of Tar",
@@ -1375,7 +1373,7 @@
       "name": "Experimental Treatment",
       "shown": true,
       "speed": "",
-      "text": "randomly increases or decreases stats"
+      "text": "randomly increases or decreases stats (doesn't swap)"
    },
    "241": {
       "name": "Contract From Below",
@@ -1395,7 +1393,7 @@
    "244": {
       "name": "Tech.5",
       "shown": true,
-      "text": "chance to fire an additional laser (scales with dmg, not affected by tear rate)"
+      "text": "chance to fire an additional laser (scales with dmg, ignores tear rate)"
    },
    "245": {
       "name": "20/20",
@@ -1447,7 +1445,7 @@
    "254": {
       "name": "Blood Clot",
       "shown": true,
-      "text": "+1 flat dmg every 2nd shot, +5 range"
+      "text": "+1 flat dmg and +5 range for every 2nd shot"
    },
    "255": {
       "name": "Screw",
@@ -1459,7 +1457,7 @@
    "256": {
       "name": "Hot Bombs",
       "shown": true,
-      "text": "5 bombs, leaves fires (22 dmg / tick)"
+      "text": "5 bombs, leaves fires that do 22 dmg"
    },
    "257": {
       "name": "Fire Mind",
@@ -1469,19 +1467,19 @@
    "258": {
       "name": "Missing No.",
       "shown": true,
-      "text": "randomly replaces collected items on pickup and on the start of every floor"
+      "text": "rerolls your items on pickup and on the start of every floor"
    },
    "259": {
       "dmg": "1",
       "name": "Dark Matter",
       "shown": true,
-      "text": "chance for tears to fear"
+      "text": "chance for fear shots"
    },
    "260": {
       "name": "Black Candle",
       "shown": true,
       "sinhearts": "1",
-      "text": "no floor curses, +25% devil deal chance"
+      "text": "no floor curses, +25% deal chance"
    },
    "261": {
       "name": "Proptosis",
@@ -1593,19 +1591,19 @@
    "283": {
       "name": "D100",
       "shown": false,
-      "text": "does the combined effects of the D4, D6, and D20",
+      "text": "rerolls current items and items+pickups in the room",
       "space": true
    },
    "284": {
       "name": "D4",
       "shown": false,
-      "text": "randomly replaces collected items",
+      "text": "rerolls current items",
       "space": true
    },
    "285": {
       "name": "D10",
       "shown": false,
-      "text": "replaces enemies with different random enemies",
+      "text": "rerolls enemies in the room",
       "space": true
    },
    "286": {
@@ -1629,7 +1627,7 @@
    "289": {
       "name": "Red Candle",
       "shown": false,
-      "text": "shoots a flame (approx. 78 dmg)",
+      "text": "shoots a flame (up to 125 dmg)",
       "space": true
    },
    "290": {
@@ -1647,7 +1645,7 @@
    "292": {
       "name": "The Satanic Bible",
       "shown": false,
-      "text": "+1 black heart",
+      "text": "+1 sin heart",
       "space": true
    },
    "293": {
@@ -1659,7 +1657,7 @@
    "294": {
       "name": "Butter Bean",
       "shown": false,
-      "text": "knockback enemies",
+      "text": "knock back enemies",
       "space": true
    },
    "295": {
@@ -1677,7 +1675,7 @@
    "297": {
       "name": "Pandora's Box",
       "shown": false,
-      "text": "spawns a reward based on the floor",
+      "text": "B1 2soul, B2 2bomb + 2key, C1 boss, C2 boss + 2soul, D1 4soul, D2 20coin, W1 2boss, W2 bible, sheol devil+sin, cath angel+white, DR coin, chest coin",
       "space": true
    },
    "298": {
@@ -1702,7 +1700,7 @@
       "name": "Cancer",
       "shown": true,
       "soulhearts" : "3",
-      "text": "all dmg is reduced to half a heart (after getting hit once per room)"
+      "text": "all dmg is reduced to half a heart (after getting hit in the room)"
    },
    "302": {
       "name": "Leo",
@@ -1712,12 +1710,12 @@
    "303": {
       "name": "Virgo",
       "shown": true,
-      "text": "chance to proc a temporary shield when hit, bad stat pills become good"
+      "text": "chance of shield when hit, bad stat pills become good"
    },
    "304": {
       "name": "Libra",
       "shown": true,
-      "text": "evens out stats, +6 bombs, +6 keys, +6 coins"
+      "text": "evens out stats, +6 bombs, +6 keys, +6 cents"
    },
    "305": {
       "name": "Scorpio",
@@ -1762,7 +1760,7 @@
    "311": {
       "name": "Judas' Shadow",
       "shown": true,
-      "text": "+1 life (will respawn as black judas)"
+      "text": "+1 life (will respawn as black judas with high damage multiplier)"
    },
    "312": {
       "health": "1",
@@ -1815,7 +1813,7 @@
    "321": {
       "name": "Samson's Chains",
       "shown": true,
-      "text": "familiar (5 dmg / tick, crushes rocks)"
+      "text": "5 dmg / tick, crushes rocks"
    },
    "322": {
       "name": "Mongo Baby",
@@ -1831,7 +1829,7 @@
    "324": {
       "name": "Undefined",
       "shown": false,
-      "text": "randomly teleport to item / secret / super secret / i am error room",
+      "text": "randomly teleport to item, secret, super secret, error, or black market",
       "space": true
    },
    "325": {
@@ -1877,7 +1875,7 @@
       "shotspeed": "-0.3",
       "shown": true,
       "tears": "-0.3",
-      "text": "damaging aura tears"
+      "text": "damaging aura around tears"
    },
    "332": {
       "name": "Lazarus' Rags",
@@ -1887,7 +1885,7 @@
    "333": {
       "name": "The Mind",
       "shown": true,
-      "text": "combined effects of treasure map, compass, and blue map"
+      "text": "full mapping"
    },
    "334": {
       "health": "3",
