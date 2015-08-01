@@ -24,14 +24,14 @@ class ItemInfo:
 
 class IsaacTracker:
   def __init__(self, verbose=False, debug=False, read_delay=1):
-    # Load all of the settings from the "options.json" file
-    self.options = self.load_options()
+
 
     # Class variables
     self.verbose = verbose
     self.debug = debug
     self.text_height = 0
-    self.text_margin_size = int(8 * self.options["size_multiplier"])
+    self.text_margin_size = None # will be changed in load_options
+    self.font = None # will be changed in load_options
     self.seek = 0
     self.framecount = 0
     self.read_delay = read_delay
@@ -39,6 +39,7 @@ class IsaacTracker:
     self.log_not_found = False
     self.content = "" #cached contents of log
     self.splitfile = [] #log split into lines
+
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
     self.rolled_item_indices = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
@@ -59,18 +60,19 @@ class IsaacTracker:
     self.item_position_index = []
     self.current_floor = () # 2-tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
     self.spawned_coop_baby = 0 # last spawn of a co op baby
+
+    # Load all of the settings from the "options.json" file
+    self.options = self.load_options()
+
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
     for itemid, item in self.items_info.iteritems():
       if not item["shown"]:
-        # The following items are set to not be shown because they are purely health ups:
-        # <3 (015), Raw Liver (016), Lunch (022), Dinner (023), Dessert (024), Breakfast (025), Rotten Meat (026), Super Bandage (092), Stem Cells (176), Black Lotus (226), The Body (334), A Snack (346)
-        health_up_items = ["015", "016", "022", "023", "024", "025", "026", "092", "176", "226", "334", "346"]
-
-        if self.options["show_health_ups"] and itemid in health_up_items:
-          pass # Don't add health ups to the filter_list
-        else:
           self.filter_list.append(itemid.lstrip("0"))
+
+    # The following items are set to not be shown because they are purely health ups:
+    # <3 (015), Raw Liver (016), Lunch (022), Dinner (023), Dessert (024), Breakfast (025), Rotten Meat (026), Super Bandage (092), Black Lotus (226), The Body (334), A Snack (346)
+    self. health_up_items = ["015", "016", "022", "023", "024", "025", "026", "092", "226", "334", "346"]
 
     self.floor_id_to_label = {
       "f1": "B1",
@@ -94,11 +96,18 @@ class IsaacTracker:
   def load_options(self):
     with open("options.json", "r") as json_file:
       options = json.load(json_file)
+
+    # anything that gets calculated and cached based on something in options now needs to be flushed
+    self.text_margin_size = int(8 * options["size_multiplier"])
+    # font can only be initialized after pygame is set up
+    if self.font:
+      self.font = pygame.font.SysFont("Arial", int(8 * options["size_multiplier"]), bold=True)
+    self._image_library = {}
     return options
 
   def save_options(self):
     with open("options.json", "w") as json_file:
-      json.dump(options, json_file, indent=3, sort_keys=True)
+      json.dump(self.options, json_file, indent=3, sort_keys=True)
 
   # just for debugging
   def log_msg(self, msg, level):
@@ -198,7 +207,10 @@ class IsaacTracker:
     if self.options['show_floors']:
       vert_padding = self.text_margin_size
     for item_id in self.collected_items:
-      if item_id not in self.filter_list and (not index in self.rolled_item_indices or self.options["show_rerolled_items"]):
+      if item_id not in self.filter_list \
+      and (not item_id in self.health_up_items or self.options["show_health_ups"])\
+      and (not index in self.rolled_item_indices or self.options["show_rerolled_items"]):
+
         #check to see if we are about to go off the right edge
         if icon_width * (cur_column) + 32 * self.options["size_multiplier"] > self.options["width"]:
           if (not force_layout) and self.text_height + (icon_height + vert_padding) * (cur_row + 1) + icon_height > self.options["height"]:
@@ -420,13 +432,12 @@ class IsaacTracker:
     # initialize pygame system stuff
     pygame.init()
     update_notifier = self.check_for_update()
-    pygame.display.set_icon(pygame.image.load("collectibles/collectibles_076.png")) # The icon for X-Ray Vision
     pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
+    self.font = pygame.font.SysFont("Arial", int(8 * self.options["size_multiplier"]), bold=True)
     pygame.display.set_icon(self.get_image("collectibles/collectibles_333.png"))
     done = False
     clock = pygame.time.Clock()
-    my_font = pygame.font.SysFont("Arial", int(8 * self.options["size_multiplier"]), bold=True)
     winInfo = None
     if platform.system() == "Windows":
       winInfo = pygameWindowInfo.PygameWindowInfo()
@@ -440,13 +451,13 @@ class IsaacTracker:
             winPos = winInfo.getScreenPosition()
             self.options["xposition"] = winPos["left"]
             self.options["yposition"] = winPos["top"]
-            self.save_options(self.options)
+            self.save_options()
           done = True
         elif event.type == VIDEORESIZE:
           screen=pygame.display.set_mode(event.dict['size'], RESIZABLE)
           self.options["width"] = event.dict["w"]
           self.options["height"] = event.dict["h"]
-          self.save_options(self.options)
+          self.save_options()
           self.reflow()
           pygame.display.flip()
         elif event.type == MOUSEMOTION:
@@ -501,7 +512,7 @@ class IsaacTracker:
       and self.options["show_description"]
       and self.run_start_frame + 120 < self.framecount
       and self.item_message_countdown_in_progress()):
-        self.write_item_text(my_font, screen)
+        self.write_item_text(self.font, screen)
       elif self.options["show_seed"] and not self.log_not_found:
         # draw seed text:
         self.text_height = draw_text(
@@ -509,7 +520,7 @@ class IsaacTracker:
           "Seed: %s" % self.seed,
           self.color(self.options["text_color"]),
           pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
-          my_font,
+          self.font,
           aa=True
         )
         self.reflow()
@@ -532,11 +543,11 @@ class IsaacTracker:
             self.draw_item(item, screen)
             #don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
             if floor_to_draw and self.options["show_floors"]:
-              self.draw_floor(floor_to_draw, screen, my_font)
+              self.draw_floor(floor_to_draw, screen, self.font)
 
       # also draw the floor if we hit the end, so the current floor is visible
       if floor_to_draw and self.options["show_floors"]:
-        self.draw_floor(floor_to_draw, screen, my_font)
+        self.draw_floor(floor_to_draw, screen, self.font)
 
       if (self.selected_item_idx
       and self.selected_item_idx < len(self.collected_item_info)
