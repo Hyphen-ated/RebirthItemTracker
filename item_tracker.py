@@ -627,6 +627,7 @@ class IsaacTracker:
             self.rolled_item_indices = []
             self.collected_items = []
             self.collected_guppy_items = []
+            self.collected_blind_item_indices = []
             self.log_msg("Emptied item array", "D")
             self.bosses = []
             self.log_msg("Emptied boss array", "D")
