@@ -42,13 +42,16 @@ class IsaacTracker:
 
     # initialize isaac stuff
     self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
-    self.guppy_items = [] #list of guppy items collected, probably redundant, oh well
-    self.rolled_item_indices = [] #list of string item ids with no leading zeroes of items that have been rolled. No floors.
+    self.collected_guppy_items = [] #list of guppy items collected, probably redundant, oh well
+    self.collected_blind_item_indices = [] #list of indexes into the collected_items array for items that were picked up blind
+    self.rolled_item_indices = [] #list of indexes into the collected_items array for items that were rerolled
     self.collected_item_info = [] #list of "immutable" ItemInfo objects used for determining the layout to draw
     self.num_displayed_items = 0
     self.selected_item_idx = None
     self.seed = ""
     self.current_room = ""
+    self.blind_floor = False
+    self.getting_start_items = False
     self.run_start_line = 0
     self.run_start_frame = 0
     self.bosses = []
@@ -64,9 +67,12 @@ class IsaacTracker:
     self.item_position_index = []
     self.current_floor = () # 2-tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
     self.spawned_coop_baby = 0 # last spawn of a co op baby
-
+    self.roll_icon = None
+    self.blind_icon = None
     # Load all of the settings from the "options.json" file
-    self.options = self.load_options()
+    self.load_options()
+
+
 
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
@@ -102,15 +108,16 @@ class IsaacTracker:
 
   def load_options(self):
     with open("options.json", "r") as json_file:
-      options = json.load(json_file)
+      self.options = json.load(json_file)
 
     # anything that gets calculated and cached based on something in options now needs to be flushed
-    self.text_margin_size = int(8 * options["size_multiplier"])
+    self.text_margin_size = int(8 * self.options["size_multiplier"])
     # font can only be initialized after pygame is set up
     if self.font:
-      self.font = pygame.font.SysFont("Arial", int(8 * options["size_multiplier"]), bold=True)
+      self.font = pygame.font.SysFont("Arial", int(8 * self.options["size_multiplier"]), bold=True)
     self._image_library = {}
-    return options
+    self.roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("284")), (16 * self.options["size_multiplier"], 16 * self.options["size_multiplier"]))
+    self.blind_icon = pygame.transform.scale(self.get_image("collectibles/questionmark.png"), (16 * self.options["size_multiplier"], 16 * self.options["size_multiplier"]))
 
   def save_options(self):
     with open("options.json", "w") as json_file:
@@ -433,8 +440,9 @@ class IsaacTracker:
     image = self.get_image(self.id_to_image(item.id))
     screen.blit(image, (item.x, item.y))
     if item.index in self.rolled_item_indices:
-      roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("284")), (image.get_size()[0]/2, image.get_size()[1]/2))
-      screen.blit(roll_icon, (item.x,item.y))
+      screen.blit(self.roll_icon, (item.x,item.y))
+    if self.options["show_blind_icon"] and item.index in self.collected_blind_item_indices:
+      screen.blit(self.blind_icon, (item.x,item.y + self.options["size_multiplier"] * 12))
 
   def run(self):
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
@@ -498,7 +506,7 @@ class IsaacTracker:
               subprocess.call("python option_picker.py",shell=True)
             else:
               self.log_msg("No option_picker found!","D")
-            self.options = self.load_options()
+            self.load_options()
             self.selected_item_idx = None # Clear this to avoid overlapping an item that may have been hidden
             self.reflow()
 
@@ -531,10 +539,10 @@ class IsaacTracker:
           seed = "Seed: " + self.seed
 
         if self.options["show_guppy_count"]:
-            if len(self.guppy_items) >= 3:
+            if len(self.collected_guppy_items) >= 3:
               guppy += " - Guppy: yes"
             else:
-              guppy += " - Guppy: " + str(len(self.guppy_items))
+              guppy += " - Guppy: " + str(len(self.collected_guppy_items))
         else:
           guppy = ""
 
@@ -618,7 +626,7 @@ class IsaacTracker:
             self.run_start_frame = self.framecount
             self.rolled_item_indices = []
             self.collected_items = []
-            self.guppy_items = []
+            self.collected_guppy_items = []
             self.log_msg("Emptied item array", "D")
             self.bosses = []
             self.log_msg("Emptied boss array", "D")
@@ -630,9 +638,13 @@ class IsaacTracker:
           # entered a room, use to keep track of bosses
           if line.startswith('Room'):
             self.current_room = re.search('\((.*)\)', line).group(1)
+            if 'Start Room' not in line:
+              self.getting_start_items = False
             self.log_msg("Entered room: %s" % self.current_room, "D")
           if line.startswith('Level::Init'):
             self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)", line).group(x) for x in [1,2]])
+            self.blind_floor = False # assume floors aren't blind until we see they are
+            self.getting_start_items = True
             floor = int(self.current_floor[0])
             alt = self.current_floor[1]
             # special handling for cath and chest
@@ -644,6 +656,8 @@ class IsaacTracker:
             #it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
             if self.collected_items[-1].startswith('f'):
               self.collected_items[-1] += 'x'
+          if line.startswith('Curse of Blind'):
+            self.blind_floor = True
           if line.startswith('Spawn co-player!'):
             self.spawned_coop_baby = current_line_number + self.seek
           if re.search("Added \d+ Collectibles", line):
@@ -668,15 +682,18 @@ class IsaacTracker:
               desc = self.generateItemDescription(item_info)
               f.write(item_info["name"] + ":" + desc)
 
-            # ignore repeated pickups of space bar items, or starting items (too early)
+            # ignore repeated pickups of space bar items
             if not (item_info.get("space") and item_id in self.collected_items):
               self.collected_items.append(item_id)
               self.item_message_start_time = self.framecount
               self.item_pickup_time = self.framecount
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
-            if item_id in ["81","133","134","145","187","212"] and item_id not in self.guppy_items:
-              self.guppy_items.append(item_id)
+            if "guppy" in item_info and item_info.get("guppy")  and item_id not in self.collected_guppy_items:
+              self.collected_guppy_items.append(item_id)
+            if self.blind_floor and not self.getting_start_items:
+              # the item we just picked up was picked up blind, so add its index here to track that fact
+              self.collected_blind_item_indices.append(len(self.collected_items) - 1)
             should_reflow = True
 
         self.seek = len(self.splitfile)
