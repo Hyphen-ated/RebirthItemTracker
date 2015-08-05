@@ -9,6 +9,8 @@
    "show_blind_icon": true, 
    "show_description": true, 
    "show_floors": true, 
+   "show_font": Arial,
+   "bold_font": false,
    "show_guppy_count": false, 
    "show_health_ups": true, 
    "show_rerolled_items": false, 
