@@ -1,5 +1,5 @@
 from Tkinter import *
-from tkColorChooser import askcolor  
+from tkColorChooser import askcolor
 import json
 from string import maketrans
 import re
@@ -26,7 +26,7 @@ def color_callback(source):
   # prompt a color picker, set the options and the background/foreground of the button
   global buttons
   global options
-  nums, hex_color = askcolor(color=options.get(source), 
+  nums, hex_color = askcolor(color=options.get(source),
                     title = "Color Chooser")
   if hex_color:
     opposite = opposite_color(hex_color)
@@ -91,7 +91,7 @@ root.resizable(False,False)
 numeric_entry_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]
 entries = {}
 nextrow = 0
-vcmd = (root.register(OnValidate), 
+vcmd = (root.register(OnValidate),
         '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
 for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
   Label(root, text=pretty_name(opt)).grid(row=nextrow)
@@ -111,8 +111,8 @@ for index, opt in enumerate(["item_details_link"]):
 # generate buttons by looping over option types
 buttons = {}
 for index, opt in enumerate(["background_color","text_color"]):
-  buttons[opt] = Button(root, 
-         text=pretty_name(opt), 
+  buttons[opt] = Button(root,
+         text=pretty_name(opt),
          bg=options.get(opt),
          fg=opposite_color(options.get(opt)),
          # command=lambda: color_callback(opt))
@@ -135,12 +135,12 @@ for index, opt in enumerate(["show_description", "show_seed", "show_guppy_count"
       entries["message_duration"].configure(state=DISABLED)
 
 # save and cancel buttons
-cancel = Button(root, 
+cancel = Button(root,
          text="Cancel",
          command=root.quit)
 
 
-save = Button(root, 
+save = Button(root,
          text="Save",
          command=save)
 
