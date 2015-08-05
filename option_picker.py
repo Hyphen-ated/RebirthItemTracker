@@ -3,7 +3,8 @@ from tkColorChooser import askcolor
 import json
 from string import maketrans
 import re
-
+import ttk
+import tkFont
 
 """
   standard save + load options functions, from item_tracker.py. save_options modified a bit to take a parameter
@@ -88,17 +89,27 @@ root.wm_title("Item Tracker Options")
 root.resizable(False,False)
 
 # generate numeric options by looping over option types
-numeric_entry_keys = ["message_duration","min_spacing","default_spacing", "framerate_limit"]
+numeric_entry_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]
 entries = {}
 nextrow = 0
 vcmd = (root.register(OnValidate), 
         '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
-for index, opt in enumerate(["message_duration","min_spacing","default_spacing", "framerate_limit"]):
+for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
   Label(root, text=pretty_name(opt)).grid(row=nextrow)
   entries[opt] = Entry(root,validate="key",validatecommand=vcmd)
   entries[opt].grid(row=nextrow,column=1)
   entries[opt].insert(0,options.get(opt))
   nextrow += 1
+
+for index, opt in enumerate(["show_font"]):
+  Label(root, text=pretty_name(opt)).grid(row=nextrow)
+  fonts = tkFont.families()
+  initialvar = StringVar()
+  initialvar.set(options.get(opt))
+  entries[opt] = ttk.Combobox(root, values=sorted(fonts), textvariable=initialvar, state='readonly')
+  entries[opt].pack()
+  entries[opt].grid(row=nextrow,column=1)
+  nextrow +=1
 
 # generate text options by looping over option types
 for index, opt in enumerate(["item_details_link"]):
@@ -110,7 +121,7 @@ for index, opt in enumerate(["item_details_link"]):
 
 # generate buttons by looping over option types
 buttons = {}
-for index, opt in enumerate(["background_color","text_color"]):
+for index, opt in enumerate(["background_color","text_color"]): 
   buttons[opt] = Button(root, 
          text=pretty_name(opt), 
          bg=options.get(opt),
@@ -122,7 +133,7 @@ for index, opt in enumerate(["background_color","text_color"]):
 
 # generate checkboxes, with special exception for show_description for message duration
 checks = {}
-for index, opt in enumerate(["show_description", "show_seed", "show_guppy", "show_floors", "show_rerolled_items", "word_wrap"]):
+for index, opt in enumerate(["show_description", "show_seed", "show_guppy_count", "show_floors", "show_rerolled_items", "show_health_ups", "show_space_items", "show_blind_icon", "word_wrap", "bold_font"]):
   checks[opt] = IntVar()
   c = Checkbutton(root, text=pretty_name(opt), variable=checks[opt])
   c.grid(row=len(entries)+1+index/2,column=index%2) # 2 checkboxes per row
