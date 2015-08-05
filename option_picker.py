@@ -101,7 +101,7 @@ for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing
   nextrow += 1
 
 # generate text options by looping over option types
-for index, opt in enumerate(["item_details_link"]):
+for index, opt in enumerate(["item_details_link", "default_message"]):
   Label(root, text=pretty_name(opt)).grid(row=nextrow)
   entries[opt] = Entry(root)
   entries[opt].grid(row=nextrow,column=1)

@@ -12,6 +12,8 @@ if platform.system() == "Windows":
   import pygameWindowInfo
 from pygame.locals import *
 from pygame_helpers import *
+from collections import defaultdict
+import string
 
 class ItemInfo:
   def __init__(self, id, x, y, index, shown=True, floor=False):
@@ -532,26 +534,28 @@ class IsaacTracker:
         self.write_item_text(self.font, screen)
       elif (self.options["show_seed"] or self.options["show_guppy_count"]) and not self.log_not_found:
         # draw seed/guppy text:
-
         seed = ""
         guppy = ""
         if self.options["show_seed"]:
-          seed = "Seed: " + self.seed
+          seed = self.seed
 
         if self.options["show_guppy_count"]:
             if len(self.collected_guppy_items) >= 3:
-              guppy += " - Guppy: yes"
+              guppy = "yes"
             else:
-              guppy += " - Guppy: " + str(len(self.collected_guppy_items))
-        else:
-          guppy = ""
+              guppy = str(len(self.collected_guppy_items))
 
+        # Use vformat to handle the case where the user adds an undefined
+        # placeholder in default_message
+        message = string.Formatter().vformat(self.options["default_message"],
+                                             (), defaultdict(str, seed=seed,
+                                                             guppy=guppy))
         self.text_height = draw_text(screen,
-                                     "{}{}".format(seed,guppy),
+                                     message,
                                      self.color(self.options["text_color"]),
                                      pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2),
                                      self.font,
-                                     aa=True)
+                                     aa=True, wrap=self.options["word_wrap"])
         self.reflow()
       else:
         # can only happen if you turn seed + item descriptions off in options while its running

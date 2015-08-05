@@ -1,5 +1,6 @@
 {
    "background_color": "#191919", 
+   "default_message": "Seed: {seed} - Guppy: {guppy} !", 
    "default_spacing": 64, 
    "framerate_limit": 30, 
    "height": 96, 
