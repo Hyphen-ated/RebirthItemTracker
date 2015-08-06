@@ -101,7 +101,7 @@ for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing
   nextrow += 1
 
 # generate text options by looping over option types
-for index, opt in enumerate(["item_details_link", "default_message"]):
+for index, opt in enumerate(["item_details_link", "custom_message"]):
   Label(root, text=pretty_name(opt)).grid(row=nextrow)
   entries[opt] = Entry(root)
   entries[opt].grid(row=nextrow,column=1)
@@ -122,7 +122,7 @@ for index, opt in enumerate(["background_color","text_color"]):
 
 # generate checkboxes, with special exception for show_description for message duration
 checks = {}
-for index, opt in enumerate(["show_description", "show_seed", "show_guppy_count", "show_floors", "show_rerolled_items", "show_health_ups", "show_space_items", "show_blind_icon", "word_wrap"]):
+for index, opt in enumerate(["show_description", "show_custom_message", "show_floors", "show_rerolled_items", "show_health_ups", "show_space_items", "show_blind_icon", "word_wrap"]):
   checks[opt] = IntVar()
   c = Checkbutton(root, text=pretty_name(opt), variable=checks[opt])
   c.grid(row=len(entries)+1+index/2,column=index%2) # 2 checkboxes per row

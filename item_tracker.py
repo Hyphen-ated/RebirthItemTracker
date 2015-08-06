@@ -516,7 +516,7 @@ class IsaacTracker:
 
       # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
       # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
-      if self.options["show_description"] or self.options["show_seed"] or self.options["show_guppy_count"]:
+      if self.options["show_description"] or self.options["show_custom_message"]:
         self.text_height = draw_text(
           screen,
           " ",
@@ -536,22 +536,18 @@ class IsaacTracker:
       and self.run_start_frame + 120 < self.framecount
       and self.item_message_countdown_in_progress()):
         text_written = self.write_item_text(self.font, screen)
-      if not text_written and (self.options["show_seed"] or self.options["show_guppy_count"]) and not self.log_not_found:
+      if not text_written and self.options["show_custom_message"] and not self.log_not_found:
         # draw seed/guppy text:
-        seed = ""
-        guppy = ""
-        if self.options["show_seed"]:
-          seed = self.seed
+        seed = self.seed
 
-        if self.options["show_guppy_count"]:
-            if len(self.collected_guppy_items) >= 3:
-              guppy = "yes"
-            else:
-              guppy = str(len(self.collected_guppy_items))
+        if len(self.collected_guppy_items) >= 3:
+          guppy = "yes"
+        else:
+          guppy = str(len(self.collected_guppy_items))
 
         # Use vformat to handle the case where the user adds an undefined
         # placeholder in default_message
-        message = string.Formatter().vformat(self.options["default_message"],
+        message = string.Formatter().vformat(self.options["custom_message"],
                                              (), defaultdict(str, seed=seed,
                                                              guppy=guppy))
         self.text_height = draw_text(screen,
