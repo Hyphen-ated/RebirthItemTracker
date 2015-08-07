@@ -14,7 +14,7 @@ def draw_text(surface, text, color, rect, font, aa=False, bkg=None, wrap=False):
     fontHeight = font.size("Tg")[1]
 
     if wrap is False:
-      rect = Rect(rect.top,rect.left,rect.width,fontHeight)
+      rect = Rect(rect.left,rect.top,rect.width,fontHeight)
 
     while text:
         i = 1
