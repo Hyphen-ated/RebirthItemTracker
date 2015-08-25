@@ -128,7 +128,7 @@ class IsaacTracker:
 
   # just for the suffix of boss kill number lol
   def suffix(self, d):
-    return 'th' if 11 <= d <= 13 else {1:'st', 2:'nd', 3:'rd'}.get(d%10, 'th')
+    return 'th' if 11 <= d <= 13 else {1:'st', 2:'nd', 3:'rd'}.get(d % 10, 'th')
 
   def check_end_run(self, line, cur_line_num):
     if not self.run_ended:
@@ -143,11 +143,11 @@ class IsaacTracker:
         died_to = re.search('(?i)Killed by \((.*)\) spawned', line).group(1)
       if end_type:
         self.last_run = {
-          "bosses":self.bosses
-          , "items":self.collected_items
-          , "seed":self.seed
-          , "died_to":died_to
-          , "end_type":end_type
+          "bosses"   : self.bosses,
+          "items"    : self.collected_items,
+          "seed"     : self.seed,
+          "died_to"  : died_to,
+          "end_type" : end_type
         }
         self.run_ended = True
         self.log_msg("End of Run! %s" % self.last_run, "D")
@@ -232,27 +232,33 @@ class IsaacTracker:
           cur_column = 0
 
         if item_id.startswith('f'):
-          item_info = ItemInfo(id = item_id,
-                               x = icon_footprint * cur_column,
-                               y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
-                               shown = True,
-                               index = index,
-                               floor = True)
+          item_info = ItemInfo(
+            id = item_id,
+            x = icon_footprint * cur_column,
+            y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
+            shown = True,
+            index = index,
+            floor = True
+          )
           new_item_info.append(item_info)
         else:
-          item_info = ItemInfo(id = item_id,
-                               x = icon_footprint * cur_column,
-                               y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
-                               shown = True,
-                               index = index)
+          item_info = ItemInfo(
+            id = item_id,
+            x = icon_footprint * cur_column,
+            y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
+            shown = True,
+            index = index
+          )
           new_item_info.append(item_info)
           cur_column += 1
       else:
-        item_info = ItemInfo(id = item_id,
-                             x = icon_footprint * cur_column,
-                             y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
-                             shown = False,
-                             index = index)
+        item_info = ItemInfo(
+          id = item_id,
+          x = icon_footprint * cur_column,
+          y =  self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
+          shown = False,
+          index = index
+        )
         new_item_info.append(item_info)
       index += 1
     return new_item_info
@@ -593,7 +599,7 @@ class IsaacTracker:
       self.framecount += 1
 
       # process log stuff every read_delay seconds. making sure to truncate to an integer or else it might never mod to 0
-      if self.framecount % int(self.options["framerate_limit"]*self.read_delay) == 0:
+      if self.framecount % int(self.options["framerate_limit"] * self.read_delay) == 0:
         self.load_log_file()
         self.splitfile = self.content.splitlines()
         # return to start if seek passes the end of the file (usually b/c log file restarted)
