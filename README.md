@@ -9,9 +9,9 @@ This uses the `log.txt` file to track item pickups in The Binding of Isaac: Rebi
 - shows the floor the player is currently on.
 - displays the current seed.
 
-![](http://i.imgur.com/BOjJ9WT.png)
+![](http://i.imgur.com/zG3eV8V.png)
 
-Download it [here](http://i.imgur.com/zG3eV8V.png) (get the latest file that doesn't have "source code" in the name).
+Download it [here](https://github.com/Hyphen-ated/RebirthItemTracker/releases) (get the latest file that doesn't have "source code" in the name).
 
 To use it, first extract that zip file and then run the exe inside.
 
