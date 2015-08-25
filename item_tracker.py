@@ -27,7 +27,6 @@ class ItemInfo:
 class IsaacTracker:
   def __init__(self, verbose=False, debug=False, read_delay=1):
 
-
     # Class variables
     self.verbose = verbose
     self.debug = debug
@@ -39,15 +38,15 @@ class IsaacTracker:
     self.read_delay = read_delay
     self.run_ended = True
     self.log_not_found = False
-    self.content = "" #cached contents of log
-    self.splitfile = [] #log split into lines
+    self.content = "" # cached contents of log
+    self.splitfile = [] # log split into lines
 
     # initialize isaac stuff
-    self.collected_items = [] #list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
-    self.collected_guppy_items = [] #list of guppy items collected, probably redundant, oh well
-    self.collected_blind_item_indices = [] #list of indexes into the collected_items array for items that were picked up blind
-    self.rolled_item_indices = [] #list of indexes into the collected_items array for items that were rerolled
-    self.collected_item_info = [] #list of "immutable" ItemInfo objects used for determining the layout to draw
+    self.collected_items = [] # list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
+    self.collected_guppy_items = [] # list of guppy items collected, probably redundant, oh well
+    self.collected_blind_item_indices = [] # list of indexes into the collected_items array for items that were picked up blind
+    self.rolled_item_indices = [] # list of indexes into the collected_items array for items that were rerolled
+    self.collected_item_info = [] # list of "immutable" ItemInfo objects used for determining the layout to draw
     self.num_displayed_items = 0
     self.selected_item_idx = None
     self.seed = ""
@@ -74,8 +73,6 @@ class IsaacTracker:
     # Load all of the settings from the "options.json" file
     self.load_options()
 
-
-
     with open("items.txt", "r") as items_file:
       self.items_info = json.load(items_file)
     for itemid, item in self.items_info.iteritems():
@@ -87,7 +84,6 @@ class IsaacTracker:
         self.space_list.append(itemid.lstrip("0"))
       if "healthonly" in item and item["healthonly"]:
         self.healthonly_list.append(itemid.lstrip("0"))
-
 
     self.floor_id_to_label = {
       "f1": "B1",
@@ -118,8 +114,8 @@ class IsaacTracker:
     if self.font: 
       self.font = pygame.font.SysFont(self.options['show_font'], int(8 * self.options["size_multiplier"]), bold=self.options["bold_font"])
     self._image_library = {}
-    self.roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("284")), (16 * self.options["size_multiplier"], 16 * self.options["size_multiplier"]))
-    self.blind_icon = pygame.transform.scale(self.get_image("collectibles/questionmark.png"), (16 * self.options["size_multiplier"], 16 * self.options["size_multiplier"]))
+    self.roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("284")), (int(16 * self.options["size_multiplier"]), int(16 * self.options["size_multiplier"])))
+    self.blind_icon = pygame.transform.scale(self.get_image("collectibles/questionmark.png"), (int(16 * self.options["size_multiplier"]), int(16 * self.options["size_multiplier"])))
 
   def save_options(self):
     with open("options.json", "w") as json_file:
@@ -132,19 +128,19 @@ class IsaacTracker:
 
   # just for the suffix of boss kill number lol
   def suffix(self, d):
-    return 'th' if 11<=d<=13 else {1:'st',2:'nd',3:'rd'}.get(d%10, 'th')
+    return 'th' if 11 <= d <= 13 else {1:'st', 2:'nd', 3:'rd'}.get(d%10, 'th')
 
-  def check_end_run(self,line,cur_line_num):
+  def check_end_run(self, line, cur_line_num):
     if not self.run_ended:
       died_to = ""
       end_type = ""
-      if self.bosses and self.bosses[-1][0] in ['???','The Lamb','Mega Satan']:
+      if self.bosses and self.bosses[-1][0] in ['???', 'The Lamb', 'Mega Satan']:
         end_type = "Won"
       elif (self.seed != '') and line.startswith('RNG Start Seed:'):
         end_type = "Reset"
       elif line.startswith('Game Over.'):
         end_type = "Death"
-        died_to = re.search('(?i)Killed by \((.*)\) spawned',line).group(1)
+        died_to = re.search('(?i)Killed by \((.*)\) spawned', line).group(1)
       if end_type:
         self.last_run = {
           "bosses":self.bosses
@@ -154,17 +150,17 @@ class IsaacTracker:
           , "end_type":end_type
         }
         self.run_ended = True
-        self.log_msg("End of Run! %s" % self.last_run,"D")
+        self.log_msg("End of Run! %s" % self.last_run, "D")
         if end_type != "Reset":
-          self.save_file(self.run_start_line,cur_line_num, self.seed)
+          self.save_file(self.run_start_line, cur_line_num, self.seed)
 
   def save_file(self, start, end, seed):
     self.mkdir("run_logs")
     timestamp = int(time.time())
-    seed = seed.replace(" ","")
+    seed = seed.replace(" ", "")
     data = "\n".join(self.splitfile[start:end+1])
     data = "%s\nRUN_OVER_LINE\n%s" % (data, self.last_run)
-    with open("run_logs/%s%s.log" % (seed,timestamp),'wb') as f:
+    with open("run_logs/%s%s.log" % (seed, timestamp), 'wb') as f:
       f.write(data)
 
   def mkdir(self, dn):
@@ -376,11 +372,11 @@ class IsaacTracker:
     path = None
     logfile_location = ""
     if platform.system() == "Windows":
-        logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
+      logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
     elif platform.system() == "Linux":
-        logfile_location = os.path.expanduser('~') + '/.local/share/binding of isaac rebirth/'
+      logfile_location = os.path.expanduser('~') + '/.local/share/binding of isaac rebirth/'
     elif platform.system() == "Darwin":
-        logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
+      logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
     for check in ('../log.txt', logfile_location + 'log.txt'):
       if os.path.isfile(check):
         path = check
@@ -398,7 +394,7 @@ class IsaacTracker:
       f.seek(cached_length + 1)
       self.content += f.read()
 
-  #returns text to put in the titlebar
+  # returns text to put in the titlebar
   def check_for_update(self):
     try:
       github_info_json = urllib2.urlopen("https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
@@ -425,17 +421,16 @@ class IsaacTracker:
     image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
     screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
 
-
   def draw_item(self, item, screen):
     image = self.get_image(self.id_to_image(item.id))
     screen.blit(image, (item.x, item.y))
     if item.index in self.rolled_item_indices:
-      screen.blit(self.roll_icon, (item.x,item.y))
+      screen.blit(self.roll_icon, (item.x, item.y))
     if self.options["show_blind_icon"] and item.index in self.collected_blind_item_indices:
-      screen.blit(self.blind_icon, (item.x,item.y + self.options["size_multiplier"] * 12))
+      screen.blit(self.blind_icon, (item.x, item.y + self.options["size_multiplier"] * 12))
 
   def run(self):
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (self.options["xposition"],self.options["yposition"])
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (self.options["xposition"], self.options["yposition"])
     # initialize pygame system stuff
     pygame.init()
     update_notifier = self.check_for_update()
@@ -489,13 +484,13 @@ class IsaacTracker:
             self.load_selected_detail_page()
           if event.button == 3:
             if os.path.isfile("optionpicker/option_picker.exe"):
-              self.log_msg("Starting option picker from .exe","D")
-              subprocess.call(os.path.join('optionpicker',"option_picker.exe"),shell=True)
+              self.log_msg("Starting option picker from .exe", "D")
+              subprocess.call(os.path.join('optionpicker', "option_picker.exe"), shell=True)
             elif os.path.isfile("option_picker.py"):
-              self.log_msg("Starting option picker from .py","D")
-              subprocess.call("python option_picker.py",shell=True)
+              self.log_msg("Starting option picker from .py", "D")
+              subprocess.call("python option_picker.py", shell=True)
             else:
-              self.log_msg("No option_picker found!","D")
+              self.log_msg("No option_picker found!", "D")
             self.load_options()
             self.selected_item_idx = None # Clear this to avoid overlapping an item that may have been hidden
             self.reflow()
@@ -547,15 +542,19 @@ class IsaacTracker:
 
         # Use vformat to handle the case where the user adds an undefined
         # placeholder in default_message
-        message = string.Formatter().vformat(self.options["custom_message"],
-                                             (), defaultdict(str, seed=seed,
-                                                             guppy=guppy))
-        self.text_height = draw_text(screen,
-                                     message,
-                                     self.color(self.options["text_color"]),
-                                     pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2),
-                                     self.font,
-                                     aa=True, wrap=self.options["word_wrap"])
+        message = string.Formatter().vformat(
+          self.options["custom_message"],
+          (),
+          defaultdict(str, seed=seed, guppy=guppy)
+        )
+        self.text_height = draw_text(
+          screen,
+          message,
+          self.color(self.options["text_color"]),
+          pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
+          self.font,
+          aa=True, wrap=self.options["word_wrap"]
+        )
       self.reflow()
 
       if not self.item_message_countdown_in_progress():
@@ -604,8 +603,8 @@ class IsaacTracker:
 
         should_reflow = False
         # process log's new output
-        for current_line_number,line in enumerate(self.splitfile[self.seek:]):
-          self.log_msg(line,"V")
+        for current_line_number, line in enumerate(self.splitfile[self.seek:]):
+          self.log_msg(line, "V")
           # end floor boss defeated, hopefully?
           if line.startswith('Mom clear time:'):
             kill_time = int(line.split(" ")[-1])
@@ -642,7 +641,7 @@ class IsaacTracker:
               self.getting_start_items = False
             self.log_msg("Entered room: %s" % self.current_room, "D")
           if line.startswith('Level::Init'):
-            self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)", line).group(x) for x in [1,2]])
+            self.current_floor = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)", line).group(x) for x in [1, 2]])
             self.blind_floor = False # assume floors aren't blind until we see they are
             self.getting_start_items = True
             floor = int(self.current_floor[0])
@@ -653,7 +652,7 @@ class IsaacTracker:
             self.collected_items.append('f' + str(floor))
             should_reflow = True
           if line.startswith('Curse of the Labyrinth!'):
-            #it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
+            # it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
             if self.collected_items[-1].startswith('f'):
               self.collected_items[-1] += 'x'
           if line.startswith('Curse of Blind'):
@@ -661,21 +660,21 @@ class IsaacTracker:
           if line.startswith('Spawn co-player!'):
             self.spawned_coop_baby = current_line_number + self.seek
           if re.search("Added \d+ Collectibles", line):
-            self.log_msg("Reroll detected!","D")
-            self.rolled_item_indices = [index for index,item in enumerate(self.collected_items) if item[0] != 'f']
+            self.log_msg("Reroll detected!", "D")
+            self.rolled_item_indices = [index for index, item in enumerate(self.collected_items) if item[0] != 'f']
           if line.startswith('Adding collectible'):
             if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
-              self.log_msg("Skipped duplicate item line from baby presence","D")
+              self.log_msg("Skipped duplicate item line from baby presence", "D")
               continue
             # hacky string manip, idgaf
             space_split = line.split(" ")
             # string has the form "Adding collectible 105 (The D6)"
             item_id = space_split[2]
             if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.collected_items) + 10) and item_id in self.collected_items:
-              self.log_msg("Skipped duplicate item line from baby entry","D")
+              self.log_msg("Skipped duplicate item line from baby entry", "D")
               continue
             item_name = " ".join(space_split[3:])[1:-1]
-            self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name),"D")
+            self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
             with open("itemInfo.txt", "w") as f:
@@ -688,7 +687,7 @@ class IsaacTracker:
               self.item_message_start_time = self.framecount
               self.item_pickup_time = self.framecount
             else:
-              self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id,"D")
+              self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id, "D")
             if "guppy" in item_info and item_info.get("guppy")  and item_id not in self.collected_guppy_items:
               self.collected_guppy_items.append(item_id)
             if self.blind_floor and not self.getting_start_items:
