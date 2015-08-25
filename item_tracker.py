@@ -113,8 +113,8 @@ class IsaacTracker:
     # anything that gets calculated and cached based on something in options now needs to be flushed
     self.text_margin_size = int(8 * self.options["size_multiplier"])
     # font can only be initialized after pygame is set up
-    if self.font:
-      self.font = pygame.font.SysFont("Arial", int(8 * self.options["size_multiplier"]), bold=True)
+    if self.font: 
+      self.font = pygame.font.SysFont(self.options['show_font'], int(8 * self.options["size_multiplier"]), bold=self.options["bold_font"])
     self._image_library = {}
     self.roll_icon = pygame.transform.scale(self.get_image(self.id_to_image("284")), (16 * self.options["size_multiplier"], 16 * self.options["size_multiplier"]))
     self.blind_icon = pygame.transform.scale(self.get_image("collectibles/questionmark.png"), (16 * self.options["size_multiplier"], 16 * self.options["size_multiplier"]))
@@ -451,7 +451,7 @@ class IsaacTracker:
     update_notifier = self.check_for_update()
     pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
     screen = pygame.display.set_mode((self.options["width"], self.options["height"]), RESIZABLE)
-    self.font = pygame.font.SysFont("Arial", int(8 * self.options["size_multiplier"]), bold=True)
+    self.font = pygame.font.SysFont(self.options["show_font"], int(8 * self.options["size_multiplier"]), bold=self.options["bold_font"])
     pygame.display.set_icon(self.get_image("collectibles/collectibles_333.png"))
     done = False
     clock = pygame.time.Clock()
