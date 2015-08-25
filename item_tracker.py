@@ -12,6 +12,8 @@ if platform.system() == "Windows":
   import pygameWindowInfo
 from pygame.locals import *
 from pygame_helpers import *
+from collections import defaultdict
+import string
 
 class ItemInfo:
   def __init__(self, id, x, y, index, shown=True, floor=False):
@@ -351,22 +353,10 @@ class IsaacTracker:
     if item_idx is None and self.item_pickup_countdown_in_progress():
       item_idx = -1
     if item_idx is None or len(self.collected_items) < item_idx :
-      # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
-      # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
-      self.text_height = draw_text(
-        screen,
-        " ",
-        self.color(self.options["text_color"]),
-        pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
-        my_font,
-        aa=True,
-        wrap=self.options["word_wrap"]
-      )
-      self.reflow()
-      return
+      return False
     item = self.collected_items[item_idx]
     if item.startswith('f'):
-      return
+      return False
     id_padded = item.zfill(3)
     item_info = self.items_info[id_padded]
     desc = self.generateItemDescription(item_info)
@@ -379,7 +369,7 @@ class IsaacTracker:
       aa=True,
       wrap=self.options["word_wrap"]
     )
-    self.reflow()
+    return True
 
   def load_log_file(self):
     self.log_not_found = False
@@ -524,40 +514,49 @@ class IsaacTracker:
           wrap=True
         )
 
+      # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
+      # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
+      if self.options["show_description"] or self.options["show_custom_message"]:
+        self.text_height = draw_text(
+          screen,
+          " ",
+          self.color(self.options["text_color"]),
+          pygame.Rect(2, 2, self.options["width"] - 2, self.options["height"] - 2),
+          self.font,
+          aa=True,
+          wrap=self.options["word_wrap"]
+        )
+      else:
+        self.text_height = 0
+
+      text_written = False
       # draw item pickup text, if applicable
       if (len(self.collected_items) > 0
       and self.options["show_description"]
       and self.run_start_frame + 120 < self.framecount
       and self.item_message_countdown_in_progress()):
-        self.write_item_text(self.font, screen)
-      elif (self.options["show_seed"] or self.options["show_guppy_count"]) and not self.log_not_found:
+        text_written = self.write_item_text(self.font, screen)
+      if not text_written and self.options["show_custom_message"] and not self.log_not_found:
         # draw seed/guppy text:
+        seed = self.seed
 
-        seed = ""
-        guppy = ""
-        if self.options["show_seed"]:
-          seed = "Seed: " + self.seed
-
-        if self.options["show_guppy_count"]:
-            if len(self.collected_guppy_items) >= 3:
-              guppy += " - Guppy: yes"
-            else:
-              guppy += " - Guppy: " + str(len(self.collected_guppy_items))
+        if len(self.collected_guppy_items) >= 3:
+          guppy = "yes"
         else:
-          guppy = ""
+          guppy = str(len(self.collected_guppy_items))
 
+        # Use vformat to handle the case where the user adds an undefined
+        # placeholder in default_message
+        message = string.Formatter().vformat(self.options["custom_message"],
+                                             (), defaultdict(str, seed=seed,
+                                                             guppy=guppy))
         self.text_height = draw_text(screen,
-                                     "{}{}".format(seed,guppy),
+                                     message,
                                      self.color(self.options["text_color"]),
                                      pygame.Rect(2,2,self.options["width"]-2,self.options["height"]-2),
                                      self.font,
-                                     aa=True)
-        self.reflow()
-      else:
-        # can only happen if you turn seed + item descriptions off in options while its running
-        if self.text_height != 0:
-          self.text_height = 0
-          self.reflow()
+                                     aa=True, wrap=self.options["word_wrap"])
+      self.reflow()
 
       if not self.item_message_countdown_in_progress():
         self.selected_item_idx = None
