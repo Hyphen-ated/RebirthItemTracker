@@ -17,7 +17,7 @@ from pygame_helpers import *
 from collections import defaultdict
 import string
 
-
+# TODO: can actually  be a floor as well now, not just an item - should be renamed to something more sensible
 class ItemInfo:
     def __init__(self, id, x, y, index, shown, floor):
         self.id = id
@@ -342,14 +342,39 @@ class IsaacTracker:
         return desc
     
     def generate_run_summary(self):
-        items = []
-        for item in self.collected_item_info:
-            if item.id in self.in_summary_list:
-                info = self.get_item_info(item.id)
-                items.append(self.get_summary_name(info))
+        floor_texts = []
+        for floor_id, items in self.get_items_per_floor().iteritems():
+            floor_summary = self.get_floor_summary(floor_id, items)
+            if floor_summary:
+                floor_texts.append(floor_summary)
+        
+        result = string.join(floor_texts, ", ")
         
         pygame.scrap.init()
-        pygame.scrap.put(SCRAP_TEXT, string.join(items, ", "))
+        pygame.scrap.put(SCRAP_TEXT, result)
+
+    def get_floor_summary(self, floor_id, items):
+        if not items:
+            return None
+        return self.get_floor_name(floor_id) + " " + string.join(items, "/ ")
+        
+    def get_floor_name(self, floor_id):
+        return self.floor_id_to_label[floor_id]
+
+    def get_items_per_floor(self):
+        floors = {}
+        current_floor_id = None
+
+        for item in self.collected_item_info:
+            if item.id in self.floor_id_to_label:
+                # this is actually a floor, not an item
+                floors[item.id] = []
+                current_floor_id = item.id
+            elif item.id in self.in_summary_list:
+                info = self.get_item_info(item.id)
+                floors[current_floor_id].append(self.get_summary_name(info))
+    
+        return floors
 
     def get_summary_name(self, item_info):
         if "summaryName" in item_info:
@@ -480,7 +505,7 @@ class IsaacTracker:
              (f.x + 2, f.y),
              (int(f.x + 16 * self.options["size_multiplier"]), f.y))
         )
-        image = my_font.render(self.floor_id_to_label[f.id], True, self.color(self.options["text_color"]))
+        image = my_font.render(self.get_floor_name(f.id), True, self.color(self.options["text_color"]))
         screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
 
     def draw_item(self, item, screen):

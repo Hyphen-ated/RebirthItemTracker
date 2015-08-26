@@ -1547,7 +1547,8 @@
       "name": "Proptosis",
       "shown": true,
       "text": "between x2 and x1.3 dmg based on range",
-      "inSummary": true
+      "inSummary": true,
+      "summaryName": "Prop"
    },
    "262": {
       "name": "Missing Page 2",
