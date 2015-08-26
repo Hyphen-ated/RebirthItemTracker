@@ -278,16 +278,15 @@ class IsaacTracker:
         for stat in ["dmg", "delay", "speed", "shotspeed", "range", "height", "tears"]:
             if stat not in item_info:
                 continue
-            value = float(item_info.get(stat))
-            self.player_stats[stat] += value
-            epsilon = 0.001
-            display = ""
-            # if we are close to an integer, dont show the decimal point
-            if abs(round(value) - value) < epsilon:
-                display = format(value, "0.0f")
-            else:
-                display = format(value, "0.1f")
-            if value > -epsilon:
+            change = float(item_info.get(stat))
+            self.player_stats[stat] += change
+            value = self.player_stats[stat]
+
+            # round to 2 decimal places then ignore trailing zeros and trailing periods
+            # doing rstrip("0.") breaks on "0.00"
+            display = format(value, ".2f").rstrip("0").rstrip(".")
+
+            if value > -0.00001:
                 display = "+" + display
             self.player_stats_display[stat] = display
             with open("overlay text/" + stat + ".txt", "w+") as f:
