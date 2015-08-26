@@ -19,7 +19,7 @@ import string
 
 
 class ItemInfo:
-    def __init__(self, id, x, y, index, shown=True, floor=False):
+    def __init__(self, id, x, y, index, shown, floor):
         self.id = id
         self.x = x
         self.y = y
@@ -232,13 +232,17 @@ class IsaacTracker:
         if self.options['show_floors']:
             vert_padding = self.text_margin_size
         for item_id in self.collected_items:
+            item_x = icon_footprint * cur_column 
+            item_y = self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1))
+            floor = False
+            shown = True
             if item_id not in self.filter_list \
                     and (not item_id in self.healthonly_list or self.options["show_health_ups"]) \
                     and (not item_id in self.space_list or item_id in self.guppy_list or self.options["show_space_items"]) \
                     and (not index in self.rolled_item_indices or self.options["show_rerolled_items"]):
 
                 # check to see if we are about to go off the right edge
-                if icon_footprint * (cur_column) + 32 * self.options["size_multiplier"] > self.options["width"]:
+                if icon_footprint * cur_column + 32 * self.options["size_multiplier"] > self.options["width"]:
                     if (not force_layout) \
                             and self.text_height + (icon_footprint + vert_padding) * (cur_row + 1) + icon_size + vert_padding \
                                     > self.options["height"]:
@@ -246,35 +250,13 @@ class IsaacTracker:
                     cur_row += 1
                     cur_column = 0
 
-                if item_id.startswith('f'):
-                    item_info = ItemInfo(
-                        id=item_id,
-                        x=icon_footprint * cur_column,
-                        y=self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
-                        shown=True,
-                        index=index,
-                        floor=True
-                    )
-                    new_item_info.append(item_info)
-                else:
-                    item_info = ItemInfo(
-                        id=item_id,
-                        x=icon_footprint * cur_column,
-                        y=self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
-                        shown=True,
-                        index=index
-                    )
-                    new_item_info.append(item_info)
+                floor = item_id.startswith('f')
+                if not floor:
                     cur_column += 1
             else:
-                item_info = ItemInfo(
-                    id=item_id,
-                    x=icon_footprint * cur_column,
-                    y=self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1)),
-                    shown=False,
-                    index=index
-                )
-                new_item_info.append(item_info)
+                shown = False
+
+            new_item_info.append(ItemInfo(item_id, item_x, item_y, index, shown, floor))
             index += 1
         return new_item_info
 
@@ -420,7 +402,7 @@ class IsaacTracker:
             # no items, nothing to show
             return False
         if item_idx is None and self.item_pickup_countdown_in_progress():
-            # we want to be showing an item but they havent selected one, that means show the newest item
+            # we want to be showing an item but they haven't selected one, that means show the newest item
             item_idx = -1
         if item_idx is None or len(self.collected_items) < item_idx:
             # we got into a weird state where we think we should be showing something unshowable, bail out
@@ -455,7 +437,7 @@ class IsaacTracker:
             if os.path.isfile(check):
                 path = check
                 break
-        if path == None:
+        if path is None:
             self.log_not_found = True
             return
 
@@ -702,7 +684,7 @@ class IsaacTracker:
                     self.check_end_run(line, current_line_number + self.seek)
                     # start of a run
                     if line.startswith('RNG Start Seed:'):
-                        # this assumes a fixed width, but from what i see it seems safe
+                        # this assumes a fixed width, but from what I see it seems safe
                         self.seed = line[16:25]
                         self.log_msg("Starting new run, seed: %s" % self.seed, "D")
                         self.run_start_frame = self.framecount
