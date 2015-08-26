@@ -360,14 +360,14 @@ class IsaacTracker:
         return desc
     
     def generate_run_summary(self):
-        summary = ""
+        items = []
         for item in self.collected_item_info:
             if item.id in self.in_summary_list:
                 info = self.get_item_info(item.id)
-                summary += self.get_summary_name(info) + ", "
+                items.append(self.get_summary_name(info))
         
         pygame.scrap.init()
-        pygame.scrap.put(SCRAP_TEXT, summary)
+        pygame.scrap.put(SCRAP_TEXT, string.join(items, ", "))
 
     def get_summary_name(self, item_info):
         if "summaryName" in item_info:
