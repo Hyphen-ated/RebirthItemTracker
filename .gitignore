@@ -4,3 +4,5 @@ dist/
 target/
 run_logs/
 overlay text/*.txt
+build/
+*.iml
