@@ -12,6 +12,7 @@ import urllib2
 if platform.system() == "Windows":
     import pygameWindowInfo
 from pygame.locals import *
+from pygame.scrap import *
 from pygame_helpers import *
 from collections import defaultdict
 import string
@@ -65,6 +66,7 @@ class IsaacTracker:
         self.guppy_list = []
         self.space_list = []
         self.healthonly_list = []
+        self.in_summary_list = []
         self.items_info = {}
         self.player_stats = {}
         self.player_stats_display = {}
@@ -79,7 +81,7 @@ class IsaacTracker:
         # Load all of the settings from the "options.json" file
         self.load_options()
 
-        with open("items.txt", "r") as items_file:
+        with open("items.json", "r") as items_file:
             self.items_info = json.load(items_file)
         for itemid, item in self.items_info.iteritems():
             if not item["shown"]:
@@ -90,6 +92,8 @@ class IsaacTracker:
                 self.space_list.append(itemid.lstrip("0"))
             if "healthonly" in item and item["healthonly"]:
                 self.healthonly_list.append(itemid.lstrip("0"))
+            if "inSummary" in item and item["inSummary"]:
+                self.in_summary_list.append(itemid.lstrip("0"))
 
         self.floor_id_to_label = {
             "f1": "B1",
@@ -354,6 +358,21 @@ class IsaacTracker:
         if len(desc) > 0:
             desc = ": " + desc
         return desc
+    
+    def generate_run_summary(self):
+        summary = ""
+        for item in self.collected_item_info:
+            if item.id in self.in_summary_list:
+                info = self.get_item_info(item.id)
+                summary += self.get_summary_name(info) + ", "
+        
+        pygame.scrap.init()
+        pygame.scrap.put(SCRAP_TEXT, summary)
+
+    def get_summary_name(self, item_info):
+        if "summaryName" in item_info:
+            return item_info.get("summaryName")
+        return item_info.get("name")
 
     def color(self, string):
         return pygame.color.Color(str(string))
@@ -409,8 +428,7 @@ class IsaacTracker:
         item = self.collected_items[item_idx]
         if item.startswith('f'):
             return False
-        id_padded = item.zfill(3)
-        item_info = self.items_info[id_padded]
+        item_info = self.get_item_info(item)
         desc = self.generate_item_description(item_info)
         self.text_height = draw_text(
             screen,
@@ -463,6 +481,10 @@ class IsaacTracker:
         except Exception as e:
             self.log_msg("Failed to find update info: " + e.message, "D")
         return ""
+
+    def get_item_info(self, item_id):
+        id_padded = item_id.zfill(3)
+        return self.items_info[id_padded]
 
     def id_to_image(self, id):
         return 'collectibles/collectibles_%s.png' % id.zfill(3)
@@ -538,6 +560,8 @@ class IsaacTracker:
                             self.adjust_selected_item(-1)
                         elif event.key == pygame.K_RETURN:
                             self.load_selected_detail_page()
+                        elif event.key == pygame.K_SPACE:
+                            self.generate_run_summary()
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.load_selected_detail_page()
@@ -738,8 +762,7 @@ class IsaacTracker:
                             continue
                         item_name = " ".join(space_split[3:])[1:-1]
                         self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
-                        id_padded = item_id.zfill(3)
-                        item_info = self.items_info[id_padded]
+                        item_info = self.get_item_info(item_id)
                         with open("overlay text/itemInfo.txt", "w+") as f:
                             desc = self.generate_item_description(item_info)
                             f.write(item_info["name"] + ":" + desc)
