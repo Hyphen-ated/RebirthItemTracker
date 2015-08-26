@@ -3,4 +3,4 @@
 dist/
 target/
 run_logs/
-overlay text/*
+overlay text/*.txt
