@@ -352,9 +352,14 @@ class IsaacTracker:
 
   def write_item_text(self, my_font, screen):
     item_idx = self.selected_item_idx
+    if len(self.collected_items) < 0:
+      # no items, nothing to show
+      return False
     if item_idx is None and self.item_pickup_countdown_in_progress():
+      # we want to be showing an item but they havent selected one, that means show the newest item
       item_idx = -1
-    if item_idx is None or len(self.collected_items) < item_idx :
+    if item_idx is None or len(self.collected_items) < item_idx:
+      # we got into a weird state where we think we should be showing something unshowable, bail out
       return False
     item = self.collected_items[item_idx]
     if item.startswith('f'):
