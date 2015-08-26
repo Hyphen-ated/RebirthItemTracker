@@ -282,7 +282,7 @@ class IsaacTracker:
       if value > -epsilon:
         display = "+" + display
       self.player_stats_display[stat] = display
-      with open("overlay text/" + stat + ".txt", "w") as f:
+      with open("overlay text/" + stat + ".txt", "w+") as f:
         f.write(display)
 
 
@@ -293,7 +293,7 @@ class IsaacTracker:
         display = "yes"
       else:
         display = str(len(self.collected_guppy_items))
-      with open("overlay text/" + stat + ".txt", "w") as f:
+      with open("overlay text/" + stat + ".txt", "w+") as f:
         f.write(display)
       self.player_stats_display["guppy"] = display
 
@@ -680,7 +680,7 @@ class IsaacTracker:
             self.run_start_line = current_line_number + self.seek
             self.run_ended = False
             self.reset_player_stats()
-            with open("overlay text/seed.txt", "w") as f:
+            with open("overlay text/seed.txt", "w+") as f:
               f.write(self.seed)
 
           # entered a room, use to keep track of bosses
@@ -726,7 +726,7 @@ class IsaacTracker:
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
-            with open("overlay text/itemInfo.txt", "w") as f:
+            with open("overlay text/itemInfo.txt", "w+") as f:
               desc = self.generate_item_description(item_info)
               f.write(item_info["name"] + ":" + desc)
 
