@@ -11,7 +11,7 @@ This uses the `log.txt` file to track item pickups in The Binding of Isaac: Rebi
 
 ![](http://i.imgur.com/zG3eV8V.png)
 
-Download it [here](https://github.com/Hyphen-ated/RebirthItemTracker/releases) (get the latest file that doesn't have "source code" in the name).
+Download it [here](screenshot/screenshot.png) (get the latest file that doesn't have "source code" in the name).
 
 To use it, first extract that zip file and then run the exe inside.
 
