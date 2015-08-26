@@ -26,8 +26,6 @@ shutil.copytree('dist/', installDir + 'optionpicker/')
 
 shutil.copy('options.json', installDir)
 shutil.copy('items.txt', installDir)
-shutil.copy('seed.txt', installDir)
-shutil.copy('itemInfo.txt', installDir)
 shutil.copy('LICENSE.txt', installDir)
 shutil.copy('README.md', installDir + 'README.txt')
 with open(installDir + "version.txt", 'w') as f:

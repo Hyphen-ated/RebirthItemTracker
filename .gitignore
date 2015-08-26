@@ -3,3 +3,7 @@
 dist/
 target/
 run_logs/
+*.iml
+build/
+itemInfo.txt
+seed.txt
