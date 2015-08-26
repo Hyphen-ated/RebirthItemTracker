@@ -63,6 +63,9 @@ class IsaacTracker:
     self.space_list = []
     self.healthonly_list = []
     self.items_info = {}
+    self.player_stats = {}
+    self.player_stats_display = {}
+    self.reset_player_stats()
     self.item_message_start_time = 0
     self.item_pickup_time = 0
     self.item_position_index = []
@@ -263,7 +266,43 @@ class IsaacTracker:
       index += 1
     return new_item_info
 
-  def generateItemDescription(self, item_info):
+  def add_stats_for_item(self, item_info, item_id):
+    for stat in ["dmg", "delay", "speed", "shotspeed", "range", "height", "tears"]:
+      if stat not in item_info:
+        continue
+      value = float(item_info.get(stat))
+      self.player_stats[stat] += value
+      epsilon = 0.001
+      display = ""
+      # if we are close to an integer, dont show the decimal point
+      if abs(round(value) - value) < epsilon:
+        display = format(value, "0.0f")
+      else:
+        display = format(value, "0.1f")
+      if value > -epsilon:
+        display = "+" + display
+      self.player_stats_display[stat] = display
+      with open("overlay text/" + stat + ".txt", "w") as f:
+        f.write(display)
+
+
+    if "guppy" in item_info and item_info.get("guppy")  and item_id not in self.collected_guppy_items:
+      self.collected_guppy_items.append(item_id)
+      display = ""
+      if len(self.collected_guppy_items) >= 3:
+        display = "yes"
+      else:
+        display = str(len(self.collected_guppy_items))
+      with open("overlay text/" + stat + ".txt", "w") as f:
+        f.write(display)
+      self.player_stats_display["guppy"] = display
+
+
+  def reset_player_stats(self):
+    self.player_stats = {"dmg": 0.0, "delay": 0.0, "speed": 0.0, "shotspeed": 0.0, "range": 0.0, "height": 0.0, "tears": 0.0}
+    self.player_stats_display =  {"dmg": "+0", "delay": "+0", "speed": "+0", "shotspeed": "+0", "range": "+0", "height": "+0", "tears": "+0"}
+
+  def generate_item_description(self, item_info):
     desc = ""
     text = item_info.get("text")
     dmg = item_info.get("dmg")
@@ -366,7 +405,7 @@ class IsaacTracker:
       return False
     id_padded = item.zfill(3)
     item_info = self.items_info[id_padded]
-    desc = self.generateItemDescription(item_info)
+    desc = self.generate_item_description(item_info)
     self.text_height = draw_text(
       screen,
       "%s%s" % (item_info["name"], desc),
@@ -546,17 +585,15 @@ class IsaacTracker:
         # draw seed/guppy text:
         seed = self.seed
 
-        if len(self.collected_guppy_items) >= 3:
-          guppy = "yes"
-        else:
-          guppy = str(len(self.collected_guppy_items))
+        dic = defaultdict(str, seed=seed)
+        dic.update(self.player_stats_display)
 
         # Use vformat to handle the case where the user adds an undefined
         # placeholder in default_message
         message = string.Formatter().vformat(
           self.options["custom_message"],
           (),
-          defaultdict(str, seed=seed, guppy=guppy)
+          dic
         )
         self.text_height = draw_text(
           screen,
@@ -642,7 +679,8 @@ class IsaacTracker:
             self.log_msg("Emptied boss array", "D")
             self.run_start_line = current_line_number + self.seek
             self.run_ended = False
-            with open("seed.txt", "w") as f:
+            self.reset_player_stats()
+            with open("overlay text/seed.txt", "w") as f:
               f.write(self.seed)
 
           # entered a room, use to keep track of bosses
@@ -688,8 +726,8 @@ class IsaacTracker:
             self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
             id_padded = item_id.zfill(3)
             item_info = self.items_info[id_padded]
-            with open("itemInfo.txt", "w") as f:
-              desc = self.generateItemDescription(item_info)
+            with open("overlay text/itemInfo.txt", "w") as f:
+              desc = self.generate_item_description(item_info)
               f.write(item_info["name"] + ":" + desc)
 
             # ignore repeated pickups of space bar items
@@ -699,8 +737,7 @@ class IsaacTracker:
               self.item_pickup_time = self.framecount
             else:
               self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id, "D")
-            if "guppy" in item_info and item_info.get("guppy")  and item_id not in self.collected_guppy_items:
-              self.collected_guppy_items.append(item_id)
+            self.add_stats_for_item(item_info, item_id)
             if self.blind_floor and not self.getting_start_items:
               # the item we just picked up was picked up blind, so add its index here to track that fact
               self.collected_blind_item_indices.append(len(self.collected_items) - 1)

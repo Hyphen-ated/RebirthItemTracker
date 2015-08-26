@@ -11,6 +11,7 @@ if os.path.isdir('target/'):
 installDir = 'target/' + installName + '/'
 
 shutil.copytree('collectibles/', installDir + 'collectibles/')
+shutil.copytree('overlay text/', installDir + 'overlay text/')
 
 #first build the main tracker using the horrible ugly pygame2exe script
 subprocess.call("pygame2exe.py item_tracker.py", shell=True, stdout=sys.stdout, stderr=sys.stderr)
@@ -26,8 +27,6 @@ shutil.copytree('dist/', installDir + 'optionpicker/')
 
 shutil.copy('options.json', installDir)
 shutil.copy('items.txt', installDir)
-shutil.copy('seed.txt', installDir)
-shutil.copy('itemInfo.txt', installDir)
 shutil.copy('LICENSE.txt', installDir)
 shutil.copy('README.md', installDir + 'README.txt')
 with open(installDir + "version.txt", 'w') as f:

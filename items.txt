@@ -1387,7 +1387,6 @@
    "240": {
       "name": "Experimental Treatment",
       "shown": true,
-      "speed": "",
       "text": "randomly increases or decreases stats (doesn't swap)"
    },
    "241": {
