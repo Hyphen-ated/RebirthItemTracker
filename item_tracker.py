@@ -773,7 +773,7 @@ class IsaacTracker:
                             self.adjust_selected_item(-1)
                         elif event.key == pygame.K_RETURN:
                             self.load_selected_detail_page()
-                        elif event.key == pygame.K_SPACE:
+                        elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
                             self.generate_run_summary()
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
