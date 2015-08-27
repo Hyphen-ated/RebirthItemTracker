@@ -459,6 +459,11 @@ class IsaacTracker:
         components.append(self.generate_run_summary_stats())
         summary = string.join(components, ", ")
 
+        if len(self.collected_guppy_items) is 2:
+            two_thirds_text = ", 2/3 Guppy"
+            if len(summary) <= (140 - len(two_thirds_text)):
+                summary += two_thirds_text
+
         pygame.scrap.init()
         pygame.scrap.put(SCRAP_TEXT, summary)
 
