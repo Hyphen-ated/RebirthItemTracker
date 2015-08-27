@@ -445,12 +445,13 @@ class IsaacTracker:
         return desc
 
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
-    # TODO: Guppy, Curses, Hive Mind if Guppy
+    # TODO: Guppy, Hive Mind if Guppy
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
         components = []
         for floor_id, items in self.get_items_per_floor().iteritems():
             floor_summary = self.generate_floor_summary(floor_id, items)
+            floor = self.get_floor(floor_id)
             if floor_summary:
                 components.append(floor_summary)
 
@@ -471,18 +472,23 @@ class IsaacTracker:
     def get_stat(self, stat):
         return self.player_stats_display[stat]
 
+    def get_floor_label(self, floor_id):
+        floor = self.get_floor(floor_id)
+        # a floor can't be lost _and_ blind
+        # (with amnesia it could be, but we can't tell from log.txt)
+        return self.get_floor_name(floor_id) + \
+            ("(bld)" if floor.blind else "") + \
+            ("(lst)" if floor.lost else "")
+
     def generate_floor_summary(self, floor_id, items):
-        if not items:
-            return None
+        floor_label = self.get_floor_label(floor_id)
         floor = self.get_floor(floor_id)
         if floor is None:
             return "Error - could not find floor " + floor_id
-        # a floor can't be lost _and_ blind
-        # (with amnesia it could be, but we can't tell from log.txt)
-        return self.get_floor_name(floor_id) +\
-            ("(bld)" if floor.blind else "") +\
-            ("(lst)" if floor.lost else "") +\
-            " " + string.join(items, "/")
+        if not items:
+            # lost floors are still relevant even without items
+            return floor_label if floor.lost else None
+        return floor_label + " " + string.join(items, "/")
 
     def get_floor_name(self, floor_id):
         return self.floor_id_to_label[floor_id]
