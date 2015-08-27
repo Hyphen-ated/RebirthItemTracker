@@ -341,19 +341,28 @@ class IsaacTracker:
         return desc
 
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
-    # TODO: Guppy, Seed, Stats, Curses
+    # TODO: Guppy, Curses
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
-        floor_texts = []
+        components = []
         for floor_id, items in self.get_items_per_floor().iteritems():
             floor_summary = self.generate_floor_summary(floor_id, items)
             if floor_summary:
-                floor_texts.append(floor_summary)
+                components.append(floor_summary)
 
-        result = string.join(floor_texts, ", ")
+        components.insert(0, self.seed)
+        components.append(self.generate_run_summary_stats())
+        summary = string.join(components, ", ")
 
         pygame.scrap.init()
-        pygame.scrap.put(SCRAP_TEXT, result)
+        pygame.scrap.put(SCRAP_TEXT, summary)
+
+    # TODO: this should be configurable with a string like the overlay
+    def generate_run_summary_stats(self):
+        return string.join(
+            [("Dmg:" + self.player_stats_display["dmg"]),
+             ("Trs:" + self.player_stats_display["tears"]),
+             ("Spd:" + self.player_stats_display["speed"])], "/")
 
     def generate_floor_summary(self, floor_id, items):
         if not items:
