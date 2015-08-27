@@ -813,8 +813,7 @@ class IsaacTracker:
             self.framecount += 1
 
             # process log stuff every read_delay seconds. making sure to truncate to an integer or else it might never mod to 0
-            if self.framecount % int(self.options[
-                                         "framerate_limit"] * self.read_delay) == 0:
+            if self.framecount % int(self.options[Option.FRAMERATE_LIMIT] * self.read_delay) == 0:
                 self.load_log_file()
                 self.splitfile = self.content.splitlines()
                 # return to start if seek passes the end of the file (usually b/c log file restarted)
