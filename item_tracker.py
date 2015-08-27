@@ -29,6 +29,7 @@ class ItemInfo:
 
 
 # Player stat constants (keys to player_stats and player_stats_display)
+# This is a subset of all available ItemPropertys
 class Stat:
     DMG = "dmg"
     DMG_X = "dmgx"
@@ -48,13 +49,15 @@ class Stat:
 
 
 # Properties that items from items.json can have
-class ItemFlag:
+# additionally, those items can have any Stat
+class ItemProperty:
+    NAME = "name"
     SHOWN = "shown"
     GUPPY = "guppy"
     SPACE = "space"
     HEALTH_ONLY = "healthonly"
     IN_SUMMARY = "inSummary"
-
+    SUMMARY_NAME = "summaryName"
 
 # Keys to the options dict
 class Option:
@@ -64,23 +67,23 @@ class Option:
     HEIGHT = "height"
     BACKGROUND_COLOR = "background_color"
     FRAMERATE_LIMIT = "framerate_limit"
-    
+    #
     SIZE_MULTIPLIER = "size_multiplier"
     DEFAULT_SPACING = "default_spacing"
     MIN_SPACING = "min_spacing"
-    
+    #
     SHOW_FONT = "show_font"
     BOLD_FONT = "bold_font"
     TEXT_COLOR = "text_color"
     WORD_WRAP = "word_wrap"
-    
+    #
     SHOW_FLOORS = "show_floors"
     SHOW_HEALTH_UPS = "show_health_ups"
     SHOW_SPACE_ITEMS = "show_space_items"
     SHOW_REROLLED_ITEMS = "show_rerolled_items"
     SHOW_BLIND_ICON = "show_blind_icon"
     SHOW_DESCRIPTION = "show_description"
-    
+    #
     SHOW_CUSTOM_MESSAGE = "show_custom_message"
     MESSAGE_DURATION = "message_duration"
     CUSTOM_MESSAGE = "custom_message"
@@ -142,15 +145,15 @@ class IsaacTracker:
             self.items_info = json.load(items_file)
         for item_id, item in self.items_info.iteritems():
             short_id = item_id.lstrip("0")
-            if not item[ItemFlag.SHOWN]:
+            if not item[ItemProperty.SHOWN]:
                 self.filter_list.append(short_id)
-            if ItemFlag.GUPPY in item and item[ItemFlag.GUPPY]:
+            if ItemProperty.GUPPY in item and item[ItemProperty.GUPPY]:
                 self.guppy_list.append(short_id)
-            if ItemFlag.SPACE in item and item[ItemFlag.SPACE]:
+            if ItemProperty.SPACE in item and item[ItemProperty.SPACE]:
                 self.space_list.append(short_id)
-            if ItemFlag.HEALTH_ONLY in item and item[ItemFlag.HEALTH_ONLY]:
+            if ItemProperty.HEALTH_ONLY in item and item[ItemProperty.HEALTH_ONLY]:
                 self.healthonly_list.append(short_id)
-            if ItemFlag.IN_SUMMARY in item and item[ItemFlag.IN_SUMMARY]:
+            if ItemProperty.IN_SUMMARY in item and item[ItemProperty.IN_SUMMARY]:
                 self.in_summary_list.append(short_id)
 
         self.floor_id_to_label = {
@@ -477,9 +480,9 @@ class IsaacTracker:
         return floors
 
     def get_summary_name(self, item_info):
-        if "summaryName" in item_info:
-            return item_info.get("summaryName")
-        return item_info.get("name")
+        if ItemProperty.SUMMARY_NAME in item_info:
+            return item_info.get(ItemProperty.SUMMARY_NAME)
+        return item_info.get(ItemProperty.NAME)
 
     def color(self, string):
         return pygame.color.Color(str(string))
@@ -544,7 +547,7 @@ class IsaacTracker:
         desc = self.generate_item_description(item_info)
         self.text_height = draw_text(
             screen,
-            "%s%s" % (item_info["name"], desc),
+            "%s%s" % (item_info[ItemProperty.NAME], desc),
             self.color(self.options[Option.TEXT_COLOR]),
             pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
                         self.options[Option.HEIGHT] - 2),
@@ -921,11 +924,11 @@ class IsaacTracker:
                         item_info = self.get_item_info(item_id)
                         with open("overlay text/itemInfo.txt", "w+") as f:
                             desc = self.generate_item_description(item_info)
-                            f.write(item_info["name"] + ":" + desc)
+                            f.write(item_info[ItemProperty.NAME] + ":" + desc)
 
                         # ignore repeated pickups of space bar items
                         if not (item_info.get(
-                                ItemFlag.SPACE) and item_id in self.collected_items):
+                                ItemProperty.SPACE) and item_id in self.collected_items):
                             self.collected_items.append(item_id)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
