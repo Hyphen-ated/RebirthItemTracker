@@ -41,6 +41,8 @@ class Stat:
     TEARS = "tears"
     SOUL_HEARTS = "soulhearts"
     SIN_HEARTS = "sinhearts"
+    # used for init and reset - does not have all stats yet
+    LIST = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS]
 
 class IsaacTracker:
     def __init__(self, verbose=False, debug=False, read_delay=1):
@@ -305,8 +307,9 @@ class IsaacTracker:
             self.player_stats_display["guppy"] = display
 
     def reset_player_stats(self):
-        self.player_stats = {"dmg": 0.0, "delay": 0.0, "speed": 0.0, "shotspeed": 0.0, "range": 0.0, "height": 0.0, "tears": 0.0}
-        self.player_stats_display = {"dmg": "+0", "delay": "+0", "speed": "+0", "shotspeed": "+0", "range": "+0", "height": "+0", "tears": "+0"}
+        for stat in Stat.LIST:
+            self.player_stats[stat] = 0.0
+            self.player_stats_display[stat] = "+0"
 
     def generate_item_description(self, item_info):
         desc = ""
