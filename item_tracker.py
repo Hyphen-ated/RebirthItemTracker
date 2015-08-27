@@ -636,7 +636,7 @@ class IsaacTracker:
         # initialize pygame system stuff
         pygame.init()
         update_notifier = self.check_for_update()
-        pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
+        pygame.display.set_caption("Rebirth Item Tracker v0.8" + update_notifier)
         screen = pygame.display.set_mode(
             (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
         self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT], int(
