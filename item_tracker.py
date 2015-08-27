@@ -480,8 +480,8 @@ class IsaacTracker:
         # a floor can't be lost _and_ blind
         # (with amnesia it could be, but we can't tell from log.txt)
         return self.get_floor_name(floor_id) +\
-            ("(blind)" if floor.blind else "") +\
-            ("(lost)" if floor.lost else "") +\
+            ("(bld)" if floor.blind else "") +\
+            ("(lst)" if floor.lost else "") +\
             " " + string.join(items, "/")
 
     def get_floor_name(self, floor_id):
