@@ -232,7 +232,7 @@ class IsaacTracker:
         if self.options['show_floors']:
             vert_padding = self.text_margin_size
         for item_id in self.collected_items:
-            item_x = icon_footprint * cur_column 
+            item_x = icon_footprint * cur_column
             item_y = self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1))
             floor = False
             shown = True
@@ -289,7 +289,6 @@ class IsaacTracker:
                 f.write(display)
             self.player_stats_display["guppy"] = display
 
-
     def reset_player_stats(self):
         self.player_stats = {"dmg": 0.0, "delay": 0.0, "speed": 0.0, "shotspeed": 0.0, "range": 0.0, "height": 0.0, "tears": 0.0}
         self.player_stats_display = {"dmg": "+0", "delay": "+0", "speed": "+0", "shotspeed": "+0", "range": "+0", "height": "+0", "tears": "+0"}
@@ -340,24 +339,27 @@ class IsaacTracker:
         if len(desc) > 0:
             desc = ": " + desc
         return desc
-    
+
+    # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
+    # TODO: Guppy, Seed, Stats, Curses
+    # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
         floor_texts = []
         for floor_id, items in self.get_items_per_floor().iteritems():
-            floor_summary = self.get_floor_summary(floor_id, items)
+            floor_summary = self.generate_floor_summary(floor_id, items)
             if floor_summary:
                 floor_texts.append(floor_summary)
-        
+
         result = string.join(floor_texts, ", ")
-        
+
         pygame.scrap.init()
         pygame.scrap.put(SCRAP_TEXT, result)
 
-    def get_floor_summary(self, floor_id, items):
+    def generate_floor_summary(self, floor_id, items):
         if not items:
             return None
         return self.get_floor_name(floor_id) + " " + string.join(items, "/ ")
-        
+
     def get_floor_name(self, floor_id):
         return self.floor_id_to_label[floor_id]
 
@@ -373,7 +375,7 @@ class IsaacTracker:
             elif item.id in self.in_summary_list:
                 info = self.get_item_info(item.id)
                 floors[current_floor_id].append(self.get_summary_name(info))
-    
+
         return floors
 
     def get_summary_name(self, item_info):

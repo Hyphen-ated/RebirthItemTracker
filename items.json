@@ -10,7 +10,9 @@
       "delay": "3",
       "delayx": "2.1",
       "shown": true,
-      "text": "triple shot"
+      "text": "triple shot",
+      "inSummary": true,
+      "summaryText": "Triple"
    },
    "003": {
       "name": "Spoon Bender",
@@ -403,7 +405,8 @@
       "name": "Chocolate Milk",
       "shown": true,
       "text": "charge tears (max is 4x dmg and 2.5x delay)",
-      "inSummary": true
+      "inSummary": true,
+      "summaryName": "Choco"
    },
    "070": {
       "name": "Growth Hormones",
@@ -910,7 +913,7 @@
       "shown": true,
       "text": "quad shot",
       "inSummary": true,
-      "summaryName": "Quad Shot"
+      "summaryName": "Quad"
    },
    "154": {
       "name": "Chemical Peel",
@@ -1374,8 +1377,7 @@
       "name": "Abaddon",
       "shown": true,
       "speed": "0.2",
-      "text": "lose red hearts, chance for fear shots",
-      "inSummary": true
+      "text": "lose red hearts, chance for fear shots"
    },
    "231": {
       "name": "Ball of Tar",
