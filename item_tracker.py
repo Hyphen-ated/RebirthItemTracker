@@ -17,7 +17,7 @@ from pygame_helpers import *
 from collections import defaultdict
 import string
 
-# TODO: can actually  be a floor as well now, not just an item - should be renamed to something more sensible
+# TODO: can actually  be a floor as well now, not just an item - should be changed in the future
 class ItemInfo:
     def __init__(self, id, x, y, index, shown, floor):
         self.id = id
@@ -26,6 +26,14 @@ class ItemInfo:
         self.shown = shown
         self.index = index
         self.floor = floor
+
+
+# TODO: keep track of all curses
+class Floor:
+    def __init__(self, id):
+        self.id = id
+        self.blind = False
+        self.lost = False
 
 
 # Player stat constants (keys to player_stats and player_stats_display)
@@ -128,6 +136,7 @@ class IsaacTracker:
         self.healthonly_list = []
         self.in_summary_list = []
         self.items_info = {}
+        self.floors = []
         self.player_stats = {}
         self.player_stats_display = {}
         self.reset_player_stats()
@@ -459,10 +468,25 @@ class IsaacTracker:
     def generate_floor_summary(self, floor_id, items):
         if not items:
             return None
-        return self.get_floor_name(floor_id) + " " + string.join(items, "/ ")
+        floor = self.get_floor(floor_id)
+        if floor is None:
+            return "Error - could not find floor " + floor_id
+        # a floor can't be lost _and_ blind
+        # (with amnesia it could be, but we can't tell from log.txt)
+        return self.get_floor_name(floor_id) +\
+            ("(blind)" if floor.blind else "") +\
+            ("(lost)" if floor.lost else "") +\
+            " " + string.join(items, "/")
 
     def get_floor_name(self, floor_id):
         return self.floor_id_to_label[floor_id]
+
+    def get_floor(self, floor_id):
+        for floor in self.floors:
+            if floor.id is floor_id:
+                return floor
+        # Should not happen
+        return None
 
     def get_items_per_floor(self):
         floors = {}
@@ -500,20 +524,20 @@ class IsaacTracker:
         return
 
     def adjust_selected_item(self, amount):
-        itemlength = len(self.collected_item_info)
+        item_length = len(self.collected_item_info)
         if self.num_displayed_items < 1:
             return
         if self.selected_item_idx is None and amount > 0:
             self.selected_item_idx = 0
         elif self.selected_item_idx is None and amount < 0:
-            self.selected_item_idx = itemlength - 1
+            self.selected_item_idx = item_length - 1
         else:
             done = False
             while not done:
                 self.selected_item_idx += amount
                 # clamp it to the range (0, length)
                 self.selected_item_idx = (
-                                             self.selected_item_idx + itemlength) % itemlength
+                                             self.selected_item_idx + item_length) % item_length
                 selected_type = self.collected_item_info[self.selected_item_idx]
                 done = selected_type.shown and not selected_type.floor
 
@@ -587,7 +611,7 @@ class IsaacTracker:
             f.seek(cached_length + 1)
             self.content += f.read()
 
-    # returns text to put in the titlebar
+    # returns text to put in the title bar
     def check_for_update(self):
         try:
             github_info_json = urllib2.urlopen(
@@ -876,22 +900,29 @@ class IsaacTracker:
                             [re.search(
                                 "Level::Init m_Stage (\d+), m_AltStage (\d+)",
                                 line).group(x) for x in [1, 2]])
-                        self.blind_floor = False  # assume floors aren't blind until we see they are
+                        # assume floors aren't cursed until we see they are
+                        self.blind_floor = False
                         self.getting_start_items = True
                         floor = int(self.current_floor[0])
                         alt = self.current_floor[1]
                         # special handling for cath and chest
                         if alt == '1' and (floor == 9 or floor == 11):
                             floor += 1
-                        self.collected_items.append('f' + str(floor))
+                        floor_id = 'f' + str(floor)
+                        self.collected_items.append(floor_id) # TODO: remove this line - items are not floors
+                        self.floors.append(Floor(floor_id))
                         should_reflow = True
-                    if line.startswith('Curse of the Labyrinth!'):
+                    last_collected = self.collected_items[-1] if self.collected_items else None
+                    if line.startswith("Curse of the Labyrinth!"):
                         # it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
-                        if self.collected_items[-1].startswith('f'):
+                        if last_collected.startswith('f'):
                             self.collected_items[-1] += 'x'
-                    if line.startswith('Curse of Blind'):
+                    if line.startswith("Curse of Blind"):
+                        self.floors[-1].blind = True
                         self.blind_floor = True
-                    if line.startswith('Spawn co-player!'):
+                    if line.startswith("Curse of the Lost!"):
+                        self.floors[-1].lost = True
+                    if line.startswith("Spawn co-player!"):
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search("Added \d+ Collectibles", line):
                         self.log_msg("Reroll detected!", "D")
