@@ -15,7 +15,7 @@ SpawnRNG seed: 1305165332
 Spawn Entity with Type(5), Variant(100), Pos(320.00,280.00)
 item taken without exchange
 item queue flush
-Adding collectible 69 (Chocolate Milk)
+Adding collectible 4 (Cricket's Head)
 Room 1.2(Start Room)
 SpawnRNG seed: 2869322856
 music stopped playing
@@ -165,6 +165,8 @@ Spawn Entity with Type(5), Variant(150), Pos(400.00,320.00)
 item taken without exchange
 item queue flush
 Adding collectible 134 (Guppy's Tail)
+Adding collectible 081 (Dead Cat)
+Adding collectible 212 (Guppy's Collar)
 item taken without exchange
 music stopped playing
 item queue flush

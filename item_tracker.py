@@ -329,8 +329,7 @@ class IsaacTracker:
             if item_id not in self.filter_list \
                     and (not item_id in self.healthonly_list or self.options[
                         Option.SHOW_HEALTH_UPS]) \
-                    and (
-                                    not item_id in self.space_list or item_id in self.guppy_list or
+                    and (not item_id in self.space_list or item_id in self.guppy_list or
                                 self.options[Option.SHOW_SPACE_ITEMS]) \
                     and (not index in self.rolled_item_indices or self.options[
                         Option.SHOW_REROLLED_ITEMS]):
@@ -446,7 +445,7 @@ class IsaacTracker:
         return desc
 
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
-    # TODO: Guppy, Hive Mind if Guppy
+    # TODO: Hive Mind if Guppy
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
         components = []
@@ -504,15 +503,23 @@ class IsaacTracker:
     def get_items_per_floor(self):
         floors = {}
         current_floor_id = None
+        # counter is necessary to find out *when* we became Guppy
+        guppy_count = 0
 
         for item in self.collected_item_info:
-            if item.id in self.floor_id_to_label:
-                # this is actually a floor, not an item
+            # TODO: why are the ids in the collected_item_info list not lstripped?
+            short_id = item.id.lstrip("0")
+            if item.floor:  # this is actually a floor, not an item
                 floors[item.id] = []
                 current_floor_id = item.id
-            elif item.id in self.in_summary_list:
-                info = self.get_item_info(item.id)
-                floors[current_floor_id].append(self.get_summary_name(info))
+            elif short_id in self.in_summary_list:
+                item_info = self.get_item_info(item.id)
+                floors[current_floor_id].append(self.get_summary_name(item_info))
+
+            if short_id in self.guppy_list:
+                guppy_count += 1
+                if guppy_count >= 3:
+                    floors[current_floor_id].append("Guppy")
 
         return floors
 

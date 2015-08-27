@@ -12,7 +12,7 @@
       "shown": true,
       "text": "triple shot",
       "inSummary": true,
-      "summaryText": "Triple"
+      "summaryName": "Triple"
    },
    "003": {
       "name": "Spoon Bender",
@@ -26,7 +26,7 @@
       "shown": true,
       "text": "",
       "inSummary": true,
-      "summaryText": "CHead"
+      "summaryName": "CHead"
    },
    "005": {
       "name": "My Reflection",
