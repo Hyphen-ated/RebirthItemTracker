@@ -41,6 +41,7 @@ class Stat:
     TEARS = "tears"
     SOUL_HEARTS = "soulhearts"
     SIN_HEARTS = "sinhearts"
+    IS_GUPPY = "guppy"
     # used for init and reset - does not have all stats yet
     LIST = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS]
 
@@ -102,7 +103,7 @@ class IsaacTracker:
         for itemid, item in self.items_info.iteritems():
             if not item["shown"]:
                 self.filter_list.append(itemid.lstrip("0"))
-            if "guppy" in item and item["guppy"]:
+            if Stat.IS_GUPPY in item and item[Stat.IS_GUPPY]:
                 self.guppy_list.append(itemid.lstrip("0"))
             if "space" in item and item["space"]:
                 self.space_list.append(itemid.lstrip("0"))
@@ -295,7 +296,8 @@ class IsaacTracker:
             with open("overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
 
-        if "guppy" in item_info and item_info.get("guppy") and item_id not in self.collected_guppy_items:
+        if Stat.IS_GUPPY in item_info and item_info.get(Stat.IS_GUPPY)\
+                and item_id not in self.collected_guppy_items:
             self.collected_guppy_items.append(item_id)
             display = ""
             if len(self.collected_guppy_items) >= 3:
@@ -304,7 +306,7 @@ class IsaacTracker:
                 display = str(len(self.collected_guppy_items))
             with open("overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
-            self.player_stats_display["guppy"] = display
+            self.player_stats_display[Stat.IS_GUPPY] = display
 
     def reset_player_stats(self):
         for stat in Stat.LIST:
