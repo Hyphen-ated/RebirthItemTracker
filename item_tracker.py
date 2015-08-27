@@ -95,6 +95,7 @@ class Option:
     SHOW_CUSTOM_MESSAGE = "show_custom_message"
     MESSAGE_DURATION = "message_duration"
     CUSTOM_MESSAGE = "custom_message"
+    ITEM_DETAILS_LINK = "item_details_link"
 
 class IsaacTracker:
     def __init__(self, verbose=False, debug=False, read_delay=1):
@@ -527,7 +528,7 @@ class IsaacTracker:
         # TODO open browser if this is not None
         if not self.selected_item_idx:
             return
-        url = self.options.get("item_details_link")
+        url = self.options[Option.ITEM_DETAILS_LINK]
         if not url:
             return
         item_id = self.collected_item_info[self.selected_item_idx].id
