@@ -370,6 +370,9 @@ class IsaacTracker:
             # round to 2 decimal places then ignore trailing zeros and trailing periods
             # doing rstrip("0.") breaks on "0.00"
             display = format(value, ".2f").rstrip("0").rstrip(".")
+            # 0.6 -> .6
+            if abs(value) < 1:
+                display = display.lstrip("0")
 
             if value > -0.00001:
                 display = "+" + display
@@ -461,9 +464,12 @@ class IsaacTracker:
     # TODO: this should be configurable with a string like the overlay
     def generate_run_summary_stats(self):
         return string.join(
-            [("Dmg:" + self.player_stats_display[Stat.DMG]),
-             ("Trs:" + self.player_stats_display[Stat.TEARS]),
-             ("Spd:" + self.player_stats_display[Stat.SPEED])], "/")
+            [("D:" + self.get_stat(Stat.DMG)),
+             ("T:" + self.get_stat(Stat.TEARS)),
+             ("S:" + self.get_stat(Stat.SPEED))], "/")
+
+    def get_stat(self, stat):
+        return self.player_stats_display[stat]
 
     def generate_floor_summary(self, floor_id, items):
         if not items:
