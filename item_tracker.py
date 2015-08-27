@@ -27,7 +27,7 @@ class ItemInfo:
         self.index = index
         self.floor = floor
 
-# Stat constants (keys to player_stats and player_stats_display)
+# Player stat constants (keys to player_stats and player_stats_display)
 class Stat:
     DMG = "dmg"
     DMG_X = "dmgx"
@@ -44,6 +44,14 @@ class Stat:
     IS_GUPPY = "guppy"
     # used for init and reset - does not have all stats yet
     LIST = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS]
+
+# Properties that items from items.json can have
+class ItemFlag:
+    SHOWN = "shown"
+    GUPPY = "guppy"
+    SPACE = "space"
+    HEALTH_ONLY = "healthonly"
+    IN_SUMMARY = "inSummary"
 
 class IsaacTracker:
     def __init__(self, verbose=False, debug=False, read_delay=1):
@@ -101,15 +109,15 @@ class IsaacTracker:
         with open("items.json", "r") as items_file:
             self.items_info = json.load(items_file)
         for itemid, item in self.items_info.iteritems():
-            if not item["shown"]:
+            if not item[ItemFlag.SHOWN]:
                 self.filter_list.append(itemid.lstrip("0"))
-            if Stat.IS_GUPPY in item and item[Stat.IS_GUPPY]:
+            if ItemFlag.GUPPY in item and item[ItemFlag.GUPPY]:
                 self.guppy_list.append(itemid.lstrip("0"))
-            if "space" in item and item["space"]:
+            if ItemFlag.SPACE in item and item[ItemFlag.SPACE]:
                 self.space_list.append(itemid.lstrip("0"))
-            if "healthonly" in item and item["healthonly"]:
+            if ItemFlag.HEALTH_ONLY in item and item[ItemFlag.HEALTH_ONLY]:
                 self.healthonly_list.append(itemid.lstrip("0"))
-            if "inSummary" in item and item["inSummary"]:
+            if ItemFlag.IN_SUMMARY in item and item[ItemFlag.IN_SUMMARY]:
                 self.in_summary_list.append(itemid.lstrip("0"))
 
         self.floor_id_to_label = {
@@ -806,7 +814,7 @@ class IsaacTracker:
                             f.write(item_info["name"] + ":" + desc)
 
                         # ignore repeated pickups of space bar items
-                        if not (item_info.get("space") and item_id in self.collected_items):
+                        if not (item_info.get(ItemFlag.SPACE) and item_id in self.collected_items):
                             self.collected_items.append(item_id)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
