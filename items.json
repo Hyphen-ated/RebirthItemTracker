@@ -1476,7 +1476,8 @@
       "name": "Hive Mind",
       "shown": true,
       "text": "blue spiders and flies do 2x dmg",
-      "inSummary": true
+      "inSummary": true,
+      "summaryCondition": "Guppy"
    },
    "249": {
       "name": "There's Options",

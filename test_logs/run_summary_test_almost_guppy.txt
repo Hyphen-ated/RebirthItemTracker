@@ -16,6 +16,7 @@ Spawn Entity with Type(5), Variant(100), Pos(320.00,280.00)
 item taken without exchange
 item queue flush
 Adding collectible 4 (Cricket's Head)
+Adding collectible 248 (Hive Mind)
 Room 1.2(Start Room)
 SpawnRNG seed: 2869322856
 music stopped playing

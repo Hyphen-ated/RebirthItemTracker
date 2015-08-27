@@ -66,6 +66,9 @@ class ItemProperty:
     HEALTH_ONLY = "healthonly"
     IN_SUMMARY = "inSummary"
     SUMMARY_NAME = "summaryName"
+    # an item that needs to be present for this item to be mentioned
+    # in the summary. can only be one item right now.
+    SUMMARY_CONDITION = "summaryCondition"
 
 # Keys to the options dict
 class Option:
@@ -136,6 +139,7 @@ class IsaacTracker:
         self.space_list = []
         self.healthonly_list = []
         self.in_summary_list = []
+        self.summary_condition_list = []
         self.items_info = {}
         self.floors = []
         self.player_stats = {}
@@ -165,6 +169,8 @@ class IsaacTracker:
                 self.healthonly_list.append(short_id)
             if ItemProperty.IN_SUMMARY in item and item[ItemProperty.IN_SUMMARY]:
                 self.in_summary_list.append(short_id)
+            if ItemProperty.SUMMARY_CONDITION in item and item[ItemProperty.SUMMARY_CONDITION]:
+                self.summary_condition_list.append(short_id)
 
         self.floor_id_to_label = {
             "f1": "B1",
@@ -445,11 +451,11 @@ class IsaacTracker:
         return desc
 
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
-    # TODO: Hive Mind if Guppy
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
         components = []
-        for floor_id, items in self.get_items_per_floor().iteritems():
+        floors = self.get_items_per_floor()
+        for floor_id, items in floors.iteritems():
             floor_summary = self.generate_floor_summary(floor_id, items)
             floor = self.get_floor(floor_id)
             if floor_summary:
@@ -524,9 +530,39 @@ class IsaacTracker:
             if short_id in self.guppy_list:
                 guppy_count += 1
                 if guppy_count >= 3:
-                    floors[current_floor_id].append("Guppy")
+                    floors[current_floor_id].append(u"Guppy")
 
-        return floors
+        summary_condition_list_copy = list(self.summary_condition_list)
+        return self.process_summary_conditions(floors, summary_condition_list_copy, [])
+
+    def process_summary_conditions(self, floors, summary_conditions_left, keep_list):
+        if len(summary_conditions_left) <= 0:
+            return self.remove_items_not_in_list(floors, keep_list)
+        item_id = summary_conditions_left.pop()
+        condition = self.items_info[item_id][ItemProperty.SUMMARY_CONDITION]
+        for floor in floors.itervalues():
+            for item in floor:
+                if item == condition:
+                    keep_list.append(self.get_summary_name(self.items_info[item_id]))
+        return self.process_summary_conditions(floors, summary_conditions_left, keep_list)
+
+    def remove_items_not_in_list(self, floors, keep_list):
+        new_floors = {}
+        for floor_id in floors:
+            new_floors[floor_id] = []
+            for item_name in floors[floor_id]:
+                if not self.in_summary_condition_list(item_name):
+                    new_floors[floor_id].append(item_name)
+                elif item_name in keep_list:
+                    new_floors[floor_id].append(item_name)
+        return new_floors
+
+    def in_summary_condition_list(self, item_summary_name):
+        for item_id in self.summary_condition_list:
+            name = self.get_summary_name(self.items_info[item_id])
+            if name is item_summary_name:
+                return True
+        return False
 
     def get_summary_name(self, item_info):
         if ItemProperty.SUMMARY_NAME in item_info:
