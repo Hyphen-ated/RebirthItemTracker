@@ -27,6 +27,20 @@ class ItemInfo:
         self.index = index
         self.floor = floor
 
+# Stat constants (keys to player_stats and player_stats_display)
+class Stat:
+    DMG = "dmg"
+    DMG_X = "dmgx"
+    DELAY = "delay"
+    DELAY_X = "delayx"
+    HEALTH = "health"
+    SPEED = "speed"
+    SHOT_SPEED = "shotspeed"
+    TEAR_RANGE = "range"
+    HEIGHT = "height"
+    TEARS = "tears"
+    SOUL_HEARTS = "soulhearts"
+    SIN_HEARTS = "sinhearts"
 
 class IsaacTracker:
     def __init__(self, verbose=False, debug=False, read_delay=1):
@@ -261,7 +275,8 @@ class IsaacTracker:
         return new_item_info
 
     def add_stats_for_item(self, item_info, item_id):
-        for stat in ["dmg", "delay", "speed", "shotspeed", "range", "height", "tears"]:
+        for stat in [Stat.DMG, Stat.DELAY, Stat.SPEED, Stat.SHOT_SPEED,
+                     Stat.TEAR_RANGE, Stat.HEIGHT, Stat.TEARS]:
             if stat not in item_info:
                 continue
             change = float(item_info.get(stat))
@@ -296,18 +311,18 @@ class IsaacTracker:
     def generate_item_description(self, item_info):
         desc = ""
         text = item_info.get("text")
-        dmg = item_info.get("dmg")
-        dmgx = item_info.get("dmgx")
-        delay = item_info.get("delay")
-        delayx = item_info.get("delayx")
-        health = item_info.get("health")
-        speed = item_info.get("speed")
-        shotspeed = item_info.get("shotspeed")
-        tearrange = item_info.get("range")
-        height = item_info.get("height")
-        tears = item_info.get("tears")
-        soulhearts = item_info.get("soulhearts")
-        sinhearts = item_info.get("sinhearts")
+        dmg = item_info.get(Stat.DMG)
+        dmgx = item_info.get(Stat.DMG_X)
+        delay = item_info.get(Stat.DELAY)
+        delayx = item_info.get(Stat.DELAY_X)
+        health = item_info.get(Stat.HEALTH)
+        speed = item_info.get(Stat.SPEED)
+        shotspeed = item_info.get(Stat.SHOT_SPEED)
+        tearrange = item_info.get(Stat.TEAR_RANGE)
+        height = item_info.get(Stat.HEIGHT)
+        tears = item_info.get(Stat.TEARS)
+        soulhearts = item_info.get(Stat.SOUL_HEARTS)
+        sinhearts = item_info.get(Stat.SIN_HEARTS)
         if dmg:
             desc += dmg + " dmg, "
         if dmgx:
@@ -341,7 +356,7 @@ class IsaacTracker:
         return desc
 
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
-    # TODO: Guppy, Curses
+    # TODO: Guppy, Curses, Hive Mind if Guppy
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
         components = []
@@ -360,9 +375,9 @@ class IsaacTracker:
     # TODO: this should be configurable with a string like the overlay
     def generate_run_summary_stats(self):
         return string.join(
-            [("Dmg:" + self.player_stats_display["dmg"]),
-             ("Trs:" + self.player_stats_display["tears"]),
-             ("Spd:" + self.player_stats_display["speed"])], "/")
+            [("Dmg:" + self.player_stats_display[Stat.DMG]),
+             ("Trs:" + self.player_stats_display[Stat.TEARS]),
+             ("Spd:" + self.player_stats_display[Stat.SPEED])], "/")
 
     def generate_floor_summary(self, floor_id, items):
         if not items:
