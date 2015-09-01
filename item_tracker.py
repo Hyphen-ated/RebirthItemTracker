@@ -27,6 +27,9 @@ class ItemInfo:
         self.index = index
         self.floor = floor
 
+    def __repr__(self):
+        return self.id
+
 
 # TODO: keep track of all curses
 class Floor:
@@ -34,6 +37,11 @@ class Floor:
         self.id = id
         self.blind = False
         self.lost = False
+
+    def __repr__(self):
+        return self.id +\
+            (" blind" if self.blind else "") + \
+            (" lost" if self.lost else "")
 
 
 # Player stat constants (keys to player_stats and player_stats_display)
@@ -319,8 +327,7 @@ class IsaacTracker:
             vert_padding = self.text_margin_size
         for item_id in self.collected_items:
             item_x = icon_footprint * cur_column
-            item_y = self.text_height + (icon_footprint * cur_row) + (
-                vert_padding * (cur_row + 1))
+            item_y = self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1))
             floor = False
             shown = True
             if item_id not in self.filter_list \
@@ -470,13 +477,16 @@ class IsaacTracker:
         floor = self.get_floor(floor_id)
         # a floor can't be lost _and_ blind
         # (with amnesia it could be, but we can't tell from log.txt)
-        return self.get_floor_name(floor_id)
+        return self.get_floor_name(floor_id) + \
+            ("(bld)" if floor.blind else "") + \
+            ("(lst)" if floor.lost else "")
 
     def generate_floor_summary(self, floor_id, items):
         floor_label = self.get_floor_label(floor_id)
         floor = self.get_floor(floor_id)
+        # Should not happen
         if floor is None:
-            return ""
+            return "Error - could not find floor " + floor_id
         if not items:
             # lost floors are still relevant even without items
             return floor_label if floor.lost else None
@@ -489,7 +499,6 @@ class IsaacTracker:
         for floor in self.floors:
             if floor.id is floor_id:
                 return floor
-        # Should not happen
         return None
 
     def get_items_per_floor(self):
