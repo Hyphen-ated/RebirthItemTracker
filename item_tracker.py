@@ -278,8 +278,7 @@ class IsaacTracker:
         w = self.options[Option.WIDTH]
         h = self.options[Option.HEIGHT]
         # 2d array of size h, w
-        self.item_position_index = [[None for x in xrange(w)] for y in
-                                    xrange(h)]
+        self.item_position_index = [[None for x in xrange(w)] for y in xrange(h)]
         self.num_displayed_items = 0
         size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
         for item in self.collected_item_info:
@@ -682,8 +681,7 @@ class IsaacTracker:
              (f.x + 2, f.y),
              (int(f.x + 16 * size_multiplier), f.y))
         )
-        image = my_font.render(self.get_floor_name(f.id), True,
-                               self.color(text_color))
+        image = my_font.render(self.get_floor_name(f.id), True, self.color(text_color))
         screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
 
     def draw_item(self, item, screen):
@@ -700,12 +698,10 @@ class IsaacTracker:
         pygame.init()
         update_notifier = self.check_for_update()
         pygame.display.set_caption("Rebirth Item Tracker v0.8" + update_notifier)
-        screen = pygame.display.set_mode(
-            (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
-        self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT], int(
-            8 * self.options[Option.SIZE_MULTIPLIER]), bold=self.options[Option.BOLD_FONT])
-        pygame.display.set_icon(
-            self.get_image("collectibles/collectibles_333.png"))
+        screen = pygame.display.set_mode((self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
+        self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT], int(8 * self.options[Option.SIZE_MULTIPLIER]),
+                                        bold=self.options[Option.BOLD_FONT])
+        pygame.display.set_icon(self.get_image("collectibles/collectibles_333.png"))
         done = False
         clock = pygame.time.Clock()
         winInfo = None
@@ -877,8 +873,7 @@ class IsaacTracker:
 
                 should_reflow = False
                 # process log's new output
-                for current_line_number, line in enumerate(
-                        self.splitfile[self.seek:]):
+                for current_line_number, line in enumerate(self.splitfile[self.seek:]):
                     self.log_msg(line, "V")
                     # end floor boss defeated, hopefully?
                     if line.startswith('Mom clear time:'):
@@ -968,8 +963,7 @@ class IsaacTracker:
                             f.write(item_info[ItemProperty.NAME] + ":" + desc)
 
                         # ignore repeated pickups of space bar items
-                        if not (item_info.get(
-                                ItemProperty.SPACE) and item_id in self.collected_items):
+                        if not (item_info.get(ItemProperty.SPACE) and item_id in self.collected_items):
                             self.collected_items.append(item_id)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
