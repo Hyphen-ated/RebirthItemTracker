@@ -10,7 +10,7 @@ if os.path.isdir('target/'):
 installDir = 'target/' + installName + '/'
 
 # Run the tracker build script. The results are placed in ./dist/
-subprocess.call("pygame2exe.py item_tracker.py", shell=True, stdout=sys.stdout, stderr=sys.stderr)
+subprocess.call("pygame2exe.py item_tracker.py %s" % version, shell=True, stdout=sys.stdout, stderr=sys.stderr)
 
 # Remove the Tk demo files, this should always be safe
 shutil.rmtree('dist/library/tcl/tk8.5/demos')

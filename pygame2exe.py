@@ -12,7 +12,6 @@
 #will loose it all!(I lost 6 months of work because I did not do this)
 
 
- 
 try:
     from distutils.core import setup
     import py2exe, pygame
@@ -42,50 +41,21 @@ class pygame2exe(py2exe.build_exe.py2exe):
         pygamedir = os.path.split(pygame.base.__file__)[0]
         pygame_default_font = os.path.join(pygamedir, pygame.font.get_default_font())
 
- 
         #Add font to list of extension to be copied
         extensions.append(Module("pygame.font", pygame_default_font))
-        #Add a Tk DLL as well
-        #extensions.append(Module("_tkinter", "C:/Python27/DLLs/tk85.dll", "C:/Python27/DLLs/tcl85.dll"))
-
         py2exe.build_exe.py2exe.copy_extensions(self, extensions)
 
     # This hack removes tk85.dll from the list of dlls that don't get bundled, since it can be bundled.
     def copy_dlls(self, dlls):
-        # copy needed dlls where they belong.
-        print "*** copy dlls ***"
-        self.dlls_in_exedir.remove('tk85.dll') # The added line
-        if self.bundle_files < 3:
-            self.copy_dlls_bundle_files(dlls)
-            return
-        # dlls belong into the lib_dir, except those listed in dlls_in_exedir,
-        # which have to go into exe_dir (pythonxy.dll, w9xpopen.exe).
-        for dll in dlls:
-            base = os.path.basename(dll)
-            if base.lower() in self.dlls_in_exedir:
-                # These special dlls cannot be in the lib directory,
-                # they must go into the exe directory.
-                dst = os.path.join(self.exe_dir, base)
-            else:
-                dst = os.path.join(self.lib_dir, base)
-            _, copied = self.copy_file(dll, dst, preserve_mode=0)
-            if not self.dry_run and copied and base.lower() == python_dll.lower():
-                # If we actually copied pythonxy.dll, we have to patch it.
-                #
-                # Previously, the code did it every time, but this
-                # breaks if, for example, someone runs UPX over the
-                # dist directory.  Patching an UPX'd dll seems to work
-                # (no error is detected when patching), but the
-                # resulting dll does not work anymore.
-                #
-                # The function restores the file times so
-                # dependencies still work correctly.
-                self.patch_python_dll_winver(dst)
+        if 'tk85.dll' in self.dlls_in_exedir:
+            self.dlls_in_exedir.remove('tk85.dll')
+        # Add tcl85.dll to the list of dlls that don't get bundled, since it can't be.
+        if 'tcl85.dll' not in self.dlls_in_exedir:
+            self.dlls_in_exedir.append('tcl85.dll')
+        py2exe.build_exe.py2exe.copy_dlls(self, dlls)
 
-            self.lib_files.append(dst)
- 
 class BuildExe:
-    def __init__(self, scriptname):
+    def __init__(self, scriptname, version):
         #Name of starting .py
         self.script = scriptname
 
@@ -93,13 +63,13 @@ class BuildExe:
         self.project_name = "Rebirth Item Tracker"
  
         #Project url
-        self.project_url = "about:none"
+        self.project_url = "https://github.com/Hyphen-ated/RebirthItemTracker/"
  
         #Version of program
-        self.project_version = ""
+        self.project_version = version
  
         #License of the program
-        self.license = "MyApps License"
+        self.license = "FreeBSD License"
  
         #Auhor of program
         self.author_name = "Hyphen-ated, Brett824, Various Others"
@@ -213,10 +183,11 @@ class BuildExe:
 if __name__ == '__main__':
     # pull the name of the python script we're turning into an exe from argv,
     # then put on 'py2exe' because this hacky thing needs it
-    script = sys.argv[-1]
-    sys.argv=sys.argv[:-1]
+    script = sys.argv[-2]
+    version = sys.argv[-1]
+    sys.argv=sys.argv[:-2]
     sys.argv.append('py2exe')
-    BuildExe(script).run() #Run generation
+    BuildExe(script, version).run() #Run generation
 
 
 
