@@ -638,7 +638,8 @@ class IsaacTracker:
         if platform.system() == "Windows":
             logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
         elif platform.system() == "Linux":
-            logfile_location = os.path.expanduser('~') + '/.local/share/binding of isaac rebirth/'
+            logfile_location = os.getenv('XDG_DATA_HOME',
+                os.path.expanduser('~') + '/.local/share') + '/binding of isaac rebirth/'
         elif platform.system() == "Darwin":
             logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
         for check in ('../log.txt', logfile_location + 'log.txt'):
