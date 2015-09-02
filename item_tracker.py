@@ -733,6 +733,7 @@ class IsaacTracker:
             self.get_image("collectibles/collectibles_333.png"))
         done = False
         clock = pygame.time.Clock()
+        option_picker_frame = self.framecount # To prevent the option menu from being opened immediately after closing
         winInfo = None
         if platform.system() == "Windows":
             winInfo = pygameWindowInfo.PygameWindowInfo()
@@ -778,19 +779,10 @@ class IsaacTracker:
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.load_selected_detail_page()
-                    if event.button == 3:
-                        if os.path.isfile("optionpicker/option_picker.exe"):
-                            self.log_msg("Starting option picker from .exe",
-                                         "D")
-                            subprocess.call(os.path.join('optionpicker',
-                                                         "option_picker.exe"),
-                                            shell=True)
-                        elif os.path.isfile("option_picker.py"):
-                            self.log_msg("Starting option picker from .py", "D")
-                            subprocess.call("python option_picker.py",
-                                            shell=True)
-                        else:
-                            self.log_msg("No option_picker found!", "D")
+                    if event.button == 3 and self.framecount > option_picker_frame:
+                        option_picker_frame = self.framecount + 1
+                        import option_picker
+                        option_picker.options_menu().run()
                         self.load_options()
                         self.selected_item_idx = None  # Clear this to avoid overlapping an item that may have been hidden
                         self.reflow()
