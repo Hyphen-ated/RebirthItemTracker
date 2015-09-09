@@ -112,7 +112,6 @@ for index, opt in enumerate(["show_font"]):
     initialvar = StringVar()
     initialvar.set(options.get(opt))
     entries[opt] = ttk.Combobox(root, values=sorted(fonts), textvariable=initialvar, state='readonly')
-    entries[opt].pack()
     entries[opt].grid(row=nextrow, column=1)
     nextrow += 1
 
