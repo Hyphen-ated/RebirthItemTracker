@@ -709,6 +709,8 @@
    },
    "120": {
       "name": "Odd Mushroom (Thin)",
+      "dmg": "-0.4",
+      "dmgx": "0.9",
       "shown": true,
       "speed": "0.3",
       "tears": "1.7",
@@ -885,6 +887,7 @@
       "name": "Ipecac",
       "delay": "10",
       "delayx": "2",
+      "dmg": "40",
       "height": "13",
       "shown": true,
       "text": "explosive tears, +40 dmg",
@@ -994,6 +997,7 @@
    },
    "168": {
       "name": "Epic Fetus",
+      "dmgx": "20",
       "shown": true,
       "text": "replaces tears with missiles (current dmg x 20)",
       "inSummary": true,
@@ -1080,6 +1084,7 @@
    },
    "182": {
       "name": "Sacred Heart",
+      "dmg": "1",
       "dmgx": "2.3",
       "height": "0.75",
       "range": "0.375",
@@ -1508,6 +1513,7 @@
    },
    "254": {
       "name": "Blood Clot",
+      "dmg": "0.5",
       "shown": true,
       "text": "+1 flat dmg and +5 range for every 2nd shot"
    },
