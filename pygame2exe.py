@@ -54,10 +54,10 @@ class BuildExe:
         self.project_name = "ItemTracker"
  
         #Project url
-        self.project_url = "about:none"
+        self.project_url = "https://github.com/Hyphen-ated/RebirthItemTracker"
  
         #Version of program
-        self.project_version = "0.1"
+        self.project_version = "0.7"
  
         #License of the program
         self.license = "MyApps License"
@@ -77,7 +77,7 @@ class BuildExe:
         self.extra_datas = []
  
         #Extra/excludes python modules
-        self.extra_modules = []
+        self.extra_modules = ['game_objects','view_controls']
         self.exclude_modules = []
         
         #DLL Excludes

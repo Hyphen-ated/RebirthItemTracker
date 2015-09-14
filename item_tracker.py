@@ -8,6 +8,7 @@ import re
 import json
 import subprocess
 import urllib2
+from view_controls.view import DrawingTool
 
 if platform.system() == "Windows":
     import pygameWindowInfo
@@ -116,6 +117,7 @@ class IsaacTracker:
         self.log_not_found = False
         self.content = ""  # cached contents of log
         self.splitfile = []  # log split into lines
+        self.drawingTool = None
 
         # initialize isaac stuff
         self.collected_items = []  # list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
@@ -154,6 +156,7 @@ class IsaacTracker:
         self.blind_icon = None
         # Load all of the settings from the "options.json" file
         self.load_options()
+        
 
         with open("items.json", "r") as items_file:
             self.items_info = json.load(items_file)
@@ -727,6 +730,7 @@ class IsaacTracker:
         pygame.display.set_caption("Rebirth Item Tracker v0.8" + update_notifier)
         screen = pygame.display.set_mode(
             (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
+        self.drawingTool = DrawingTool(screen)
         self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT], int(
             8 * self.options[Option.SIZE_MULTIPLIER]), bold=self.options[Option.BOLD_FONT])
         pygame.display.set_icon(
