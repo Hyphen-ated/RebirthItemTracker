@@ -9,6 +9,8 @@ import json
 import subprocess
 import urllib2
 from view_controls.view import DrawingTool
+from game_objects.floor import Floor
+from game_objects.item import Item
 
 if platform.system() == "Windows":
     import pygameWindowInfo
@@ -30,7 +32,7 @@ class ItemInfo:
 
 
 # TODO: keep track of all curses
-class Floor:
+class aFloor:
     def __init__(self, id):
         self.id = id
         self.blind = False
@@ -117,7 +119,7 @@ class IsaacTracker:
         self.log_not_found = False
         self.content = ""  # cached contents of log
         self.splitfile = []  # log split into lines
-        self.drawingTool = None
+        self.drawing_tool = None
 
         # initialize isaac stuff
         self.collected_items = []  # list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
@@ -515,6 +517,7 @@ class IsaacTracker:
         return None
 
     def get_items_per_floor(self):
+        #TODO: Redo this using new state model
         floors = {}
         current_floor_id = None
         # counter is necessary to find out *when* we became Guppy
@@ -633,16 +636,7 @@ class IsaacTracker:
             return False
         item_info = self.get_item_info(item)
         desc = self.generate_item_description(item_info)
-        self.text_height = draw_text(
-            screen,
-            "%s%s" % (item_info[ItemProperty.NAME], desc),
-            self.color(self.options[Option.TEXT_COLOR]),
-            pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
-                        self.options[Option.HEIGHT] - 2),
-            my_font,
-            aa=True,
-            wrap=self.options[Option.WORD_WRAP]
-        )
+        self.text_height = self.drawing_tool.write_message("%s%s" % (item_info[ItemProperty.NAME], desc))
         return True
 
     def load_log_file(self):
@@ -722,6 +716,8 @@ class IsaacTracker:
                         (item.x, item.y + self.options[Option.SIZE_MULTIPLIER] * 12))
 
     def run(self):
+        temp_collected_items = []
+        temp_current_floor = None
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
             self.options[Option.X_POSITION], self.options[Option.Y_POSITION])
         # initialize pygame system stuff
@@ -730,11 +726,12 @@ class IsaacTracker:
         pygame.display.set_caption("Rebirth Item Tracker v0.8" + update_notifier)
         screen = pygame.display.set_mode(
             (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
-        self.drawingTool = DrawingTool(screen)
+        #Create drawing tool to use to draw everything
+        self.drawing_tool = DrawingTool(screen)
         self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT], int(
             8 * self.options[Option.SIZE_MULTIPLIER]), bold=self.options[Option.BOLD_FONT])
         pygame.display.set_icon(
-            self.get_image("collectibles/collectibles_333.png"))
+            self.drawing_tool.get_image("collectibles/collectibles_333.png"))
         done = False
         clock = pygame.time.Clock()
         winInfo = None
@@ -751,6 +748,9 @@ class IsaacTracker:
                         self.options[Option.X_POSITION] = winPos["left"]
                         self.options[Option.Y_POSITION] = winPos["top"]
                         self.save_options()
+                        self.drawing_tool.options[Option.X_POSITION] = winPos["left"]
+                        self.drawing_tool.options[Option.Y_POSITION] = winPos["top"]
+                        self.drawing_tool.save_options()
                     done = True
                 elif event.type == VIDEORESIZE:
                     screen = pygame.display.set_mode(event.dict['size'],
@@ -759,10 +759,15 @@ class IsaacTracker:
                     self.options[Option.HEIGHT] = event.dict["h"]
                     self.save_options()
                     self.reflow()
+                    self.drawing_tool.options[Option.WIDTH] = event.dict["w"]
+                    self.drawing_tool.options[Option.HEIGHT] = event.dict["h"]
+                    self.drawing_tool.save_options()
+                    self.drawing_tool.reflow()
                     pygame.display.flip()
                 elif event.type == MOUSEMOTION:
                     if pygame.mouse.get_focused():
                         x, y = pygame.mouse.get_pos()
+                        self.drawing_tool.select_item_on_hover(x,y)
                         if y < len(self.item_position_index):
                             selected_row = self.item_position_index[y]
                             if x < len(selected_row):
@@ -773,8 +778,10 @@ class IsaacTracker:
                     if len(self.collected_items) > 0:
                         if event.key == pygame.K_RIGHT:
                             self.adjust_selected_item(1)
+                            self.drawing_tool.adjust_select_item_on_keypress(1)
                         elif event.key == pygame.K_LEFT:
                             self.adjust_selected_item(-1)
+                            self.drawing_tool.adjust_select_item_on_keypress(-1)
                         elif event.key == pygame.K_RETURN:
                             self.load_selected_detail_page()
                         elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
@@ -798,36 +805,20 @@ class IsaacTracker:
                         self.load_options()
                         self.selected_item_idx = None  # Clear this to avoid overlapping an item that may have been hidden
                         self.reflow()
-
-            screen.fill(self.color(self.options[Option.BACKGROUND_COLOR]))
-            clock.tick(int(self.options[Option.FRAMERATE_LIMIT]))
+            #End Pygame Logic
+            
+            #Drawing Logic
+            screen.fill(DrawingTool.color(self.drawing_tool.options[Option.BACKGROUND_COLOR]))
+            clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
 
             if self.log_not_found:
-                draw_text(
-                    screen,
-                    "log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt",
-                    self.color(self.options[Option.TEXT_COLOR]),
-                    pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
-                                self.options[Option.HEIGHT] - 2),
-                    self.font,
-                    aa=True,
-                    wrap=True
-                )
+                self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt")
 
             # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
             # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
-            if self.options[Option.SHOW_DESCRIPTION] or self.options[
+            if self.drawing_tool.options[Option.SHOW_DESCRIPTION] or self.drawing_tool.options[
                 Option.SHOW_CUSTOM_MESSAGE]:
-                self.text_height = draw_text(
-                    screen,
-                    " ",
-                    self.color(self.options[Option.TEXT_COLOR]),
-                    pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
-                                self.options[Option.HEIGHT] - 2),
-                    self.font,
-                    aa=True,
-                    wrap=self.options[Option.WORD_WRAP]
-                )
+                self.text_height = self.drawing_tool.write_message(" ")
             else:
                 self.text_height = 0
 
@@ -853,16 +844,9 @@ class IsaacTracker:
                     (),
                     dic
                 )
-                self.text_height = draw_text(
-                    screen,
-                    message,
-                    self.color(self.options[Option.TEXT_COLOR]),
-                    pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
-                                self.options[Option.HEIGHT] - 2),
-                    self.font,
-                    aa=True, wrap=self.options[Option.WORD_WRAP]
-                )
+                self.text_height = self.drawing_tool.write_message(message)
             self.reflow()
+            self.drawing_tool.reflow(temp_collected_items)
 
             if not self.item_message_countdown_in_progress():
                 self.selected_item_idx = None
@@ -888,8 +872,8 @@ class IsaacTracker:
                 and self.item_message_countdown_in_progress()):
                 item = self.collected_item_info[self.selected_item_idx]
                 if item.id not in self.floor_id_to_label:
-                    screen.blit(self.get_image(self.id_to_image(item.id)),
-                                (item.x, item.y))
+                    #screen.blit(self.get_image(self.id_to_image(item.id)),
+                    #            (item.x, item.y))
                     size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])
                     pygame.draw.rect(
                         screen,
@@ -903,7 +887,9 @@ class IsaacTracker:
 
             pygame.display.flip()
             self.framecount += 1
-
+            #end drawing logic
+            
+            #Now we re-process the log file to get anything that might've loaded
             # process log stuff every read_delay seconds. making sure to truncate to an integer or else it might never mod to 0
             if self.framecount % int(self.options[Option.FRAMERATE_LIMIT] * self.read_delay) == 0:
                 self.load_log_file()
@@ -975,7 +961,8 @@ class IsaacTracker:
                             floor += 1
                         floor_id = 'f' + str(floor)
                         self.collected_items.append(floor_id) # TODO: remove this line - items are not floors
-                        self.floors.append(Floor(floor_id))
+                        self.floors.append(aFloor(floor_id))
+                        temp_current_floor=Floor
                         should_reflow = True
                     last_collected = self.collected_items[-1] if self.collected_items else None
                     if line.startswith("Curse of the Labyrinth!"):
