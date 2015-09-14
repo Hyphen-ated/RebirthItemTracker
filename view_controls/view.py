@@ -59,6 +59,7 @@ class DrawingTool:
                 )
         
     def draw_items(self, current_floor, current_tracker):
+        #TODO: remove current_floor and use a variable in current_tracker.
         # Drawing Logic
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
         # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))

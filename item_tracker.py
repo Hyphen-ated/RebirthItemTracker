@@ -857,6 +857,8 @@ class IsaacTracker:
                         self.run_start_line = current_line_number + self.seek
                         self.run_ended = False
                         self.reset_player_stats()
+                        temp_collected_items = []
+                        temp_current_floor = None
                         with open("overlay text/seed.txt", "w+") as f:
                             f.write(self.seed)
 
