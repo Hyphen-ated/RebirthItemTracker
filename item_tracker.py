@@ -152,7 +152,8 @@ class IsaacTracker:
         self.item_message_start_time = 0
         self.item_pickup_time = 0
         self.item_position_index = []
-        self.current_floor = ()  # 2-tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
+        self.current_floor = None
+        self.floor_tuple = ()  # 2-tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
         self.spawned_coop_baby = 0  # last spawn of a co op baby
         self.roll_icon = None
         self.blind_icon = None
@@ -717,7 +718,7 @@ class IsaacTracker:
 
     def run(self):
         temp_collected_items = []
-        temp_current_floor = None
+        self.current_floor = None
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
             self.options[Option.X_POSITION], self.options[Option.Y_POSITION])
         # initialize pygame system stuff
@@ -793,9 +794,8 @@ class IsaacTracker:
                                             shell=True)
                         else:
                             self.log_msg("No option_picker found!", "D")
-                        self.load_options()
-                        self.selected_item_idx = None  # Clear this to avoid overlapping an item that may have been hidden
-                        self.reflow()
+                        self.drawing_tool.reset()
+                        self.drawing_tool.load_options()
                         self.drawing_tool.reflow(temp_collected_items)
             #End Pygame Logic
             
@@ -806,7 +806,7 @@ class IsaacTracker:
             if self.log_not_found:
                 self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt")
             
-            self.drawing_tool.draw_items(temp_current_floor,self)
+            self.drawing_tool.draw_items(self)
             self.framecount += 1
             #end drawing logic
             
@@ -827,6 +827,7 @@ class IsaacTracker:
                 for current_line_number, line in enumerate(
                         self.splitfile[self.seek:]):
                     self.log_msg(line, "V")
+                    getting_start_items = False #This will become true if we're getting starting items
                     # end floor boss defeated, hopefully?
                     if line.startswith('Mom clear time:'):
                         kill_time = int(line.split(" ")[-1])
@@ -858,48 +859,39 @@ class IsaacTracker:
                         self.run_ended = False
                         self.reset_player_stats()
                         temp_collected_items = []
-                        temp_current_floor = None
+                        self.current_floor = None
+                        self.drawing_tool.reset()
                         with open("overlay text/seed.txt", "w+") as f:
                             f.write(self.seed)
 
                     # entered a room, use to keep track of bosses
                     if line.startswith('Room'):
                         self.current_room = re.search('\((.*)\)', line).group(1)
-                        if 'Start Room' not in line:
-                            self.getting_start_items = False
                         self.log_msg("Entered room: %s" % self.current_room,
                                      "D")
                     if line.startswith('Level::Init'):
-                        self.current_floor = tuple(
+                        floor_tuple = tuple(
                             [re.search(
                                 "Level::Init m_Stage (\d+), m_AltStage (\d+)",
                                 line).group(x) for x in [1, 2]])
                         # assume floors aren't cursed until we see they are
                         self.blind_floor = False
-                        self.getting_start_items = True
-                        floor = int(self.current_floor[0])
-                        alt = self.current_floor[1]
+                        getting_start_items = True
+                        floor = int(floor_tuple[0])
+                        alt = floor_tuple[1]
                         # special handling for cath and chest
                         if alt == '1' and (floor == 9 or floor == 11):
                             floor += 1
                         floor_id = 'f' + str(floor)
-                        self.collected_items.append(floor_id) # TODO: remove this line - items are not floors
-                        self.floors.append(aFloor(floor_id))
-                        temp_current_floor=Floor(floor_id,self)
+                        self.current_floor=Floor(floor_id,self,(alt=='1'))
                         should_reflow = True
-                    last_collected = self.collected_items[-1] if self.collected_items else None
                     if line.startswith("Curse of the Labyrinth!"):
                         # it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
-                        if last_collected.startswith('f'):
-                            self.collected_items[-1] += 'x'
-                        temp_current_floor.curse=Curse.Labyrinth
+                        self.current_floor.add_curse(Curse.Labyrinth)
                     if line.startswith("Curse of Blind"):
-                        self.floors[-1].blind = True
-                        self.blind_floor = True
-                        temp_current_floor.curse=Curse.Blind
+                        self.current_floor.add_curse(Curse.Blind)
                     if line.startswith("Curse of the Lost!"):
-                        self.floors[-1].lost = True
-                        temp_current_floor.curse=Curse.Lost
+                        self.current_floor.add_curse(Curse.Lost)
                     if line.startswith("Spawn co-player!"):
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search("Added \d+ Collectibles", line):
@@ -943,7 +935,7 @@ class IsaacTracker:
                             self.collected_items.append(item_id)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
-                            temp_item = Item(item_id,temp_current_floor,item_info)
+                            temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
                             temp_collected_items.append(temp_item)
                             self.drawing_tool.item_picked_up()
                         else:
@@ -959,7 +951,6 @@ class IsaacTracker:
 
                 self.seek = len(self.splitfile)
                 if should_reflow:
-                    self.reflow()
                     self.drawing_tool.reflow(temp_collected_items)
 
 

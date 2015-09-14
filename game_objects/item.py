@@ -1,14 +1,17 @@
 from floor import Curse,Floor
 
 class Item(object):
-    def __init__(self,itemID,floor,item_info):
+    def __init__(self,itemID,floor,item_info,starting_item):
         self.id=itemID
         self.floor=floor #floor item was found on
         self.was_rerolled=False
         self.info=item_info
+        self.starting_item = False
     
     def rerolled(self):
-        self.was_rerolled = True
+        #Space items can't be re-rolled that I know of
+        if not self.info.get(ItemProperty.SPACE,False):
+            self.was_rerolled = True
     
     @property
     def name(self):
@@ -62,10 +65,10 @@ class Item(object):
         return desc
     
     def __eq__(self,other):
-        return self.id==other.id
+        return other is not None and self.id==other.id
     
     def __ne__(self,other):
-        return self.id!=other.id
+        return other is None or self.id!=other.id
 
 # Player stat constants (keys to player_stats and player_stats_display)
 # This is a subset of all available ItemPropertys

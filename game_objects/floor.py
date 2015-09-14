@@ -27,27 +27,32 @@ class Floor(object):
             "f7x": "WXL",
         }
     
-    def __init__(self, id, tracker, curse=Curse.No_Curse):
+    def __init__(self, id, tracker, is_alternate, curse=Curse.No_Curse):
         self.id = id
         self.curse = curse
         self.items = []
         self.tracker = tracker
+        self.is_alt_floor = is_alternate
     
     def add_curse(self, curse):
-        raise NotImplementedError("This is unimplemented due to only one curse per floor.")
+        if curse is None:
+            curse = Curse.No_Curse #None is the same as no curse
+        self.curse=curse
+        if self.curse==Curse.Labyrinth:
+            self.id += 'x' #If we're curse of the labyrinth, then we're XL
     
     def add_item(self, item):
         self.items.append(item)
     
     def floor_has_curse(self, curse):
         return curse == self.curse
-        
+    
     def name(self):
         return Floor.__floor_id_to_label[self.id]
     
-    def __eq__(self, other):
-        return self.id == other.id
+    def __eq__(self,other):
+        return other is not None and self.id==other.id
     
-    def __ne__(self, other):
-        return self.id != other.id
+    def __ne__(self,other):
+        return other is None or self.id!=other.id
     

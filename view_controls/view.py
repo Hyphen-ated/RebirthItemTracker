@@ -47,19 +47,14 @@ class DrawingTool:
         self.item_pickup_time = self.framecount
         self.drawn_items_cache = {}
         
-    def write_message(self, message):
-        return draw_text(
-                    self.screen,
-                    message,
-                    self.color(self.options[Option.TEXT_COLOR]),
-                    pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
-                                self.options[Option.HEIGHT] - 2),
-                    self.font,
-                    aa=True, wrap=self.options[Option.WORD_WRAP]
-                )
         
-    def draw_items(self, current_floor, current_tracker):
-        #TODO: remove current_floor and use a variable in current_tracker.
+    def draw_items(self, current_tracker):
+        '''
+        Draws all the items in current_tracker
+        :param current_tracker: 
+        '''
+        #TODO: Change so that this only ever updates from current_tracker and reflows are called elsewhere ideally - UL
+        current_floor = current_tracker.current_floor
         # Drawing Logic
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
         # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
@@ -118,18 +113,6 @@ class DrawingTool:
         if isinstance(drawable, Drawable):
             drawable.draw()
             drawable.is_drawn = True
-    
-    def draw_selected_box(self, x, y):
-        size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])
-        pygame.draw.rect(
-            self.screen,
-            DrawingTool.color(self.options[Option.TEXT_COLOR]),
-            (x,
-             y,
-             size_multiplier,
-             size_multiplier),
-            2
-        )
             
     def load_options(self):
         with open("options.json", "r") as json_file:
@@ -149,6 +132,10 @@ class DrawingTool:
                                                size_multiplier * 2)
     
     def reflow(self, item_collection):
+        '''
+        Changes the position of the items so they all fit on the screen
+        :param item_collection: Collection of items to display
+        '''
         size_multiplier = self.options[Option.SIZE_MULTIPLIER] * .5
         item_icon_size = int(self.options[Option.DEFAULT_SPACING] * size_multiplier)
         item_icon_footprint = item_icon_size
@@ -170,8 +157,6 @@ class DrawingTool:
         new_drawable_items = []
         cur_row = 0
         cur_column = 0
-        cur_floor = None
-        index = 0
         vert_padding = 0
         if self.options[Option.SHOW_FLOORS]:
             vert_padding = self.text_margin_size
@@ -181,12 +166,16 @@ class DrawingTool:
                 vert_padding * (cur_row + 1))
             # Deal with drawable items
             if self.drawn_items_cache.get(item) is not None:
+                #Grab the item from a cache if we already have one - no point
+                # creating so many objects
                 new_drawable = self.drawn_items_cache.get(item)
                 new_drawable.x = initial_x
                 new_drawable.y = initial_y
+                new_drawable.is_drawn = False
             else:
                 new_drawable = DrawableItem(item, initial_x, initial_y, self)
                 self.drawn_items_cache[item] = new_drawable
+            # Only bother adding anything if we're going to show it.
             if new_drawable.shown():
                 # check to see if we are about to go off the right edge
                 cur_column += 1
@@ -202,6 +191,8 @@ class DrawingTool:
                     cur_row += 1
                     cur_column = 0
                 new_drawable_items.append(new_drawable)
+        #Last and not least, we set next_item so that if we have an empty floor
+        #We can use those coordinates to place it
         initial_x = icon_footprint * cur_column
         initial_y = self.text_height + (icon_footprint * cur_row) + (
                 vert_padding * (cur_row + 1))
@@ -209,6 +200,11 @@ class DrawingTool:
         return new_drawable_items
     
     def build_position_index(self):
+        '''
+        Builds an array covering the entire visible screen and fills it 
+        with references to the index items where appropriate so we can show
+        select boxes on hover
+        '''
         w = self.options[Option.WIDTH]
         h = self.options[Option.HEIGHT]
         # 2d array of size h, w
@@ -240,6 +236,7 @@ class DrawingTool:
                     self.drawn_items[self.selected_item_index].selected = True
                     
     def adjust_select_item_on_keypress(self, adjust_by):
+        #TODO: Rename this method to something better
         if self.selected_item_index is None:
             return
         self.drawn_items[self.selected_item_index].selected = False
@@ -272,6 +269,9 @@ class DrawingTool:
                 self.options[Option.FRAMERATE_LIMIT])
     
     def save_options(self):
+        '''
+        Saves current options for display
+        '''
         with open("options.json", "w") as json_file:
             json.dump(self.options, json_file, indent=3, sort_keys=True)
     
@@ -299,12 +299,38 @@ class DrawingTool:
         self.text_height = self.write_message("%s%s" % (item.name, desc))
         return True
     
+    def write_message(self, message):
+        return draw_text(
+                    self.screen,
+                    message,
+                    self.color(self.options[Option.TEXT_COLOR]),
+                    pygame.Rect(2, 2, self.options[Option.WIDTH] - 2,
+                                self.options[Option.HEIGHT] - 2),
+                    self.font,
+                    aa=True, wrap=self.options[Option.WORD_WRAP]
+                )
+        
+    def draw_selected_box(self, x, y):
+        size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])
+        pygame.draw.rect(
+            self.screen,
+            DrawingTool.color(self.options[Option.TEXT_COLOR]),
+            (x,
+             y,
+             size_multiplier,
+             size_multiplier),
+            2
+        )
+    
     @staticmethod
     def color(string):
         return pygame.color.Color(str(string))
     @staticmethod
     def id_to_image(id):
         return 'collectibles/collectibles_%s.png' % id.zfill(3)
+    
+    def reset(self):
+        self.selected_item_index = None
 
 class DrawableItem(Drawable):
     def __init__(self, item, x, y, tool):
@@ -314,8 +340,14 @@ class DrawableItem(Drawable):
         self.selected = False
     
     def show_blind_icon(self):
+        """
+            We only show the curse of the blind icon if we're showing blind
+            icons, the floor it was found on was a blind floor AND
+            it's not one of our starting items
+        """
         return self.tool.options[Option.SHOW_BLIND_ICON] and \
-            self.item.floor.floor_has_curse(Curse.Blind)
+            self.item.floor.floor_has_curse(Curse.Blind) and \
+            not self.item.starting_item
     
     def shown(self):
         """
@@ -344,11 +376,14 @@ class DrawableItem(Drawable):
     def draw(self):
         image = self.tool.get_image(DrawingTool.id_to_image(self.item.id))
         self.tool.screen.blit(image, (self.x, self.y))
+        #If we're a re-rolled item, draw a little d4 near us
         if self.item.was_rerolled:
             self.tool.screen.blit(self.tool.roll_icon, (self.x, self.y))
+        #If we're showing blind icons, draw a little blind icon
         if self.show_blind_icon():
             self.tool.screen.blit(self.tool.blind_icon,
                         (self.x, self.y + self.tool.options[Option.SIZE_MULTIPLIER] * 12))
+        #If we're selected, draw a box to highlight us
         if self.selected:
             self.tool.draw_selected_box(self.x, self.y)
     
