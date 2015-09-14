@@ -9,6 +9,10 @@ class Item(object):
     
     def rerolled(self):
         self.was_rerolled = True
+    
+    @property
+    def name(self):
+        return self.info[ItemProperty.NAME]
             
     def generate_item_description(self):
         desc = ""

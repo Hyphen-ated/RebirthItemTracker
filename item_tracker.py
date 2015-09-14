@@ -745,9 +745,6 @@ class IsaacTracker:
                 if event.type == pygame.QUIT:
                     if platform.system() == "Windows":
                         winPos = winInfo.getScreenPosition()
-                        self.options[Option.X_POSITION] = winPos["left"]
-                        self.options[Option.Y_POSITION] = winPos["top"]
-                        self.save_options()
                         self.drawing_tool.options[Option.X_POSITION] = winPos["left"]
                         self.drawing_tool.options[Option.Y_POSITION] = winPos["top"]
                         self.drawing_tool.save_options()
@@ -755,10 +752,6 @@ class IsaacTracker:
                 elif event.type == VIDEORESIZE:
                     screen = pygame.display.set_mode(event.dict['size'],
                                                      RESIZABLE)
-                    self.options[Option.WIDTH] = event.dict["w"]
-                    self.options[Option.HEIGHT] = event.dict["h"]
-                    self.save_options()
-                    self.reflow()
                     self.drawing_tool.options[Option.WIDTH] = event.dict["w"]
                     self.drawing_tool.options[Option.HEIGHT] = event.dict["h"]
                     self.drawing_tool.save_options()
@@ -777,10 +770,8 @@ class IsaacTracker:
                 elif event.type == KEYDOWN:
                     if len(self.collected_items) > 0:
                         if event.key == pygame.K_RIGHT:
-                            self.adjust_selected_item(1)
                             self.drawing_tool.adjust_select_item_on_keypress(1)
                         elif event.key == pygame.K_LEFT:
-                            self.adjust_selected_item(-1)
                             self.drawing_tool.adjust_select_item_on_keypress(-1)
                         elif event.key == pygame.K_RETURN:
                             self.drawing_tool.load_selected_detail_page()
@@ -814,81 +805,8 @@ class IsaacTracker:
 
             if self.log_not_found:
                 self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt")
-
-            # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
-            # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
-            if self.drawing_tool.options[Option.SHOW_DESCRIPTION] or self.drawing_tool.options[
-                Option.SHOW_CUSTOM_MESSAGE]:
-                self.text_height = self.drawing_tool.write_message(" ")
-            else:
-                self.text_height = 0
-
-            text_written = False
-            # draw item pickup text, if applicable
-            if (len(self.collected_items) > 0
-                and self.options[Option.SHOW_DESCRIPTION]
-                and self.run_start_frame + 120 < self.framecount
-                and self.item_message_countdown_in_progress()):
-                text_written = self.write_item_text(self.font, screen)
-            if not text_written and self.options[
-                Option.SHOW_CUSTOM_MESSAGE] and not self.log_not_found:
-                # draw seed/guppy text:
-                seed = self.seed
-
-                dic = defaultdict(str, seed=seed)
-                dic.update(self.player_stats_display)
-
-                # Use vformat to handle the case where the user adds an undefined
-                # placeholder in default_message
-                message = string.Formatter().vformat(
-                    self.options[Option.CUSTOM_MESSAGE],
-                    (),
-                    dic
-                )
-                self.text_height = self.drawing_tool.write_message(message)
-            self.reflow()
-            self.drawing_tool.reflow(temp_collected_items)
-            """
-            if not self.item_message_countdown_in_progress():
-                self.selected_item_idx = None
-
-            floor_to_draw = None
-            # draw items on screen, excluding filtered items:
-            for item in self.collected_item_info:
-                if item.shown:
-                    if item.floor:
-                        floor_to_draw = item
-                    else:
-                        self.draw_item(item, screen)
-                        # don't draw a floor until we hit the next item (this way multiple floors in a row collapse)
-                        if floor_to_draw and self.options[Option.SHOW_FLOORS]:
-                            self.draw_floor(floor_to_draw, screen, self.font)
-
-            # also draw the floor if we hit the end, so the current floor is visible
-            if floor_to_draw and self.options[Option.SHOW_FLOORS]:
-                self.draw_floor(floor_to_draw, screen, self.font)
-
-            if (self.selected_item_idx
-                and self.selected_item_idx < len(self.collected_item_info)
-                and self.item_message_countdown_in_progress()):
-                item = self.collected_item_info[self.selected_item_idx]
-                if item.id not in self.floor_id_to_label:
-                    #screen.blit(self.get_image(self.id_to_image(item.id)),
-                    #            (item.x, item.y))
-                    size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])
-                    pygame.draw.rect(
-                        screen,
-                        self.color(self.options[Option.TEXT_COLOR]),
-                        (item.x,
-                         item.y,
-                         size_multiplier,
-                         size_multiplier),
-                        2
-                    )
-
-            pygame.display.flip()
-            """
-            self.drawing_tool.draw_items(temp_current_floor)
+            
+            self.drawing_tool.draw_items(temp_current_floor,self)
             self.framecount += 1
             #end drawing logic
             

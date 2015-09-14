@@ -9,6 +9,8 @@ from collections import defaultdict
 from game_objects.floor import Floor, Curse
 from game_objects.item import Item, ItemProperty
 
+import string
+
 class Drawable(object):
     def __init__(self, x, y, tool):
         self.x = x
@@ -25,6 +27,9 @@ class Clicakble(object):
 
 class DrawingTool:
     def __init__(self, screen):
+        self.next_item = (0,0)
+        self.item_position_index = []
+        self.drawn_items = []
         self.screen = screen
         self.blind_icon = None
         self.roll_icon = None
@@ -53,10 +58,10 @@ class DrawingTool:
                     aa=True, wrap=self.options[Option.WORD_WRAP]
                 )
         
-    def draw_items(self,current_floor):
-        #Drawing Logic
+    def draw_items(self, current_floor, current_tracker):
+        # Drawing Logic
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
-        #clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
+        # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
 
         # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
         # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
@@ -67,7 +72,25 @@ class DrawingTool:
             self.text_height = 0
 
         text_written = False
-        #TODO: Deal with player stats here
+        # draw item pickup text, if applicable
+        if (self.options[Option.SHOW_DESCRIPTION]
+            and self.item_message_countdown_in_progress()):
+            text_written = self.write_item_text()
+        if not text_written and self.options[Option.SHOW_CUSTOM_MESSAGE]:
+            # draw seed/guppy text:
+            seed = current_tracker.seed
+
+            dic = defaultdict(str, seed=seed)
+            dic.update(current_tracker.player_stats_display)
+
+            # Use vformat to handle the case where the user adds an undefined
+            # placeholder in default_message
+            message = string.Formatter().vformat(
+                self.options[Option.CUSTOM_MESSAGE],
+                (),
+                dic
+            )
+            self.text_height = self.write_message(message)
 
         floor_to_draw = None
         # draw items on screen, excluding filtered items:
@@ -76,7 +99,7 @@ class DrawingTool:
                 floor_to_draw.floor != drawable_item.item.floor:
                 floor_to_draw = DrawableFloor(drawable_item.item.floor,
                                               drawable_item.x,
-                                              drawable_item.y,self)
+                                              drawable_item.y, self)
             if not floor_to_draw.is_drawn and self.options[Option.SHOW_FLOORS]:
                 self.draw(floor_to_draw)
             self.draw(drawable_item)
@@ -84,7 +107,8 @@ class DrawingTool:
         # also draw the floor if we hit the end, so the current floor is visible
         if self.options[Option.SHOW_FLOORS] and floor_to_draw is not None:
             if floor_to_draw.floor != current_floor:
-                self.draw(DrawableFloor(current_floor,10,10,self))
+                x,y = self.next_item
+                self.draw(DrawableFloor(current_floor, x, y, self))
 
         pygame.display.flip()
         self.framecount += 1
@@ -94,7 +118,7 @@ class DrawingTool:
             drawable.draw()
             drawable.is_drawn = True
     
-    def draw_selected_box(self,x,y):
+    def draw_selected_box(self, x, y):
         size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])
         pygame.draw.rect(
             self.screen,
@@ -154,7 +178,7 @@ class DrawingTool:
             initial_x = icon_footprint * cur_column
             initial_y = self.text_height + (icon_footprint * cur_row) + (
                 vert_padding * (cur_row + 1))
-            #Deal with drawable items
+            # Deal with drawable items
             if self.drawn_items_cache.get(item) is not None:
                 new_drawable = self.drawn_items_cache.get(item)
                 new_drawable.x = initial_x
@@ -164,6 +188,7 @@ class DrawingTool:
                 self.drawn_items_cache[item] = new_drawable
             if new_drawable.shown():
                 # check to see if we are about to go off the right edge
+                cur_column += 1
                 size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
                 new_width = icon_footprint * cur_column + size_multiplier
                 new_height = self.text_height  \
@@ -176,7 +201,10 @@ class DrawingTool:
                     cur_row += 1
                     cur_column = 0
                 new_drawable_items.append(new_drawable)
-                cur_column += 1
+        initial_x = icon_footprint * cur_column
+        initial_y = self.text_height + (icon_footprint * cur_row) + (
+                vert_padding * (cur_row + 1))
+        self.next_item = (initial_x,initial_y)
         return new_drawable_items
     
     def build_position_index(self):
@@ -196,31 +224,27 @@ class DrawingTool:
                     for x in range(int(item.x), int(item.x + size_multiplier)):
                         if x >= w:
                             continue
-                        row[x] = num_displayed_items #set the row to the index of the item
+                        row[x] = num_displayed_items  # set the row to the index of the item
                 num_displayed_items += 1        
     
-    def select_item_on_hover(self,x,y):
-        print "Hovering on: " + str((x,y))
+    def select_item_on_hover(self, x, y):
         if y < len(self.item_position_index):
             selected_row = self.item_position_index[y]
             if x < len(selected_row):
                 if self.selected_item_index is not None:
-                    self.drawn_items[self.selected_item_index].selected=False
+                    self.drawn_items[self.selected_item_index].selected = False
                 self.selected_item_index = selected_row[x]
-                print "Item is = " + str(self.selected_item_index)
-
                 if self.selected_item_index is not None:
-                    print " ID: " + str(self.drawn_items[self.selected_item_index].item.id)
                     self.item_message_start_time = self.framecount
-                    self.drawn_items[self.selected_item_index].selected=True
+                    self.drawn_items[self.selected_item_index].selected = True
                     
-    def adjust_select_item_on_keypress(self,adjust_by):
+    def adjust_select_item_on_keypress(self, adjust_by):
         if self.selected_item_index is None:
             return
-        self.drawn_items[self.selected_item_index].selected=False
+        self.drawn_items[self.selected_item_index].selected = False
         self.selected_item_index += adjust_by
-        self.selected_item_index = max(0,min(self.selected_item_index,len(self.drawn_items)-1))
-        self.drawn_items[self.selected_item_index].selected=True
+        self.selected_item_index = max(0, min(self.selected_item_index, len(self.drawn_items) - 1))
+        self.drawn_items[self.selected_item_index].selected = True
         
     def load_selected_detail_page(self):
         if self.selected_item_index is None:
@@ -260,6 +284,20 @@ class DrawingTool:
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
     
+    def write_item_text(self):
+        if len(self.drawn_items) <= 0:
+            # no items, nothing to show
+            return False
+        if self.selected_item_index is None and self.item_pickup_countdown_in_progress():
+            # we want to be showing an item but they haven't selected one, that means show the newest item
+            self.selected_item_index = len(self.drawn_items) - 1
+        if self.selected_item_index is None:
+            return False
+        item = self.drawn_items[self.selected_item_index].item
+        desc = item.generate_item_description()
+        self.text_height = self.write_message("%s%s" % (item.name, desc))
+        return True
+    
     @staticmethod
     def color(string):
         return pygame.color.Color(str(string))
@@ -287,18 +325,18 @@ class DrawableItem(Drawable):
                 4. We are rerolled AND we want to see rerolls
                 5. We are a spacebar AND we want to see spacebars
         """
-        if not self.item.info.get(ItemProperty.SHOWN,False):
+        if not self.item.info.get(ItemProperty.SHOWN, False):
             return False
-        elif self.item.info.get(ItemProperty.GUPPY,False):
+        elif self.item.info.get(ItemProperty.GUPPY, False):
             return True
-        elif self.item.info.get(ItemProperty.HEALTH_ONLY,False) and \
-            not self.tool.option[Option.SHOW_HEALTH_UPS]:
+        elif self.item.info.get(ItemProperty.HEALTH_ONLY, False) and \
+            not self.tool.options[Option.SHOW_HEALTH_UPS]:
             return False
-        elif self.item.info.get(ItemProperty.SPACE,False) and \
-             not self.tool.option[Option.SHOW_SPACE_ITEMS]:
+        elif self.item.info.get(ItemProperty.SPACE, False) and \
+             not self.tool.options[Option.SHOW_SPACE_ITEMS]:
             return False
         elif self.item.was_rerolled and \
-              not self.tool.option[Option.SHOW_REROLLED_ITEMS]:
+              not self.tool.options[Option.SHOW_REROLLED_ITEMS]:
             return False
         return True
                     
@@ -311,7 +349,7 @@ class DrawableItem(Drawable):
             self.tool.screen.blit(self.tool.blind_icon,
                         (self.x, self.y + self.tool.options[Option.SIZE_MULTIPLIER] * 12))
         if self.selected:
-            self.tool.draw_selected_box(self.x,self.y)
+            self.tool.draw_selected_box(self.x, self.y)
     
     def load_detail_page(self):
         url = self.tool.options[Option.ITEM_DETAILS_LINK]
