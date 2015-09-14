@@ -39,9 +39,15 @@ class Floor(object):
     def add_item(self, item):
         self.items.append(item)
     
-    def floor_has_curse(self,curse):
-        return curse==self.curse
+    def floor_has_curse(self, curse):
+        return curse == self.curse
         
     def name(self):
         return Floor.__floor_id_to_label[self.id]
+    
+    def __eq__(self, other):
+        return self.id == other.id
+    
+    def __ne__(self, other):
+        return self.id != other.id
     

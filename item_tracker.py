@@ -9,7 +9,7 @@ import json
 import subprocess
 import urllib2
 from view_controls.view import DrawingTool
-from game_objects.floor import Floor
+from game_objects.floor import Floor,Curse
 from game_objects.item import Item
 
 if platform.system() == "Windows":
@@ -762,7 +762,7 @@ class IsaacTracker:
                     self.drawing_tool.options[Option.WIDTH] = event.dict["w"]
                     self.drawing_tool.options[Option.HEIGHT] = event.dict["h"]
                     self.drawing_tool.save_options()
-                    self.drawing_tool.reflow()
+                    self.drawing_tool.reflow(temp_collected_items)
                     pygame.display.flip()
                 elif event.type == MOUSEMOTION:
                     if pygame.mouse.get_focused():
@@ -783,12 +783,12 @@ class IsaacTracker:
                             self.adjust_selected_item(-1)
                             self.drawing_tool.adjust_select_item_on_keypress(-1)
                         elif event.key == pygame.K_RETURN:
-                            self.load_selected_detail_page()
+                            self.drawing_tool.load_selected_detail_page()
                         elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
                             self.generate_run_summary()
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        self.load_selected_detail_page()
+                        self.drawing_tool.load_selected_detail_page()
                     if event.button == 3:
                         if os.path.isfile("optionpicker/option_picker.exe"):
                             self.log_msg("Starting option picker from .exe",
@@ -805,6 +805,7 @@ class IsaacTracker:
                         self.load_options()
                         self.selected_item_idx = None  # Clear this to avoid overlapping an item that may have been hidden
                         self.reflow()
+                        self.drawing_tool.reflow(temp_collected_items)
             #End Pygame Logic
             
             #Drawing Logic
@@ -847,7 +848,7 @@ class IsaacTracker:
                 self.text_height = self.drawing_tool.write_message(message)
             self.reflow()
             self.drawing_tool.reflow(temp_collected_items)
-
+            """
             if not self.item_message_countdown_in_progress():
                 self.selected_item_idx = None
 
@@ -886,6 +887,8 @@ class IsaacTracker:
                     )
 
             pygame.display.flip()
+            """
+            self.drawing_tool.draw_items(temp_current_floor)
             self.framecount += 1
             #end drawing logic
             
@@ -962,18 +965,21 @@ class IsaacTracker:
                         floor_id = 'f' + str(floor)
                         self.collected_items.append(floor_id) # TODO: remove this line - items are not floors
                         self.floors.append(aFloor(floor_id))
-                        temp_current_floor=Floor
+                        temp_current_floor=Floor(floor_id,self)
                         should_reflow = True
                     last_collected = self.collected_items[-1] if self.collected_items else None
                     if line.startswith("Curse of the Labyrinth!"):
                         # it SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
                         if last_collected.startswith('f'):
                             self.collected_items[-1] += 'x'
+                        temp_current_floor.curse=Curse.Labyrinth
                     if line.startswith("Curse of Blind"):
                         self.floors[-1].blind = True
                         self.blind_floor = True
+                        temp_current_floor.curse=Curse.Blind
                     if line.startswith("Curse of the Lost!"):
                         self.floors[-1].lost = True
+                        temp_current_floor.curse=Curse.Lost
                     if line.startswith("Spawn co-player!"):
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search("Added \d+ Collectibles", line):
@@ -982,6 +988,8 @@ class IsaacTracker:
                                                     enumerate(
                                                         self.collected_items) if
                                                     item[0] != 'f']
+                        #not really sure how this works but, going to try it
+                        map(lambda item: item.rerolled(),temp_collected_items)
                     if line.startswith('Adding collectible'):
                         if len(self.splitfile) > 1 and self.splitfile[
                                             current_line_number + self.seek - 1] == line:
@@ -1015,6 +1023,9 @@ class IsaacTracker:
                             self.collected_items.append(item_id)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
+                            temp_item = Item(item_id,temp_current_floor,item_info)
+                            temp_collected_items.append(temp_item)
+                            self.drawing_tool.item_picked_up()
                         else:
                             self.log_msg(
                                 "Skipped adding item %s to avoid space-bar duplicate" % item_id,
@@ -1029,6 +1040,7 @@ class IsaacTracker:
                 self.seek = len(self.splitfile)
                 if should_reflow:
                     self.reflow()
+                    self.drawing_tool.reflow(temp_collected_items)
 
 
 try:

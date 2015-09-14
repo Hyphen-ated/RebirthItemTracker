@@ -3,9 +3,12 @@ from floor import Curse,Floor
 class Item(object):
     def __init__(self,itemID,floor,item_info):
         self.id=itemID
-        self.found_on=floor #floor item was found on
+        self.floor=floor #floor item was found on
         self.was_rerolled=False
         self.info=item_info
+    
+    def rerolled(self):
+        self.was_rerolled = True
             
     def generate_item_description(self):
         desc = ""
@@ -53,6 +56,12 @@ class Item(object):
         if len(desc) > 0:
             desc = ": " + desc
         return desc
+    
+    def __eq__(self,other):
+        return self.id==other.id
+    
+    def __ne__(self,other):
+        return self.id!=other.id
 
 # Player stat constants (keys to player_stats and player_stats_display)
 # This is a subset of all available ItemPropertys
