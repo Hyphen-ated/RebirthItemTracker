@@ -9,6 +9,8 @@ from collections import defaultdict
 from game_objects.floor import Floor, Curse
 from game_objects.item import Item, ItemProperty
 
+from pygame.locals import RESIZABLE
+
 import string
 
 class Drawable(object):
@@ -26,7 +28,7 @@ class Clicakble(object):
         pass
 
 class DrawingTool:
-    def __init__(self, screen):
+    def __init__(self, screen=None):
         self.next_item = (0,0)
         self.item_position_index = []
         self.drawn_items = []
@@ -38,6 +40,10 @@ class DrawingTool:
         self.framecount = 0
         self.selected_item_index = None
         self.load_options()
+        #If Screen is none, we make our own
+        if self.screen is None:
+            self.screen = pygame.display.set_mode(
+            (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
         if self.options[Option.SHOW_DESCRIPTION] or self.options[
                 Option.SHOW_CUSTOM_MESSAGE]:
                 self.text_height = self.write_message(" ")

@@ -157,8 +157,6 @@ class IsaacTracker:
         self.spawned_coop_baby = 0  # last spawn of a co op baby
         self.roll_icon = None
         self.blind_icon = None
-        # Load all of the settings from the "options.json" file
-        self.load_options()
         
 
         with open("items.json", "r") as items_file:
@@ -177,47 +175,6 @@ class IsaacTracker:
                 self.in_summary_list.append(short_id)
             if ItemProperty.SUMMARY_CONDITION in item and item[ItemProperty.SUMMARY_CONDITION]:
                 self.summary_condition_list.append(short_id)
-
-        self.floor_id_to_label = {
-            "f1": "B1",
-            "f2": "B2",
-            "f3": "C1",
-            "f4": "C2",
-            "f5": "D1",
-            "f6": "D2",
-            "f7": "W1",
-            "f8": "W2",
-            "f9": "SHEOL",
-            "f10": "CATH",
-            "f11": "DARK",
-            "f12": "CHEST",
-            "f1x": "BXL",
-            "f3x": "CXL",
-            "f5x": "DXL",
-            "f7x": "WXL",
-        }
-
-    def load_options(self):
-        with open("options.json", "r") as json_file:
-            self.options = json.load(json_file)
-
-        size_multiplier = int(8 * self.options[Option.SIZE_MULTIPLIER])
-
-        # anything that gets calculated and cached based on something in options now needs to be flushed
-        self.text_margin_size = size_multiplier
-        # font can only be initialized after pygame is set up
-        if self.font:
-            self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT],
-                                            size_multiplier,
-                                            bold=self.options[Option.BOLD_FONT])
-        self._image_library = {}
-        self.roll_icon = self.get_scaled_icon(self.id_to_image("284"),
-                                              size_multiplier * 2)
-        self.blind_icon = self.get_scaled_icon("collectibles/questionmark.png",
-                                               size_multiplier * 2)
-
-    def get_scaled_icon(self, path, scale):
-        return pygame.transform.scale(self.get_image(path), (scale, scale))
 
     def save_options(self):
         with open("options.json", "w") as json_file:
@@ -272,103 +229,6 @@ class IsaacTracker:
         if not os.path.isdir(dn):
             os.mkdir(dn)
 
-    # image library stuff, from openbookproject.net
-    def get_image(self, path):
-        image = self._image_library.get(path)
-        if image is None:
-            canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-            image = pygame.image.load(canonicalized_path)
-            size_multiplier = self.options[Option.SIZE_MULTIPLIER]
-            scaled_image = pygame.transform.scale(image, (
-                int(image.get_size()[0] * size_multiplier),
-                int(image.get_size()[1] * size_multiplier)))
-            self._image_library[path] = scaled_image
-        return image
-
-    def build_position_index(self):
-        w = self.options[Option.WIDTH]
-        h = self.options[Option.HEIGHT]
-        # 2d array of size h, w
-        self.item_position_index = [[None for x in xrange(w)] for y in
-                                    xrange(h)]
-        self.num_displayed_items = 0
-        size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
-        for item in self.collected_item_info:
-            if item.shown and not item.floor:
-                self.num_displayed_items += 1
-                for y in range(int(item.y), int(item.y + size_multiplier)):
-                    if y >= h:
-                        continue
-                    row = self.item_position_index[y]
-                    for x in range(int(item.x), int(item.x + size_multiplier)):
-                        if x >= w:
-                            continue
-                        row[x] = item.index
-
-    def reflow(self):
-        size_multiplier = self.options[Option.SIZE_MULTIPLIER] * .5
-        item_icon_size = int(
-            self.options[Option.DEFAULT_SPACING] * size_multiplier)
-        item_icon_footprint = item_icon_size
-        result = self.try_layout(item_icon_footprint, item_icon_size, False)
-        while result is None:
-            item_icon_footprint -= 1
-            if item_icon_footprint < self.options[
-                Option.MIN_SPACING] or item_icon_footprint < 4:
-                result = self.try_layout(item_icon_footprint, item_icon_size,
-                                         True)
-            else:
-                result = self.try_layout(item_icon_footprint, item_icon_size,
-                                         False)
-
-        self.collected_item_info = result
-        self.build_position_index()
-
-    def try_layout(self, icon_footprint, icon_size, force_layout):
-        new_item_info = []
-        cur_row = 0
-        cur_column = 0
-        index = 0
-        vert_padding = 0
-        if self.options[Option.SHOW_FLOORS]:
-            vert_padding = self.text_margin_size
-        for item_id in self.collected_items:
-            item_x = icon_footprint * cur_column
-            item_y = self.text_height + (icon_footprint * cur_row) + (
-                vert_padding * (cur_row + 1))
-            floor = False
-            shown = True
-            if item_id not in self.filter_list \
-                    and (not item_id in self.healthonly_list or self.options[
-                        Option.SHOW_HEALTH_UPS]) \
-                    and (not item_id in self.space_list or item_id in self.guppy_list or
-                                self.options[Option.SHOW_SPACE_ITEMS]) \
-                    and (not index in self.rolled_item_indices or self.options[
-                        Option.SHOW_REROLLED_ITEMS]):
-
-                # check to see if we are about to go off the right edge
-                size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
-                if icon_footprint * cur_column + size_multiplier > self.options[
-                    Option.WIDTH]:
-                    if (not force_layout) \
-                            and self.text_height + (
-                                        icon_footprint + vert_padding) * (
-                                        cur_row + 1) + icon_size + vert_padding \
-                                    > self.options[Option.HEIGHT]:
-                        return None
-                    cur_row += 1
-                    cur_column = 0
-
-                floor = item_id.startswith('f')
-                if not floor:
-                    cur_column += 1
-            else:
-                shown = False
-
-            new_item_info.append(
-                ItemInfo(item_id, item_x, item_y, index, shown, floor))
-            index += 1
-        return new_item_info
 
     def add_stats_for_item(self, item_info, item_id):
         for stat in [Stat.DMG, Stat.DELAY, Stat.SPEED, Stat.SHOT_SPEED,
@@ -409,53 +269,6 @@ class IsaacTracker:
             self.player_stats[stat] = 0.0
             self.player_stats_display[stat] = "+0"
 
-    def generate_item_description(self, item_info):
-        desc = ""
-        text = item_info.get("text")
-        dmg = item_info.get(Stat.DMG)
-        dmgx = item_info.get(Stat.DMG_X)
-        delay = item_info.get(Stat.DELAY)
-        delayx = item_info.get(Stat.DELAY_X)
-        health = item_info.get(Stat.HEALTH)
-        speed = item_info.get(Stat.SPEED)
-        shotspeed = item_info.get(Stat.SHOT_SPEED)
-        tearrange = item_info.get(Stat.TEAR_RANGE)
-        height = item_info.get(Stat.HEIGHT)
-        tears = item_info.get(Stat.TEARS)
-        soulhearts = item_info.get(Stat.SOUL_HEARTS)
-        sinhearts = item_info.get(Stat.SIN_HEARTS)
-        if dmg:
-            desc += dmg + " dmg, "
-        if dmgx:
-            desc += "x" + dmgx + " dmg, "
-        if tears:
-            desc += tears + " tears, "
-        if delay:
-            desc += delay + " tear delay, "
-        if delayx:
-            desc += "x" + delayx + " tear delay, "
-        if shotspeed:
-            desc += shotspeed + " shotspeed, "
-        if tearrange:
-            desc += tearrange + " range, "
-        if height:
-            desc += height + " height, "
-        if speed:
-            desc += speed + " speed, "
-        if health:
-            desc += health + " health, "
-        if soulhearts:
-            desc += soulhearts + " soul hearts, "
-        if sinhearts:
-            desc += sinhearts + " sin hearts, "
-        if text:
-            desc += text
-        if desc.endswith(", "):
-            desc = desc[:-2]
-        if len(desc) > 0:
-            desc = ": " + desc
-        return desc
-
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
     def generate_run_summary(self):
@@ -490,6 +303,7 @@ class IsaacTracker:
         return self.player_stats_display[stat]
 
     def get_floor_label(self, floor_id):
+        #TODO: Broken - fix
         floor = self.get_floor(floor_id)
         # a floor can't be lost _and_ blind
         # (with amnesia it could be, but we can't tell from log.txt)
@@ -498,6 +312,7 @@ class IsaacTracker:
             ("(lst)" if floor.lost else "")
 
     def generate_floor_summary(self, floor_id, items):
+        #TODO: Broken - fix
         floor_label = self.get_floor_label(floor_id)
         floor = self.get_floor(floor_id)
         if floor is None:
@@ -508,9 +323,11 @@ class IsaacTracker:
         return floor_label + " " + string.join(items, "/")
 
     def get_floor_name(self, floor_id):
+        #TODO: Broken - fix
         return self.floor_id_to_label[floor_id]
 
     def get_floor(self, floor_id):
+        #TODO: Broken - fix
         for floor in self.floors:
             if floor.id is floor_id:
                 return floor
@@ -518,6 +335,7 @@ class IsaacTracker:
         return None
 
     def get_items_per_floor(self):
+        #TODO: Make this work again using state model
         #TODO: Redo this using new state model
         floors = {}
         current_floor_id = None
@@ -576,69 +394,6 @@ class IsaacTracker:
             return item_info.get(ItemProperty.SUMMARY_NAME)
         return item_info.get(ItemProperty.NAME)
 
-    def color(self, string):
-        return pygame.color.Color(str(string))
-
-    def load_selected_detail_page(self):
-        # TODO open browser if this is not None
-        if not self.selected_item_idx:
-            return
-        url = self.options[Option.ITEM_DETAILS_LINK]
-        if not url:
-            return
-        item_id = self.collected_item_info[self.selected_item_idx].id
-        url = url.replace("$ID", item_id)
-        webbrowser.open(url, autoraise=True)
-        return
-
-    def adjust_selected_item(self, amount):
-        item_length = len(self.collected_item_info)
-        if self.num_displayed_items < 1:
-            return
-        if self.selected_item_idx is None and amount > 0:
-            self.selected_item_idx = 0
-        elif self.selected_item_idx is None and amount < 0:
-            self.selected_item_idx = item_length - 1
-        else:
-            done = False
-            while not done:
-                self.selected_item_idx += amount
-                # clamp it to the range (0, length)
-                self.selected_item_idx = (
-                                             self.selected_item_idx + item_length) % item_length
-                selected_type = self.collected_item_info[self.selected_item_idx]
-                done = selected_type.shown and not selected_type.floor
-
-        self.item_message_start_time = self.framecount
-
-    def item_message_countdown_in_progress(self):
-        return self.item_message_start_time + self.get_message_duration() > self.framecount
-
-    def item_pickup_countdown_in_progress(self):
-        return self.item_pickup_time + self.get_message_duration() > self.framecount
-
-    def get_message_duration(self):
-        return (self.options[Option.MESSAGE_DURATION] *
-                self.options[Option.FRAMERATE_LIMIT])
-
-    def write_item_text(self, my_font, screen):
-        item_idx = self.selected_item_idx
-        if len(self.collected_items) < 0:
-            # no items, nothing to show
-            return False
-        if item_idx is None and self.item_pickup_countdown_in_progress():
-            # we want to be showing an item but they haven't selected one, that means show the newest item
-            item_idx = -1
-        if item_idx is None or len(self.collected_items) < item_idx:
-            # we got into a weird state where we think we should be showing something unshowable, bail out
-            return False
-        item = self.collected_items[item_idx]
-        if item.startswith('f'):
-            return False
-        item_info = self.get_item_info(item)
-        desc = self.generate_item_description(item_info)
-        self.text_height = self.drawing_tool.write_message("%s%s" % (item_info[ItemProperty.NAME], desc))
-        return True
 
     def load_log_file(self):
         self.log_not_found = False
@@ -689,48 +444,18 @@ class IsaacTracker:
         id_padded = item_id.zfill(3)
         return self.items_info[id_padded]
 
-    def id_to_image(self, id):
-        return 'collectibles/collectibles_%s.png' % id.zfill(3)
-
-    def draw_floor(self, f, screen, my_font):
-        text_color = self.options[Option.TEXT_COLOR]
-        size_multiplier = self.options[Option.SIZE_MULTIPLIER]
-        pygame.draw.lines(
-            screen,
-            self.color(text_color),
-            False,
-            ((f.x + 2, int(f.y + 24 * size_multiplier)),
-             (f.x + 2, f.y),
-             (int(f.x + 16 * size_multiplier), f.y))
-        )
-        image = my_font.render(self.get_floor_name(f.id), True,
-                               self.color(text_color))
-        screen.blit(image, (f.x + 4, f.y - self.text_margin_size))
-
-    def draw_item(self, item, screen):
-        image = self.get_image(self.id_to_image(item.id))
-        screen.blit(image, (item.x, item.y))
-        if item.index in self.rolled_item_indices:
-            screen.blit(self.roll_icon, (item.x, item.y))
-        if self.options[Option.SHOW_BLIND_ICON] and item.index in self.collected_blind_item_indices:
-            screen.blit(self.blind_icon,
-                        (item.x, item.y + self.options[Option.SIZE_MULTIPLIER] * 12))
-
     def run(self):
-        temp_collected_items = []
         self.current_floor = None
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
-            self.options[Option.X_POSITION], self.options[Option.Y_POSITION])
+
         # initialize pygame system stuff
         pygame.init()
         update_notifier = self.check_for_update()
         pygame.display.set_caption("Rebirth Item Tracker v0.8" + update_notifier)
-        screen = pygame.display.set_mode(
-            (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
-        #Create drawing tool to use to draw everything
-        self.drawing_tool = DrawingTool(screen)
-        self.font = pygame.font.SysFont(self.options[Option.SHOW_FONT], int(
-            8 * self.options[Option.SIZE_MULTIPLIER]), bold=self.options[Option.BOLD_FONT])
+        #Create drawing tool to use to draw everything - it'll create its own screen
+        self.drawing_tool = DrawingTool()
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
+            self.drawing_tool.options[Option.X_POSITION], 
+            self.drawing_tool.options[Option.Y_POSITION])
         pygame.display.set_icon(
             self.drawing_tool.get_image("collectibles/collectibles_333.png"))
         done = False
@@ -760,14 +485,8 @@ class IsaacTracker:
                     pygame.display.flip()
                 elif event.type == MOUSEMOTION:
                     if pygame.mouse.get_focused():
-                        x, y = pygame.mouse.get_pos()
-                        self.drawing_tool.select_item_on_hover(x,y)
-                        if y < len(self.item_position_index):
-                            selected_row = self.item_position_index[y]
-                            if x < len(selected_row):
-                                self.selected_item_idx = selected_row[x]
-                                if self.selected_item_idx:
-                                    self.item_message_start_time = self.framecount
+                        pos = pygame.mouse.get_pos()
+                        self.drawing_tool.select_item_on_hover(*pos)
                 elif event.type == KEYDOWN:
                     if len(self.collected_items) > 0:
                         if event.key == pygame.K_RIGHT:
@@ -800,7 +519,6 @@ class IsaacTracker:
             #End Pygame Logic
             
             #Drawing Logic
-            screen.fill(DrawingTool.color(self.drawing_tool.options[Option.BACKGROUND_COLOR]))
             clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
 
             if self.log_not_found:
@@ -812,7 +530,7 @@ class IsaacTracker:
             
             #Now we re-process the log file to get anything that might've loaded
             # process log stuff every read_delay seconds. making sure to truncate to an integer or else it might never mod to 0
-            if self.framecount % int(self.options[Option.FRAMERATE_LIMIT] * self.read_delay) == 0:
+            if self.framecount % int(self.drawing_tool.options[Option.FRAMERATE_LIMIT] * self.read_delay) == 0:
                 self.load_log_file()
                 self.splitfile = self.content.splitlines()
                 # return to start if seek passes the end of the file (usually b/c log file restarted)
@@ -896,7 +614,7 @@ class IsaacTracker:
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search("Added \d+ Collectibles", line):
                         self.log_msg("Reroll detected!", "D")
-                        map(lambda item: item.rerolled(),temp_collected_items)
+                        map(lambda item: item.rerolled(),self.collected_items)
                     if line.startswith('Adding collectible'):
                         if len(self.splitfile) > 1 and self.splitfile[
                                             current_line_number + self.seek - 1] == line:
