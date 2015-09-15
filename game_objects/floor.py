@@ -51,8 +51,12 @@ class Floor(object):
         return Floor.__floor_id_to_label[self.id]
     
     def __eq__(self,other):
+        if not isinstance(other, Floor):
+            return False
         return other is not None and self.id==other.id
     
     def __ne__(self,other):
+        if not isinstance(other, Floor):
+            return True
         return other is None or self.id!=other.id
     

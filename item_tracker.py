@@ -756,7 +756,7 @@ class IsaacTracker:
                     self.drawing_tool.options[Option.WIDTH] = event.dict["w"]
                     self.drawing_tool.options[Option.HEIGHT] = event.dict["h"]
                     self.drawing_tool.save_options()
-                    self.drawing_tool.reflow(temp_collected_items)
+                    self.drawing_tool.reflow(self.collected_items)
                     pygame.display.flip()
                 elif event.type == MOUSEMOTION:
                     if pygame.mouse.get_focused():
@@ -796,7 +796,7 @@ class IsaacTracker:
                             self.log_msg("No option_picker found!", "D")
                         self.drawing_tool.reset()
                         self.drawing_tool.load_options()
-                        self.drawing_tool.reflow(temp_collected_items)
+                        self.drawing_tool.reflow(self.collected_items)
             #End Pygame Logic
             
             #Drawing Logic
@@ -848,10 +848,7 @@ class IsaacTracker:
                         self.log_msg("Starting new run, seed: %s" % self.seed,
                                      "D")
                         self.run_start_frame = self.framecount
-                        self.rolled_item_indices = []
                         self.collected_items = []
-                        self.collected_guppy_items = []
-                        self.collected_blind_item_indices = []
                         self.log_msg("Emptied item array", "D")
                         self.bosses = []
                         self.log_msg("Emptied boss array", "D")
@@ -861,6 +858,7 @@ class IsaacTracker:
                         temp_collected_items = []
                         self.current_floor = None
                         self.drawing_tool.reset()
+                        self.log_msg("Reset drawing tool", "D")
                         with open("overlay text/seed.txt", "w+") as f:
                             f.write(self.seed)
 
@@ -898,11 +896,6 @@ class IsaacTracker:
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search("Added \d+ Collectibles", line):
                         self.log_msg("Reroll detected!", "D")
-                        self.rolled_item_indices = [index for index, item in
-                                                    enumerate(
-                                                        self.collected_items) if
-                                                    item[0] != 'f']
-                        #not really sure how this works but, going to try it
                         map(lambda item: item.rerolled(),temp_collected_items)
                     if line.startswith('Adding collectible'):
                         if len(self.splitfile) > 1 and self.splitfile[
@@ -915,10 +908,12 @@ class IsaacTracker:
                         space_split = line.split(" ")
                         # string has the form "Adding collectible 105 (The D6)"
                         item_id = space_split[2]
-                        if ((
-                                        current_line_number + self.seek) - self.spawned_coop_baby) < (
+                        item_info = self.get_item_info(item_id)
+                        #If Item IDs are equal, it should say this item already exists
+                        temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
+                        if ((current_line_number + self.seek) - self.spawned_coop_baby) < (
                                     len(self.collected_items) + 10) \
-                                and item_id in self.collected_items:
+                                and temp_item in self.collected_items:
                             self.log_msg(
                                 "Skipped duplicate item line from baby entry",
                                 "D")
@@ -926,34 +921,27 @@ class IsaacTracker:
                         item_name = " ".join(space_split[3:])[1:-1]
                         self.log_msg("Picked up item. id: %s, name: %s" % (
                             item_id, item_name), "D")
-                        item_info = self.get_item_info(item_id)
                         with open("overlay text/itemInfo.txt", "w+") as f:
-                            desc = self.generate_item_description(item_info)
+                            desc = temp_item.generate_item_description()
                             f.write(item_info[ItemProperty.NAME] + ":" + desc)
 
                         # ignore repeated pickups of space bar items
                         if not (item_info.get(
-                                ItemProperty.SPACE) and item_id in self.collected_items):
-                            self.collected_items.append(item_id)
+                                ItemProperty.SPACE,False) and temp_item in self.collected_items):
+                            self.collected_items.append(temp_item)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
-                            temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
-                            temp_collected_items.append(temp_item)
                             self.drawing_tool.item_picked_up()
                         else:
                             self.log_msg(
                                 "Skipped adding item %s to avoid space-bar duplicate" % item_id,
                                 "D")
                         self.add_stats_for_item(item_info, item_id)
-                        if self.blind_floor and not self.getting_start_items:
-                            # the item we just picked up was picked up blind, so add its index here to track that fact
-                            self.collected_blind_item_indices.append(
-                                len(self.collected_items) - 1)
                         should_reflow = True
 
                 self.seek = len(self.splitfile)
                 if should_reflow:
-                    self.drawing_tool.reflow(temp_collected_items)
+                    self.drawing_tool.reflow(self.collected_items)
 
 
 try:

@@ -65,9 +65,13 @@ class Item(object):
         return desc
     
     def __eq__(self,other):
+        if not isinstance(other, Item):
+            return False
         return other is not None and self.id==other.id
     
     def __ne__(self,other):
+        if not isinstance(other, Item):
+            return True
         return other is None or self.id!=other.id
 
 # Player stat constants (keys to player_stats and player_stats_display)
