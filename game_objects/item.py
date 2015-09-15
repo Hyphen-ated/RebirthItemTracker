@@ -6,7 +6,7 @@ class Item(object):
         self.floor=floor #floor item was found on
         self.was_rerolled=False
         self.info=item_info
-        self.starting_item = False
+        self.starting_item = starting_item
     
     def rerolled(self):
         #Space items can't be re-rolled that I know of

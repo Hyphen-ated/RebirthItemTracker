@@ -823,11 +823,11 @@ class IsaacTracker:
                     self.seek = 0
 
                 should_reflow = False
+                getting_start_items = False #This will become true if we're getting starting items
                 # process log's new output
                 for current_line_number, line in enumerate(
                         self.splitfile[self.seek:]):
                     self.log_msg(line, "V")
-                    getting_start_items = False #This will become true if we're getting starting items
                     # end floor boss defeated, hopefully?
                     if line.startswith('Mom clear time:'):
                         kill_time = int(line.split(" ")[-1])
@@ -867,6 +867,8 @@ class IsaacTracker:
                     # entered a room, use to keep track of bosses
                     if line.startswith('Room'):
                         self.current_room = re.search('\((.*)\)', line).group(1)
+                        if 'Start Room' not in line:
+                            getting_start_items = False
                         self.log_msg("Entered room: %s" % self.current_room,
                                      "D")
                     if line.startswith('Level::Init'):

@@ -102,7 +102,7 @@ class DrawingTool:
 
         # also draw the floor if we hit the end, so the current floor is visible
         if self.options[Option.SHOW_FLOORS] and floor_to_draw is not None:
-            if floor_to_draw.floor != current_floor:
+            if floor_to_draw.floor != current_floor and current_floor is not None:
                 x,y = self.next_item
                 self.draw(DrawableFloor(current_floor, x, y, self))
 
