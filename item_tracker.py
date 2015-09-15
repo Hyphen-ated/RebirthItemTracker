@@ -10,7 +10,7 @@ import subprocess
 import urllib2
 from view_controls.view import DrawingTool
 from game_objects.floor import Floor,Curse
-from game_objects.item import Item
+from game_objects.item import Item,Stat
 
 if platform.system() == "Windows":
     import pygameWindowInfo
@@ -19,44 +19,6 @@ from pygame.scrap import *
 from pygame_helpers import *
 from collections import defaultdict
 import string
-
-# TODO: can actually  be a floor as well now, not just an item - should be changed in the future
-class ItemInfo:
-    def __init__(self, id, x, y, index, shown, floor):
-        self.id = id
-        self.x = x
-        self.y = y
-        self.shown = shown
-        self.index = index
-        self.floor = floor
-
-
-# TODO: keep track of all curses
-class aFloor:
-    def __init__(self, id):
-        self.id = id
-        self.blind = False
-        self.lost = False
-
-
-# Player stat constants (keys to player_stats and player_stats_display)
-# This is a subset of all available ItemPropertys
-class Stat:
-    DMG = "dmg"
-    DMG_X = "dmgx"
-    DELAY = "delay"
-    DELAY_X = "delayx"
-    HEALTH = "health"
-    SPEED = "speed"
-    SHOT_SPEED = "shotspeed"
-    TEAR_RANGE = "range"
-    HEIGHT = "height"
-    TEARS = "tears"
-    SOUL_HEARTS = "soulhearts"
-    SIN_HEARTS = "sinhearts"
-    IS_GUPPY = "guppy"
-    # used for init and reset - does not have all stats yet
-    LIST = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS]
 
 
 # Properties that items from items.json can have
@@ -122,11 +84,9 @@ class IsaacTracker:
         self.drawing_tool = None
 
         # initialize isaac stuff
-        self.collected_items = []  # list of string item ids with no leading zeros. can also contain "f1" through "f12" for floor markers
-        self.collected_guppy_items = []  # list of guppy items collected, probably redundant, oh well
-        self.collected_blind_item_indices = []  # list of indexes into the collected_items array for items that were picked up blind
-        self.rolled_item_indices = []  # list of indexes into the collected_items array for items that were rerolled
+        self.collected_items = []   #List of items collected this run
         self.collected_item_info = []  # list of "immutable" ItemInfo objects used for determining the layout to draw
+        self.guppy_count = 0 # Used to keep track of whether we're guppy or not
         self.num_displayed_items = 0
         self.selected_item_idx = None
         self.seed = ""
@@ -138,10 +98,6 @@ class IsaacTracker:
         self.bosses = []
         self.last_run = {}
         self._image_library = {}
-        self.filter_list = []  # list of string item ids with zeros stripped, they are items we don't want to see
-        self.guppy_list = []
-        self.space_list = []
-        self.healthonly_list = []
         self.in_summary_list = []
         self.summary_condition_list = []
         self.items_info = {}
@@ -158,23 +114,9 @@ class IsaacTracker:
         self.roll_icon = None
         self.blind_icon = None
         
-
+        #load items info
         with open("items.json", "r") as items_file:
             self.items_info = json.load(items_file)
-        for item_id, item in self.items_info.iteritems():
-            short_id = item_id.lstrip("0")
-            if not item[ItemProperty.SHOWN]:
-                self.filter_list.append(short_id)
-            if ItemProperty.GUPPY in item and item[ItemProperty.GUPPY]:
-                self.guppy_list.append(short_id)
-            if ItemProperty.SPACE in item and item[ItemProperty.SPACE]:
-                self.space_list.append(short_id)
-            if ItemProperty.HEALTH_ONLY in item and item[ItemProperty.HEALTH_ONLY]:
-                self.healthonly_list.append(short_id)
-            if ItemProperty.IN_SUMMARY in item and item[ItemProperty.IN_SUMMARY]:
-                self.in_summary_list.append(short_id)
-            if ItemProperty.SUMMARY_CONDITION in item and item[ItemProperty.SUMMARY_CONDITION]:
-                self.summary_condition_list.append(short_id)
 
     def save_options(self):
         with open("options.json", "w") as json_file:
@@ -251,15 +193,14 @@ class IsaacTracker:
             self.player_stats_display[stat] = display
             with open("overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
-
-        if Stat.IS_GUPPY in item_info and item_info.get(Stat.IS_GUPPY) \
-                and item_id not in self.collected_guppy_items:
-            self.collected_guppy_items.append(item_id)
+        #If this can make us guppy, check if we're guppy
+        if Stat.IS_GUPPY in item_info and item_info.get(Stat.IS_GUPPY):
+            self.guppy_count += 1
             display = ""
-            if len(self.collected_guppy_items) >= 3:
+            if self.guppy_count >= 3:
                 display = "yes"
             else:
-                display = str(len(self.collected_guppy_items))
+                display = str(self.guppy_count)
             with open("overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
             self.player_stats_display[Stat.IS_GUPPY] = display
@@ -573,7 +514,6 @@ class IsaacTracker:
                         self.run_start_line = current_line_number + self.seek
                         self.run_ended = False
                         self.reset_player_stats()
-                        temp_collected_items = []
                         self.current_floor = None
                         self.drawing_tool.reset()
                         self.log_msg("Reset drawing tool", "D")
