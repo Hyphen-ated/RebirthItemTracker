@@ -86,7 +86,7 @@ class IsaacTracker:
         # initialize isaac stuff
         self.collected_items = []   #List of items collected this run
         self.collected_item_info = []  # list of "immutable" ItemInfo objects used for determining the layout to draw
-        self.guppy_count = 0 # Used to keep track of whether we're guppy or not
+        self.guppy_set = set() # Used to keep track of whether we're guppy or not
         self.num_displayed_items = 0
         self.selected_item_idx = None
         self.seed = ""
@@ -168,7 +168,8 @@ class IsaacTracker:
         if not os.path.isdir(dn):
             os.mkdir(dn)
 
-    def add_stats_for_item(self, item_info, item_id):
+    def add_stats_for_item(self, item, item_id):
+        item_info = item.info
         for stat in Stat.LIST:
             if stat not in item_info:
                 continue
@@ -190,12 +191,12 @@ class IsaacTracker:
                 f.write(display)
         #If this can make us guppy, check if we're guppy
         if Stat.IS_GUPPY in item_info and item_info.get(Stat.IS_GUPPY):
-            self.guppy_count += 1
+            self.guppy_set.add(item)
             display = ""
-            if self.guppy_count >= 3:
+            if len(self.guppy_set) >= 3:
                 display = "yes"
             else:
-                display = str(self.guppy_count)
+                display = str(len(self.guppy_set))
             with open("overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
             self.player_stats_display[Stat.IS_GUPPY] = display
@@ -555,7 +556,7 @@ class IsaacTracker:
                             self.drawing_tool.item_picked_up()
                         else:
                             self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id, "D")
-                        self.add_stats_for_item(item_info, item_id)
+                        self.add_stats_for_item(temp_item, item_id)
                         should_reflow = True
 
                 self.seek = len(self.splitfile)
