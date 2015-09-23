@@ -129,22 +129,19 @@ class IsaacTracker:
 
     # just for the suffix of boss kill number lol
     def suffix(self, d):
-        return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(
-            d % 10, 'th')
+        return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
 
     def check_end_run(self, line, cur_line_num):
         if not self.run_ended:
             died_to = ""
             end_type = ""
-            if self.bosses and self.bosses[-1][0] in ['???', 'The Lamb',
-                                                      'Mega Satan']:
+            if self.bosses and self.bosses[-1][0] in ['???', 'The Lamb','Mega Satan']:
                 end_type = "Won"
             elif (self.seed != '') and line.startswith('RNG Start Seed:'):
                 end_type = "Reset"
             elif line.startswith('Game Over.'):
                 end_type = "Death"
-                died_to = re.search('(?i)Killed by \((.*)\) spawned',
-                                    line).group(1)
+                died_to = re.search('(?i)Killed by \((.*)\) spawned',line).group(1)
             if end_type:
                 self.last_run = {
                     "bosses": self.bosses,
@@ -248,16 +245,14 @@ class IsaacTracker:
         floor = self.get_floor(floor_id)
         # a floor can't be lost _and_ blind
         # (with amnesia it could be, but we can't tell from log.txt)
-        return self.get_floor_name(floor_id) + \
-            ("(bld)" if floor.blind else "") + \
-            ("(lst)" if floor.lost else "")
+        return self.get_floor_name(floor_id)
 
     def generate_floor_summary(self, floor_id, items):
         #TODO: Broken - fix
         floor_label = self.get_floor_label(floor_id)
         floor = self.get_floor(floor_id)
         if floor is None:
-            return "Error - could not find floor " + floor_id
+            return ""
         if not items:
             # lost floors are still relevant even without items
             return floor_label if floor.lost else None

@@ -44,8 +44,7 @@ class DrawingTool:
         if self.screen is None:
             self.screen = pygame.display.set_mode(
             (self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
-        if self.options[Option.SHOW_DESCRIPTION] or self.options[
-                Option.SHOW_CUSTOM_MESSAGE]:
+        if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
                 self.text_height = self.write_message(" ")
         else:
                 self.text_height = 0
@@ -67,8 +66,7 @@ class DrawingTool:
 
         # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
         # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
-        if self.options[Option.SHOW_DESCRIPTION] or self.options[
-            Option.SHOW_CUSTOM_MESSAGE]:
+        if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
