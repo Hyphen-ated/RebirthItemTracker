@@ -243,9 +243,7 @@ class IsaacTracker:
         floor = self.get_floor(floor_id)
         # a floor can't be lost _and_ blind
         # (with amnesia it could be, but we can't tell from log.txt)
-        return self.get_floor_name(floor_id) + \
-            ("(bld)" if floor.blind else "") + \
-            ("(lst)" if floor.lost else "")
+        return self.get_floor_name(floor_id)
 
     def generate_floor_summary(self, floor_id, items):
         #TODO: Broken - fix
@@ -253,7 +251,7 @@ class IsaacTracker:
         floor = self.get_floor(floor_id)
         # Should not happen
         if floor is None:
-            return "Error - could not find floor " + floor_id
+            return ""
         if not items:
             # lost floors are still relevant even without items
             return floor_label if floor.lost else None
