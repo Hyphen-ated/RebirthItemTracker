@@ -1,30 +1,37 @@
-import os, sys, shutil, subprocess, py2exe
-from distutils.core import setup
+import os, sys, shutil, subprocess
 
 # Here is where you can set the name for the release zip file and for the install dir inside it.
-version = "0.7"
+version = "0.8"
 installName = 'RebirthItemTracker-' + version
 
-# target is where we assemble our final install. dist is where py2exe produces exes and their dependencies
+# target is where we assemble our final install.
 if os.path.isdir('target/'):
     shutil.rmtree('target/')
 installDir = 'target/' + installName + '/'
 
+# Run the tracker build script. The results are placed in ./dist/
+subprocess.call("pygame2exe.py item_tracker.py %s" % version, shell=True, stdout=sys.stdout, stderr=sys.stderr)
+
+# Remove the Tk demo files, this should always be safe
+shutil.rmtree('dist/library/tcl/tk8.5/demos')
+shutil.rmtree('dist/library/tcl/tk8.5/images')
+shutil.rmtree('dist/library/tcl/tk8.5/msgs')
+
+# Remove localization encoding files, this might cause compatibility issues in obscure scenarios
+'''
+for root, dirs, files in os.walk('dist/library/tcl/tcl8.5/', topdown=False):
+    for name in files:
+        if name not in ['auto.tcl', 'init.tcl', 'tclIndex']:
+            os.remove(os.path.join(root, name))
+    for name in dirs:
+        os.rmdir(os.path.join(root,name))
+'''
+
+shutil.move('dist/', installDir) # Move the dist files to our target directory
+
+# Then copy over all the data files
 shutil.copytree('collectibles/', installDir + 'collectibles/')
 shutil.copytree('overlay text reference/', installDir + 'overlay text/')
-
-# first build the main tracker using the horrible ugly pygame2exe script
-subprocess.call("pygame2exe.py item_tracker.py", shell=True, stdout=sys.stdout, stderr=sys.stderr)
-shutil.move('dist/item_tracker.exe', installDir)
-
-# then build the option builder using normal py2exe
-sys.argv.append('py2exe')
-setup(console=['option_picker.py'])
-
-# unfortunately i cant figure out how to make it bundle all the optionpicker's dlls inside the exe like pygame2exe does
-# so let's copy all this junk into the install dir
-shutil.copytree('dist/', installDir + 'optionpicker/')
-
 shutil.copy('options.json', installDir)
 shutil.copy('items.json', installDir)
 shutil.copy('LICENSE.txt', installDir)
