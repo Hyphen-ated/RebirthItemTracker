@@ -12,7 +12,6 @@
 #will loose it all!(I lost 6 months of work because I did not do this)
 
 
- 
 try:
     from distutils.core import setup
     import py2exe, pygame
@@ -35,40 +34,50 @@ def isSystemDLL(pathname):
     return origIsSystemDLL(pathname) # return the orginal function
 py2exe.build_exe.isSystemDLL = isSystemDLL # override the default function with this one
  
-class pygame2exe(py2exe.build_exe.py2exe): #This hack make sure that pygame default font is copied: no need to modify code for specifying default font
+class pygame2exe(py2exe.build_exe.py2exe):
+    #This hack make sure that pygame default font is copied: no need to modify code for specifying default font
     def copy_extensions(self, extensions):
         #Get pygame default font
         pygamedir = os.path.split(pygame.base.__file__)[0]
         pygame_default_font = os.path.join(pygamedir, pygame.font.get_default_font())
- 
+
         #Add font to list of extension to be copied
         extensions.append(Module("pygame.font", pygame_default_font))
         py2exe.build_exe.py2exe.copy_extensions(self, extensions)
- 
+
+    # This hack removes tk85.dll from the list of dlls that don't get bundled, since it can be bundled.
+    def copy_dlls(self, dlls):
+        if 'tk85.dll' in self.dlls_in_exedir:
+            self.dlls_in_exedir.remove('tk85.dll')
+        # Add tcl85.dll to the list of dlls that don't get bundled, since it can't be.
+        if 'tcl85.dll' not in self.dlls_in_exedir:
+            self.dlls_in_exedir.append('tcl85.dll')
+        py2exe.build_exe.py2exe.copy_dlls(self, dlls)
+
 class BuildExe:
-    def __init__(self, scriptname):
+    def __init__(self, scriptname, version):
         #Name of starting .py
         self.script = scriptname
 
         #Name of program
-        self.project_name = "ItemTracker"
+        self.project_name = "Rebirth Item Tracker"
  
         #Project url
-        self.project_url = "https://github.com/Hyphen-ated/RebirthItemTracker"
+        self.project_url = "https://github.com/Hyphen-ated/RebirthItemTracker/"
  
         #Version of program
-        self.project_version = "0.7"
+        self.project_version = version
  
         #License of the program
-        self.license = "MyApps License"
+        self.license = "FreeBSD License"
  
         #Auhor of program
-        self.author_name = "Me"
-        self.author_email = "example@example.com"
-        self.copyright = "Copyright (c) 2009 Me."
+        self.author_name = "Hyphen-ated, Brett824, Various Others"
+        self.author_email = ""
+        self.copyright = "Copyright (c) 2015 Hyphen-ated and Brett824"
  
         #Description
-        self.project_description = "MyApps Description"
+        self.project_description = ""
  
         #Icon file (None will use pygame default icon)
         self.icon_file = None
@@ -81,12 +90,12 @@ class BuildExe:
         self.exclude_modules = []
         
         #DLL Excludes
-        self.exclude_dll = ['']
-        #python scripts (strings) to be included, seperated by a comma
+        self.exclude_dll = ['w9xpopen.exe', 'libogg-0.dll', 'libvorbis-0.dll', 'libvorbisfile-3.dll', 'smpeg.dll']
+        #python scripts (strings) to be included, separated by a comma
         self.extra_scripts = []
  
         #Zip file name (None will bundle files in exe instead of zip file)
-        self.zipfile_name = None
+        self.zipfile_name = "library/library.zip"
 
         #Dist directory
         self.dist_dir ='dist'
@@ -174,10 +183,11 @@ class BuildExe:
 if __name__ == '__main__':
     # pull the name of the python script we're turning into an exe from argv,
     # then put on 'py2exe' because this hacky thing needs it
-    script = sys.argv[-1]
-    sys.argv=sys.argv[:-1]
+    script = sys.argv[-2]
+    version = sys.argv[-1]
+    sys.argv=sys.argv[:-2]
     sys.argv.append('py2exe')
-    BuildExe(script).run() #Run generation
+    BuildExe(script, version).run() #Run generation
 
 
 

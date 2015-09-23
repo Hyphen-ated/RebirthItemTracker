@@ -135,13 +135,13 @@ class IsaacTracker:
         if not self.run_ended:
             died_to = ""
             end_type = ""
-            if self.bosses and self.bosses[-1][0] in ['???', 'The Lamb','Mega Satan']:
+            if self.bosses and self.bosses[-1][0] in ['???', 'The Lamb', 'Mega Satan']:
                 end_type = "Won"
             elif (self.seed != '') and line.startswith('RNG Start Seed:'):
                 end_type = "Reset"
             elif line.startswith('Game Over.'):
                 end_type = "Death"
-                died_to = re.search('(?i)Killed by \((.*)\) spawned',line).group(1)
+                died_to = re.search('(?i)Killed by \((.*)\) spawned', line).group(1)
             if end_type:
                 self.last_run = {
                     "bosses": self.bosses,
@@ -168,10 +168,8 @@ class IsaacTracker:
         if not os.path.isdir(dn):
             os.mkdir(dn)
 
-
     def add_stats_for_item(self, item_info, item_id):
-        for stat in [Stat.DMG, Stat.DELAY, Stat.SPEED, Stat.SHOT_SPEED,
-                     Stat.TEAR_RANGE, Stat.HEIGHT, Stat.TEARS]:
+        for stat in Stat.LIST:
             if stat not in item_info:
                 continue
             change = float(item_info.get(stat))
@@ -251,6 +249,7 @@ class IsaacTracker:
         #TODO: Broken - fix
         floor_label = self.get_floor_label(floor_id)
         floor = self.get_floor(floor_id)
+        # Should not happen
         if floor is None:
             return ""
         if not items:
@@ -267,7 +266,6 @@ class IsaacTracker:
         for floor in self.floors:
             if floor.id is floor_id:
                 return floor
-        # Should not happen
         return None
 
     def get_items_per_floor(self):
@@ -330,20 +328,17 @@ class IsaacTracker:
             return item_info.get(ItemProperty.SUMMARY_NAME)
         return item_info.get(ItemProperty.NAME)
 
-
     def load_log_file(self):
         self.log_not_found = False
         path = None
         logfile_location = ""
         if platform.system() == "Windows":
-            logfile_location = os.environ[
-                                   'USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
+            logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
                 os.path.expanduser('~') + '/.local/share') + '/binding of isaac rebirth/'
         elif platform.system() == "Darwin":
-            logfile_location = os.path.expanduser(
-                '~') + '/Library/Application Support/Binding of Isaac Rebirth/'
+            logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
         for check in ('../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
                 path = check
@@ -364,8 +359,7 @@ class IsaacTracker:
     # returns text to put in the title bar
     def check_for_update(self):
         try:
-            github_info_json = urllib2.urlopen(
-                "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
+            github_info_json = urllib2.urlopen("https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
             info = json.loads(github_info_json)
             latest_version = info["name"]
             with open('version.txt', 'r') as f:
@@ -382,7 +376,6 @@ class IsaacTracker:
 
     def run(self):
         self.current_floor = None
-
         # initialize pygame system stuff
         pygame.init()
         update_notifier = self.check_for_update()
@@ -392,10 +385,10 @@ class IsaacTracker:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
             self.drawing_tool.options[Option.X_POSITION], 
             self.drawing_tool.options[Option.Y_POSITION])
-        pygame.display.set_icon(
-            self.drawing_tool.get_image("collectibles/collectibles_333.png"))
+        pygame.display.set_icon(self.drawing_tool.get_image("collectibles/collectibles_333.png"))
         done = False
         clock = pygame.time.Clock()
+        option_picker_frame = self.framecount # To prevent the option menu from being opened immediately after closing
         winInfo = None
         if platform.system() == "Windows":
             winInfo = pygameWindowInfo.PygameWindowInfo()
@@ -436,19 +429,10 @@ class IsaacTracker:
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.drawing_tool.load_selected_detail_page()
-                    if event.button == 3:
-                        if os.path.isfile("optionpicker/option_picker.exe"):
-                            self.log_msg("Starting option picker from .exe",
-                                         "D")
-                            subprocess.call(os.path.join('optionpicker',
-                                                         "option_picker.exe"),
-                                            shell=True)
-                        elif os.path.isfile("option_picker.py"):
-                            self.log_msg("Starting option picker from .py", "D")
-                            subprocess.call("python option_picker.py",
-                                            shell=True)
-                        else:
-                            self.log_msg("No option_picker found!", "D")
+                    if event.button == 3 and self.framecount > option_picker_frame:
+                        option_picker_frame = self.framecount + 1
+                        import option_picker
+                        option_picker.options_menu().run()
                         self.drawing_tool.reset()
                         self.drawing_tool.load_options()
                         self.drawing_tool.reflow(self.collected_items)
@@ -471,16 +455,13 @@ class IsaacTracker:
                 self.splitfile = self.content.splitlines()
                 # return to start if seek passes the end of the file (usually b/c log file restarted)
                 if self.seek > len(self.splitfile):
-                    self.log_msg(
-                        "Current line number longer than lines in file, returning to start of file",
-                        "D")
+                    self.log_msg("Current line number longer than lines in file, returning to start of file", "D")
                     self.seek = 0
 
                 should_reflow = False
                 getting_start_items = False #This will become true if we're getting starting items
                 # process log's new output
-                for current_line_number, line in enumerate(
-                        self.splitfile[self.seek:]):
+                for current_line_number, line in enumerate(self.splitfile[self.seek:]):
                     self.log_msg(line, "V")
                     # end floor boss defeated, hopefully?
                     if line.startswith('Mom clear time:'):
@@ -489,9 +470,9 @@ class IsaacTracker:
                         # can you fight the same boss twice?
                         if self.current_room not in [x[0] for x in self.bosses]:
                             self.bosses.append((self.current_room, kill_time))
-                            self.log_msg("Defeated %s%s boss %s at time %s" % (
-                                len(self.bosses), self.suffix(len(self.bosses)),
-                                self.current_room, kill_time), "D")
+                            self.log_msg(
+                                "Defeated %s%s boss %s at time %s" % (len(self.bosses),
+                                self.suffix(len(self.bosses)), self.current_room, kill_time), "D")
                     # check + handle the end of the run (order important here!)
                     # we want it after boss kill (so we have that handled) but before RNG Start Seed (so we can handle that)
                     self.check_end_run(line, current_line_number + self.seek)
@@ -499,8 +480,7 @@ class IsaacTracker:
                     if line.startswith('RNG Start Seed:'):
                         # this assumes a fixed width, but from what I see it seems safe
                         self.seed = line[16:25]
-                        self.log_msg("Starting new run, seed: %s" % self.seed,
-                                     "D")
+                        self.log_msg("Starting new run, seed: %s" % self.seed, "D")
                         self.run_start_frame = self.framecount
                         self.collected_items = []
                         self.log_msg("Emptied item array", "D")
@@ -520,13 +500,9 @@ class IsaacTracker:
                         self.current_room = re.search('\((.*)\)', line).group(1)
                         if 'Start Room' not in line:
                             getting_start_items = False
-                        self.log_msg("Entered room: %s" % self.current_room,
-                                     "D")
+                        self.log_msg("Entered room: %s" % self.current_room,"D")
                     if line.startswith('Level::Init'):
-                        floor_tuple = tuple(
-                            [re.search(
-                                "Level::Init m_Stage (\d+), m_AltStage (\d+)",
-                                line).group(x) for x in [1, 2]])
+                        floor_tuple = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1, 2]])
                         # assume floors aren't cursed until we see they are
                         self.blind_floor = False
                         getting_start_items = True
@@ -551,11 +527,8 @@ class IsaacTracker:
                         self.log_msg("Reroll detected!", "D")
                         map(lambda item: item.rerolled(),self.collected_items)
                     if line.startswith('Adding collectible'):
-                        if len(self.splitfile) > 1 and self.splitfile[
-                                            current_line_number + self.seek - 1] == line:
-                            self.log_msg(
-                                "Skipped duplicate item line from baby presence",
-                                "D")
+                        if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
+                            self.log_msg("Skipped duplicate item line from baby presence", "D")
                             continue
                         # hacky string manip, idgaf
                         space_split = line.split(" ")
@@ -564,31 +537,24 @@ class IsaacTracker:
                         item_info = self.get_item_info(item_id)
                         #If Item IDs are equal, it should say this item already exists
                         temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
-                        if ((current_line_number + self.seek) - self.spawned_coop_baby) < (
-                                    len(self.collected_items) + 10) \
+                        if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.collected_items) + 10) \
                                 and temp_item in self.collected_items:
-                            self.log_msg(
-                                "Skipped duplicate item line from baby entry",
-                                "D")
+                            self.log_msg("Skipped duplicate item line from baby entry","D")
                             continue
                         item_name = " ".join(space_split[3:])[1:-1]
-                        self.log_msg("Picked up item. id: %s, name: %s" % (
-                            item_id, item_name), "D")
+                        self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
                         with open("overlay text/itemInfo.txt", "w+") as f:
                             desc = temp_item.generate_item_description()
                             f.write(item_info[ItemProperty.NAME] + ":" + desc)
 
                         # ignore repeated pickups of space bar items
-                        if not (item_info.get(
-                                ItemProperty.SPACE,False) and temp_item in self.collected_items):
+                        if not (item_info.get(ItemProperty.SPACE,False) and temp_item in self.collected_items):
                             self.collected_items.append(temp_item)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
                             self.drawing_tool.item_picked_up()
                         else:
-                            self.log_msg(
-                                "Skipped adding item %s to avoid space-bar duplicate" % item_id,
-                                "D")
+                            self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id, "D")
                         self.add_stats_for_item(item_info, item_id)
                         should_reflow = True
 
