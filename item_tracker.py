@@ -426,7 +426,8 @@ class IsaacTracker:
                         elif event.key == pygame.K_RETURN:
                             self.drawing_tool.load_selected_detail_page()
                         elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
-                            self.generate_run_summary()
+                            pass
+                            #self.generate_run_summary()
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.drawing_tool.load_selected_detail_page()
