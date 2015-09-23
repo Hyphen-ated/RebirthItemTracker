@@ -5,4 +5,8 @@ target/
 run_logs/
 overlay text/*.txt
 build/
-*.iml
+.project
+.pydevproject
+.settings.project
+.pydevproject
+.settings

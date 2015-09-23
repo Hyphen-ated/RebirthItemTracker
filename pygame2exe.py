@@ -86,7 +86,7 @@ class BuildExe:
         self.extra_datas = []
  
         #Extra/excludes python modules
-        self.extra_modules = []
+        self.extra_modules = ['game_objects','view_controls']
         self.exclude_modules = []
         
         #DLL Excludes

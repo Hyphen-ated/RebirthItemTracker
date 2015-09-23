@@ -4,7 +4,7 @@
    "custom_message": "Seed: {seed} / Guppy: {guppy} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}", 
    "default_spacing": 64, 
    "framerate_limit": 30, 
-   "height": 96, 
+   "height": 247, 
    "item_details_link": "http://platinumgod.co.uk/rebirth?id=$ID", 
    "message_duration": 7, 
    "min_spacing": 24, 
@@ -14,12 +14,12 @@
    "show_floors": true, 
    "show_font": "Arial", 
    "show_health_ups": true, 
-   "show_rerolled_items": false, 
-   "show_space_items": false, 
+   "show_rerolled_items": true, 
+   "show_space_items": true, 
    "size_multiplier": 2, 
    "text_color": "#FFFFFF", 
-   "width": 1000, 
+   "width": 1066, 
    "word_wrap": false, 
-   "xposition": 100, 
-   "yposition": 100
+   "xposition": 15, 
+   "yposition": 2717
 }
