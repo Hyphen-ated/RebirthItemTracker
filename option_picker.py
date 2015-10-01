@@ -131,7 +131,6 @@ class options_menu():
             initialvar = StringVar()
             initialvar.set(self.options.get(opt))
             self.entries[opt] = ttk.Combobox(self.root, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
-            self.entries[opt].pack()
             self.entries[opt].grid(row=nextrow, column=1)
             nextrow += 1
 
