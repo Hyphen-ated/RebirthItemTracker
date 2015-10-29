@@ -1,0 +1,12 @@
+*.pyc
+.idea/
+dist/
+src/dist/
+target/
+run_logs/
+overlay text/*.txt
+build/
+*.iml
+.project
+.pydevproject
+.settings
