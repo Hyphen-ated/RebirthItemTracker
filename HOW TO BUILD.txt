@@ -1,5 +1,0 @@
-You need Python 2.7
-Library dependencies are pygame and py2exe. Go download the 32-bit versions of these for python 2.7
-(I ran into weird dll problems trying to use 64-bit versions)
-
-Once you have the dependencies, just do "python release.py" and it will create a release zipfile in target/
