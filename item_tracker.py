@@ -375,6 +375,23 @@ class IsaacTracker:
         id_padded = item_id.zfill(3)
         return self.items_info[id_padded]
 
+    def start_new_run(self, current_line_number):
+        self.run_start_line = current_line_number + self.seek
+        self.log_msg("Starting new run, seed: %s" % self.seed, "D")
+        self.run_start_frame = self.framecount
+        self.collected_items = []
+        self.log_msg("Emptied item array", "D")
+        self.bosses = []
+        self.log_msg("Emptied boss array", "D")
+        self.run_ended = False
+        self.reset_player_stats()
+        self.current_floor = None
+        self.drawing_tool.reset()
+        self.guppy_set=set()
+        self.log_msg("Reset drawing tool", "D")
+        with open("overlay text/seed.txt", "w+") as f:
+            f.write(self.seed)
+
     def run(self):
         self.current_floor = None
         # initialize pygame system stuff
@@ -430,8 +447,7 @@ class IsaacTracker:
                 elif event.type == MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.drawing_tool.load_selected_detail_page()
-                    if event.button == 3 and self.framecount > option_picker_frame:
-                        option_picker_frame = self.framecount + 1
+                    if event.button == 3:
                         import option_picker
                         pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                         option_picker.options_menu().run()
@@ -483,22 +499,7 @@ class IsaacTracker:
                     if line.startswith('RNG Start Seed:'):
                         # this assumes a fixed width, but from what I see it seems safe
                         self.seed = line[16:25]
-                        self.log_msg("Starting new run, seed: %s" % self.seed, "D")
-                        self.run_start_frame = self.framecount
-                        self.collected_items = []
-                        self.log_msg("Emptied item array", "D")
-                        self.bosses = []
-                        self.log_msg("Emptied boss array", "D")
-                        self.run_start_line = current_line_number + self.seek
-                        self.run_ended = False
-                        self.reset_player_stats()
-                        self.current_floor = None
-                        self.drawing_tool.reset()
-                        self.log_msg("Reset drawing tool", "D")
-                        with open("overlay text/seed.txt", "w+") as f:
-                            f.write(self.seed)
-
-                    # entered a room, use to keep track of bosses
+                        self.start_new_run(current_line_number)
                     if line.startswith('Room'):
                         self.current_room = re.search('\((.*)\)', line).group(1)
                         if 'Start Room' not in line:
