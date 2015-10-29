@@ -1,7 +1,6 @@
 *.pyc
 .idea/
 dist/
-src/dist/
 target/
 run_logs/
 overlay text/*.txt
