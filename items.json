@@ -1,4 +1,9 @@
 {
+   "NEW": {
+      "name": "Afterbirth Item",
+      "shown": true,
+      "text": "This item doesn't exist yet"
+   },
    "001": {
       "name": "The Sad Onion",
       "shown": true,

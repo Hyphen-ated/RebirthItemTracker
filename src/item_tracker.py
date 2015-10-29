@@ -278,7 +278,7 @@ class IsaacTracker:
                 floors[item.id] = []
                 current_floor_id = item.id
             elif short_id in self.in_summary_list:
-                item_info = self.get_item_info(item.id)
+                item_info,item.id = self.get_item_info(item.id) 
                 floors[current_floor_id].append(self.get_summary_name(item_info))
 
             if short_id in self.guppy_list:
@@ -367,7 +367,10 @@ class IsaacTracker:
 
     def get_item_info(self, item_id):
         id_padded = item_id.zfill(3)
-        return self.items_info[id_padded]
+        try:
+            return self.items_info[id_padded], item_id
+        except:
+            return self.items_info["NEW"], "NEW"
 
     def start_new_run(self, current_line_number):
         self.run_start_line = current_line_number + self.seek
@@ -532,7 +535,7 @@ class IsaacTracker:
                         space_split = line.split(" ")
                         # string has the form "Adding collectible 105 (The D6)"
                         item_id = space_split[2]
-                        item_info = self.get_item_info(item_id)
+                        item_info,item_id = self.get_item_info(item_id)
                         #If Item IDs are equal, it should say this item already exists
                         temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
                         if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.collected_items) + 10) \
