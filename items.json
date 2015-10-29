@@ -1,15 +1,10 @@
 {
-   "NEW": {
-      "name": "Afterbirth Item",
-      "shown": true,
-      "text": "No information on this item yet"
-   },
    "001": {
       "name": "The Sad Onion",
       "shown": true,
       "tears": "0.7",
       "text": ""
-   },   
+   },
    "002": {
       "name": "The Inner Eye",
       "delay": "3",
