@@ -561,10 +561,13 @@ class IsaacTracker:
                     self.drawing_tool.reflow(self.collected_items)
 
 
-try:
-    rt = IsaacTracker(verbose=False, debug=False)
-    rt.run()
-except Exception as e:
-    import traceback
+def main():
+    try:
+        rt = IsaacTracker(verbose=False, debug=False)
+        rt.run()
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
 
-    traceback.print_exc()
+if __name__ == "__main__":
+    main()

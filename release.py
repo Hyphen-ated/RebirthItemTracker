@@ -10,12 +10,14 @@ if os.path.isdir('target/'):
 installDir = 'target/' + installName + '/'
 
 # Run the tracker build script. The results are placed in ./dist/
+os.chdir("src")
 subprocess.call("pygame2exe.py item_tracker.py %s" % version, shell=True, stdout=sys.stdout, stderr=sys.stderr)
+os.chdir("..")
 
 # Remove the Tk demo files, this should always be safe
-shutil.rmtree('dist/library/tcl/tk8.5/demos')
-shutil.rmtree('dist/library/tcl/tk8.5/images')
-shutil.rmtree('dist/library/tcl/tk8.5/msgs')
+shutil.rmtree('src/dist/library/tcl/tk8.5/demos')
+shutil.rmtree('src/dist/library/tcl/tk8.5/images')
+shutil.rmtree('src/dist/library/tcl/tk8.5/msgs')
 
 # Remove localization encoding files, this might cause compatibility issues in obscure scenarios
 '''
@@ -27,7 +29,7 @@ for root, dirs, files in os.walk('dist/library/tcl/tcl8.5/', topdown=False):
         os.rmdir(os.path.join(root,name))
 '''
 
-shutil.move('dist/', installDir) # Move the dist files to our target directory
+shutil.move('src/dist/', installDir) # Move the dist files to our target directory
 
 # Then copy over all the data files
 shutil.copytree('collectibles/', installDir + 'collectibles/')
