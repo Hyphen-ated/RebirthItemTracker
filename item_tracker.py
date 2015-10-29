@@ -1,12 +1,9 @@
 import time
-import glob
 import os
 import platform
-import webbrowser
 import pygame
 import re
 import json
-import subprocess
 import urllib2
 from view_controls.view import DrawingTool
 from game_objects.floor import Floor,Curse
@@ -15,9 +12,6 @@ from game_objects.item import Item,Stat
 if platform.system() == "Windows":
     import pygameWindowInfo
 from pygame.locals import *
-from pygame.scrap import *
-from pygame_helpers import *
-from collections import defaultdict
 import string
 
 
