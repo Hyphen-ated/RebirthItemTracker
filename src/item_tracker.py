@@ -278,7 +278,7 @@ class IsaacTracker:
                 floors[item.id] = []
                 current_floor_id = item.id
             elif short_id in self.in_summary_list:
-                item_info,item_id = self.get_item_info(item.id) 
+                item_info,item.id = self.get_item_info(item.id) 
                 floors[current_floor_id].append(self.get_summary_name(item_info))
 
             if short_id in self.guppy_list:
