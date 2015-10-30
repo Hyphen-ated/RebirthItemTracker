@@ -67,8 +67,11 @@ class options_menu():
     def save_callback(self):
         # Callback for the "save" option -- rejiggers options and saves to options.json, then quits
         for key, value in self.entries.iteritems():
-            if key in self.numeric_entry_keys:
-                self.options[key] = int(value.get())
+            if key in self.integer_keys:
+                # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
+                self.options[key] = int(float(value.get()))
+            elif key in self.float_keys:
+                self.options[key] = float(value.get())
             else:
                 self.options[key] = value.get()
         for key, value in self.checks.iteritems():
@@ -101,7 +104,8 @@ class options_menu():
         self.root.resizable(False, False)
 
         # Generate numeric options by looping over option types
-        self.numeric_entry_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]
+        self.integer_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit"]
+        self.float_keys   = ["size_multiplier"]
         self.entries = {}
         nextrow = 0
         vcmd = (self.root.register(self.OnValidate), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
