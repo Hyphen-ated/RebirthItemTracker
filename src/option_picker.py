@@ -81,16 +81,12 @@ class options_menu():
     def opposite_color(self,color):
         # Get the opposite color of a hex color, just to make text on buttons readable
         color = color.lower()
-        table = maketrans(
-            '0123456789abcdef',
-            'fedcba9876543210')
+        table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
-
 
     def pretty_name(self, s):
         # Change from a var name to something you'd show the users
         return " ".join(s.split("_")).title()
-
 
     # From http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
     def OnValidate(self, d, i, P, s, S, v, V, W):
@@ -162,13 +158,17 @@ class options_menu():
                     self.entries["message_duration"].configure(state=DISABLED)
 
         # Save and cancel buttons
-        save = Button(self.root,
-                      text="Save",
-                      command=self.save_callback)
+        save = Button(
+            self.root,
+            text="Save",
+            command=self.save_callback
+        )
         save.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=0)
-        cancel = Button(self.root,
-                        text="Cancel",
-                        command=self.root.destroy)
+        cancel = Button(
+            self.root,
+            text="Cancel",
+            command=self.root.destroy
+        )
         cancel.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=1)
 
         # Start the main loop
