@@ -6,10 +6,9 @@ import re
 import ttk
 import pygame.sysfont
 
-
 class options_menu():
     """
-      standard save + load options functions, from item_tracker.py. save_options modified a bit to take a parameter
+    These are the standard save and load options functions.
     """
     def __init__(self):
         # Our 'safe' list of fonts that should work in pygame
@@ -36,8 +35,6 @@ class options_menu():
             import traceback
             traceback.print_exc()
 
-
-
     def load_options(self):
         with open("options.json", "r") as json_file:
             options = json.load(json_file)
@@ -48,34 +45,32 @@ class options_menu():
         with open("options.json", "w") as json_file:
             json.dump(options, json_file, indent=3, sort_keys=True)
 
-
     """
-      callbacks
+    Callbacks
     """
-
     def color_callback(self, source):
-        # prompt a color picker, set the options and the background/foreground of the button
-        nums, hex_color = askcolor(color=self.options.get(source),
-                                   title="Color Chooser")
+        # Prompt a color picker, set the options and the background/foreground of the button
+        nums, hex_color = askcolor(color=self.options.get(source), title="Color Chooser")
         if hex_color:
             opposite = self.opposite_color(hex_color)
             self.options[source] = hex_color.upper()
             self.buttons[source].configure(bg=hex_color, fg=opposite)
 
-
     def checkbox_callback(self):
-        # just for the "show decription" checkbox -- to disable the message duration entry
+        # Just for the "show decription" checkbox -- to disable the message duration entry
         if not self.checks.get("show_description").get():
             self.entries["message_duration"].configure(state=DISABLED)
         else:
             self.entries["message_duration"].configure(state=NORMAL)
 
-
     def save_callback(self):
-        # callback for the "save" option -- rejiggers options and saves to options.json, then quits
+        # Callback for the "save" option -- rejiggers options and saves to options.json, then quits
         for key, value in self.entries.iteritems():
-            if key in self.numeric_entry_keys:
-                self.options[key] = int(value.get())
+            if key in self.integer_keys:
+                # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
+                self.options[key] = int(float(value.get()))
+            elif key in self.float_keys:
+                self.options[key] = float(value.get())
             else:
                 self.options[key] = value.get()
         for key, value in self.checks.iteritems():
@@ -84,42 +79,36 @@ class options_menu():
         self.root.destroy()
 
 
-    # taken from http://code.activestate.com/recipes/527747-invert-css-hex-colors/
+    # Taken from http://code.activestate.com/recipes/527747-invert-css-hex-colors/
     def opposite_color(self,color):
-        # get the opposite color of a hex color, just to make text on buttons readable
+        # Get the opposite color of a hex color, just to make text on buttons readable
         color = color.lower()
-        table = maketrans(
-            '0123456789abcdef',
-            'fedcba9876543210')
+        table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
 
-
     def pretty_name(self, s):
-        # change from a var name to something you'd show the users
+        # Change from a var name to something you'd show the users
         return " ".join(s.split("_")).title()
 
-
-    # from http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
+    # From http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
     def OnValidate(self, d, i, P, s, S, v, V, W):
-        # this validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)
+        # This validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)
         return P == "" or re.search("^\d+(\.\d*)?$", P) is not None
 
-
     def run(self):
-        # load options, create root
+        # Load options, create root
         self.options = self.load_options()
         self.root = Tk()
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
 
-        # generate numeric options by looping over option types
-        self.numeric_entry_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]
+        # Generate numeric options by looping over option types
+        self.integer_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit"]
+        self.float_keys   = ["size_multiplier"]
         self.entries = {}
         nextrow = 0
-        vcmd = (self.root.register(self.OnValidate),
-                '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
-        for index, opt in enumerate(
-                ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
+        vcmd = (self.root.register(self.OnValidate), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
             Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
             self.entries[opt] = Entry(self.root, validate="key", validatecommand=vcmd)
             self.entries[opt].grid(row=nextrow, column=1)
@@ -134,7 +123,7 @@ class options_menu():
             self.entries[opt].grid(row=nextrow, column=1)
             nextrow += 1
 
-        # generate text options by looping over option types
+        # Generate text options by looping over option types
         for index, opt in enumerate(["item_details_link", "custom_message"]):
             Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
             self.entries[opt] = Entry(self.root)
@@ -142,19 +131,19 @@ class options_menu():
             self.entries[opt].insert(0, self.options.get(opt))
             nextrow += 1
 
-        # generate buttons by looping over option types
+        # Generate buttons by looping over option types
         self.buttons = {}
         for index, opt in enumerate(["background_color", "text_color"]):
-            self.buttons[opt] = Button(self.root,
-                                  text=self.pretty_name(opt),
-                                  bg=self.options.get(opt),
-                                  fg=self.opposite_color(self.options.get(opt)),
-                                  # command=lambda: color_callback(opt))
-                                  command=lambda opt=opt: self.color_callback(opt))
+            self.buttons[opt] = Button(
+                self.root,
+                text=self.pretty_name(opt),
+                bg=self.options.get(opt),
+                fg=self.opposite_color(self.options.get(opt)),
+                command=lambda opt=opt: self.color_callback(opt)
+            )
             self.buttons[opt].grid(row=len(self.entries), column=index)
 
-
-        # generate checkboxes, with special exception for show_description for message duration
+        # Generate checkboxes, with special exception for show_description for message duration
         self.checks = {}
         for index, opt in enumerate(
                 ["show_description", "show_custom_message", "show_floors", "show_rerolled_items", "show_health_ups",
@@ -164,28 +153,29 @@ class options_menu():
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
             if self.options.get(opt):
                 c.select()
+
             # Disable letting the user set the message duration if the show description option is disabled.
             if opt == "show_description":
                 c.configure(command=self.checkbox_callback)
                 if not self.options.get("show_description"):
                     self.entries["message_duration"].configure(state=DISABLED)
 
-        # save and cancel buttons
-        cancel = Button(self.root,
-                        text="Cancel",
-                        command=self.root.destroy)
-
-        save = Button(self.root,
-                      text="Save",
-                      command=self.save_callback)
-
-        cancel.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=1)
+        # Save and cancel buttons
+        save = Button(
+            self.root,
+            text="Save",
+            command=self.save_callback
+        )
         save.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=0)
+        cancel = Button(
+            self.root,
+            text="Cancel",
+            command=self.root.destroy
+        )
+        cancel.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=1)
 
-
-        # start the main loop eyyy
+        # Start the main loop
         mainloop()
-
 
 if __name__ == '__main__':
     options_menu().run()

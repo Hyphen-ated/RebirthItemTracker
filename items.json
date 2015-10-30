@@ -13,11 +13,11 @@
    "002": {
       "name": "The Inner Eye",
       "delay": "3",
-      "delayx": "2.1",
+      "delay_x": "2.1",
       "shown": true,
       "text": "triple shot",
-      "inSummary": true,
-      "summaryName": "Triple"
+      "in_summary": true,
+      "summary_name": "Triple"
    },
    "003": {
       "name": "Spoon Bender",
@@ -27,11 +27,11 @@
    "004": {
       "name": "Cricket's Head",
       "dmg": "0.5",
-      "dmgx": "1.5",
+      "dmg_x": "1.5",
       "shown": true,
       "text": "",
-      "inSummary": true,
-      "summaryName": "CHead"
+      "in_summary": true,
+      "summary_name": "CHead"
    },
    "005": {
       "name": "My Reflection",
@@ -77,15 +77,15 @@
    "012": {
       "name": "Magic Mushroom",
       "dmg": "0.3",
-      "dmgx": "1.5",
+      "dmg_x": "1.5",
       "health": "1",
       "height": "0.5",
       "range": "5.25",
       "shown": true,
       "speed": "0.3",
       "text": "size up",
-      "inSummary": true,
-      "summaryName": "MMush"
+      "in_summary": true,
+      "summary_name": "MMush"
    },
    "013": {
       "name": "The Virus",
@@ -105,14 +105,14 @@
       "name": "<3",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": "full heal"
    },
    "016": {
       "name": "Raw Liver",
       "health": "2",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": "full heal"
    },
    "017": {
@@ -139,42 +139,42 @@
       "name": "The Compass",
       "shown": true,
       "text": "reveals special rooms",
-      "inSummary": true,
-      "summaryName": "Compass"
+      "in_summary": true,
+      "summary_name": "Compass"
    },
    "022": {
       "name": "Lunch",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    },
    "023": {
       "name": "Dinner",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    },
    "024": {
       "name": "Dessert",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    },
    "025": {
       "name": "Breakfast",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    },
    "026": {
       "name": "Rotten Meat",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    },
    "027": {
@@ -325,11 +325,11 @@
    },
    "052": {
       "name": "Dr. Fetus",
-      "delayx": "2.5",
-      "dmgx": "3",
+      "delay_x": "2.5",
+      "dmg_x": "3",
       "shown": true,
       "text": "bomb tears",
-      "inSummary": true
+      "in_summary": true
    },
    "053": {
       "name": "Magneto",
@@ -340,8 +340,8 @@
       "name": "Treasure Map",
       "shown": true,
       "text": "reveals the floor layout",
-      "inSummary": true,
-      "summaryName": "Map"
+      "in_summary": true,
+      "summary_name": "Map"
    },
    "055": {
       "name": "Mom's Eye",
@@ -411,8 +411,8 @@
       "name": "Chocolate Milk",
       "shown": true,
       "text": "charge tears (max is 4x dmg and 2.5x delay)",
-      "inSummary": true,
-      "summaryName": "Choco"
+      "in_summary": true,
+      "summary_name": "Choco"
    },
    "070": {
       "name": "Growth Hormones",
@@ -432,15 +432,15 @@
    "072": {
       "name": "Rosary",
       "shown": true,
-      "soulhearts": "3",
+      "soul_hearts": "3",
       "text": "puts the bible into most item pools"
    },
    "073": {
       "name": "Cube of Meat",
       "shown": true,
       "text": "orbital (7 dmg / tick)",
-      "inSummary": true,
-      "summaryName": "Cube"
+      "in_summary": true,
+      "summary_name": "Cube"
    },
    "074": {
       "name": "A Quarter",
@@ -474,14 +474,14 @@
       "name": "The Mark",
       "shown": true,
       "speed": "0.2",
-      "soulhearts": "1"
+      "soul_hearts": "1"
    },
    "080": {
       "dmg": "0.5",
       "name": "The Pact",
       "shown": true,
       "tears": "0.7",
-      "soulhearts": "2"
+      "soul_hearts": "2"
    },
    "081": {
       "name": "Dead Cat",
@@ -553,8 +553,8 @@
       "name": "Super Bandage",
       "health": "1",
       "shown": true,
-      "healthonly": true,
-      "soulhearts": "2",
+      "health_only": true,
+      "soul_hearts": "2",
       "text": ""
    },
    "093": {
@@ -679,8 +679,8 @@
       "name": "Mom's Knife",
       "shown": true,
       "text": "replaces tears with a knife (current dmg x 2 / tick)",
-      "inSummary": true,
-      "summaryName": "Knife"
+      "in_summary": true,
+      "summary_name": "Knife"
    },
    "115": {
       "name": "Ouija Board",
@@ -699,11 +699,11 @@
    },
    "118": {
       "name": "Brimstone",
-      "delayx": "3",
+      "delay_x": "3",
       "shown": true,
       "text": "tears become blood laser, hits 12 or 13 times",
-      "inSummary": true,
-      "summaryName": "Brim"
+      "in_summary": true,
+      "summary_name": "Brim"
    },
    "119": {
       "name": "Blood Bag",
@@ -852,7 +852,7 @@
    },
    "143": {
       "name": "Speed Ball",
-      "shotspeed": "0.2",
+      "shot_speed": "0.2",
       "shown": true,
       "speed": "0.3",
       "text": ""
@@ -889,12 +889,12 @@
    "149": {
       "name": "Ipecac",
       "delay": "10",
-      "delayx": "2",
+      "delay_x": "2",
       "height": "13",
       "shown": true,
       "text": "explosive tears, +40 dmg",
-      "inSummary": true,
-      "summaryName": "Cac"
+      "in_summary": true,
+      "summary_name": "Cac"
    },
    "150": {
       "name": "Tough Love",
@@ -908,18 +908,18 @@
    },
    "152": {
       "name": "Technology 2",
-      "dmgx": "0.65",
+      "dmg_x": "0.65",
       "shown": true,
       "text": "laser tears (piercing)"
    },
    "153": {
       "name": "Mutant Spider",
       "delay": "3",
-      "delayx" : "2.1",
+      "delay_x" : "2.1",
       "shown": true,
       "text": "quad shot",
-      "inSummary": true,
-      "summaryName": "Quad"
+      "in_summary": true,
+      "summary_name": "Quad"
    },
    "154": {
       "name": "Chemical Peel",
@@ -982,7 +982,7 @@
    "165": {
       "name": "Cat-O-Nine-Tails",
       "dmg": "1",
-      "shotspeed": "0.23",
+      "shot_speed": "0.23",
       "shown": true,
       "text": ""
    },
@@ -1001,19 +1001,19 @@
       "name": "Epic Fetus",
       "shown": true,
       "text": "replaces tears with missiles (current dmg x 20)",
-      "inSummary": true,
-      "summaryName": "Epic"
+      "in_summary": true,
+      "summary_name": "Epic"
    },
    "169": {
       "name": "Polyphemus",
       "delay": "3",
-      "delayx": "2.1",
+      "delay_x": "2.1",
       "dmg": "4",
-      "dmgx": "2",
+      "dmg_x": "2",
       "shown": true,
       "text": "excess damage pierces",
-      "inSummary": true,
-      "summaryName": "Poly"
+      "in_summary": true,
+      "summary_name": "Poly"
    },
    "170": {
       "name": "Daddy's Love",
@@ -1030,8 +1030,8 @@
       "name": "Sacrificial Dagger",
       "shown": true,
       "text": "orbital (15 dmg / tick)",
-      "inSummary": true,
-      "summaryName": "SacDagger"
+      "in_summary": true,
+      "summary_name": "SacDagger"
    },
    "173": {
       "name": "Mitre",
@@ -1052,7 +1052,7 @@
    "176": {
       "name": "Stem Cells",
       "health": "1",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "shown": true,
       "text": ""
    },
@@ -1085,18 +1085,18 @@
    },
    "182": {
       "name": "Sacred Heart",
-      "dmgx": "2.3",
+      "dmg_x": "2.3",
       "height": "0.75",
       "range": "0.375",
-      "shotspeed": "-0.25",
+      "shot_speed": "-0.25",
       "shown": true,
       "tears": "-0.4",
       "text": "+1 flat dmg, full heal",
-      "inSummary": true
+      "in_summary": true
    },
    "183": {
       "name": "Toothpicks",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "shown": true,
       "tears": "0.7",
       "text": ""
@@ -1165,7 +1165,7 @@
    },
    "194": {
       "name": "Magic 8-Ball",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "shown": true,
       "text": "spawns a random card"
    },
@@ -1235,8 +1235,8 @@
       "shown": true,
       "delay": "-1",
       "text": "orbital (7 dmg / tick)",
-      "inSummary": true,
-      "summaryName": "Guillotine"
+      "in_summary": true,
+      "summary_name": "Guillotine"
    },
    "207": {
       "name": "Ball of Bandages",
@@ -1273,7 +1273,7 @@
    "213": {
       "name": "Lost Contact",
       "shown": true,
-      "shotspeed": "-0.15",
+      "shot_speed": "-0.15",
       "text": "tears can hit enemy tears"
    },
    "214": {
@@ -1286,13 +1286,13 @@
       "name": "Goat Head",
       "shown": true,
       "text": "devil/angel rooms are always open",
-      "inSummary": true
+      "in_summary": true
    },
    "216": {
       "name": "Ceremonial Robes",
       "dmg": "1",
       "shown": true,
-      "sinhearts": "3",
+      "sin_hearts": "3",
       "text": ""
    },
    "217": {
@@ -1327,14 +1327,14 @@
       "shown": true,
       "delay": "-2",
       "text": "hovering tears",
-      "inSummary": true,
-      "summaryName": "Anti-Grav"
+      "in_summary": true,
+      "summary_name": "Anti-Grav"
    },
    "223": {
       "name": "Pyromaniac",
       "shown": true,
       "text": "+5 bombs, explosions heal 1 red heart",
-      "inSummary": true
+      "in_summary": true
    },
    "224": {
       "name": "Cricket's Body",
@@ -1342,8 +1342,8 @@
       "shown": true,
       "delay": "-1",
       "text": "shots split in 4 pieces, each deals half damage",
-      "inSummary": true,
-      "summaryName": "CBody"
+      "in_summary": true,
+      "summary_name": "CBody"
    },
    "225": {
       "name": "Gimpy",
@@ -1353,10 +1353,10 @@
    "226": {
       "name": "Black Lotus",
       "health": "1",
-      "soulhearts": "1",
-      "sinhearts": "1",
+      "soul_hearts": "1",
+      "sin_hearts": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    },
    "227": {
@@ -1374,11 +1374,11 @@
       "name": "Monstro's Lung",
       "shown": true,
       "text": "",
-      "inSummary": true,
-      "summaryName": "Lung"
+      "in_summary": true,
+      "summary_name": "Lung"
    },
    "230": {
-      "sinhearts": "6",
+      "sin_hearts": "6",
       "dmg": "1.5",
       "name": "Abaddon",
       "shown": true,
@@ -1395,14 +1395,14 @@
       "shown": true,
       "speed": "0.3",
       "text": "slows enemies",
-      "inSummary": true
+      "in_summary": true
    },
    "233": {
       "name": "Tiny Planet",
       "height": "7",
       "shown": true,
       "text": "orbiting tears",
-      "inSummary": true
+      "in_summary": true
    },
    "234": {
       "name": "Infestation 2",
@@ -1420,8 +1420,8 @@
       "shown": true,
       "tears": "-0.3",
       "text": "scythe tears (piercing)",
-      "inSummary": true,
-      "summaryName": "Scythes"
+      "in_summary": true,
+      "summary_name": "Scythes"
    },
    "238": {
       "name": "Key Piece #1",
@@ -1457,20 +1457,20 @@
       "name": "Tech.5",
       "shown": true,
       "text": "chance to fire an additional laser (scales with dmg, ignores tear rate)",
-      "inSummary": true
+      "in_summary": true
    },
    "245": {
       "name": "20/20",
       "shown": true,
       "text": "double shot",
-      "inSummary": true
+      "in_summary": true
    },
    "246": {
       "name": "Blue Map",
       "shown": true,
       "text": "reveals secret and super secret rooms",
-      "inSummary": true,
-      "summaryName": "BMap"
+      "in_summary": true,
+      "summary_name": "BMap"
    },
    "247": {
       "name": "BFFS!",
@@ -1481,8 +1481,8 @@
       "name": "Hive Mind",
       "shown": true,
       "text": "blue spiders and flies do 2x dmg",
-      "inSummary": true,
-      "summaryCondition": "Guppy"
+      "in_summary": true,
+      "summary_condition": "Guppy"
    },
    "249": {
       "name": "There's Options",
@@ -1518,7 +1518,7 @@
    },
    "255": {
       "name": "Screw",
-      "shotspeed": "0.2",
+      "shot_speed": "0.2",
       "shown": true,
       "tears": "0.5",
       "text": ""
@@ -1537,7 +1537,7 @@
       "name": "Missing No.",
       "shown": true,
       "text": "rerolls your items on pickup and on the start of every floor",
-      "inSummary": true
+      "in_summary": true
    },
    "259": {
       "dmg": "1",
@@ -1548,22 +1548,22 @@
    "260": {
       "name": "Black Candle",
       "shown": true,
-      "sinhearts": "1",
+      "sin_hearts": "1",
       "text": "no floor curses, +25% deal chance",
-      "inSummary": true,
-      "summaryName": "Candle"
+      "in_summary": true,
+      "summary_name": "Candle"
    },
    "261": {
       "name": "Proptosis",
       "shown": true,
       "text": "between x2 and x1.3 dmg based on range",
-      "inSummary": true,
-      "summaryName": "Prop"
+      "in_summary": true,
+      "summary_name": "Prop"
    },
    "262": {
       "name": "Missing Page 2",
       "shown": true,
-      "sinhearts": "1",
+      "sin_hearts": "1",
       "text": "deals 40 dmg to enemies on hit if 1 heart or lower"
    },
    "264": {
@@ -1625,15 +1625,15 @@
       "name": "Lil' Brimstone",
       "shown": true,
       "text": "familiar (31.5 dmg / blood laser)",
-      "inSummary": true,
-      "summaryName": "Lil' Brim"
+      "in_summary": true,
+      "summary_name": "Lil' Brim"
    },
    "276": {
       "name": "Isaac's Heart",
       "shown": true,
       "text": "invincibility (but heart familiar takes dmg)",
-      "inSummary": true,
-      "summaryName": "Heart"
+      "in_summary": true,
+      "summary_name": "Heart"
    },
    "277": {
       "name": "Lil' Haunt",
@@ -1777,7 +1777,7 @@
    "301": {
       "name": "Cancer",
       "shown": true,
-      "soulhearts" : "3",
+      "soul_hearts" : "3",
       "text": "all dmg is reduced to half a heart (after getting hit in the room)"
    },
    "302": {
@@ -1794,7 +1794,7 @@
       "name": "Libra",
       "shown": true,
       "text": "evens out stats, +6 bombs, +6 keys, +6 cents",
-      "inSummary": true
+      "in_summary": true
    },
    "305": {
       "name": "Scorpio",
@@ -1830,9 +1830,9 @@
    },
    "310": {
       "name": "Eve's Mascara",
-      "delayx": "2",
-      "dmgx": "2",
-      "shotspeed": "-0.5",
+      "delay_x": "2",
+      "dmg_x": "2",
+      "shot_speed": "-0.5",
       "shown": true,
       "text": ""
    },
@@ -1840,8 +1840,8 @@
       "name": "Judas' Shadow",
       "shown": true,
       "text": "+1 life (will respawn as black judas with high damage multiplier)",
-      "inSummary": true,
-      "summaryName": "Shadow"
+      "in_summary": true,
+      "summary_name": "Shadow"
    },
    "312": {
       "health": "1",
@@ -1853,8 +1853,8 @@
       "name": "Holy Mantle",
       "shown": true,
       "text": "1-hit shield for every room",
-      "inSummary": true,
-      "summaryName": "Mantle"
+      "in_summary": true,
+      "summary_name": "Mantle"
    },
    "314": {
       "name": "Thunder Thighs",
@@ -1872,7 +1872,7 @@
       "name": "Cursed Eye",
       "shown": true,
       "text": "charge shots, random teleport if hit during the first second of charging",
-      "inSummary": true
+      "in_summary": true
    },
    "317": {
       "name": "Mysterious Liquid",
@@ -1942,29 +1942,29 @@
       "name": "The Ludovico Technique",
       "shown": true,
       "text": "remote control tears",
-      "inSummary": true,
-      "summaryName": "Ludo"
+      "in_summary": true,
+      "summary_name": "Ludo"
    },
    "330": {
       "name": "Soy Milk",
       "delay": "-2",
-      "delayx": ".25",
-      "dmgx": "0.2",
+      "delay_x": ".25",
+      "dmg_x": "0.2",
       "shown": true,
       "text": "",
-      "inSummary": true,
-      "summaryName": "Soy"
+      "in_summary": true,
+      "summary_name": "Soy"
    },
    "331": {
       "name": "Godhead",
       "dmg": "0.5",
       "height": "0.8",
       "range": "1.2",
-      "shotspeed": "-0.3",
+      "shot_speed": "-0.3",
       "shown": true,
       "tears": "-0.3",
       "text": "damaging aura around tears",
-      "inSummary": true
+      "in_summary": true
    },
    "332": {
       "name": "Lazarus' Rags",
@@ -1975,27 +1975,27 @@
       "name": "The Mind",
       "shown": true,
       "text": "full mapping",
-      "inSummary": true,
-      "summaryName": "Mind"
+      "in_summary": true,
+      "summary_name": "Mind"
    },
    "334": {
       "name": "The Body",
       "health": "3",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": "+3 heart containers"
    },
    "335": {
       "name": "The Soul",
       "shown": true,
-      "soulhearts": "2",
+      "soul_hearts": "2",
       "text": "projectiles are repulsed"
    },
    "336": {
       "name": "Dead Onion",
       "height": "-0.5",
       "range": "0.25",
-      "shotspeed": "-0.4",
+      "shot_speed": "-0.4",
       "shown": true,
       "text": "piercing and spectral tears"
    },
@@ -2014,9 +2014,9 @@
       "name": "Safety Pin",
       "height": "0.5",
       "range": "5.25",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "shown": true,
-      "sinhearts": "1",
+      "sin_hearts": "1",
       "text": ""
    },
    "340": {
@@ -2027,7 +2027,7 @@
    },
    "341": {
       "name": "Torn Photo",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "shown": true,
       "tears": "0.7",
       "text": ""
@@ -2035,7 +2035,7 @@
    "342": {
       "name": "Blue Cap",
       "health": "1",
-      "shotspeed": "-0.16",
+      "shot_speed": "-0.16",
       "shown": true,
       "tears": "0.7",
       "text": ""
@@ -2044,13 +2044,13 @@
       "name": "Latch Key",
       "luck": "1",
       "shown": true,
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "text": "+2 keys"
    },
    "344": {
       "name": "Match Book",
       "shown": true,
-      "sinhearts": "1",
+      "sin_hearts": "1",
       "text": "+3 bombs"
    },
    "345": {
@@ -2065,7 +2065,7 @@
       "name": "A Snack",
       "health": "1",
       "shown": true,
-      "healthonly": true,
+      "health_only": true,
       "text": ""
    }
 }
