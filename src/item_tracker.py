@@ -1,6 +1,8 @@
+import StringIO
 import time
 import os
 import platform
+import zipfile
 import pygame
 import re
 import json
@@ -155,8 +157,14 @@ class IsaacTracker:
         seed = seed.replace(" ", "")
         data = "\n".join(self.splitfile[start:end + 1])
         data = "%s\nRUN_OVER_LINE\n%s" % (data, self.last_run)
-        with open("run_logs/%s%s.log" % (seed, timestamp), 'wb') as f:
-            f.write(data)
+        run_name = "%s%s.log" % (seed, timestamp)
+        in_memory_file = StringIO.StringIO()
+        with zipfile.ZipFile(in_memory_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr(run_name, data)
+
+        with open("run_logs/" + run_name + ".zip", "wb") as f:
+            f.write(in_memory_file.getvalue())
+
 
     def mkdir(self, dn):
         if not os.path.isdir(dn):
