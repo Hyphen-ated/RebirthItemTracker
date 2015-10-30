@@ -532,6 +532,9 @@ class IsaacTracker:
                         space_split = line.split(" ")
                         # string has the form "Adding collectible 105 (The D6)"
                         item_id = space_split[2]
+                        # check if id exists
+                        if item_id.zfill(3) not in self.items_info:
+                            item_id = "NEW"
                         item_info = self.get_item_info(item_id)
                         #If Item IDs are equal, it should say this item already exists
                         temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
