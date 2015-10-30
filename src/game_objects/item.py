@@ -1,61 +1,62 @@
-from floor import Curse,Floor
+# Imports
+from floor import Curse, Floor
 
 class Item(object):
-    def __init__(self,itemID,floor,item_info,starting_item):
-        self.id=itemID
-        self.floor=floor #floor item was found on
-        self.was_rerolled=False
-        self.info=item_info
+    def __init__(self,itemID, floor, item_info, starting_item):
+        self.id           = itemID
+        self.floor         = floor # The floor the item was found on
+        self.was_rerolled  = False
+        self.info          = item_info
         self.starting_item = starting_item
-    
+
     def rerolled(self):
-        #Space items can't be re-rolled that I know of
-        if not self.info.get(ItemProperty.SPACE,False):
+        # Spacebar items can't be re-rolled by a D4, dice room, etc.
+        if not self.info.get(ItemProperty.SPACE, False):
             self.was_rerolled = True
-    
+
     @property
     def name(self):
         return self.info[ItemProperty.NAME]
-            
+
     def generate_item_description(self):
-        desc = ""
-        text = self.info.get("text")
-        dmg = self.info.get(Stat.DMG)
-        dmgx = self.info.get(Stat.DMG_X)
-        delay = self.info.get(Stat.DELAY)
-        delayx = self.info.get(Stat.DELAY_X)
-        health = self.info.get(Stat.HEALTH)
-        speed = self.info.get(Stat.SPEED)
-        shotspeed = self.info.get(Stat.SHOT_SPEED)
-        tearrange = self.info.get(Stat.TEAR_RANGE)
-        height = self.info.get(Stat.HEIGHT)
-        tears = self.info.get(Stat.TEARS)
-        soulhearts = self.info.get(Stat.SOUL_HEARTS)
-        sinhearts = self.info.get(Stat.SIN_HEARTS)
+        desc        = ""
+        text        = self.info.get("text")
+        dmg         = self.info.get(Stat.DMG)
+        dmg_x       = self.info.get(Stat.DMG_X)
+        delay       = self.info.get(Stat.DELAY)
+        delay_x     = self.info.get(Stat.DELAY_X)
+        health      = self.info.get(Stat.HEALTH)
+        speed       = self.info.get(Stat.SPEED)
+        shot_speed  = self.info.get(Stat.SHOT_SPEED)
+        tear_range  = self.info.get(Stat.TEAR_RANGE)
+        height      = self.info.get(Stat.HEIGHT)
+        tears       = self.info.get(Stat.TEARS)
+        soul_hearts = self.info.get(Stat.SOUL_HEARTS)
+        sin_hearts  = self.info.get(Stat.SIN_HEARTS)
         if dmg:
             desc += dmg + " dmg, "
-        if dmgx:
-            desc += "x" + dmgx + " dmg, "
+        if dmg_x:
+            desc += "x" + dmg_x + " dmg, "
         if tears:
             desc += tears + " tears, "
         if delay:
             desc += delay + " tear delay, "
-        if delayx:
-            desc += "x" + delayx + " tear delay, "
-        if shotspeed:
-            desc += shotspeed + " shotspeed, "
-        if tearrange:
-            desc += tearrange + " range, "
+        if delay_x:
+            desc += "x" + delay_x + " tear delay, "
+        if shot_speed:
+            desc += shot_speed + " shotspeed, "
+        if tear_range:
+            desc += tear_range + " range, "
         if height:
             desc += height + " height, "
         if speed:
             desc += speed + " speed, "
         if health:
             desc += health + " health, "
-        if soulhearts:
-            desc += soulhearts + " soul hearts, "
-        if sinhearts:
-            desc += sinhearts + " sin hearts, "
+        if soul_hearts:
+            desc += soul_hearts + " soul hearts, "
+        if sin_hearts:
+            desc += sin_hearts + " sin hearts, "
         if text:
             desc += text
         if desc.endswith(", "):
@@ -63,48 +64,41 @@ class Item(object):
         if len(desc) > 0:
             desc = ": " + desc
         return desc
-    
+
     def __eq__(self,other):
         if not isinstance(other, Item):
             return False
-        return other is not None and self.id==other.id
-    
+        return other is not None and self.id == other.id
+
     def __ne__(self,other):
         if not isinstance(other, Item):
             return True
-        return other is None or self.id!=other.id
+        return other is None or self.id != other.id
 
 # Player stat constants (keys to player_stats and player_stats_display)
-# This is a subset of all available ItemPropertys
-class Stat:
-    DMG = "dmg"
-    DMG_X = "dmgx"
-    DELAY = "delay"
-    DELAY_X = "delayx"
-    HEALTH = "health"
-    SPEED = "speed"
-    SHOT_SPEED = "shotspeed"
-    TEAR_RANGE = "range"
-    HEIGHT = "height"
-    TEARS = "tears"
-    SOUL_HEARTS = "soulhearts"
-    SIN_HEARTS = "sinhearts"
-    IS_GUPPY = "guppy"
-    # used for init and reset - does not have all stats yet
-    LIST = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS]
+class Stat: # This is a subset of all available ItemProperty's
+    DMG         = "dmg"
+    DMG_X       = "dmg_x"
+    DELAY       = "delay"
+    DELAY_X     = "delay_x"
+    HEALTH      = "health"
+    SPEED       = "speed"
+    SHOT_SPEED  = "shot_speed"
+    TEAR_RANGE  = "range"
+    HEIGHT      = "height"
+    TEARS       = "tears"
+    SOUL_HEARTS = "soul_hearts"
+    SIN_HEARTS  = "sin_hearts"
+    IS_GUPPY    = "guppy"
+    LIST        = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS] # Used for init and reset - does not have all stats yet
 
-
-# Properties that items from items.json can have
-# additionally, those items can have any Stat
+# Properties that items from items.json can have (these can have any stat)
 class ItemProperty:
-    NAME = "name"
-    SHOWN = "shown"
-    GUPPY = "guppy"
-    SPACE = "space"
-    HEALTH_ONLY = "healthonly"
-    IN_SUMMARY = "inSummary"
-    SUMMARY_NAME = "summaryName"
-    # an item that needs to be present for this item to be mentioned
-    # in the summary. can only be one item right now.
-    SUMMARY_CONDITION = "summaryCondition"
-    
+    NAME              = "name"
+    SHOWN             = "shown"
+    GUPPY             = "guppy"
+    SPACE             = "space"
+    HEALTH_ONLY       = "health_only"
+    IN_SUMMARY        = "in_summary"
+    SUMMARY_NAME      = "summary_name"
+    SUMMARY_CONDITION = "summary_condition"  # An item that needs to be present for this item to be mentioned in the summary; can only be one item right now
