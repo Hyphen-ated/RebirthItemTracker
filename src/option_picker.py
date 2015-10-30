@@ -50,8 +50,7 @@ class options_menu():
     """
     def color_callback(self, source):
         # Prompt a color picker, set the options and the background/foreground of the button
-        nums, hex_color = askcolor(color=self.options.get(source),
-                                   title="Color Chooser")
+        nums, hex_color = askcolor(color=self.options.get(source), title="Color Chooser")
         if hex_color:
             opposite = self.opposite_color(hex_color)
             self.options[source] = hex_color.upper()

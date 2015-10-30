@@ -66,7 +66,7 @@ class IsaacTracker:
         self.item_position_index     = []
         self.current_floor           = None
         self.floor_tuple             = () # Tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
-        self.spawned_coop_baby       = 0  # last spawn of a co op baby
+        self.spawned_coop_baby       = 0  # The last spawn of a co-op baby
         self.roll_icon               = None
         self.blind_icon              = None
 
