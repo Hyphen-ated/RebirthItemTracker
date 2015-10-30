@@ -293,12 +293,13 @@ class DrawingTool:
         if len(self.drawn_items) <= 0:
             # no items, nothing to show
             return False
-        if self.selected_item_index is None and self.item_pickup_countdown_in_progress():
+        item_index_to_display = self.selected_item_index
+        if item_index_to_display is None and self.item_pickup_countdown_in_progress():
             # we want to be showing an item but they haven't selected one, that means show the newest item
-            self.selected_item_index = len(self.drawn_items) - 1
-        if self.selected_item_index is None:
+            item_index_to_display = len(self.drawn_items) - 1
+        if item_index_to_display is None:
             return False
-        item = self.drawn_items[self.selected_item_index].item
+        item = self.drawn_items[item_index_to_display].item
         desc = item.generate_item_description()
         self.text_height = self.write_message("%s%s" % (item.name, desc))
         return True
