@@ -70,6 +70,8 @@ class IsaacTracker:
         self.roll_icon               = None
         self.blind_icon              = None
 
+        self.GAME_VERSION = "" # I KNOW THIS IS WRONG BUT I DON'T KNOW WHAT ELSE TO DO
+				
         # Load items info
         with open("items.json", "r") as items_file:
             self.items_info = json.load(items_file)
@@ -294,7 +296,12 @@ class IsaacTracker:
         path = None
         logfile_location = ""
         if platform.system() == "Windows":
-            logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
+            if os.path.exists(os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Afterbirth/'):
+                logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Afterbirth/'
+                self.GAME_VERSION = "Afterbirth"
+            else:
+                logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
+                self.GAME_VERSION = "Rebirth"		
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
                 os.path.expanduser('~') + '/.local/share') + '/binding of isaac rebirth/'
@@ -466,7 +473,10 @@ class IsaacTracker:
                             getting_start_items = False
                         self.log_msg("Entered room: %s" % self.current_room,"D")
                     if line.startswith('Level::Init'):
-                        floor_tuple = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1, 2]])
+                        if self.GAME_VERSION == "Afterbirth":
+                            floor_tuple = tuple([re.search("Level::Init m_Stage (\d+), m_StageType (\d+)",line).group(x) for x in [1, 2]])
+                        else:
+                            floor_tuple = tuple([re.search("Level::Init m_Stage (\d+), m_AltStage (\d+)",line).group(x) for x in [1, 2]])
 
                         # Assume floors aren't cursed until we see they are
                         self.blind_floor = False
