@@ -71,7 +71,7 @@ class IsaacTracker:
         self.blind_icon              = None
 
         self.GAME_VERSION = "" # I KNOW THIS IS WRONG BUT I DON'T KNOW WHAT ELSE TO DO
-				
+
         # Load items info
         with open("items.json", "r") as items_file:
             self.items_info = json.load(items_file)
@@ -295,18 +295,22 @@ class IsaacTracker:
         self.log_not_found = False
         path = None
         logfile_location = ""
+        game_names = ("Afterbirth", "Rebirth")
         if platform.system() == "Windows":
-            if os.path.exists(os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Afterbirth/'):
-                logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Afterbirth/'
-                self.GAME_VERSION = "Afterbirth"
-            else:
-                logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac Rebirth/'
-                self.GAME_VERSION = "Rebirth"		
+            logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac {}/'
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
-                os.path.expanduser('~') + '/.local/share') + '/binding of isaac rebirth/'
+                os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
+            game_names = ("afterbirth", "rebirth")
         elif platform.system() == "Darwin":
-            logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac Rebirth/'
+            logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac {}/'
+        if os.path.exists(logfile_location.format(game_names[0])):
+            logfile_location = logfile_location.format(game_names[0])
+            self.GAME_VERSION = "Afterbirth"
+        else:
+            logfile_location = logfile_location.format(game_names[1])
+            self.GAME_VERSION = "Rebirth"
+
         for check in ('../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
                 path = check
@@ -370,7 +374,7 @@ class IsaacTracker:
         # Create drawing tool to use to draw everything - it'll create its own screen
         self.drawing_tool = DrawingTool()
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
-            self.drawing_tool.options[Option.X_POSITION], 
+            self.drawing_tool.options[Option.X_POSITION],
             self.drawing_tool.options[Option.Y_POSITION])
         pygame.display.set_icon(self.drawing_tool.get_image("collectibles/collectibles_333.png"))
         done = False
@@ -429,7 +433,7 @@ class IsaacTracker:
 
             if self.log_not_found:
                 self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt")
-            
+
             self.drawing_tool.draw_items(self)
             self.framecount += 1
 
