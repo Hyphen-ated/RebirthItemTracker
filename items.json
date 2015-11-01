@@ -2067,5 +2067,379 @@
       "shown": true,
       "health_only": true,
       "text": ""
+   },
+   "347": {
+      "text": "Double item vision",
+      "shown": true,
+      "name": "Diplopia"
+   },
+   "348": {
+      "text": "Pill mimic",
+      "shown": true,
+      "name": "Placebo"
+   },
+   "349": {
+      "text": "Flip a coin",
+      "shown": true,
+      "name": "Wooden Nickel"
+   },
+   "352": {
+      "text": "Be gentle...",
+      "shown": true,
+      "name": "Glass Cannon"
+   },
+   "353": {
+      "text": "Explosive blast!",
+      "shown": true,
+      "name": "Bomber Boy"
+   },
+   "354": {
+      "text": "Don't swallow the prize!",
+      "shown": true,
+      "health": "1",
+      "name": "Crack Jacks"
+   },
+   "355": {
+      "text": "Range + luck up",
+      "shown": true,
+      "name": "Mom's Pearls"
+   },
+   "356": {
+      "text": "Double charge!",
+      "shown": true,
+      "name": "Car Battery"
+   },
+   "357": {
+      "text": "Double your friends",
+      "shown": true,
+      "name": "Box of Friends"
+   },
+   "358": {
+      "text": "Double wiz shot!",
+      "shown": true,
+      "name": "The Wiz"
+   },
+   "359": {
+      "text": "Stick it to 'em!",
+      "shown": true,
+      "name": "8 Inch Nails"
+   },
+   "360": {
+      "text": "Dark friend",
+      "shown": true,
+      "name": "Incubus"
+   },
+   "361": {
+      "text": "Your fate beside you",
+      "shown": true,
+      "name": "Fate's reward"
+   },
+   "362": {
+      "text": "What's in the box?",
+      "shown": true,
+      "name": "Lil Chest"
+   },
+   "363": {
+      "text": "Protective friend",
+      "shown": true,
+      "name": "Sworn Protector"
+   },
+   "364": {
+      "text": "Friendly fly",
+      "shown": true,
+      "name": "Friend Zone"
+   },
+   "366": {
+      "text": "We put bombs in your bombs!",
+      "shown": true,
+      "name": "Scatter Bombs"
+   },
+   "368": {
+      "text": "Intensifying tears",
+      "shown": true,
+      "name": "Epiphora"
+   },
+   "369": {
+      "text": "Transcendent tears",
+      "shown": true,
+      "name": "Continuum"
+   },
+   "370": {
+      "text": "Range + tears up",
+      "shown": true,
+      "name": "Mr. Dolly"
+   },
+   "372": {
+      "text": "Bbbzzzzzt! ",
+      "shown": true,
+      "name": "Charged Baby"
+   },
+   "373": {
+      "text": "Accuracy brings power!",
+      "shown": true,
+      "name": "Dead Eye"
+   },
+   "374": {
+      "text": "Holy shot!",
+      "shown": true,
+      "name": "Holy Light"
+   },
+   "375": {
+      "text": "Nice hat!",
+      "shown": true,
+      "name": "Host Hat"
+   },
+   "376": {
+      "text": "Never ending stores!",
+      "shown": true,
+      "name": "Restock"
+   },
+   "377": {
+      "text": "Spider love",
+      "shown": true,
+      "name": "Bursting Sack"
+   },
+   "379": {
+      "text": "Wide shot",
+      "shown": true,
+      "name": "Pupula Duplex"
+   },
+   "380": {
+      "text": "Money talks",
+      "shown": true,
+      "name": "Pay To Play"
+   },
+   "381": {
+      "text": "Your future shines brighter",
+      "shown": true,
+      "name": "Eden's Blessing"
+   },
+   "382": {
+      "text": "Gotta fetch 'em all!",
+      "shown": true,
+      "name": "Friendly Ball"
+   },
+   "383": {
+      "text": "Remote tear detonation",
+      "shown": true,
+      "name": "Tear Detonator"
+   },
+   "384": {
+      "text": "A gurd of your own!",
+      "shown": true,
+      "name": "Lil Gurdy"
+   },
+   "386": {
+      "text": "Rerolls rocks",
+      "shown": true,
+      "name": "D12"
+   },
+   "387": {
+      "text": "Peace be with you",
+      "shown": true,
+      "name": "Censer"
+   },
+   "388": {
+      "text": "He wants your keys!",
+      "shown": true,
+      "name": "Key Bum"
+   },
+   "389": {
+      "text": "Rune generator",
+      "shown": true,
+      "name": "Rune Bag"
+   },
+   "391": {
+      "text": "Turn your enemy",
+      "shown": true,
+      "name": "Betrayal"
+   },
+   "392": {
+      "text": "The heavens will change you",
+      "shown": true,
+      "name": "Zodiac"
+   },
+   "393": {
+      "text": "The kiss of death",
+      "shown": true,
+      "name": "Serpent's Kiss"
+   },
+   "394": {
+      "text": "Directed tears",
+      "shown": true,
+      "name": "Marked"
+   },
+   "395": {
+      "text": "Laser ring tears",
+      "shown": true,
+      "name": "Tech X"
+   },
+   "396": {
+      "text": "Short cutter",
+      "shown": true,
+      "name": "Ventricle Razor"
+   },
+   "397": {
+      "text": "Controlled tears",
+      "shown": true,
+      "name": "Tractor Beam"
+   },
+   "399": {
+      "text": "Consume thy enemy!",
+      "shown": true,
+      "name": "Maw Of The Void"
+   },
+   "400": {
+      "text": "Your destiny",
+      "shown": true,
+      "name": "Spear Of Destiny"
+   },
+   "401": {
+      "text": "Sticky bomb shot!",
+      "shown": true,
+      "name": "Explosivo"
+   },
+   "402": {
+      "text": "!!!",
+      "shown": true,
+      "name": "Chaos"
+   },
+   "404": {
+      "text": "He farts!",
+      "shown": true,
+      "name": "Farting Baby"
+   },
+   "405": {
+      "text": "Game breaking bug, right away!",
+      "shown": true,
+      "name": "GB Bug"
+   },
+   "406": {
+      "text": "Reroll stats",
+      "shown": true,
+      "name": "D8"
+   },
+   "407": {
+      "text": "Aura stat boost",
+      "shown": true,
+      "name": "Purity"
+   },
+   "408": {
+      "text": "Call to the void",
+      "shown": true,
+      "name": "Athame"
+   },
+   "409": {
+      "text": "I reward an empty vessel",
+      "shown": true,
+      "name": "Empty Vessel",
+      "blackhearts": "2"
+   },
+   "410": {
+      "text": "Eye shot!",
+      "shown": true,
+      "name": "Evil Eye"
+   },
+   "411": {
+      "text": "Their blood brings rage!",
+      "shown": true,
+      "name": "Lusty Blood"
+   },
+   "412": {
+      "text": "Feed them hate",
+      "shown": true,
+      "name": "Cambion Conception"
+   },
+   "413": {
+      "text": "Feed them love",
+      "shown": true,
+      "name": "Immaculate Conception"
+   },
+   "414": {
+      "text": "There are even more options!",
+      "shown": true,
+      "name": "More Options"
+   },
+   "417": {
+      "text": "Damage booster",
+      "shown": true,
+      "name": "Succubus"
+   },
+   "418": {
+      "text": "Rainbow Effects!",
+      "shown": true,
+      "name": "Fruit Cake"
+   },
+   "421": {
+      "text": "Love Toots!",
+      "shown": true,
+      "name": "Kidney Bean"
+   },
+   "422": {
+      "text": "Turn back time",
+      "shown": true,
+      "name": "Glowing Hour Glass"
+   },
+   "423": {
+      "text": "protect me from myself",
+      "shown": true,
+      "name": "Circle of Protection"
+   },
+   "424": {
+      "text": "More sacks!",
+      "shown": true,
+      "name": "Sack Head"
+   },
+   "425": {
+      "text": "scared of the dark?",
+      "shown": true,
+      "name": "Night Light"
+   },
+   "427": {
+      "text": "Booom!",
+      "shown": true,
+      "name": "Mine Crafter"
+   },
+   "428": {
+      "soulhearts": "4",
+      "text": "You feel cozy",
+      "shown": true,
+      "name": "PJs"
+   },
+   "431": {
+      "text": "ydduB Buddy",
+      "shown": true,
+      "name": "Multidimensional Baby"
+   },
+   "432": {
+      "text": "Prize Bombs!",
+      "shown": true,
+      "name": "Glitter Bombs"
+   },
+   "433": {
+      "text": "Me! and my shaaaadow!",
+      "shown": true,
+      "name": "My Shadow"
+   },
+   "434": {
+      "text": "gotta catch 'em all?",
+      "shown": true,
+      "name": "Jar of Flies"
+   },
+   "437": {
+      "text": "Reroll Rewards!",
+      "shown": true,
+      "name": "D7"
+   },
+   "438": {
+      "soulhearts": "1",
+      "text": "Memories...",
+      "shown": true,
+      "name": "Binky"
+   },
+   "440": {
+      "text": "Matt's Kidney Stone",
+      "shown": true,
+      "name": "Kidney Stone"
    }
 }
