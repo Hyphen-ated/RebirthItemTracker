@@ -519,6 +519,9 @@ class IsaacTracker:
                             item_id = "NEW"
                         item_info = self.get_item_info(item_id)
 
+                        # Default current floor to basement 1 if none
+                        if self.current_floor is None:
+                            self.current_floor = Floor("f1", self, False)
                         # If the item IDs are equal, it should say this item already exists
                         temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
                         if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.collected_items) + 10) \
