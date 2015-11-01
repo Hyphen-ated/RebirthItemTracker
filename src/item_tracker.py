@@ -9,7 +9,7 @@ import re       # For parsing the log file (regular expressions)
 import json     # For importing the items and options
 import urllib2  # For checking for updates to the item tracker
 import string   # Used in generating a run summary
-import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
+#import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Import item tracker specific code
 from view_controls.view import DrawingTool, Option

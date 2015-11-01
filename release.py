@@ -11,29 +11,15 @@ installDir = 'target/' + installName + '/'
 
 # Run the tracker build script. The results are placed in ./dist/
 os.chdir("src")
-subprocess.call("pygame2exe.py item_tracker.py %s" % version, shell=True, stdout=sys.stdout, stderr=sys.stderr)
+subprocess.call("cxfreeze.py item_tracker.py --base-name=Win32GUI --target-dir dist ", shell=True, stdout=sys.stdout, stderr=sys.stderr)
 os.chdir("..")
 
-# Remove the Tk demo files, this should always be safe
-shutil.rmtree('src/dist/library/tcl/tk8.5/demos')
-shutil.rmtree('src/dist/library/tcl/tk8.5/images')
-shutil.rmtree('src/dist/library/tcl/tk8.5/msgs')
-
-# Remove localization encoding files, this might cause compatibility issues in obscure scenarios
-'''
-for root, dirs, files in os.walk('dist/library/tcl/tcl8.5/', topdown=False):
-    for name in files:
-        if name not in ['auto.tcl', 'init.tcl', 'tclIndex']:
-            os.remove(os.path.join(root, name))
-    for name in dirs:
-        os.rmdir(os.path.join(root,name))
-'''
-
-shutil.move('src/dist/', installDir) # Move the dist files to our target directory
+shutil.move('src/dist/', installDir + "dist/") # Move the dist files to our target directory
 
 # Then copy over all the data files
 shutil.copytree('collectibles/', installDir + 'collectibles/')
 shutil.copytree('overlay text reference/', installDir + 'overlay text/')
+shutil.copy('shortcut_for_install_dir.lnk', installDir + "Launch Item Tracker.exe.lnk")
 shutil.copy('options.json', installDir)
 shutil.copy('items.json', installDir)
 shutil.copy('LICENSE.txt', installDir)
