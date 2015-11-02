@@ -1,7 +1,7 @@
 import os, sys, shutil, subprocess
 
 # Here is where you can set the name for the release zip file and for the install dir inside it.
-version = "0.8"
+version = "0.9"
 installName = 'RebirthItemTracker-' + version
 
 # target is where we assemble our final install.
