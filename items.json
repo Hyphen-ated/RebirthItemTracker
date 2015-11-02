@@ -2071,22 +2071,26 @@
    "347": {
       "name": "Diplopia",
       "text": "One-shot duplicates pedestals and pickups",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "348": {
       "name": "Placebo",
       "text": "Copies your held pill",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "349": {
       "name": "Wooden Nickel",
       "text": "50% chance to drop a coin",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "352": {
       "name": "Glass Cannon",
       "text": "Reduces red hearts to .5, shoots a big shot",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "353": {
       "name": "Bomber Boy",
@@ -2115,7 +2119,8 @@
    "357": {
       "name": "Box of Friends",
       "text": "Gives you a temporary extra copy of each kind of familiar you have",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "358": {
       "name": "The Wiz",
@@ -2228,12 +2233,14 @@
    "382": {
       "name": "Friendly Ball",
       "text": "Captures an enemy",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "383": {
       "name": "Tear Detonator",
       "text": "Makes your on-screen tears split",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "384": {
       "name": "Lil Gurdy",
@@ -2243,7 +2250,8 @@
    "386": {
       "name": "D12",
       "text": "Rerolls rocks and mushrooms",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "387": {
       "name": "Censer",
@@ -2289,7 +2297,8 @@
    "396": {
       "name": "Ventricle Razor",
       "text": "Makes two ends of a portal",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "397": {
       "name": "Tractor Beam",
@@ -2335,13 +2344,12 @@
       "name": "GB Bug",
       "text": "Random status effects to enemies it touches",
       "shown": true
-
    },
    "406": {
       "name": "D8",
       "text": "Rerolls your stats",
-      "shown": true
-
+      "shown": true,
+      "space": true
    },
    "407": {
       "name": "Purity",
@@ -2398,12 +2406,14 @@
    "421": {
       "name": "Kidney Bean",
       "text": "Charms enemies",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "422": {
       "name": "Glowing Hour Glass",
       "text": "Rewinds to before the current room",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "423": {
       "name": "Circle of Protection",
@@ -2423,7 +2433,8 @@
    "427": {
       "name": "Mine Crafter",
       "text": "Spawns TNT",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "428": {
       "name": "PJs",
@@ -2449,7 +2460,8 @@
    "434": {
       "name": "Jar of Flies",
       "text": "Creates flies when you kill enemies",
-      "shown": true
+      "shown": true,
+      "space": true
    },
    "437": {
       "name": "D7",
