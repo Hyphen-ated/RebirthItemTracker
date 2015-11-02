@@ -38,6 +38,7 @@ class IsaacTracker:
         self.content          = ""  # Cached contents of log
         self.splitfile        = []  # Log split into lines
         self.drawing_tool     = None
+        self.file_prefix      = "../"
 
         # Initialize isaac stuff
         self.collected_items         = [] # List of items collected this run
@@ -73,11 +74,11 @@ class IsaacTracker:
         self.GAME_VERSION = "" # I KNOW THIS IS WRONG BUT I DON'T KNOW WHAT ELSE TO DO
 
         # Load items info
-        with open("items.json", "r") as items_file:
+        with open(self.file_prefix + "items.json", "r") as items_file:
             self.items_info = json.load(items_file)
 
     def save_options(self):
-        with open("options.json", "w") as json_file:
+        with open(self.file_prefix + "options.json", "w") as json_file:
             json.dump(self.options, json_file, indent=3, sort_keys=True)
 
     # This is just for debugging
@@ -123,7 +124,7 @@ class IsaacTracker:
         in_memory_file = StringIO.StringIO()
         with zipfile.ZipFile(in_memory_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zf:
             zf.writestr(run_name, data)
-        with open("run_logs/" + run_name + ".zip", "wb") as f:
+        with open(self.file_prefix + "run_logs/" + run_name + ".zip", "wb") as f:
             f.write(in_memory_file.getvalue())
 
     def mkdir(self, dn):
@@ -149,7 +150,7 @@ class IsaacTracker:
             if value > -0.00001:
                 display = "+" + display
             self.player_stats_display[stat] = display
-            with open("overlay text/" + stat + ".txt", "w+") as f:
+            with open(self.file_prefix + "overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
 
         # If this can make us guppy, check if we're guppy
@@ -160,7 +161,7 @@ class IsaacTracker:
                 display = "yes"
             else:
                 display = str(len(self.guppy_set))
-            with open("overlay text/" + stat + ".txt", "w+") as f:
+            with open(self.file_prefix + "overlay text/" + stat + ".txt", "w+") as f:
                 f.write(display)
             self.player_stats_display[Stat.IS_GUPPY] = display
 
@@ -311,7 +312,7 @@ class IsaacTracker:
             logfile_location = logfile_location.format(game_names[1])
             self.GAME_VERSION = "Rebirth"
 
-        for check in ('../log.txt', logfile_location + 'log.txt'):
+        for check in (self.file_prefix + '../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
                 path = check
                 break
@@ -334,7 +335,7 @@ class IsaacTracker:
             github_info_json = urllib2.urlopen("https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
             info = json.loads(github_info_json)
             latest_version = info["name"]
-            with open('version.txt', 'r') as f:
+            with open(self.file_prefix + 'version.txt', 'r') as f:
 
                 if latest_version != f.read():
                     return " (new version available)"
@@ -360,7 +361,7 @@ class IsaacTracker:
         self.drawing_tool.reset()
         self.guppy_set=set()
         self.log_msg("Reset drawing tool", "D")
-        with open("overlay text/seed.txt", "w+") as f:
+        with open(self.file_prefix + "overlay text/seed.txt", "w+") as f:
             f.write(self.seed)
 
     def run(self):
@@ -376,7 +377,7 @@ class IsaacTracker:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
             self.drawing_tool.options[Option.X_POSITION],
             self.drawing_tool.options[Option.Y_POSITION])
-        pygame.display.set_icon(self.drawing_tool.get_image("collectibles/collectibles_333.png"))
+        pygame.display.set_icon(self.drawing_tool.get_image("collectibles_333.png"))
         done = False
         clock = pygame.time.Clock()
         winInfo = None
@@ -422,7 +423,7 @@ class IsaacTracker:
                     if event.button == 3:
                         import option_picker
                         pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                        option_picker.options_menu().run()
+                        option_picker.options_menu(self.file_prefix + "options.json").run()
                         pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                         self.drawing_tool.reset()
                         self.drawing_tool.load_options()
@@ -530,7 +531,7 @@ class IsaacTracker:
                             continue
                         item_name = " ".join(space_split[3:])[1:-1]
                         self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
-                        with open("overlay text/itemInfo.txt", "w+") as f:
+                        with open(self.file_prefix + "overlay text/itemInfo.txt", "w+") as f:
                             desc = temp_item.generate_item_description()
                             f.write(item_info[ItemProperty.NAME] + ":" + desc)
 

@@ -10,7 +10,8 @@ class options_menu():
     """
     These are the standard save and load options functions.
     """
-    def __init__(self):
+    def __init__(self, options_path):
+        self.options_path = options_path
         # Our 'safe' list of fonts that should work in pygame
         self.fonts = ['Andalus', 'Angsana New', 'AngsanaUPC', 'Arial', 'Arial Black', 'Browallia New', 'BrowalliaUPC',
                       'Comic Sans MS', 'Cordia New', 'CordiaUPC', 'Courier New', 'DFKai-SB', 'David', 'DilleniaUPC',
@@ -36,13 +37,13 @@ class options_menu():
             traceback.print_exc()
 
     def load_options(self):
-        with open("options.json", "r") as json_file:
+        with open(self.options_path, "r") as json_file:
             options = json.load(json_file)
         return options
 
 
     def save_options(self, options):
-        with open("options.json", "w") as json_file:
+        with open(self.options_path, "w") as json_file:
             json.dump(options, json_file, indent=3, sort_keys=True)
 
     """
@@ -178,4 +179,4 @@ class options_menu():
         mainloop()
 
 if __name__ == '__main__':
-    options_menu().run()
+    options_menu("../options.json").run()

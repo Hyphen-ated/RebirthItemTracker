@@ -25,6 +25,7 @@ class Clicakble(object):
 
 class DrawingTool:
     def __init__(self, screen=None):
+        self.file_prefix = "../"
         self.next_item = (0,0)
         self.item_position_index = []
         self.drawn_items = []
@@ -45,6 +46,7 @@ class DrawingTool:
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
         self.drawn_items_cache = {}
+
 
     def draw_items(self, current_tracker):
         '''
@@ -114,7 +116,7 @@ class DrawingTool:
             drawable.is_drawn = True
 
     def load_options(self):
-        with open("options.json", "r") as json_file:
+        with open(self.file_prefix + "options.json", "r") as json_file:
             self.options = json.load(json_file)
 
         size_multiplier = int(8 * self.options[Option.SIZE_MULTIPLIER])
@@ -128,7 +130,7 @@ class DrawingTool:
         )
         self._image_library = {}
         self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
-        self.blind_icon = self.get_scaled_icon("collectibles/questionmark.png", size_multiplier * 2)
+        self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
     
     def reflow(self, item_collection):
         '''
@@ -247,16 +249,17 @@ class DrawingTool:
     def get_scaled_icon(self, path, scale):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
-    def get_image(self, path):
-        image = self._image_library.get(path)
+    def get_image(self, imagename):
+        image = self._image_library.get(imagename)
         if image is None:
+            path = self.file_prefix + "/collectibles/" + imagename
             canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
             image = pygame.image.load(canonicalized_path)
             size_multiplier = self.options[Option.SIZE_MULTIPLIER]
             scaled_image = pygame.transform.scale(image, (
                 int(image.get_size()[0] * size_multiplier),
                 int(image.get_size()[1] * size_multiplier)))
-            self._image_library[path] = scaled_image
+            self._image_library[imagename] = scaled_image
         return image
 
     def get_message_duration(self):
@@ -266,7 +269,7 @@ class DrawingTool:
         '''
         Saves current options for display
         '''
-        with open("options.json", "w") as json_file:
+        with open(self.file_prefix + "options.json", "w") as json_file:
             json.dump(self.options, json_file, indent=3, sort_keys=True)
 
     def item_message_countdown_in_progress(self):
@@ -320,7 +323,7 @@ class DrawingTool:
 
     @staticmethod
     def id_to_image(id):
-        return 'collectibles/collectibles_%s.png' % id.zfill(3)
+        return 'collectibles_%s.png' % id.zfill(3)
 
     def reset(self):
         self.selected_item_index = None
