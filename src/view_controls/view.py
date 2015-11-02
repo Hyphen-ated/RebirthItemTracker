@@ -24,12 +24,11 @@ class Clicakble(object):
         pass
 
 class DrawingTool:
-    def __init__(self, screen=None):
+    def __init__(self):
         self.file_prefix = "../"
         self.next_item = (0,0)
         self.item_position_index = []
         self.drawn_items = []
-        self.screen = screen
         self.blind_icon = None
         self.roll_icon = None
         self.font = None
@@ -37,16 +36,18 @@ class DrawingTool:
         self.framecount = 0
         self.selected_item_index = None
         self.load_options()
+        self.item_message_start_time = self.framecount
+        self.item_pickup_time = self.framecount
+        self.drawn_items_cache = {}
+
+    def start_pygame(self, screen=None):
+        self.screen = screen
         if self.screen is None: # If screen is none, we make our own
             self.screen = pygame.display.set_mode((self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
         if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
-        self.item_message_start_time = self.framecount
-        self.item_pickup_time = self.framecount
-        self.drawn_items_cache = {}
-
 
     def draw_items(self, current_tracker):
         '''

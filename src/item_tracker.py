@@ -377,6 +377,7 @@ class IsaacTracker:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
             self.drawing_tool.options[Option.X_POSITION],
             self.drawing_tool.options[Option.Y_POSITION])
+        self.drawing_tool.start_pygame()
         pygame.display.set_icon(self.drawing_tool.get_image("collectibles_333.png"))
         done = False
         clock = pygame.time.Clock()
