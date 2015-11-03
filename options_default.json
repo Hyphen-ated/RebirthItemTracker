@@ -5,7 +5,7 @@
   "default_spacing": 64,
   "framerate_limit": 30,
   "height": 96,
-  "item_details_link": "http://platinumgod.co.uk/rebirth?id=$ID",
+  "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID",
   "message_duration": 7,
   "min_spacing": 24,
   "show_blind_icon": true,
