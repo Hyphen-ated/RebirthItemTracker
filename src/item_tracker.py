@@ -498,12 +498,15 @@ class IsaacTracker:
                         if alt == '1' and (floor == 9 or floor == 11):
                             floor += 1
                         floor_id = 'f' + str(floor)
-                        self.current_floor=Floor(floor_id,self,(alt=='1'))
-                        should_reflow = True
 
                         # when we see a new floor 1, that means a new run has started
                         if floor == 1:
                             self.start_new_run(current_line_number)
+
+                        self.current_floor=Floor(floor_id,self,(alt=='1'))
+                        should_reflow = True
+
+
 
                     if line.startswith("Curse of the Labyrinth!"):
                         # It SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
