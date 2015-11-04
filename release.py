@@ -1,7 +1,9 @@
 import os, sys, shutil, subprocess
 
 # Here is where you can set the name for the release zip file and for the install dir inside it.
-version = "0.9"
+# version.txt is the sole source of truth about what version this is. the version string shouldnt be hardcoded anywhere
+with open('version.txt', 'r') as f:
+    version = f.read()
 installName = 'RebirthItemTracker-' + version
 
 # target is where we assemble our final install.
@@ -24,6 +26,5 @@ shutil.copy('options_default.json', installDir + "options.json")
 shutil.copy('items.json', installDir)
 shutil.copy('LICENSE.txt', installDir)
 shutil.copy('README.md', installDir + 'README.txt')
-with open(installDir + "version.txt", 'w') as f:
-    f.write(version)
+shutil.copy('version.txt', installDir)
 shutil.make_archive("target/" + installName, "zip", 'target', installName + "/")

@@ -335,10 +335,13 @@ class IsaacTracker:
             github_info_json = urllib2.urlopen("https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
             info = json.loads(github_info_json)
             latest_version = info["name"]
-            with open(self.file_prefix + 'version.txt', 'r') as f:
 
-                if latest_version != f.read():
-                    return " (new version available)"
+            with open(self.file_prefix + 'version.txt', 'r') as f:
+                current_version = f.read()
+                title_text = " v" + current_version
+                if latest_version != current_version:
+                    title_text += " (new version available)"
+                return title_text
         except Exception as e:
             self.log_msg("Failed to find update info: " + e.message, "D")
         return ""
@@ -370,7 +373,7 @@ class IsaacTracker:
         # Initialize pygame system stuff
         pygame.init()
         update_notifier = self.check_for_update()
-        pygame.display.set_caption("Rebirth Item Tracker v0.8" + update_notifier)
+        pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
 
         # Create drawing tool to use to draw everything - it'll create its own screen
         self.drawing_tool = DrawingTool()
@@ -472,7 +475,7 @@ class IsaacTracker:
 
                     if line.startswith('RNG Start Seed:'): # The start of a run
                         self.seed = line[16:25] # This assumes a fixed width, but from what I see it seems safe
-                        self.start_new_run(current_line_number)
+
                     if line.startswith('Room'):
                         self.current_room = re.search('\((.*)\)', line).group(1)
                         if 'Start Room' not in line:
@@ -490,12 +493,17 @@ class IsaacTracker:
                         floor = int(floor_tuple[0])
                         alt = floor_tuple[1]
 
+
                         # Special handling for cath and chest
                         if alt == '1' and (floor == 9 or floor == 11):
                             floor += 1
                         floor_id = 'f' + str(floor)
                         self.current_floor=Floor(floor_id,self,(alt=='1'))
                         should_reflow = True
+
+                        # when we see a new floor 1, that means a new run has started
+                        if floor == 1:
+                            self.start_new_run(current_line_number)
 
                     if line.startswith("Curse of the Labyrinth!"):
                         # It SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
