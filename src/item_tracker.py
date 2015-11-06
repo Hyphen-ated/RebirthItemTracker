@@ -21,6 +21,8 @@ if platform.system() == "Windows":
     import pygameWindowInfo
 from pygame.locals import *
 
+tracker_log_path = "../tracker_log.txt"
+
 # The main class of the program
 class IsaacTracker:
     def __init__(self, verbose=False, debug=False, read_delay=1):
@@ -81,10 +83,17 @@ class IsaacTracker:
         with open(self.file_prefix + "options.json", "w") as json_file:
             json.dump(self.options, json_file, indent=3, sort_keys=True)
 
-    # This is just for debugging
-    def log_msg(self, msg, level):
-        if level == "V" and self.verbose: print msg
-        if level == "D" and self.debug:   print msg
+    # write a message to the logfile for the tracker itself. debug messages and stacktraces and stuff should go here
+    def log_msg(self, msg, level=""):
+        def log(m):
+            with open(tracker_log_path, "a") as log:
+                log.write(m)
+
+        if level == "V":
+            if self.verbose: log(msg)
+        elif level == "D":
+            if self.debug: log(msg)
+        else: log(msg)
 
     # This is just for the suffix of the boss kill number
     def suffix(self, d):
@@ -565,12 +574,15 @@ class IsaacTracker:
 
 # Main
 def main():
+    # erase our tracker log file from previous runs
+    open(tracker_log_path, 'w').close()
     try:
         rt = IsaacTracker(verbose=False, debug=False)
         rt.run()
     except Exception as e:
         import traceback
-        traceback.print_exc()
+        with open(tracker_log_path, "a") as log:
+            log.write(traceback.format_exc())
 
 if __name__ == "__main__":
     main()
