@@ -169,6 +169,7 @@ class IsaacTracker:
         for stat in Stat.LIST:
             self.player_stats[stat] = 0.0
             self.player_stats_display[stat] = "+0"
+        self.player_stats_display[Stat.IS_GUPPY] = "0"
 
     # TODO: take SRL .comment length limit of 140 chars into account? would require some form of weighting
     # TODO: space bar items (Undefined, Teleport...) - a bit tricky because a simple "touch" shouldn't count
