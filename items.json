@@ -2086,6 +2086,18 @@
       "shown": true,
       "space": true
    },
+   "350" : {
+      "name": "Toxic Shock",
+      "text": "Deals 2x tear damage to enemies at the start of each room",
+      "shown": true
+   },
+   "351": {
+      "name": "Mega Bean",
+      "text": "Big damaging fart with spike wave",
+      "shown": true,
+      "space": true
+   },
+
    "352": {
       "name": "Glass Cannon",
       "text": "Reduces red hearts to .5, shoots a big shot",
@@ -2158,9 +2170,19 @@
       "text": "orbital (3 dmg / tick)",
       "shown": true
    },
+   "365": {
+      "name": "Lost Fly",
+      "text": "Hugs walls (7 dmg / tick)",
+      "shown": true
+   },
    "366": {
       "name": "Scatter Bombs",
       "text": "+5 bombs. Your bombs split into four tiny ones after exploding",
+      "shown": true
+   },
+   "367": {
+      "name": "Sticky Bombs",
+      "text": "Spawns 4 spiders when your bombs kill an enemy",
       "shown": true
    },
    "368": {
@@ -2183,6 +2205,11 @@
       "range": "5.25",
       "height": "0.5"
 
+   },
+   "371": {
+      "name": "Curse of the Tower",
+      "text": "Spawns 6 troll bombs when you're hit",
+      "shown": true
    },
    "372": {
       "name": "Charged Baby",
@@ -2212,6 +2239,11 @@
    "377": {
       "name": "Bursting Sack",
       "text": "Touching spiders doesn't hurt you",
+      "shown": true
+   },
+   "378": {
+      "name": "Number 2",
+      "text": "Chance to spawn butt bombs when you're hit",
       "shown": true
    },
    "379": {
@@ -2247,6 +2279,11 @@
       "text": "Charge to fire",
       "shown": true
    },
+   "385": {
+      "name": "Bumbo",
+      "text": "Eats coins to level up, can shoot and attack enemies",
+      "shown": true
+   },
    "386": {
       "name": "D12",
       "text": "Rerolls rocks and mushrooms",
@@ -2266,6 +2303,11 @@
    "389": {
       "name": "Rune Bag",
       "text": "Rune generator",
+      "shown": true
+   },
+   "390": {
+      "name": "Seraphim",
+      "text": "Familiar (sacred heart tears)",
       "shown": true
    },
    "391": {
@@ -2309,36 +2351,41 @@
       "range": "5.25",
       "tears": "0.5"
    },
+   "398": {
+      "name": "God's Flesh",
+      "text": "Tears can shrink enemies, making them squishable",
+      "shown": true
+   },
    "399": {
       "name": "Maw Of The Void",
       "text": "Charge for a black ring",
       "shown": true,
       "height": "0.5"
-
    },
    "400": {
       "name": "Spear Of Destiny",
       "text": "A knife you can't throw",
       "shown": true
-
    },
    "401": {
       "name": "Explosivo",
       "text": "Sticky bomb shots",
       "shown": true
-
    },
    "402": {
       "name": "Chaos",
       "text": "Randomizes item pools",
       "shown": true
-
+   },
+   "403": {
+      "name": "Spider Mod",
+      "text": "Shows damage and hp numbers, inflicts random status effects to enemies",
+      "shown": true
    },
    "404": {
       "name": "Farting Baby",
       "text": "Damages and charms enemies when hit",
       "shown": true
-
    },
    "405": {
       "name": "GB Bug",
@@ -2355,7 +2402,6 @@
       "name": "Purity",
       "text": "Your aura changes when hit. Yellow is 7.5 range, red is 4 dmg, blue is -4 delay",
       "shown": true
-
    },
    "408": {
       "name": "Athame",
@@ -2393,6 +2439,11 @@
       "text": "choice of 2 items in each item room",
       "shown": true
    },
+   "415": {
+      "name": "Crown of Light",
+      "text": "2x dmg tears when you have no empty red hearts",
+      "shown": true
+   },
    "417": {
       "name": "Succubus",
       "text": "Its aura damages enemies and increases your damage",
@@ -2401,6 +2452,17 @@
    "418": {
       "name": "Fruit Cake",
       "text": "Random tear effects",
+      "shown": true
+   },
+   "419": {
+      "name": "Teleport 2.0",
+      "text": "Teleports to an unexplored room, incuding devil deal or error room if all others explored",
+      "shown": true,
+      "space": true
+   },
+   "420": {
+      "name": "Black Powder",
+      "text": "Walking in a circle makes a pentagram that does 10 dmg/tick",
       "shown": true
    },
    "421": {
@@ -2430,6 +2492,11 @@
       "text": "Light cone slows enemies and their shots",
       "shown": true
    },
+   "426": {
+      "name": "Obsessed Fan",
+      "text": "Copies your movement, does contact damage",
+      "shown": true
+   },
    "427": {
       "name": "Mine Crafter",
       "text": "Spawns TNT",
@@ -2440,6 +2507,16 @@
       "name": "PJs",
       "soulhearts": "4",
       "text": "Restores hp",
+      "shown": true
+   },
+   "429": {
+      "name": "Head of the Keeper",
+      "text": "Chance to drop coins when tears hit enemies",
+      "shown": true
+   },
+   "430": {
+      "name": "Papa Fly",
+      "text": "Copies your movement, shoots at enemies",
       "shown": true
    },
    "431": {
@@ -2463,6 +2540,16 @@
       "shown": true,
       "space": true
    },
+   "435": {
+      "name": "Lil Loki",
+      "text": "Familiar, shoots cross tears",
+      "shown": true
+   },
+   "436": {
+      "name": "Milk",
+      "text": "Spills when taking damage. The spill hurts enemies and gives you tears up for the room",
+      "shown": true
+   },
    "437": {
       "name": "D7",
       "text": "Respawns the current room",
@@ -2474,6 +2561,13 @@
       "tears": "0.7",
       "text": "",
       "shown": true
+   },
+   "439": {
+      "name": "Mom's Box",
+      "text": "Drops a random trinket; doubles trinket effects while held",
+      "shown": true,
+      "space": true,
+      "luck": "1"
    },
    "440": {
       "name": "Kidney Stone",
