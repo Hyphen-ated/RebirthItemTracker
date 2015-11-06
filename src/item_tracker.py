@@ -115,7 +115,7 @@ class IsaacTracker:
                     self.save_file(self.run_start_line, cur_line_num, self.seed)
 
     def save_file(self, start, end, seed):
-        self.mkdir("run_logs")
+        self.mkdir(self.file_prefix + "run_logs")
         timestamp = int(time.time())
         seed = seed.replace(" ", "")
         data = "\n".join(self.splitfile[start:end + 1])
