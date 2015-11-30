@@ -2444,6 +2444,11 @@
       "text": "2x dmg tears when you have no empty red hearts",
       "shown": true
    },
+   "416": {
+      "name": "Deep Pockets",
+      "text": "You get two slots for cards/pills/runes",
+      "shown": true
+   },
    "417": {
       "name": "Succubus",
       "text": "Its aura damages enemies and increases your damage",
@@ -2575,5 +2580,11 @@
       "shown": true,
       "range": "-15",
       "height": "2"
+   },
+   "440": {
+      "name": "Mega Blast",
+      "text": "Huge laser for 15 seconds, lasts across rooms and floors",
+      "shown": true,
+      "space": true
    }
 }
