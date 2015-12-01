@@ -387,9 +387,17 @@ class IsaacTracker:
 
         # Create drawing tool to use to draw everything - it'll create its own screen
         self.drawing_tool = DrawingTool()
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (
-            self.drawing_tool.options[Option.X_POSITION],
-            self.drawing_tool.options[Option.Y_POSITION])
+
+        # figure out where we should put our window.
+        xpos = self.drawing_tool.options[Option.X_POSITION]
+        ypos = self.drawing_tool.options[Option.Y_POSITION]
+        # it can go negative when weird problems happen, so put it in a default location in that case
+        if xpos < 0:
+            xpos = 100
+        if ypos < 0:
+            ypos = 100
+
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (xpos, ypos)
         self.drawing_tool.start_pygame()
         pygame.display.set_icon(self.drawing_tool.get_image("collectibles_333.png"))
         done = False
