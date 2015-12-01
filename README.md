@@ -5,6 +5,7 @@ This uses the `log.txt` file to track item pickups in The Binding of Isaac: Rebi
 
 - shows stats for picked up items.
 - marks items that were picked up during a _Curse of the Blind_.
+- marks items that were rerolled using _D4_.
 - shows what floor items were picked up on.
 - shows the floor the player is currently on.
 - displays the current seed.
@@ -22,3 +23,7 @@ If it's unable to find that file, you might need to put the tracker folder into 
 You can right click anywhere in the window to get an options screen.
 
 You can mouse over items you've picked up to see their stats again, and click on them to open [platinumgod.co.uk](http://platinumgod.co.uk/) in your browser for more information about that item (arrow keys and enter also work).
+
+## Known issues
+
+* When using the _Glowing Hourglass_ right after taking any object, this object will remains in the tracker even if the character doesn't have it anymore.
