@@ -2218,12 +2218,12 @@
    },
    "373": {
       "name": "Dead Eye",
-      "text": "Damage increases when you hit enemies. Resets when you miss.",
+      "text": "Damage increases when you hit enemies, up to 2x. Has a chance to reset to when you miss.",
       "shown": true
    },
    "374": {
       "name": "Holy Light",
-      "text": "Some shots spawn beams of light",
+      "text": "Some shots spawn beams of light, which do 3x your tear damage",
       "shown": true
    },
    "375": {
@@ -2329,7 +2329,9 @@
       "name": "Marked",
       "text": "Directed tears",
       "shown": true,
-      "height": "0.3"
+      "height": "0.3",
+      "range": "3.15",
+      "tears": "0.7"
    },
    "395": {
       "name": "Tech X",
@@ -2360,7 +2362,8 @@
       "name": "Maw Of The Void",
       "text": "Charge for a black ring",
       "shown": true,
-      "height": "0.5"
+      "height": "0.5",
+      "dmg": "1"
    },
    "400": {
       "name": "Spear Of Destiny",
@@ -2400,7 +2403,7 @@
    },
    "407": {
       "name": "Purity",
-      "text": "Your aura changes when hit. Yellow is 7.5 range, red is 4 dmg, blue is -4 delay",
+      "text": "Your aura changes when hit. Red is 4 dmg, blue is -4 delay, orange is 7.5 range, yellow is 0.5 speed",
       "shown": true
    },
    "408": {
@@ -2412,7 +2415,7 @@
       "name": "Empty Vessel",
       "text": "Flight and shields when below 1 red heart",
       "shown": true,
-      "blackhearts": "2"
+      "sin_hearts": "2"
    },
    "410": {
       "name": "Evil Eye",
@@ -2451,7 +2454,7 @@
    },
    "417": {
       "name": "Succubus",
-      "text": "Its aura damages enemies and increases your damage",
+      "text": "Its aura damages enemies. Standing in the aura gives you 1.5x dmg",
       "shown": true
    },
    "418": {
