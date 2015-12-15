@@ -75,6 +75,9 @@ class Item(object):
             return True
         return other is None or self.id != other.id
 
+    def __hash__(self):
+        return hash(self.id)
+
 # Player stat constants (keys to player_stats and player_stats_display)
 class Stat: # This is a subset of all available ItemProperty's
     DMG         = "dmg"
