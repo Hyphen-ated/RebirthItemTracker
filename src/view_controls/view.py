@@ -171,6 +171,8 @@ class DrawingTool:
             if self.drawn_items_cache.get(item) is not None:
                 # Grab the item from a cache if we already have one; there is no point creating so many objects
                 new_drawable = self.drawn_items_cache.get(item)
+                # Update the floor as the cached item may be from a previous run
+                new_drawable.item.floor = item.floor
                 new_drawable.x = initial_x
                 new_drawable.y = initial_y
                 new_drawable.is_drawn = False
