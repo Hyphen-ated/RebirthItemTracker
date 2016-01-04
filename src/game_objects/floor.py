@@ -22,6 +22,13 @@ class Floor(object):
             "f3x": "CXL",
             "f5x": "DXL",
             "f7x": "WXL",
+            "f1g": "B",
+            "f2g": "C",
+            "f3g": "D",
+            "f4g": "W",
+            "f5g": "SHEOL",
+            "f6g": "SHOP",
+            "f7g": "GREED",
         }
 
     def __init__(self, id, tracker, is_alternate, curse=Curse.No_Curse):
