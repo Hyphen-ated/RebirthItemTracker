@@ -516,6 +516,9 @@ class IsaacTracker:
                         if alt == '1' and (floor == 9 or floor == 11):
                             floor += 1
                         floor_id = 'f' + str(floor)
+                        # Greed mode
+                        if alt == '3':
+                            floor_id += 'g'
 
                         # when we see a new floor 1, that means a new run has started
                         if floor == 1:
