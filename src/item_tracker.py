@@ -8,6 +8,7 @@ import pygame   # This is the main graphics library used for the item tracker
 import re       # For parsing the log file (regular expressions)
 import json     # For importing the items and options
 import urllib2  # For checking for updates to the item tracker
+import logging  # For logging
 #import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Import item tracker specific code
@@ -25,10 +26,8 @@ tracker_log_path = "../tracker_log.txt"
 
 # The main class of the program
 class IsaacTracker(object):
-    def __init__(self, verbose=False, debug=False, read_delay=1):
+    def __init__(self, logging_level=logging.INFO, read_delay=1):
         # Class variables
-        self.verbose          = verbose
-        self.debug            = debug
         self.text_height      = 0
         self.text_margin_size = None  # Will be changed in load_options
         self.font             = None  # Will be changed in load_options
@@ -70,22 +69,13 @@ class IsaacTracker(object):
 
         self.GAME_VERSION = "" # I KNOW THIS IS WRONG BUT I DON'T KNOW WHAT ELSE TO DO
 
+        self.log = logging.getLogger("tracker")
+        self.log.addHandler(logging.FileHandler(tracker_log_path))
+        self.log.setLevel(logging_level)
+
         # Load items info
         with open(self.file_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
-
-    # write a message to the logfile for the tracker itself. debug messages and stacktraces and stuff should go here
-    def log_msg(self, msg, level=""):
-        def log(m):
-            with open(tracker_log_path, "a") as log:
-                log.write(m + "\n")
-
-        if level == "V":
-            if self.verbose: log(msg)
-        elif level == "D":
-            if self.debug: log(msg)
-        else: log(msg)
-
 
     def check_end_run(self, line, cur_line_num):
         if not self.run_ended:
@@ -107,7 +97,7 @@ class IsaacTracker(object):
                     "end_type": end_type
                 }
                 self.run_ended = True
-                self.log_msg("End of Run! %s" % self.last_run, "D")
+                self.log.debug("End of Run! %s" % self.last_run)
                 if end_type != "Reset":
                     self.save_file(self.run_start_line, cur_line_num, self.state.seed)
 
@@ -181,19 +171,19 @@ class IsaacTracker(object):
                     title_text += " (new version available)"
                 return title_text
         except Exception as e:
-            self.log_msg("Failed to find update info: " + e.message, "D")
+            self.log.debug("Failed to find update info: " + e.message)
         return ""
 
     def start_new_run(self, current_line_number, seed):
         self.run_start_line = current_line_number + self.seek
-        self.log_msg("Starting new run, seed: %s" % seed, "D")
+        self.log.debug("Starting new run, seed: %s" % seed)
         self.run_start_frame = self.framecount
-        self.log_msg("Starting new state", "D")
+        self.log.debug("Starting new state")
         self.state.reset(seed)
-        self.log_msg("Emptied boss array", "D")
+        self.log.debug("Emptied boss array")
         self.run_ended = False
         self.drawing_tool.reset()
-        self.log_msg("Reset drawing tool", "D")
+        self.log.debug("Reset drawing tool")
         with open(self.file_prefix + "overlay text/seed.txt", "w+") as f:
             f.write(seed)
 
@@ -286,7 +276,7 @@ class IsaacTracker(object):
 
                 # Return to start if seek passes the end of the file (usually because the log file restarted)
                 if self.seek > len(self.splitfile):
-                    self.log_msg("Current line number longer than lines in file, returning to start of file", "D")
+                    self.log.debug("Current line number longer than lines in file, returning to start of file")
                     self.seek = 0
 
                 should_reflow = False
@@ -294,7 +284,6 @@ class IsaacTracker(object):
 
                 # Process log's new output
                 for current_line_number, line in enumerate(self.splitfile[self.seek:]):
-                    self.log_msg(line, "V")
 
                     # The end floor boss should be defeated now
                     if line.startswith('Mom clear time:'):
@@ -314,7 +303,7 @@ class IsaacTracker(object):
                         self.current_room = re.search(r'\((.*)\)', line).group(1)
                         if 'Start Room' not in line:
                             getting_start_items = False
-                        self.log_msg("Entered room: %s" % self.current_room, "D")
+                        self.log.debug("Entered room: %s" % self.current_room)
                     if line.startswith('Level::Init'):
                         if self.GAME_VERSION == "Afterbirth":
                             floor_tuple = tuple([re.search(r"Level::Init m_Stage (\d+), m_StageType (\d+)", line).group(x) for x in [1, 2]])
@@ -365,12 +354,12 @@ class IsaacTracker(object):
                     if line.startswith("Spawn co-player!"):
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search(r"Added \d+ Collectibles", line):
-                        self.log_msg("Reroll detected!", "D")
+                        self.log.debug("Reroll detected!")
                         # FIXME create some state.rerolled that do this using comprehension instead of lambda
                         map(lambda item: item.rerolled(), self.state.item_list)
                     if line.startswith('Adding collectible'):
                         if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
-                            self.log_msg("Skipped duplicate item line from baby presence", "D")
+                            self.log.debug("Skipped duplicate item line from baby presence")
                             continue
                         space_split = line.split(" ") # Hacky string manipulation
                         item_id = space_split[2] # A string has the form of "Adding collectible 105 (The D6)"
@@ -380,10 +369,10 @@ class IsaacTracker(object):
                             item_id = "NEW"
 
                         item_name = " ".join(space_split[3:])[1:-1]
-                        self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
+                        self.log.debug("Picked up item. id: %s, name: %s" % (item_id, item_name))
                         if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.state.item_list) + 10) \
                                 and self.state.contains_item(item_id):
-                            self.log_msg("Skipped duplicate item line from baby entry", "D")
+                            self.log.debug("Skipped duplicate item line from baby entry")
                             continue
                         item_added = self.state.add_item(item_id, getting_start_items)
                         if item_added:
@@ -396,7 +385,7 @@ class IsaacTracker(object):
                             self.item_pickup_time = self.framecount
                             self.drawing_tool.item_picked_up()
                         else:
-                            self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id, "D")
+                            self.log.debug("Skipped adding item %s to avoid space-bar duplicate" % item_id)
 
                         should_reflow = True
 
@@ -409,7 +398,8 @@ def main():
     # erase our tracker log file from previous runs
     open(tracker_log_path, 'w').close()
     try:
-        rt = IsaacTracker(verbose=False, debug=True)
+        # Pass "logging.DEBUG" in debug mode
+        rt = IsaacTracker()
         rt.run()
     except Exception:
         import traceback

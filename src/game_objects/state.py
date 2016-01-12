@@ -1,4 +1,5 @@
 """This module handles anything related to the item tracker's state"""
+import logging
 from game_objects.item  import Item, Stat, ItemProperty
 from game_objects.floor import Floor
 
@@ -143,13 +144,13 @@ class TrackerState(object):
         """ Add boss to seen boss """
         if room not in [x[0] for x in self.bosses]:
             self.bosses.append((room, kill_time))
-            # self.log_msg("Defeated %s%s boss %s at time %s" % (len(self.bosses),
-                         # self.suffix(len(self.bosses)), room, kill_time), "D")
-            # FIXME restore the logging thing
-            # print "Defeated %s%s boss %s at time %s" % (len(self.bosses),
-                         # self.suffix(len(self.bosses)), room, kill_time)
+            logging.getLogger("tracker").debug("Defeated %s%s boss %s at time %s",
+                                               len(self.bosses),
+                                               suffix(len(self.bosses)),
+                                               room,
+                                               kill_time)
 
 
-# This is just for the suffix of the boss kill number
-# def suffix(d):
-    # return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
+def suffix(number):
+    """This is just for the suffix of the boss kill number"""
+    return 'th' if 11 <= number <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(number % 10, 'th')
