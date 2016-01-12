@@ -5,8 +5,8 @@ import pygame
 import webbrowser
 import string
 from collections import defaultdict
-from game_objects.floor import Floor, Curse
-from game_objects.item import Item, ItemProperty
+from game_objects.floor import Curse
+from game_objects.item import ItemProperty
 from pygame.locals import RESIZABLE
 
 class Drawable(object):
@@ -23,11 +23,11 @@ class Clicakble(object):
     def on_click(self):
         pass
 
-class DrawingTool:
+class DrawingTool(object):
     def __init__(self, tracker_state):
         # FIXME this is the second time I see this, make this global/static
         self.file_prefix = "../"
-        self.next_item = (0,0)
+        self.next_item = (0, 0)
         self.item_position_index = []
         self.drawn_items = []
         self.blind_icon = None
@@ -47,7 +47,9 @@ class DrawingTool:
     def start_pygame(self, screen=None):
         self.screen = screen
         if self.screen is None: # If screen is none, we make our own
-            self.screen = pygame.display.set_mode((self.options[Option.WIDTH], self.options[Option.HEIGHT]), RESIZABLE)
+            self.screen = pygame.display.set_mode((self.options[Option.WIDTH],
+                                                   self.options[Option.HEIGHT]),
+                                                  RESIZABLE)
         if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
             self.text_height = self.write_message(" ")
         else:
@@ -58,14 +60,15 @@ class DrawingTool:
         Draws all the items in current_tracker
         :param current_tracker:
         '''
-        # TODO: Change so that this only ever updates from current_tracker and reflows are called elsewhere ideally - UL
         current_floor = self.state.last_floor()
         # Drawing Logic
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
         # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
 
-        # 19 pixels is the default line height, but we don't know what the line height is with respect to the user's particular size_multiplier.
-        # Thus, we can just draw a single space to ensure that the spacing is consistent whether text happens to be showing or not.
+        # 19 pixels is the default line height, but we don't know what the
+        # line height is with respect to the user's particular size_multiplier.
+        # Thus, we can just draw a single space to ensure that the spacing is consistent
+        # whether text happens to be showing or not.
         if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
             self.text_height = self.write_message(" ")
         else:
@@ -73,8 +76,7 @@ class DrawingTool:
 
         # Draw item pickup text, if applicable
         text_written = False
-        if (self.options[Option.SHOW_DESCRIPTION]
-            and self.item_message_countdown_in_progress()):
+        if self.options[Option.SHOW_DESCRIPTION] and self.item_message_countdown_in_progress():
             text_written = self.write_item_text()
         if not text_written and self.options[Option.SHOW_CUSTOM_MESSAGE]:
             # Draw seed/guppy text:
@@ -83,7 +85,8 @@ class DrawingTool:
             dic = defaultdict(str, seed=seed)
             dic.update(self.state.get_player_stats())
 
-            # Use vformat to handle the case where the user adds an undefined placeholder in default_message
+            # Use vformat to handle the case where the user adds an
+            # undefined placeholder in default_message
             message = string.Formatter().vformat(
                 self.options[Option.CUSTOM_MESSAGE],
                 (),
@@ -107,6 +110,7 @@ class DrawingTool:
             self.draw(drawable_item)
 
         # Also draw the floor if we hit the end, so the current floor is visible
+        # FIXME investigate the current_floor is not None stuff, as we should always have a b/b1
         if self.options[Option.SHOW_FLOORS] and floor_to_draw is not None:
             if floor_to_draw.floor != current_floor and current_floor is not None:
                 x, y = self.next_item
@@ -126,7 +130,8 @@ class DrawingTool:
 
         size_multiplier = int(8 * self.options[Option.SIZE_MULTIPLIER])
 
-        # Anything that gets calculated and cached based on something in options now needs to be flushed
+        # Anything that gets calculated and cached based on something in options
+        # now needs to be flushed
         self.text_margin_size = size_multiplier
         self.font = pygame.font.SysFont(
             self.options[Option.SHOW_FONT],
@@ -149,8 +154,8 @@ class DrawingTool:
         result = self.try_layout(item_icon_footprint, item_icon_size, False)
         while result is None:
             item_icon_footprint -= 1
-            if item_icon_footprint < self.options[
-                Option.MIN_SPACING] or item_icon_footprint < 4:
+            if (item_icon_footprint < self.options[Option.MIN_SPACING] or
+                    item_icon_footprint < 4):
                 result = self.try_layout(item_icon_footprint, item_icon_size,
                                          True)
             else:
@@ -175,7 +180,9 @@ class DrawingTool:
 
             # Deal with drawable items
             if self.drawn_items_cache.get(item) is not None:
-                # Grab the item from a cache if we already have one; there is no point creating so many objects
+                # FIXME #76 get rid of this
+                # Grab the item from a cache if we already have one;
+                # there is no point creating so many objects
                 new_drawable = self.drawn_items_cache.get(item)
                 # Update the floor as the cached item may be from a previous run
                 new_drawable.item.floor = item.floor
@@ -192,7 +199,8 @@ class DrawingTool:
                 cur_column += 1
                 size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
                 new_width = icon_footprint * cur_column + size_multiplier
-                new_height = self.text_height + (icon_footprint + vert_padding) * (cur_row + 1) + icon_size + vert_padding
+                new_height = (self.text_height + (icon_footprint + vert_padding) * (cur_row + 1)
+                              + icon_size + vert_padding)
                 if new_width > self.options[Option.WIDTH]:
                     if (not force_layout) and new_height > self.options[Option.HEIGHT]:
                         return None
@@ -200,10 +208,11 @@ class DrawingTool:
                     cur_column = 0
                 new_drawable_items.append(new_drawable)
 
-        # Finally, we set next_item so that if we have an empty floor, we can use those coordinates to place it
+        # Finally, we set next_item so that if we have an empty floor,
+        # we can use those coordinates to place it
         initial_x = icon_footprint * cur_column
         initial_y = self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1))
-        self.next_item = (initial_x,initial_y)
+        self.next_item = (initial_x, initial_y)
         return new_drawable_items
 
     def build_position_index(self):
@@ -272,7 +281,7 @@ class DrawingTool:
         return image
 
     def get_message_duration(self):
-        return (self.options[Option.MESSAGE_DURATION] * self.options[Option.FRAMERATE_LIMIT])
+        return self.options[Option.MESSAGE_DURATION] * self.options[Option.FRAMERATE_LIMIT]
 
     def save_options(self):
         '''
@@ -297,7 +306,8 @@ class DrawingTool:
             return False
         item_index_to_display = self.selected_item_index
         if item_index_to_display is None and self.item_pickup_countdown_in_progress():
-            # We want to be showing an item but they haven't selected one, that means show the newest item
+            # We want to be showing an item but they haven't selected one,
+            # that means show the newest item
             item_index_to_display = len(self.drawn_items) - 1
         if item_index_to_display is None:
             return False
@@ -327,8 +337,8 @@ class DrawingTool:
         )
 
     @staticmethod
-    def color(string):
-        return pygame.color.Color(str(string))
+    def color(stringcolor):
+        return pygame.color.Color(str(stringcolor))
 
     @staticmethod
     def id_to_image(id):
@@ -379,7 +389,7 @@ class DrawableItem(Drawable):
         return True
 
     def draw(self):
-        image = self.tool.get_image(DrawingTool.id_to_image(self.item.id))
+        image = self.tool.get_image(DrawingTool.id_to_image(self.item.item_id))
         self.tool.screen.blit(image, (self.x, self.y))
         # If we're a re-rolled item, draw a little d4 near us
         if self.item.was_rerolled:
@@ -398,7 +408,7 @@ class DrawableItem(Drawable):
         url = self.tool.options[Option.ITEM_DETAILS_LINK]
         if not url:
             return
-        url = url.replace("$ID", self.item.id)
+        url = url.replace("$ID", self.item.item_id)
         webbrowser.open(url, autoraise=True)
 
 class DrawableFloor(Drawable):
@@ -421,8 +431,9 @@ class DrawableFloor(Drawable):
         image = self.tool.font.render(self.floor.name(), True, text_color)
         self.tool.screen.blit(image, (self.x + 4, self.y - self.tool.text_margin_size))
 
+#FIXME shouldn't this be in the options ?
 # Keys to the options dict
-class Option:
+class Option(object):
     X_POSITION       = "x_position"
     Y_POSITION       = "y_position"
     WIDTH            = "width"

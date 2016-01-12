@@ -1,7 +1,7 @@
-# Imports
-from floor import Curse, Floor
+"""This module handles anything related to items and their characteristics"""
 
 class Item(object):
+    """This class represent an Item in the game, and handles its properties"""
 
     # This will be needed by both the log reader and the serializer, it should
     # be static
@@ -9,27 +9,32 @@ class Item(object):
 
     @staticmethod
     def get_item_info(item_id):
+        """Pad the id and look for its informations in the loaded dictionary"""
         id_padded = item_id.zfill(3)
         return Item.items_info[id_padded]
 
     def __init__(self, item_id, floor, starting_item):
-        self.id           = item_id
+        self.item_id       = item_id
         self.floor         = floor # The floor the item was found on
         self.was_rerolled  = False
         # Is this a starting item ?
-        self.info          = Item.get_item_info(item_id)
         self.starting_item = starting_item
+        # This shouldn't be serialized
+        self.info          = Item.get_item_info(item_id)
 
     def rerolled(self):
+        """Mark the item as rerolled"""
         # Spacebar items can't be re-rolled by a D4, dice room, etc.
         if not self.info.get(ItemProperty.SPACE, False):
             self.was_rerolled = True
 
     @property
     def name(self):
+        """ Return Item's name"""
         return self.info[ItemProperty.NAME]
 
     def generate_item_description(self):
+        """ Generate the item description from its stat"""
         desc        = ""
         text        = self.info.get("text")
         dmg         = self.info.get(Stat.DMG)
@@ -79,18 +84,19 @@ class Item(object):
     def __eq__(self,other):
         if not isinstance(other, Item):
             return False
-        return other is not None and self.id == other.id
+        return other is not None and self.item_id == other.item_id
 
     def __ne__(self,other):
         if not isinstance(other, Item):
             return True
-        return other is None or self.id != other.id
+        return other is None or self.item_id != other.item_id
 
     def __hash__(self):
-        return hash(self.id)
+        return hash(self.item_id)
 
-# Player stat constants (keys to player_stats and player_stats_display)
-class Stat: # This is a subset of all available ItemProperty's
+# FIXME a namedtuple is probably enough instead of a class
+class Stat(object): # This is a subset of all available ItemProperty's
+    """ Player stat constants (keys to player_stats and player_stats_display)"""
     DMG         = "dmg"
     DMG_X       = "dmg_x"
     DELAY       = "delay"
@@ -106,8 +112,8 @@ class Stat: # This is a subset of all available ItemProperty's
     IS_GUPPY    = "guppy"
     LIST        = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS] # Used for init and reset - does not have all stats yet
 
-# Properties that items from items.json can have (these can have any stat)
-class ItemProperty:
+class ItemProperty(object):
+    """ Properties that items from items.json can have (these can have any stat)"""
     NAME              = "name"
     SHOWN             = "shown"
     GUPPY             = "guppy"
@@ -115,4 +121,6 @@ class ItemProperty:
     HEALTH_ONLY       = "health_only"
     IN_SUMMARY        = "in_summary"
     SUMMARY_NAME      = "summary_name"
-    SUMMARY_CONDITION = "summary_condition"  # An item that needs to be present for this item to be mentioned in the summary; can only be one item right now
+    # An item that needs to be present for this item to be mentioned in the summary;
+    # can only be one item right now
+    SUMMARY_CONDITION = "summary_condition"
