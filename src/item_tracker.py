@@ -328,9 +328,18 @@ class IsaacTracker(object):
                         alt = floor_tuple[1]
 
 
-                        # Special handling for cath and chest
-                        if alt == '1' and (floor == 9 or floor == 11):
-                            floor += 1
+                        # Special handling for cath and chest and Afterbirth
+                        if self.GAME_VERSION == "Afterbirth":
+                            # In Afterbirth Cath is an alternate of Sheol (which is 10)
+                            # and Chest is an alternate of Dark room (which is 11)
+                            if floor == 10 and alt == '0':
+                                floor -= 1
+                            elif floor == 11 and alt == '1':
+                                floor += 1
+                        else:
+                            # In Rebirth floors have different numbers
+                            if alt == '1' and (floor == 9 or floor == 11):
+                                floor += 1
                         floor_id = 'f' + str(floor)
                         # Greed mode
                         if alt == '3':
