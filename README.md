@@ -27,3 +27,4 @@ You can mouse over items you've picked up to see their stats again, and click on
 ## Known issues
 
 * When using the _Glowing Hourglass_ right after taking any object, this object will remains in the tracker even if the character doesn't have it anymore.
+* When activating an easter egg removing curses (such as `BLCKCNDL`), the tracker will still display curses (such as displaying a '?' over an item), even if they are actually removed in the game.
