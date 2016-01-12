@@ -15,6 +15,7 @@ import string   # Used in generating a run summary
 from view_controls.view import DrawingTool, Option
 from game_objects.floor import Floor, Curse
 from game_objects.item  import Item, Stat, ItemProperty
+from game_objects.state  import TrackerState
 
 # Additional pygame imports
 if platform.system() == "Windows":
@@ -41,33 +42,29 @@ class IsaacTracker:
         self.splitfile        = []  # Log split into lines
         self.drawing_tool     = None
         self.file_prefix      = "../"
+        self.state            = TrackerState("")
 
         # Initialize isaac stuff
-        self.collected_items         = [] # List of items collected this run
-        self.collected_item_info     = [] # List of "immutable" ItemInfo objects used for determining the layout to draw
-        self.guppy_set               = set() # Used to keep track of whether we're guppy or not
+        # TODO get rid of this, state.player_stats has a guppy counter
+        # self.guppy_set               = set() # Used to keep track of whether we're guppy or not
         self.num_displayed_items     = 0
         self.selected_item_idx       = None
-        self.seed                    = ""
         self.current_room            = ""
         self.blind_floor             = False
         self.getting_start_items     = False
         self.run_start_line          = 0
         self.run_start_frame         = 0
-        self.bosses                  = []
+        # TODO This is only used for log purpose, get rid or improve
         self.last_run                = {}
         self._image_library          = {}
         self.in_summary_list         = []
         self.summary_condition_list  = []
-        self.items_info              = {}
-        self.floors                  = []
-        self.player_stats            = {}
-        self.player_stats_display    = {}
-        self.reset_player_stats()
+        # self.reset_player_stats()
         self.item_message_start_time = 0
         self.item_pickup_time        = 0
         self.item_position_index     = []
-        self.current_floor           = None
+        # TODO last floor in tracker state
+        # self.current_floor           = None
         self.floor_tuple             = () # Tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
         self.spawned_coop_baby       = 0  # The last spawn of a co-op baby
         self.roll_icon               = None
@@ -77,7 +74,7 @@ class IsaacTracker:
 
         # Load items info
         with open(self.file_prefix + "items.json", "r") as items_file:
-            self.items_info = json.load(items_file)
+            Item.items_info = json.load(items_file)
 
     def save_options(self):
         with open(self.file_prefix + "options.json", "w") as json_file:
@@ -87,7 +84,7 @@ class IsaacTracker:
     def log_msg(self, msg, level=""):
         def log(m):
             with open(tracker_log_path, "a") as log:
-                log.write(m)
+                log.write(m + "\n")
 
         if level == "V":
             if self.verbose: log(msg)
@@ -95,39 +92,37 @@ class IsaacTracker:
             if self.debug: log(msg)
         else: log(msg)
 
-    # This is just for the suffix of the boss kill number
-    def suffix(self, d):
-        return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
 
     def check_end_run(self, line, cur_line_num):
         if not self.run_ended:
             died_to  = ""
             end_type = ""
-            if self.bosses and self.bosses[-1][0] in ['???', 'The Lamb', 'Mega Satan']:
+            if self.state.bosses and self.state.bosses[-1][0] in ['???', 'The Lamb', 'Mega Satan']:
                 end_type = "Won"
-            elif (self.seed != '') and line.startswith('RNG Start Seed:'):
+            elif (self.state.seed != '') and line.startswith('RNG Start Seed:'):
                 end_type = "Reset"
             elif line.startswith('Game Over.'):
                 end_type = "Death"
                 died_to = re.search('(?i)Killed by \((.*)\) spawned', line).group(1)
             if end_type:
                 self.last_run = {
-                    "bosses":   self.bosses,
-                    "items":    self.collected_items,
-                    "seed":     self.seed,
+                    "bosses":   self.state.bosses,
+                    "items":    self.state.item_list,
+                    "seed":     self.state.seed,
                     "died_to":  died_to,
                     "end_type": end_type
                 }
                 self.run_ended = True
                 self.log_msg("End of Run! %s" % self.last_run, "D")
                 if end_type != "Reset":
-                    self.save_file(self.run_start_line, cur_line_num, self.seed)
+                    self.save_file(self.run_start_line, cur_line_num, self.state.seed)
 
     def save_file(self, start, end, seed):
         self.mkdir(self.file_prefix + "run_logs")
         timestamp = int(time.time())
         seed = seed.replace(" ", "")
         data = "\n".join(self.splitfile[start:end + 1])
+        # FIXME improve
         data = "%s\nRUN_OVER_LINE\n%s" % (data, self.last_run)
         run_name = "%s%s.log" % (seed, timestamp)
         in_memory_file = StringIO.StringIO()
@@ -140,39 +135,6 @@ class IsaacTracker:
         if not os.path.isdir(dn):
             os.mkdir(dn)
 
-    def add_stats_for_item(self, item, item_id):
-        item_info = item.info
-        for stat in Stat.LIST:
-            if stat not in item_info:
-                continue
-            change = float(item_info.get(stat))
-            self.player_stats[stat] += change
-            value = self.player_stats[stat]
-
-            # Round to 2 decimal places then ignore trailing zeros and trailing periods
-            display = format(value, ".2f").rstrip("0").rstrip(".") # Doing just 'rstrip("0.")' breaks on "0.00"
-
-            # For example, set "0.6" to ".6"
-            if abs(value) < 1:
-                display = display.lstrip("0")
-
-            if value > -0.00001:
-                display = "+" + display
-            self.player_stats_display[stat] = display
-            with open(self.file_prefix + "overlay text/" + stat + ".txt", "w+") as f:
-                f.write(display)
-
-        # If this can make us guppy, check if we're guppy
-        if Stat.IS_GUPPY in item_info and item_info.get(Stat.IS_GUPPY):
-            self.guppy_set.add(item)
-            display = ""
-            if len(self.guppy_set) >= 3:
-                display = "yes"
-            else:
-                display = str(len(self.guppy_set))
-            with open(self.file_prefix + "overlay text/" + stat + ".txt", "w+") as f:
-                f.write(display)
-            self.player_stats_display[Stat.IS_GUPPY] = display
 
     def reset_player_stats(self):
         for stat in Stat.LIST:
@@ -237,29 +199,21 @@ class IsaacTracker:
             self.log_msg("Failed to find update info: " + e.message, "D")
         return ""
 
-    def get_item_info(self, item_id):
-        id_padded = item_id.zfill(3)
-        return self.items_info[id_padded]
-
-    def start_new_run(self, current_line_number):
+    def start_new_run(self, current_line_number, seed):
         self.run_start_line = current_line_number + self.seek
-        self.log_msg("Starting new run, seed: %s" % self.seed, "D")
+        self.log_msg("Starting new run, seed: %s" % seed, "D")
         self.run_start_frame = self.framecount
-        self.collected_items = []
-        self.log_msg("Emptied item array", "D")
-        self.bosses = []
+        self.log_msg("Starting new state", "D")
+        self.state.reset(seed)
         self.log_msg("Emptied boss array", "D")
         self.run_ended = False
-        self.reset_player_stats()
-        self.current_floor = None
+        # self.reset_player_stats()
         self.drawing_tool.reset()
-        self.guppy_set=set()
         self.log_msg("Reset drawing tool", "D")
         with open(self.file_prefix + "overlay text/seed.txt", "w+") as f:
-            f.write(self.seed)
+            f.write(seed)
 
     def run(self):
-        self.current_floor = None
 
         # Initialize pygame system stuff
         pygame.init()
@@ -267,7 +221,7 @@ class IsaacTracker:
         pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
 
         # Create drawing tool to use to draw everything - it'll create its own screen
-        self.drawing_tool = DrawingTool()
+        self.drawing_tool = DrawingTool(self.state)
 
         # figure out where we should put our window.
         xpos = self.drawing_tool.options[Option.X_POSITION]
@@ -303,14 +257,14 @@ class IsaacTracker:
                     self.drawing_tool.options[Option.WIDTH] = event.dict["w"]
                     self.drawing_tool.options[Option.HEIGHT] = event.dict["h"]
                     self.drawing_tool.save_options()
-                    self.drawing_tool.reflow(self.collected_items)
+                    self.drawing_tool.reflow()
                     pygame.display.flip()
                 elif event.type == MOUSEMOTION:
                     if pygame.mouse.get_focused():
                         pos = pygame.mouse.get_pos()
                         self.drawing_tool.select_item_on_hover(*pos)
                 elif event.type == KEYDOWN:
-                    if len(self.collected_items) > 0:
+                    if len(self.state.item_list) > 0:
                         if event.key == pygame.K_RIGHT:
                             self.drawing_tool.adjust_select_item_on_keypress(1)
                         elif event.key == pygame.K_LEFT:
@@ -330,7 +284,7 @@ class IsaacTracker:
                         pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                         self.drawing_tool.reset()
                         self.drawing_tool.load_options()
-                        self.drawing_tool.reflow(self.collected_items)
+                        self.drawing_tool.reflow()
 
             # Drawing logic
             clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
@@ -338,7 +292,7 @@ class IsaacTracker:
             if self.log_not_found:
                 self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt")
 
-            self.drawing_tool.draw_items(self)
+            self.drawing_tool.draw_items()
             self.framecount += 1
 
             # Now we re-process the log file to get anything that might have loaded; do it every read_delay seconds (making sure to truncate to an integer or else it might never mod to 0)
@@ -363,17 +317,14 @@ class IsaacTracker:
                         kill_time = int(line.split(" ")[-1])
 
                         # If you re-enter a room you get a "mom clear time" again, check for that (can you fight the same boss twice?)
-                        if self.current_room not in [x[0] for x in self.bosses]:
-                            self.bosses.append((self.current_room, kill_time))
-                            self.log_msg(
-                                "Defeated %s%s boss %s at time %s" % (len(self.bosses),
-                                self.suffix(len(self.bosses)), self.current_room, kill_time), "D")
+                        self.state.add_boss(self.current_room, kill_time)
 
                     # Check and handle the end of the run; the order is important - we want it after boss kill but before "RNG Start Seed"
                     self.check_end_run(line, current_line_number + self.seek)
 
                     if line.startswith('RNG Start Seed:'): # The start of a run
-                        self.seed = line[16:25] # This assumes a fixed width, but from what I see it seems safe
+                        seed = line[16:25] # This assumes a fixed width, but from what I see it seems safe
+                        self.start_new_run(current_line_number, seed)
 
                     if line.startswith('Room'):
                         self.current_room = re.search('\((.*)\)', line).group(1)
@@ -402,67 +353,62 @@ class IsaacTracker:
                             floor_id += 'g'
 
                         # when we see a new floor 1, that means a new run has started
-                        if floor == 1:
-                            self.start_new_run(current_line_number)
+                        # taken care by the seed
+                        # if floor == 1:
+                            # self.start_new_run(current_line_number)
 
-                        self.current_floor=Floor(floor_id,self,(alt=='1'))
+                        self.state.add_floor(floor_id, (alt=='1'))
                         should_reflow = True
 
 
 
                     if line.startswith("Curse of the Labyrinth!"):
                         # It SHOULD always begin with f (that is, it's a floor) because this line only comes right after the floor line
-                        self.current_floor.add_curse(Curse.Labyrinth)
+                        self.state.add_curse(Curse.Labyrinth)
                     if line.startswith("Curse of Blind"):
-                        self.current_floor.add_curse(Curse.Blind)
+                        self.state.add_curse(Curse.Blind)
                     if line.startswith("Curse of the Lost!"):
-                        self.current_floor.add_curse(Curse.Lost)
+                        self.state.add_curse(Curse.Lost)
                     if line.startswith("Spawn co-player!"):
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search("Added \d+ Collectibles", line):
                         self.log_msg("Reroll detected!", "D")
-                        map(lambda item: item.rerolled(),self.collected_items)
+                        map(lambda item: item.rerolled(), self.state.item_list)
                     if line.startswith('Adding collectible'):
                         if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
                             self.log_msg("Skipped duplicate item line from baby presence", "D")
+                            continue
+                        if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.state.item_list) + 10) \
+                                and temp_item in self.state.item_list:
+                            self.log_msg("Skipped duplicate item line from baby entry","D")
                             continue
                         space_split = line.split(" ") # Hacky string manipulation
                         item_id = space_split[2] # A string has the form of "Adding collectible 105 (The D6)"
 
                         # Check if the item ID exists
-                        if item_id.zfill(3) not in self.items_info:
+                        if item_id.zfill(3) not in Item.items_info:
                             item_id = "NEW"
-                        item_info = self.get_item_info(item_id)
 
-                        # Default current floor to basement 1 if none
-                        if self.current_floor is None:
-                            self.current_floor = Floor("f1", self, False)
-                        # If the item IDs are equal, it should say this item already exists
-                        temp_item = Item(item_id,self.current_floor,item_info,getting_start_items)
-                        if ((current_line_number + self.seek) - self.spawned_coop_baby) < (len(self.collected_items) + 10) \
-                                and temp_item in self.collected_items:
-                            self.log_msg("Skipped duplicate item line from baby entry","D")
-                            continue
                         item_name = " ".join(space_split[3:])[1:-1]
                         self.log_msg("Picked up item. id: %s, name: %s" % (item_id, item_name), "D")
-                        with open(self.file_prefix + "overlay text/itemInfo.txt", "w+") as f:
-                            desc = temp_item.generate_item_description()
-                            f.write(item_info[ItemProperty.NAME] + ":" + desc)
-
-                        # Ignore repeated pickups of space bar items
-                        if not (item_info.get(ItemProperty.SPACE,False) and temp_item in self.collected_items):
-                            self.collected_items.append(temp_item)
+                        item_added = self.state.add_item(item_id, getting_start_items)
+                        if item_added:
+                            # FIXME: restore the "display for each pickup behaviour"
+                            # by moving this to the view
+                            with open(self.file_prefix + "overlay text/itemInfo.txt", "w+") as f:
+                                desc = self.state.item_list[-1].generate_item_description()
+                                f.write(self.state.item_list[-1].info[ItemProperty.NAME] + ":" + desc)
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
                             self.drawing_tool.item_picked_up()
                         else:
                             self.log_msg("Skipped adding item %s to avoid space-bar duplicate" % item_id, "D")
-                        self.add_stats_for_item(temp_item, item_id)
+
                         should_reflow = True
 
                 self.seek = len(self.splitfile)
                 if should_reflow:
-                    self.drawing_tool.reflow(self.collected_items)
+                    self.drawing_tool.reflow()
 
 # Main
 def main():

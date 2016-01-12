@@ -24,7 +24,8 @@ class Clicakble(object):
         pass
 
 class DrawingTool:
-    def __init__(self):
+    def __init__(self, tracker_state):
+        # FIXME this is the second time I see this, make this global/static
         self.file_prefix = "../"
         self.next_item = (0,0)
         self.item_position_index = []
@@ -38,7 +39,10 @@ class DrawingTool:
         self.load_options()
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
+        # FIXME remove the thing
         self.drawn_items_cache = {}
+        # Reference to IsaacTracker's state
+        self.state = tracker_state
 
     def start_pygame(self, screen=None):
         self.screen = screen
@@ -49,13 +53,13 @@ class DrawingTool:
         else:
             self.text_height = 0
 
-    def draw_items(self, current_tracker):
+    def draw_items(self):
         '''
         Draws all the items in current_tracker
-        :param current_tracker: 
+        :param current_tracker:
         '''
         # TODO: Change so that this only ever updates from current_tracker and reflows are called elsewhere ideally - UL
-        current_floor = current_tracker.current_floor
+        current_floor = self.state.last_floor()
         # Drawing Logic
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
         # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
@@ -74,10 +78,10 @@ class DrawingTool:
             text_written = self.write_item_text()
         if not text_written and self.options[Option.SHOW_CUSTOM_MESSAGE]:
             # Draw seed/guppy text:
-            seed = current_tracker.seed
+            seed = self.state.seed
 
             dic = defaultdict(str, seed=seed)
-            dic.update(current_tracker.player_stats_display)
+            dic.update(self.state.get_player_stats())
 
             # Use vformat to handle the case where the user adds an undefined placeholder in default_message
             message = string.Formatter().vformat(
@@ -132,36 +136,38 @@ class DrawingTool:
         self._image_library = {}
         self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
         self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
-    
-    def reflow(self, item_collection):
+
+    def reflow(self):
         '''
         Changes the position of the items so they all fit on the screen
         :param item_collection: Collection of items to display
         '''
+        item_collection = self.state.item_list
         size_multiplier = self.options[Option.SIZE_MULTIPLIER] * .5
         item_icon_size = int(self.options[Option.DEFAULT_SPACING] * size_multiplier)
         item_icon_footprint = item_icon_size
-        result = self.try_layout(item_icon_footprint, item_icon_size, False, item_collection)
+        result = self.try_layout(item_icon_footprint, item_icon_size, False)
         while result is None:
             item_icon_footprint -= 1
             if item_icon_footprint < self.options[
                 Option.MIN_SPACING] or item_icon_footprint < 4:
                 result = self.try_layout(item_icon_footprint, item_icon_size,
-                                         True, item_collection)
+                                         True)
             else:
                 result = self.try_layout(item_icon_footprint, item_icon_size,
-                                         False, item_collection)
+                                         False)
 
         self.drawn_items = result
         self.build_position_index()
-        
-    def try_layout(self, icon_footprint, icon_size, force_layout, collected_items):
+
+    def try_layout(self, icon_footprint, icon_size, force_layout):
         new_drawable_items = []
         cur_row = 0
         cur_column = 0
         vert_padding = 0
         if self.options[Option.SHOW_FLOORS]:
             vert_padding = self.text_margin_size
+        collected_items = self.state.item_list
         for item in collected_items:
             initial_x = icon_footprint * cur_column
             initial_y = self.text_height + (icon_footprint * cur_row) + (
@@ -202,7 +208,7 @@ class DrawingTool:
 
     def build_position_index(self):
         '''
-        Builds an array covering the entire visible screen and fills it 
+        Builds an array covering the entire visible screen and fills it
         with references to the index items where appropriate so we can show
         select boxes on hover
         '''
@@ -248,7 +254,7 @@ class DrawingTool:
         if self.selected_item_index is None:
             return
         self.drawn_items[self.selected_item_index].load_detail_page()
-        
+
     def get_scaled_icon(self, path, scale):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
@@ -280,11 +286,11 @@ class DrawingTool:
 
     def item_pickup_countdown_in_progress(self):
         return self.item_pickup_time + self.get_message_duration() > self.framecount
-    
+
     def item_picked_up(self):
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
-    
+
     def write_item_text(self):
         if len(self.drawn_items) <= 0:
             # No items, nothing to show
@@ -299,7 +305,7 @@ class DrawingTool:
         desc = item.generate_item_description()
         self.text_height = self.write_message("%s%s" % (item.name, desc))
         return True
-    
+
     def write_message(self, message):
         return draw_text(
             self.screen,
@@ -350,7 +356,7 @@ class DrawableItem(Drawable):
 
     def shown(self):
         """
-            We should show if the following is true: 
+            We should show if the following is true:
                 1. We are showable
                 2. We are guppy
                 3. We are health pickup AND we want to see health pickups

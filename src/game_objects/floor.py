@@ -31,13 +31,12 @@ class Floor(object):
             "f7g": "GREED",
         }
 
-    def __init__(self, id, tracker, is_alternate, curse=Curse.No_Curse):
+    def __init__(self, id, is_alternate, curse=Curse.No_Curse):
         self.id           = id
         self.curse        = curse
         self.items        = []
-        self.tracker      = tracker
         self.is_alt_floor = is_alternate
-    
+
     def add_curse(self, curse):
         if curse is None:
             curse = Curse.No_Curse # None is the same as no curse

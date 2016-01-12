@@ -2,11 +2,22 @@
 from floor import Curse, Floor
 
 class Item(object):
-    def __init__(self,itemID, floor, item_info, starting_item):
-        self.id           = itemID
+
+    # This will be needed by both the log reader and the serializer, it should
+    # be static
+    items_info = {}
+
+    @staticmethod
+    def get_item_info(item_id):
+        id_padded = item_id.zfill(3)
+        return Item.items_info[id_padded]
+
+    def __init__(self, item_id, floor, starting_item):
+        self.id           = item_id
         self.floor         = floor # The floor the item was found on
         self.was_rerolled  = False
-        self.info          = item_info
+        # Is this a starting item ?
+        self.info          = Item.get_item_info(item_id)
         self.starting_item = starting_item
 
     def rerolled(self):
