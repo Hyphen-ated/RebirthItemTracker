@@ -11,6 +11,7 @@ import logging  # For logging
 
 # Import item tracker specific code
 from view_controls.view import DrawingTool, Option
+from view_controls.overlay import Overlay
 from game_objects.floor import Curse
 from game_objects.item  import Item, ItemProperty
 from game_objects.state  import TrackerState
@@ -35,6 +36,7 @@ class IsaacTracker(object):
         self.drawing_tool     = None
         self.file_prefix      = "../"
         self.state            = TrackerState("")
+        self.overlay          = Overlay(self.file_prefix, self.state)
 
         # Initialize isaac stuff
         # TODO get rid of this, state.player_stats has a guppy counter
@@ -74,7 +76,8 @@ class IsaacTracker(object):
         if not self.run_ended:
             died_to  = ""
             end_type = ""
-            if self.state.bosses and self.state.bosses[-1][0] in ['???', 'The Lamb', 'Mega Satan']:
+            # FIXME right now I don't think boss detection in the log is working properly
+            if self.state.last_boss and self.state.last_boss[0] in ['???', 'The Lamb', 'Mega Satan']:
                 end_type = "Won"
             elif (self.state.seed != '') and line.startswith('RNG Start Seed:'):
                 end_type = "Reset"
@@ -177,8 +180,10 @@ class IsaacTracker(object):
         self.run_ended = False
         self.drawing_tool.reset()
         self.log.debug("Reset drawing tool")
-        with open(self.file_prefix + "overlay text/seed.txt", "w+") as f:
-            f.write(seed)
+        # Update seed and reset all stats
+        # NOTE we can't update last item description has nothing has been picked up yet
+        self.overlay.update_seed()
+        self.overlay.update_stats()
 
     def run(self):
 
@@ -228,9 +233,11 @@ class IsaacTracker(object):
                     # Check and handle the end of the run; the order is important - we want it after boss kill but before "RNG Start Seed"
                     self.check_end_run(line, current_line_number + self.seek)
 
-                    if line.startswith('RNG Start Seed:'): # The start of a run
+                    if line.startswith('RNG Start Seed:'):
+                        # We have a seed. If it's a new seed it's a new run, else it's a quit/continue
                         seed = line[16:25] # This assumes a fixed width, but from what I see it seems safe
-                        self.start_new_run(current_line_number, seed)
+                        if seed != self.state.seed:
+                            self.start_new_run(current_line_number, seed)
 
                     if line.startswith('Room'):
                         self.current_room = re.search(r'\((.*)\)', line).group(1)
@@ -288,8 +295,7 @@ class IsaacTracker(object):
                         self.spawned_coop_baby = current_line_number + self.seek
                     if re.search(r"Added \d+ Collectibles", line):
                         self.log.debug("Reroll detected!")
-                        # FIXME create some state.rerolled that do this using comprehension instead of lambda
-                        map(lambda item: item.rerolled(), self.state.item_list)
+                        self.state.reroll()
                     if line.startswith('Adding collectible'):
                         if len(self.splitfile) > 1 and self.splitfile[current_line_number + self.seek - 1] == line:
                             self.log.debug("Skipped duplicate item line from baby presence")
@@ -307,13 +313,13 @@ class IsaacTracker(object):
                                 and self.state.contains_item(item_id):
                             self.log.debug("Skipped duplicate item line from baby entry")
                             continue
-                        item_added = self.state.add_item(item_id, getting_start_items)
-                        if item_added:
-                            # FIXME: restore the "display for each pickup behaviour"
-                            # by moving this to the view
-                            with open(self.file_prefix + "overlay text/itemInfo.txt", "w+") as f:
-                                desc = self.state.item_list[-1].generate_item_description()
-                                f.write(self.state.item_list[-1].info[ItemProperty.NAME] + ":" + desc)
+                        result_tuple = self.state.add_item(item_id, getting_start_items)
+                        # First element is true if the item has been added
+                        if result_tuple[0]:
+                            self.overlay.update_stats(result_tuple[1])
+                            # NOTE with the current implementation, a spacebar item will
+                            # have its description only once
+                            self.overlay.update_last_item_description()
                             self.item_message_start_time = self.framecount
                             self.item_pickup_time = self.framecount
                             self.drawing_tool.item_picked_up()

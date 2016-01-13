@@ -7,7 +7,8 @@ import webbrowser
 import string
 from collections import defaultdict
 from game_objects.floor import Curse
-from game_objects.item import ItemProperty
+from game_objects.item import ItemProperty, Stat
+from view_controls.overlay import Overlay
 from pygame.locals import RESIZABLE
 # FIXME I don't know what to do with that, I don't use the release script
 #import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
@@ -145,7 +146,7 @@ class DrawingTool(object):
         Draws all the items in current_tracker
         :param current_tracker:
         '''
-        current_floor = self.state.last_floor()
+        current_floor = self.state.last_floor
         # Drawing Logic
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
         # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
@@ -168,7 +169,11 @@ class DrawingTool(object):
             seed = self.state.seed
 
             dic = defaultdict(str, seed=seed)
-            dic.update(self.state.get_player_stats())
+            # Update this dic with player stats
+
+            for stat in Stat.LIST:
+                dic[stat] = Overlay.format_value(self.state.player_stats[stat])
+            dic[Stat.IS_GUPPY] = Overlay.format_guppy(self.state.guppy_set)
 
             # Use vformat to handle the case where the user adds an
             # undefined placeholder in default_message

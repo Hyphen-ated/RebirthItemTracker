@@ -7,12 +7,6 @@ class Item(object):
     # it should be static
     items_info = {}
 
-    @staticmethod
-    def get_item_info(item_id):
-        """Pad the id and look for its informations in the loaded dictionary"""
-        id_padded = item_id.zfill(3)
-        return Item.items_info[id_padded]
-
     def __init__(self, item_id, floor, starting_item):
         self.item_id       = item_id
         self.floor         = floor # The floor the item was found on
@@ -93,6 +87,13 @@ class Item(object):
 
     def __hash__(self):
         return hash(self.item_id)
+
+    @staticmethod
+    def get_item_info(item_id):
+        """Pad the id and look for its informations in the loaded dictionary"""
+        id_padded = item_id.zfill(3)
+        return Item.items_info[id_padded]
+
 
 # FIXME a namedtuple is probably enough instead of a class
 class Stat(object): # This is a subset of all available ItemProperty's
