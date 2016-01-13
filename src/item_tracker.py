@@ -13,7 +13,7 @@ import logging  # For logging
 from view_controls.view import DrawingTool, Option
 from view_controls.overlay import Overlay
 from game_objects.floor import Curse
-from game_objects.item  import Item, ItemProperty
+from game_objects.item  import Item
 from game_objects.state  import TrackerState
 
 
@@ -23,9 +23,6 @@ tracker_log_path = "../tracker_log.txt"
 class IsaacTracker(object):
     def __init__(self, logging_level=logging.INFO, read_delay=1):
         # Class variables
-        self.text_height      = 0
-        self.text_margin_size = None  # Will be changed in load_options
-        self.font             = None  # Will be changed in load_options
         self.seek             = 0
         self.framecount       = 0
         self.read_delay       = read_delay
@@ -39,28 +36,12 @@ class IsaacTracker(object):
         self.overlay          = Overlay(self.file_prefix, self.state)
 
         # Initialize isaac stuff
-        # TODO get rid of this, state.player_stats has a guppy counter
-        # self.guppy_set               = set() # Used to keep track of whether we're guppy or not
-        self.num_displayed_items     = 0
-        self.selected_item_idx       = None
         self.current_room            = ""
-        self.blind_floor             = False
         self.getting_start_items     = False
         self.run_start_line          = 0
-        self.run_start_frame         = 0
-        # TODO This is only used for log purpose, get rid or improve
+        # FIXME This is used for log purpose, improve when restoring run summaries
         self.last_run                = {}
-        self.in_summary_list         = []
-        self.summary_condition_list  = []
-        self.item_message_start_time = 0
-        self.item_pickup_time        = 0
-        self.item_position_index     = []
-        # TODO last floor in tracker state
-        # self.current_floor           = None
-        self.floor_tuple             = () # Tuple with first value being floor number, second value being alt stage value (0 or 1, r.n.)
         self.spawned_coop_baby       = 0  # The last spawn of a co-op baby
-        self.roll_icon               = None
-        self.blind_icon              = None
 
         self.GAME_VERSION = "" # I KNOW THIS IS WRONG BUT I DON'T KNOW WHAT ELSE TO DO
 
@@ -173,15 +154,13 @@ class IsaacTracker(object):
     def start_new_run(self, current_line_number, seed):
         self.run_start_line = current_line_number + self.seek
         self.log.debug("Starting new run, seed: %s" % seed)
-        self.run_start_frame = self.framecount
         self.log.debug("Starting new state")
         self.state.reset(seed)
-        self.log.debug("Emptied boss array")
         self.run_ended = False
         self.drawing_tool.reset()
         self.log.debug("Reset drawing tool")
         # Update seed and reset all stats
-        # NOTE we can't update last item description has nothing has been picked up yet
+        # NOTE we can't update last item description as nothing has been picked up yet
         self.overlay.update_seed()
         self.overlay.update_stats()
 
@@ -193,6 +172,8 @@ class IsaacTracker(object):
         self.drawing_tool = DrawingTool("Rebirth Item Tracker" + update_notifier, self.state)
 
         done = False
+        # This is the last seed 'seen' by the log reader
+        current_seed = ""
 
         while not done:
 
@@ -230,14 +211,13 @@ class IsaacTracker(object):
                         # If you re-enter a room you get a "mom clear time" again, check for that (can you fight the same boss twice?)
                         self.state.add_boss(self.current_room, kill_time)
 
-                    # Check and handle the end of the run; the order is important - we want it after boss kill but before "RNG Start Seed"
+                    # Check and handle the end of the run; the order is important
+                    # - we want it after boss kill but before "RNG Start Seed"
                     self.check_end_run(line, current_line_number + self.seek)
 
                     if line.startswith('RNG Start Seed:'):
                         # We have a seed. If it's a new seed it's a new run, else it's a quit/continue
-                        seed = line[16:25] # This assumes a fixed width, but from what I see it seems safe
-                        if seed != self.state.seed:
-                            self.start_new_run(current_line_number, seed)
+                        current_seed = line[16:25] # This assumes a fixed width, but from what I see it seems safe
 
                     if line.startswith('Room'):
                         self.current_room = re.search(r'\((.*)\)', line).group(1)
@@ -245,13 +225,13 @@ class IsaacTracker(object):
                             getting_start_items = False
                         self.log.debug("Entered room: %s" % self.current_room)
                     if line.startswith('Level::Init'):
+                        # Create a floor tuple with the floor id and the alternate id
                         if self.GAME_VERSION == "Afterbirth":
                             floor_tuple = tuple([re.search(r"Level::Init m_Stage (\d+), m_StageType (\d+)", line).group(x) for x in [1, 2]])
                         else:
                             floor_tuple = tuple([re.search(r"Level::Init m_Stage (\d+), m_AltStage (\d+)", line).group(x) for x in [1, 2]])
 
                         # Assume floors aren't cursed until we see they are
-                        self.blind_floor = False
                         getting_start_items = True
                         floor = int(floor_tuple[0])
                         alt = floor_tuple[1]
@@ -275,9 +255,8 @@ class IsaacTracker(object):
                             floor_id += 'g'
 
                         # when we see a new floor 1, that means a new run has started
-                        # taken care by the seed
-                        # if floor == 1:
-                            # self.start_new_run(current_line_number)
+                        if floor == 1:
+                            self.start_new_run(current_line_number, current_seed)
 
                         self.state.add_floor(floor_id, (alt == '1'))
                         should_reflow = True
@@ -320,8 +299,6 @@ class IsaacTracker(object):
                             # NOTE with the current implementation, a spacebar item will
                             # have its description only once
                             self.overlay.update_last_item_description()
-                            self.item_message_start_time = self.framecount
-                            self.item_pickup_time = self.framecount
                             self.drawing_tool.item_picked_up()
                         else:
                             self.log.debug("Skipped adding item %s to avoid space-bar duplicate" % item_id)
@@ -342,6 +319,7 @@ def main():
         rt.run()
     except Exception:
         import traceback
+        # FIXME restore the traceback to file
         print traceback.format_exc()
         # with open(tracker_log_path, "a") as log:
             # log.write(traceback.format_exc())
