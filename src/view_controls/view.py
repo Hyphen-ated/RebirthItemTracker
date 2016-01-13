@@ -48,8 +48,6 @@ class DrawingTool(object):
         self.selected_item_index = None
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
-        # FIXME remove the thing
-        self.drawn_items_cache = {}
         # Reference to IsaacTracker's state
         self.state = tracker_state
         self.clock = None
@@ -269,19 +267,7 @@ class DrawingTool(object):
                 vert_padding * (cur_row + 1))
 
             # Deal with drawable items
-            if self.drawn_items_cache.get(item) is not None:
-                # FIXME #76 get rid of this
-                # Grab the item from a cache if we already have one;
-                # there is no point creating so many objects
-                new_drawable = self.drawn_items_cache.get(item)
-                # Update the floor as the cached item may be from a previous run
-                new_drawable.item.floor = item.floor
-                new_drawable.x = initial_x
-                new_drawable.y = initial_y
-                new_drawable.is_drawn = False
-            else:
-                new_drawable = DrawableItem(item, initial_x, initial_y, self)
-                self.drawn_items_cache[item] = new_drawable
+            new_drawable = DrawableItem(item, initial_x, initial_y, self)
 
             # Only bother adding anything if we're going to show it
             if new_drawable.shown():
@@ -436,6 +422,7 @@ class DrawingTool(object):
 
     def reset(self):
         self.selected_item_index = None
+        self.drawn_items = []
 
 class DrawableItem(Drawable):
     def __init__(self, item, x, y, tool):
