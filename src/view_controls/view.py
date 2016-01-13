@@ -1,13 +1,21 @@
 # Imports
 import json
 import os
-import pygame
+import platform # For determining what operating system the script is being run on
+import pygame   # This is the main graphics library used for the item tracker
 import webbrowser
 import string
 from collections import defaultdict
 from game_objects.floor import Curse
 from game_objects.item import ItemProperty
 from pygame.locals import RESIZABLE
+# FIXME I don't know what to do with that, I don't use the release script
+#import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
+
+# Additional pygame imports
+if platform.system() == "Windows":
+    import pygameWindowInfo
+from pygame.locals import *
 
 class Drawable(object):
     def __init__(self, x, y, tool):
@@ -24,28 +32,50 @@ class Clicakble(object):
         pass
 
 class DrawingTool(object):
-    def __init__(self, tracker_state):
+    def __init__(self, title, tracker_state):
         # FIXME this is the second time I see this, make this global/static
         self.file_prefix = "../"
         self.next_item = (0, 0)
         self.item_position_index = []
         self.drawn_items = []
+        self._image_library = {}
         self.blind_icon = None
         self.roll_icon = None
         self.font = None
         self.text_margin_size = None
         self.framecount = 0
         self.selected_item_index = None
-        self.load_options()
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
         # FIXME remove the thing
         self.drawn_items_cache = {}
         # Reference to IsaacTracker's state
         self.state = tracker_state
+        self.clock = None
+        self.win_info = None
+        self.screen = None
+        self.start_pygame(title)
 
-    def start_pygame(self, screen=None):
-        self.screen = screen
+    def start_pygame(self, title):
+        # Initialize pygame system stuff
+        pygame.init()
+        self.load_options()
+        pygame.display.set_caption(title)
+        pygame.display.set_icon(self.get_image("collectibles_333.png"))
+        self.clock = pygame.time.Clock()
+
+
+        # figure out where we should put our window.
+        xpos = self.options[Option.X_POSITION]
+        ypos = self.options[Option.Y_POSITION]
+        # it can go negative when weird problems happen, so put it in a default location in that case
+        if xpos < 0:
+            xpos = 100
+        if ypos < 0:
+            ypos = 100
+
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (xpos, ypos)
+
         if self.screen is None: # If screen is none, we make our own
             self.screen = pygame.display.set_mode((self.options[Option.WIDTH],
                                                    self.options[Option.HEIGHT]),
@@ -54,6 +84,61 @@ class DrawingTool(object):
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
+
+        if platform.system() == "Windows":
+            self.win_info = pygameWindowInfo.PygameWindowInfo()
+        del os.environ['SDL_VIDEO_WINDOW_POS']
+
+    def tick(self):
+        # Drawing logic
+        self.clock.tick(int(self.options[Option.FRAMERATE_LIMIT]))
+
+
+    def handle_events(self):
+        # pygame logic
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                if platform.system() == "Windows":
+                    win_pos = self.win_info.getScreenPosition()
+                    self.options[Option.X_POSITION] = win_pos["left"]
+                    self.options[Option.Y_POSITION] = win_pos["top"]
+                    self.save_options()
+                return True
+            elif event.type == VIDEORESIZE:
+                self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
+                self.options[Option.WIDTH] = event.dict["w"]
+                self.options[Option.HEIGHT] = event.dict["h"]
+                self.save_options()
+                self.reflow()
+                pygame.display.flip()
+            elif event.type == MOUSEMOTION:
+                if pygame.mouse.get_focused():
+                    pos = pygame.mouse.get_pos()
+                    self.select_item_on_hover(*pos)
+            elif event.type == KEYDOWN:
+                if len(self.state.item_list) > 0:
+                    if event.key == K_RIGHT:
+                        self.adjust_select_item_on_keypress(1)
+                    elif event.key == K_LEFT:
+                        self.adjust_select_item_on_keypress(-1)
+                    elif event.key == K_RETURN:
+                        self.load_selected_detail_page()
+                    elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
+                        pass
+                    #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
+            elif event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    self.load_selected_detail_page()
+                if event.button == 3:
+                    import option_picker
+                    pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
+                    option_picker.options_menu(self.file_prefix + "options.json").run()
+                    pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
+                    self.reset()
+                    self.load_options()
+                    self.reflow()
+        return False
+
 
     def draw_items(self):
         '''
@@ -338,7 +423,7 @@ class DrawingTool(object):
 
     @staticmethod
     def color(stringcolor):
-        return pygame.color.Color(str(stringcolor))
+        return Color(str(stringcolor))
 
     @staticmethod
     def id_to_image(id):

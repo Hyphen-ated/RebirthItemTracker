@@ -3,8 +3,8 @@
 class Item(object):
     """This class represent an Item in the game, and handles its properties"""
 
-    # This will be needed by both the log reader and the serializer, it should
-    # be static
+    # This will be needed by both the log reader and the serializer,
+    # it should be static
     items_info = {}
 
     @staticmethod

@@ -4,12 +4,10 @@ import time     # For getting the current timestamp
 import os       # For working with files on the operating system
 import platform # For determining what operating system the script is being run on
 import zipfile  # For compressing the log files of past runs
-import pygame   # This is the main graphics library used for the item tracker
 import re       # For parsing the log file (regular expressions)
 import json     # For importing the items and options
 import urllib2  # For checking for updates to the item tracker
 import logging  # For logging
-#import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Import item tracker specific code
 from view_controls.view import DrawingTool, Option
@@ -17,10 +15,6 @@ from game_objects.floor import Curse
 from game_objects.item  import Item, ItemProperty
 from game_objects.state  import TrackerState
 
-# Additional pygame imports
-if platform.system() == "Windows":
-    import pygameWindowInfo
-from pygame.locals import *
 
 tracker_log_path = "../tracker_log.txt"
 
@@ -54,7 +48,6 @@ class IsaacTracker(object):
         self.run_start_frame         = 0
         # TODO This is only used for log purpose, get rid or improve
         self.last_run                = {}
-        self._image_library          = {}
         self.in_summary_list         = []
         self.summary_condition_list  = []
         self.item_message_start_time = 0
@@ -189,82 +182,22 @@ class IsaacTracker(object):
 
     def run(self):
 
-        # Initialize pygame system stuff
-        pygame.init()
         update_notifier = self.check_for_update()
-        pygame.display.set_caption("Rebirth Item Tracker" + update_notifier)
 
         # Create drawing tool to use to draw everything - it'll create its own screen
-        self.drawing_tool = DrawingTool(self.state)
+        self.drawing_tool = DrawingTool("Rebirth Item Tracker" + update_notifier, self.state)
 
-        # figure out where we should put our window.
-        xpos = self.drawing_tool.options[Option.X_POSITION]
-        ypos = self.drawing_tool.options[Option.Y_POSITION]
-        # it can go negative when weird problems happen, so put it in a default location in that case
-        if xpos < 0:
-            xpos = 100
-        if ypos < 0:
-            ypos = 100
-
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (xpos, ypos)
-        self.drawing_tool.start_pygame()
-        pygame.display.set_icon(self.drawing_tool.get_image("collectibles_333.png"))
         done = False
-        clock = pygame.time.Clock()
-        winInfo = None
-        if platform.system() == "Windows":
-            winInfo = pygameWindowInfo.PygameWindowInfo()
 
-        del os.environ['SDL_VIDEO_WINDOW_POS']
         while not done:
-            # pygame logic
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    if platform.system() == "Windows":
-                        winPos = winInfo.getScreenPosition()
-                        self.drawing_tool.options[Option.X_POSITION] = winPos["left"]
-                        self.drawing_tool.options[Option.Y_POSITION] = winPos["top"]
-                        self.drawing_tool.save_options()
-                    done = True
-                elif event.type == VIDEORESIZE:
-                    screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
-                    self.drawing_tool.options[Option.WIDTH] = event.dict["w"]
-                    self.drawing_tool.options[Option.HEIGHT] = event.dict["h"]
-                    self.drawing_tool.save_options()
-                    self.drawing_tool.reflow()
-                    pygame.display.flip()
-                elif event.type == MOUSEMOTION:
-                    if pygame.mouse.get_focused():
-                        pos = pygame.mouse.get_pos()
-                        self.drawing_tool.select_item_on_hover(*pos)
-                elif event.type == KEYDOWN:
-                    if len(self.state.item_list) > 0:
-                        if event.key == pygame.K_RIGHT:
-                            self.drawing_tool.adjust_select_item_on_keypress(1)
-                        elif event.key == pygame.K_LEFT:
-                            self.drawing_tool.adjust_select_item_on_keypress(-1)
-                        elif event.key == pygame.K_RETURN:
-                            self.drawing_tool.load_selected_detail_page()
-                        elif event.key == pygame.K_c and pygame.key.get_mods() & pygame.KMOD_CTRL:
-                            pass
-                            #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
-                elif event.type == MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        self.drawing_tool.load_selected_detail_page()
-                    if event.button == 3:
-                        import option_picker
-                        pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                        option_picker.options_menu(self.file_prefix + "options.json").run()
-                        pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                        self.drawing_tool.reset()
-                        self.drawing_tool.load_options()
-                        self.drawing_tool.reflow()
 
-            # Drawing logic
-            clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
+            # Check for events and handle them
+            done = self.drawing_tool.handle_events()
+            self.drawing_tool.tick()
 
             if self.log_not_found:
-                self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt")
+                self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
+                                                "folder inside the isaac folder, next to log.txt")
 
             self.drawing_tool.draw_items()
             self.framecount += 1
