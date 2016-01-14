@@ -33,7 +33,7 @@ class Clicakble(object):
         pass
 
 class DrawingTool(object):
-    def __init__(self, title, tracker_state):
+    def __init__(self, title):
         # FIXME this is the second time I see this, make this global/static
         self.file_prefix = "../"
         self.next_item = (0, 0)
@@ -49,7 +49,7 @@ class DrawingTool(object):
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
         # Reference to IsaacTracker's state
-        self.state = tracker_state
+        self.state = None
         self.clock = None
         self.win_info = None
         self.screen = None
@@ -87,6 +87,8 @@ class DrawingTool(object):
         if platform.system() == "Windows":
             self.win_info = pygameWindowInfo.PygameWindowInfo()
         del os.environ['SDL_VIDEO_WINDOW_POS']
+
+        self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
 
     def tick(self):
         # Drawing logic
@@ -145,9 +147,8 @@ class DrawingTool(object):
         :param current_tracker:
         '''
         current_floor = self.state.last_floor
-        # Drawing Logic
+        # Clear the screen
         self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
-        # clock.tick(int(self.drawing_tool.options[Option.FRAMERATE_LIMIT]))
 
         # 19 pixels is the default line height, but we don't know what the
         # line height is with respect to the user's particular size_multiplier.

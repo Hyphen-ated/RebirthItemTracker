@@ -94,6 +94,10 @@ class Item(object):
         id_padded = item_id.zfill(3)
         return Item.items_info[id_padded]
 
+    @staticmethod
+    def contains_info(item_id):
+        return item_id.zfill(3) in Item.items_info
+
 
 # FIXME a namedtuple is probably enough instead of a class
 class Stat(object): # This is a subset of all available ItemProperty's
