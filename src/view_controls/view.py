@@ -393,8 +393,8 @@ class DrawingTool(object):
         self.text_height = self.write_message("%s%s" % (item.name, desc))
         return True
 
-    def write_message(self, message):
-        return draw_text(
+    def write_message(self, message, flip=False):
+        height = draw_text(
             self.screen,
             message,
             self.color(self.options[Option.TEXT_COLOR]),
@@ -403,6 +403,9 @@ class DrawingTool(object):
             aa=True,
             wrap=self.options[Option.WORD_WRAP]
         )
+        if flip:
+            pygame.display.flip()
+        return height
 
     def draw_selected_box(self, x, y):
         size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])

@@ -66,14 +66,6 @@ class IsaacTracker(object):
 
             # Check for events and handle them
             done = self.drawing_tool.handle_events()
-            self.drawing_tool.tick()
-
-            if not log_found:
-                self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
-                                                "folder inside the isaac folder, next to log.txt")
-
-            self.drawing_tool.draw_items()
-            self.framecount += 1
 
             # Now we re-process the log file to get anything that might have loaded; do it every read_delay seconds (making sure to truncate to an integer or else it might never mod to 0)
             if self.framecount % int(self.drawing_tool.options[Option.FRAMERATE_LIMIT] * self.read_delay) == 0:
@@ -82,6 +74,16 @@ class IsaacTracker(object):
                 if state != None:
                     log_found = True
                 # FIXME extract view update and stuff from parser to here
+
+            if not log_found:
+                self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
+                                                "folder inside the isaac folder, next to log.txt", True)
+            else:
+                self.drawing_tool.draw_items()
+
+            self.drawing_tool.tick()
+            self.framecount += 1
+
 
 # Main
 def main():
