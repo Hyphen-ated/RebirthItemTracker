@@ -10,19 +10,16 @@ from log_parser import LogParser
 from options import Options
 
 
-tracker_log_path = "../tracker_log.txt"
-
 # The main class of the program
 class IsaacTracker(object):
     def __init__(self, logging_level=logging.INFO, read_delay=1):
-        self.framecount       = 0
-        self.read_delay       = read_delay
-        self.drawing_tool     = None
-        self.file_prefix      = "../"
+        self.read_delay = read_delay
+        self.file_prefix = "../"
 
 
         self.log = logging.getLogger("tracker")
-        self.log.addHandler(logging.FileHandler(tracker_log_path))
+        # This will erase our tracker log file from previous runs
+        self.log.addHandler(logging.FileHandler(self.file_prefix + "tracker_log.txt", mode='w'))
         self.log.setLevel(logging_level)
 
         # Load items info
@@ -57,13 +54,12 @@ class IsaacTracker(object):
     def run(self):
 
         update_notifier = self.check_for_update()
+        framecount = 0
 
         # Create drawing tool to use to draw everything - it'll create its own screen
-        # FIXME refactor view so that state is provided to some "render" function
-        # and that we don't set it via parser.state
-        self.drawing_tool = DrawingTool("Rebirth Item Tracker" + update_notifier)
-        parser = LogParser(self.drawing_tool)
-        self.drawing_tool.state = parser.state
+        drawing_tool = DrawingTool("Rebirth Item Tracker" + update_notifier,
+                                        self.file_prefix)
+        parser = LogParser(self.file_prefix)
 
         done = False
         log_found = False
@@ -72,40 +68,36 @@ class IsaacTracker(object):
         while not done:
 
             # Check for events and handle them
-            done = self.drawing_tool.handle_events()
+            done = drawing_tool.handle_events()
 
-            # Now we re-process the log file to get anything that might have loaded; do it every read_delay seconds (making sure to truncate to an integer or else it might never mod to 0)
-            if self.framecount % int(Options().framerate_limit * self.read_delay) == 0:
-                # Let the parser do his thing and tell us what to update
+            # Now we re-process the log file to get anything that might have loaded;
+            # do it every read_delay seconds (making sure to truncate to an integer
+            # or else it might never mod to 0)
+            if framecount % int(Options().framerate_limit * self.read_delay) == 0:
+                # Let the parser do his thing and give us a state
                 state = parser.parse()
                 if state != None:
                     log_found = True
-                # FIXME extract view update and stuff from parser to here
 
             if not log_found:
-                self.drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
+                drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
                                                 "folder inside the isaac folder, next to log.txt", True)
             else:
-                self.drawing_tool.draw_items()
+                drawing_tool.draw_state(state)
 
-            self.drawing_tool.tick()
-            self.framecount += 1
+            drawing_tool.tick()
+            framecount += 1
 
 
 # Main
 def main():
-    # erase our tracker log file from previous runs
-    open(tracker_log_path, 'w').close()
     try:
         # Pass "logging.DEBUG" in debug mode
         rt = IsaacTracker()
         rt.run()
     except Exception:
         import traceback
-        # FIXME restore the traceback to file
-        print traceback.format_exc()
-        # with open(tracker_log_path, "a") as log:
-            # log.write(traceback.format_exc())
+        logging.getLogger("tracker").error(traceback.format_exc())
 
 if __name__ == "__main__":
     main()

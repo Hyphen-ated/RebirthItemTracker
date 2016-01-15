@@ -1,4 +1,4 @@
-# Imports
+""" This module handles everything related to the tracker's window """
 import json
 import os
 import platform # For determining what operating system the script is being run on
@@ -11,7 +11,6 @@ from game_objects.floor import Curse
 from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
 from pygame.locals import RESIZABLE
-# FIXME I don't know what to do with that, I don't use the release script
 #import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Additional pygame imports
@@ -34,9 +33,8 @@ class Clicakble(object):
         pass
 
 class DrawingTool(object):
-    def __init__(self, title):
-        # FIXME this is the second time I see this, make this global/static
-        self.file_prefix = "../"
+    def __init__(self, title, prefix):
+        self.file_prefix = prefix
         self.next_item = (0, 0)
         self.item_position_index = []
         self.drawn_items = []
@@ -49,7 +47,7 @@ class DrawingTool(object):
         self.selected_item_index = None
         self.item_message_start_time = self.framecount
         self.item_pickup_time = self.framecount
-        # Reference to IsaacTracker's state
+        # Reference to the previous state drawn
         self.state = None
         self.clock = None
         self.win_info = None
@@ -57,7 +55,7 @@ class DrawingTool(object):
         self.start_pygame(title)
 
     def start_pygame(self, title):
-        # Initialize pygame system stuff
+        """ Initialize pygame system stuff and draw empty window """
         pygame.init()
         self.reset_options()
         pygame.display.set_caption(title)
@@ -91,11 +89,12 @@ class DrawingTool(object):
         self.screen.fill(DrawingTool.color(opt.background_color))
 
     def tick(self):
-        # Drawing logic
+        """ Tick the clock. """
         self.clock.tick(int(Options().framerate_limit))
 
 
     def handle_events(self):
+        """ Handle any pygame event """
         opt = Options()
         # pygame logic
         for event in pygame.event.get():
@@ -109,18 +108,18 @@ class DrawingTool(object):
                 self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
                 opt.width = event.dict["w"]
                 opt.height = event.dict["h"]
-                self.reflow()
+                self.__reflow()
                 pygame.display.flip()
             elif event.type == MOUSEMOTION:
                 if pygame.mouse.get_focused():
                     pos = pygame.mouse.get_pos()
                     self.select_item_on_hover(*pos)
             elif event.type == KEYDOWN:
-                if len(self.state.item_list) > 0:
+                if len(self.drawn_items) > 0:
                     if event.key == K_RIGHT:
-                        self.adjust_select_item_on_keypress(1)
+                        self.change_item_selected(1)
                     elif event.key == K_LEFT:
-                        self.adjust_select_item_on_keypress(-1)
+                        self.change_item_selected(-1)
                     elif event.key == K_RETURN:
                         self.load_selected_detail_page()
                     elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
@@ -136,15 +135,29 @@ class DrawingTool(object):
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset()
                     self.reset_options()
-                    self.reflow()
+                    self.__reflow()
         return False
 
 
-    def draw_items(self):
-        '''
-        Draws all the items in current_tracker
-        :param current_tracker:
-        '''
+    def draw_state(self, state):
+        """
+        Draws the state
+        :param state:
+        """
+        if self.state != state:
+            self.reset()
+            self.state = state
+        # If items were added, or removed (run restarted) regenerate items
+        if self.state.modified or len(self.drawn_items) < len(self.state.item_list):
+            self.__reflow()
+            # We picked up an item, start the counter
+            self.item_picked_up()
+            overlay = Overlay(self.file_prefix, self.state)
+            overlay.update_seed()
+            if len(self.drawn_items) > 0:
+                overlay.update_stats()
+                overlay.update_last_item_description()
+
         current_floor = self.state.last_floor
         opt = Options()
         # Clear the screen
@@ -195,32 +208,24 @@ class DrawingTool(object):
                     self
                 )
             if not floor_to_draw.is_drawn and opt.show_floors:
-                self.draw(floor_to_draw)
-            self.draw(drawable_item)
+                floor_to_draw.draw()
+            drawable_item.draw()
 
         # Also draw the floor if we hit the end, so the current floor is visible
-        # FIXME investigate the current_floor is not None stuff, as we should always have a b/b1
         if opt.show_floors and floor_to_draw is not None:
             if floor_to_draw.floor != current_floor and current_floor is not None:
                 x, y = self.next_item
-                self.draw(DrawableFloor(current_floor, x, y, self))
+                DrawableFloor(current_floor, x, y, self).draw()
 
+        self.state.drawn()
         pygame.display.flip()
         self.framecount += 1
 
-    def draw(self, drawable):
-        if isinstance(drawable, Drawable):
-            drawable.draw()
-            drawable.is_drawn = True
-
-
-    def reflow(self):
+    def __reflow(self):
         '''
-        Changes the position of the items so they all fit on the screen
-        :param item_collection: Collection of items to display
+        Regenerate the displayed item list
         '''
         opt = Options()
-        item_collection = self.state.item_list
         size_multiplier = opt.size_multiplier * .5
         item_icon_size = int(opt.default_spacing * size_multiplier)
         item_icon_footprint = item_icon_size
@@ -313,10 +318,14 @@ class DrawingTool(object):
                     self.item_message_start_time = self.framecount
                     self.drawn_items[self.selected_item_index].selected = True
 
-    def adjust_select_item_on_keypress(self, adjust_by):
-        # TODO: Rename this method to something better
+    def change_item_selected(self, adjust_by):
+        """
+        Change the item selected in the tracker.
+        If no item is selected yet, select the first one if possible
+        """
         if self.selected_item_index is None:
-            return
+            self.selected_item_index = 0
+            adjust_by = 0
         self.drawn_items[self.selected_item_index].selected = False
         self.selected_item_index += adjust_by
         self.selected_item_index = max(0, min(self.selected_item_index, len(self.drawn_items) - 1))

@@ -15,14 +15,10 @@ class LogParser(object):
     """
     This class load Isaac's log file, and incrementally modify a state representing this log
     """
-    def __init__(self, drawing_tool):
+    def __init__(self, prefix):
         self.state = TrackerState("")
         self.log = logging.getLogger("tracker")
-        # FIXME move this to some common place
-        self.file_prefix = "../"
-        # FIXME this should not be here
-        self.drawing_tool = drawing_tool
-        self.overlay = Overlay(self.file_prefix, self.state)
+        self.file_prefix = prefix
 
         self.game_version = ""
         self.__reset()
@@ -56,27 +52,21 @@ class LogParser(object):
             return None
         self.splitfile = self.content.splitlines()
 
-        should_reflow = False
         self.getting_start_items = False # This will become true if we are getting starting items
 
         # Process log's new output
         for current_line_number, line in enumerate(self.splitfile[self.seek:]):
-            if self.__parse_line(current_line_number, line):
-                should_reflow = True
+            self.__parse_line(current_line_number, line)
 
 
         self.seek = len(self.splitfile)
-        if should_reflow:
-            self.drawing_tool.reflow()
         return self.state
 
 
     def __parse_line(self, line_number, line):
         """
         Parse a line using the (line_number, line) tuple
-        Return true if the tracker should reflow
         """
-        should_reflow = False
         if line.startswith('Mom clear time:'):
             self.__parse_boss(line)
 
@@ -89,8 +79,7 @@ class LogParser(object):
         if line.startswith('Room'):
             self.__parse_room(line)
         if line.startswith('Level::Init'):
-            if self.__parse_floor(line_number, line):
-                should_reflow = True
+            self.__parse_floor(line_number, line)
         if line.startswith("Curse"):
             self.__parse_curse(line)
         if line.startswith("Spawn co-player!"):
@@ -99,9 +88,7 @@ class LogParser(object):
             self.log.debug("Reroll detected!")
             self.state.reroll()
         if line.startswith('Adding collectible'):
-            if self.__parse_item(line_number, line):
-                should_reflow = True
-        return should_reflow
+            self.__parse_item(line_number, line)
 
 
     def __parse_boss(self, line):
@@ -162,11 +149,6 @@ class LogParser(object):
             self.run_start_line = line_number + self.seek
             self.state.reset(self.current_seed)
             self.run_ended = False
-            self.drawing_tool.reset()
-            # Update seed and reset all stats
-            # NOTE we can't update last item description as nothing has been picked up yet
-            self.overlay.update_seed()
-            self.overlay.update_stats()
 
 
         self.state.add_floor(floor_id, (alt == '1'))
@@ -199,15 +181,8 @@ class LogParser(object):
                 and self.state.contains_item(item_id):
             self.log.debug("Skipped duplicate item line from baby entry")
             return False
-        result_tuple = self.state.add_item(item_id, self.getting_start_items)
-        # First element is true if the item has been added
-        if result_tuple[0]:
-            self.overlay.update_stats(result_tuple[1])
-            # NOTE with the current implementation, a spacebar item will
-            # have its description only once
-            self.overlay.update_last_item_description()
-            self.drawing_tool.item_picked_up()
-        else:
+        added = self.state.add_item(item_id, self.getting_start_items)
+        if not added:
             self.log.debug("Skipped adding item %s to avoid space-bar duplicate" % item_id)
         return True
 

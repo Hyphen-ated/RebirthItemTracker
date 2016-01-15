@@ -17,6 +17,9 @@ class TrackerState(object):
         Reset a run to a given string
         This should be enough to enable the GC to clean everything from the previous run
         """
+        # When the tracker state has been restarted, put this to True
+        # The view can then put it to false once it's been rendered
+        self.modified = True
         self.seed = seed
         self.floor_list = []
         self.item_list = []
@@ -57,10 +60,10 @@ class TrackerState(object):
         # Ignore repeated pickups of space bar items
         if not (temp_item.info.space and temp_item in self.item_list):
             self.item_list.append(temp_item)
-            updated_stats = self.__add_stats_for_item(temp_item)
-            return (True, updated_stats)
+            self.__add_stats_for_item(temp_item)
+            return True
         else:
-            return (False, [])
+            return False
 
     @property
     def last_item(self):
@@ -115,18 +118,18 @@ class TrackerState(object):
         else:
             return None
 
+    def drawn(self):
+        self.modified = False
+
 
     def __add_stats_for_item(self, item):
         """
         Update player's stats with the given item.
-        Return a list of updated stats.
         """
         item_info = item.info
-        updated = []
         for stat in ItemInfo.stat_list:
             if not item_info[stat]:
                 continue
-            updated.append(stat)
             change = float(item_info[stat])
             self.player_stats[stat] += change
 
@@ -134,6 +137,4 @@ class TrackerState(object):
         # Can the .get thing be actually false ?!
         if item_info.guppy:
             self.guppy_set.add(item)
-            updated.append("guppy")
-        return updated
 
