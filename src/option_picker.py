@@ -5,13 +5,15 @@ from string import maketrans, lower
 import re
 import ttk
 import pygame.sysfont
+from options import Options
+import logging
 
-class options_menu():
+class OptionsMenu(object):
     """
     These are the standard save and load options functions.
     """
-    def __init__(self, options_path):
-        self.options_path = options_path
+    def __init__(self):
+        self.options = Options()
         # Our 'safe' list of fonts that should work in pygame
         self.fonts = ['Andalus', 'Angsana New', 'AngsanaUPC', 'Arial', 'Arial Black', 'Browallia New', 'BrowalliaUPC',
                       'Comic Sans MS', 'Cordia New', 'CordiaUPC', 'Courier New', 'DFKai-SB', 'David', 'DilleniaUPC',
@@ -32,29 +34,21 @@ class options_menu():
             for index in to_delete[::-1]:
                 del self.fonts[index]
         except:
-            print "There may have been an error detecting system fonts."
+            log = logging.getLogger("tracker")
+            log.error("There may have been an error detecting system fonts.")
             import traceback
-            traceback.print_exc()
+            log.error(traceback.print_exc())
 
-    def load_options(self):
-        with open(self.options_path, "r") as json_file:
-            options = json.load(json_file)
-        return options
-
-
-    def save_options(self, options):
-        with open(self.options_path, "w") as json_file:
-            json.dump(options, json_file, indent=3, sort_keys=True)
 
     """
     Callbacks
     """
     def color_callback(self, source):
         # Prompt a color picker, set the options and the background/foreground of the button
-        nums, hex_color = askcolor(color=self.options.get(source), title="Color Chooser")
+        nums, hex_color = askcolor(color=getattr(self.options, source), title="Color Chooser")
         if hex_color:
             opposite = self.opposite_color(hex_color)
-            self.options[source] = hex_color.upper()
+            setattr(self.options, source, hex_color.upper())
             self.buttons[source].configure(bg=hex_color, fg=opposite)
 
     def checkbox_callback(self):
@@ -69,19 +63,18 @@ class options_menu():
         for key, value in self.entries.iteritems():
             if key in self.integer_keys:
                 # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
-                self.options[key] = int(float(value.get()))
+                setattr(self.options, key, int(float(value.get())))
             elif key in self.float_keys:
-                self.options[key] = float(value.get())
+                setattr(self.options, key, float(value.get()))
             else:
-                self.options[key] = value.get()
+                setattr(self.options, key, value.get())
         for key, value in self.checks.iteritems():
-            self.options[key] = True if value.get() else False
-        self.save_options(self.options)
+            setattr(self.options, key, True if value.get() else False)
         self.root.destroy()
 
 
     # Taken from http://code.activestate.com/recipes/527747-invert-css-hex-colors/
-    def opposite_color(self,color):
+    def opposite_color(self, color):
         # Get the opposite color of a hex color, just to make text on buttons readable
         color = color.lower()
         table = maketrans('0123456789abcdef', 'fedcba9876543210')
@@ -97,8 +90,7 @@ class options_menu():
         return P == "" or re.search("^\d+(\.\d*)?$", P) is not None
 
     def run(self):
-        # Load options, create root
-        self.options = self.load_options()
+        # Create root
         self.root = Tk()
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
@@ -113,13 +105,13 @@ class options_menu():
             Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
             self.entries[opt] = Entry(self.root, validate="key", validatecommand=vcmd)
             self.entries[opt].grid(row=nextrow, column=1)
-            self.entries[opt].insert(0, self.options.get(opt))
+            self.entries[opt].insert(0, getattr(self.options, opt))
             nextrow += 1
 
         for index, opt in enumerate(["show_font"]):
             Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
             initialvar = StringVar()
-            initialvar.set(self.options.get(opt))
+            initialvar.set(getattr(self.options, opt))
             self.entries[opt] = ttk.Combobox(self.root, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
             self.entries[opt].grid(row=nextrow, column=1)
             nextrow += 1
@@ -129,7 +121,7 @@ class options_menu():
             Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
             self.entries[opt] = Entry(self.root)
             self.entries[opt].grid(row=nextrow, column=1)
-            self.entries[opt].insert(0, self.options.get(opt))
+            self.entries[opt].insert(0, getattr(self.options, opt))
             nextrow += 1
 
         # Generate buttons by looping over option types
@@ -138,8 +130,8 @@ class options_menu():
             self.buttons[opt] = Button(
                 self.root,
                 text=self.pretty_name(opt),
-                bg=self.options.get(opt),
-                fg=self.opposite_color(self.options.get(opt)),
+                bg=getattr(self.options, opt),
+                fg=self.opposite_color(getattr(self.options, opt)),
                 command=lambda opt=opt: self.color_callback(opt)
             )
             self.buttons[opt].grid(row=len(self.entries), column=index)
@@ -152,13 +144,13 @@ class options_menu():
             self.checks[opt] = IntVar()
             c = Checkbutton(self.root, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
-            if self.options.get(opt):
+            if getattr(self.options, opt):
                 c.select()
 
             # Disable letting the user set the message duration if the show description option is disabled.
             if opt == "show_description":
                 c.configure(command=self.checkbox_callback)
-                if not self.options.get("show_description"):
+                if not self.options.show_description:
                     self.entries["message_duration"].configure(state=DISABLED)
 
         # Save and cancel buttons
@@ -178,5 +170,3 @@ class options_menu():
         # Start the main loop
         mainloop()
 
-if __name__ == '__main__':
-    options_menu("../options.json").run()

@@ -4,9 +4,10 @@ import urllib2  # For checking for updates to the item tracker
 import logging  # For logging
 
 # Import item tracker specific code
-from view_controls.view import DrawingTool, Option
+from view_controls.view import DrawingTool
 from game_objects.item  import Item
 from log_parser import LogParser
+from options import Options
 
 
 tracker_log_path = "../tracker_log.txt"
@@ -27,6 +28,12 @@ class IsaacTracker(object):
         # Load items info
         with open(self.file_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
+        # Load options
+        Options().load_options(self.file_prefix + "options.json")
+
+    def __del__(self):
+        Options().save_options(self.file_prefix + "options.json")
+
 
 
 
@@ -68,7 +75,7 @@ class IsaacTracker(object):
             done = self.drawing_tool.handle_events()
 
             # Now we re-process the log file to get anything that might have loaded; do it every read_delay seconds (making sure to truncate to an integer or else it might never mod to 0)
-            if self.framecount % int(self.drawing_tool.options[Option.FRAMERATE_LIMIT] * self.read_delay) == 0:
+            if self.framecount % int(Options().framerate_limit * self.read_delay) == 0:
                 # Let the parser do his thing and tell us what to update
                 state = parser.parse()
                 if state != None:

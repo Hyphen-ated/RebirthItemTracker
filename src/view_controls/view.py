@@ -6,6 +6,7 @@ import pygame   # This is the main graphics library used for the item tracker
 import webbrowser
 import string
 from collections import defaultdict
+from options import Options
 from game_objects.floor import Curse
 from game_objects.item import ItemProperty, Stat
 from view_controls.overlay import Overlay
@@ -58,15 +59,16 @@ class DrawingTool(object):
     def start_pygame(self, title):
         # Initialize pygame system stuff
         pygame.init()
-        self.load_options()
+        self.reset_options()
         pygame.display.set_caption(title)
         pygame.display.set_icon(self.get_image("collectibles_333.png"))
         self.clock = pygame.time.Clock()
 
 
+        opt = Options()
         # figure out where we should put our window.
-        xpos = self.options[Option.X_POSITION]
-        ypos = self.options[Option.Y_POSITION]
+        xpos = opt.x_position
+        ypos = opt.y_position
         # it can go negative when weird problems happen, so put it in a default location in that case
         if xpos < 0:
             xpos = 100
@@ -76,10 +78,8 @@ class DrawingTool(object):
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (xpos, ypos)
 
         if self.screen is None: # If screen is none, we make our own
-            self.screen = pygame.display.set_mode((self.options[Option.WIDTH],
-                                                   self.options[Option.HEIGHT]),
-                                                  RESIZABLE)
-        if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
+            self.screen = pygame.display.set_mode((opt.width, opt.height), RESIZABLE)
+        if opt.show_description or opt.show_custom_message:
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
@@ -88,28 +88,27 @@ class DrawingTool(object):
             self.win_info = pygameWindowInfo.PygameWindowInfo()
         del os.environ['SDL_VIDEO_WINDOW_POS']
 
-        self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
+        self.screen.fill(DrawingTool.color(opt.background_color))
 
     def tick(self):
         # Drawing logic
-        self.clock.tick(int(self.options[Option.FRAMERATE_LIMIT]))
+        self.clock.tick(int(Options().framerate_limit))
 
 
     def handle_events(self):
+        opt = Options()
         # pygame logic
         for event in pygame.event.get():
             if event.type == QUIT:
                 if platform.system() == "Windows":
                     win_pos = self.win_info.getScreenPosition()
-                    self.options[Option.X_POSITION] = win_pos["left"]
-                    self.options[Option.Y_POSITION] = win_pos["top"]
-                    self.save_options()
+                    opt.x_position = win_pos["left"]
+                    opt.y_position = win_pos["top"]
                 return True
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
-                self.options[Option.WIDTH] = event.dict["w"]
-                self.options[Option.HEIGHT] = event.dict["h"]
-                self.save_options()
+                opt.width = event.dict["w"]
+                opt.height = event.dict["h"]
                 self.reflow()
                 pygame.display.flip()
             elif event.type == MOUSEMOTION:
@@ -133,10 +132,10 @@ class DrawingTool(object):
                 if event.button == 3:
                     import option_picker
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                    option_picker.options_menu(self.file_prefix + "options.json").run()
+                    option_picker.OptionsMenu().run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset()
-                    self.load_options()
+                    self.reset_options()
                     self.reflow()
         return False
 
@@ -147,23 +146,24 @@ class DrawingTool(object):
         :param current_tracker:
         '''
         current_floor = self.state.last_floor
+        opt = Options()
         # Clear the screen
-        self.screen.fill(DrawingTool.color(self.options[Option.BACKGROUND_COLOR]))
+        self.screen.fill(DrawingTool.color(opt.background_color))
 
         # 19 pixels is the default line height, but we don't know what the
         # line height is with respect to the user's particular size_multiplier.
         # Thus, we can just draw a single space to ensure that the spacing is consistent
         # whether text happens to be showing or not.
-        if self.options[Option.SHOW_DESCRIPTION] or self.options[Option.SHOW_CUSTOM_MESSAGE]:
+        if opt.show_description or opt.show_custom_message:
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
 
         # Draw item pickup text, if applicable
         text_written = False
-        if self.options[Option.SHOW_DESCRIPTION] and self.item_message_countdown_in_progress():
+        if opt.show_description and self.item_message_countdown_in_progress():
             text_written = self.write_item_text()
-        if not text_written and self.options[Option.SHOW_CUSTOM_MESSAGE]:
+        if not text_written and opt.show_custom_message:
             # Draw seed/guppy text:
             seed = self.state.seed
 
@@ -177,7 +177,7 @@ class DrawingTool(object):
             # Use vformat to handle the case where the user adds an
             # undefined placeholder in default_message
             message = string.Formatter().vformat(
-                self.options[Option.CUSTOM_MESSAGE],
+                opt.custom_message,
                 (),
                 dic
             )
@@ -194,13 +194,13 @@ class DrawingTool(object):
                     drawable_item.y,
                     self
                 )
-            if not floor_to_draw.is_drawn and self.options[Option.SHOW_FLOORS]:
+            if not floor_to_draw.is_drawn and opt.show_floors:
                 self.draw(floor_to_draw)
             self.draw(drawable_item)
 
         # Also draw the floor if we hit the end, so the current floor is visible
         # FIXME investigate the current_floor is not None stuff, as we should always have a b/b1
-        if self.options[Option.SHOW_FLOORS] and floor_to_draw is not None:
+        if opt.show_floors and floor_to_draw is not None:
             if floor_to_draw.floor != current_floor and current_floor is not None:
                 x, y = self.next_item
                 self.draw(DrawableFloor(current_floor, x, y, self))
@@ -213,37 +213,21 @@ class DrawingTool(object):
             drawable.draw()
             drawable.is_drawn = True
 
-    def load_options(self):
-        with open(self.file_prefix + "options.json", "r") as json_file:
-            self.options = json.load(json_file)
-
-        size_multiplier = int(8 * self.options[Option.SIZE_MULTIPLIER])
-
-        # Anything that gets calculated and cached based on something in options
-        # now needs to be flushed
-        self.text_margin_size = size_multiplier
-        self.font = pygame.font.SysFont(
-            self.options[Option.SHOW_FONT],
-            size_multiplier,
-            bold=self.options[Option.BOLD_FONT]
-        )
-        self._image_library = {}
-        self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
-        self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
 
     def reflow(self):
         '''
         Changes the position of the items so they all fit on the screen
         :param item_collection: Collection of items to display
         '''
+        opt = Options()
         item_collection = self.state.item_list
-        size_multiplier = self.options[Option.SIZE_MULTIPLIER] * .5
-        item_icon_size = int(self.options[Option.DEFAULT_SPACING] * size_multiplier)
+        size_multiplier = opt.size_multiplier * .5
+        item_icon_size = int(opt.default_spacing * size_multiplier)
         item_icon_footprint = item_icon_size
         result = self.try_layout(item_icon_footprint, item_icon_size, False)
         while result is None:
             item_icon_footprint -= 1
-            if (item_icon_footprint < self.options[Option.MIN_SPACING] or
+            if (item_icon_footprint < opt.min_spacing or
                     item_icon_footprint < 4):
                 result = self.try_layout(item_icon_footprint, item_icon_size,
                                          True)
@@ -259,7 +243,8 @@ class DrawingTool(object):
         cur_row = 0
         cur_column = 0
         vert_padding = 0
-        if self.options[Option.SHOW_FLOORS]:
+        opt = Options()
+        if opt.show_floors:
             vert_padding = self.text_margin_size
         collected_items = self.state.item_list
         for item in collected_items:
@@ -274,12 +259,12 @@ class DrawingTool(object):
             if new_drawable.shown():
                 # Check to see if we are about to go off the right edge
                 cur_column += 1
-                size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
+                size_multiplier = 32 * opt.size_multiplier
                 new_width = icon_footprint * cur_column + size_multiplier
                 new_height = (self.text_height + (icon_footprint + vert_padding) * (cur_row + 1)
                               + icon_size + vert_padding)
-                if new_width > self.options[Option.WIDTH]:
-                    if (not force_layout) and new_height > self.options[Option.HEIGHT]:
+                if new_width > opt.width:
+                    if (not force_layout) and new_height > opt.height:
                         return None
                     cur_row += 1
                     cur_column = 0
@@ -298,12 +283,13 @@ class DrawingTool(object):
         with references to the index items where appropriate so we can show
         select boxes on hover
         '''
-        w = self.options[Option.WIDTH]
-        h = self.options[Option.HEIGHT]
+        opt = Options()
+        w = opt.width
+        h = opt.height
         # 2d array of size h, w
         self.item_position_index = [[None for x in xrange(w)] for y in xrange(h)]
         num_displayed_items = 0
-        size_multiplier = 32 * self.options[Option.SIZE_MULTIPLIER]
+        size_multiplier = 32 * opt.size_multiplier
         for item in self.drawn_items:
             if item.shown():
                 for y in range(int(item.y), int(item.y + size_multiplier)):
@@ -350,7 +336,7 @@ class DrawingTool(object):
             path = self.file_prefix + "/collectibles/" + imagename
             canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
             image = pygame.image.load(canonicalized_path)
-            size_multiplier = self.options[Option.SIZE_MULTIPLIER]
+            size_multiplier = Options().size_multiplier
             scaled_image = pygame.transform.scale(image, (
                 int(image.get_size()[0] * size_multiplier),
                 int(image.get_size()[1] * size_multiplier)))
@@ -358,14 +344,7 @@ class DrawingTool(object):
         return image
 
     def get_message_duration(self):
-        return self.options[Option.MESSAGE_DURATION] * self.options[Option.FRAMERATE_LIMIT]
-
-    def save_options(self):
-        '''
-        Saves current options for display
-        '''
-        with open(self.file_prefix + "options.json", "w") as json_file:
-            json.dump(self.options, json_file, indent=3, sort_keys=True)
+        return Options().message_duration * Options().framerate_limit
 
     def item_message_countdown_in_progress(self):
         return self.item_message_start_time + self.get_message_duration() > self.framecount
@@ -394,24 +373,25 @@ class DrawingTool(object):
         return True
 
     def write_message(self, message, flip=False):
+        opt = Options()
         height = draw_text(
             self.screen,
             message,
-            self.color(self.options[Option.TEXT_COLOR]),
-            pygame.Rect(2, 2, self.options[Option.WIDTH] - 2, self.options[Option.HEIGHT] - 2),
+            self.color(opt.text_color),
+            pygame.Rect(2, 2, opt.width - 2, opt.height - 2),
             self.font,
             aa=True,
-            wrap=self.options[Option.WORD_WRAP]
+            wrap=opt.word_wrap
         )
         if flip:
             pygame.display.flip()
         return height
 
     def draw_selected_box(self, x, y):
-        size_multiplier = int(32 * self.options[Option.SIZE_MULTIPLIER])
+        size_multiplier = int(32 * Options().size_multiplier)
         pygame.draw.rect(
             self.screen,
-            DrawingTool.color(self.options[Option.TEXT_COLOR]),
+            DrawingTool.color(Options().text_color),
             (x, y, size_multiplier, size_multiplier),
             2
         )
@@ -423,6 +403,23 @@ class DrawingTool(object):
     @staticmethod
     def id_to_image(id):
         return 'collectibles_%s.png' % id.zfill(3)
+
+    def reset_options(self):
+        """ Reset state variables affected by options """
+        opt = Options()
+        size_multiplier = int(8 * opt.size_multiplier)
+
+        # Anything that gets calculated and cached based on something in options
+        # now needs to be flushed
+        self.text_margin_size = size_multiplier
+        self.font = pygame.font.SysFont(
+            opt.show_font,
+            size_multiplier,
+            bold=opt.bold_font
+        )
+        self._image_library = {}
+        self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
+        self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
 
     def reset(self):
         self.selected_item_index = None
@@ -441,7 +438,7 @@ class DrawableItem(Drawable):
             icons, the floor it was found on was a blind floor AND
             it's not one of our starting items
         """
-        return self.tool.options[Option.SHOW_BLIND_ICON] and \
+        return Options().show_blind_icon and \
             self.item.floor.floor_has_curse(Curse.Blind) and \
             not self.item.starting_item
 
@@ -454,18 +451,19 @@ class DrawableItem(Drawable):
                 4. We are rerolled AND we want to see rerolls
                 5. We are a spacebar AND we want to see spacebars
         """
+        opt = Options()
         if not self.item.info.get(ItemProperty.SHOWN, False):
             return False
         elif self.item.info.get(ItemProperty.GUPPY, False):
             return True
         elif self.item.info.get(ItemProperty.HEALTH_ONLY, False) and \
-            not self.tool.options[Option.SHOW_HEALTH_UPS]:
+                not opt.show_health_ups:
             return False
         elif self.item.info.get(ItemProperty.SPACE, False) and \
-             not self.tool.options[Option.SHOW_SPACE_ITEMS]:
+                not opt.show_space_items:
             return False
         elif self.item.was_rerolled and \
-              not self.tool.options[Option.SHOW_REROLLED_ITEMS]:
+                not opt.show_rerolled_items:
             return False
         return True
 
@@ -479,14 +477,14 @@ class DrawableItem(Drawable):
         if self.show_blind_icon():
             self.tool.screen.blit(
                 self.tool.blind_icon,
-                (self.x, self.y + self.tool.options[Option.SIZE_MULTIPLIER] * 12)
+                (self.x, self.y + Options().size_multiplier * 12)
             )
         # If we're selected, draw a box to highlight us
         if self.selected:
             self.tool.draw_selected_box(self.x, self.y)
 
     def load_detail_page(self):
-        url = self.tool.options[Option.ITEM_DETAILS_LINK]
+        url = Options().item_details_link
         if not url:
             return
         url = url.replace("$ID", self.item.item_id)
@@ -499,8 +497,8 @@ class DrawableFloor(Drawable):
         self.is_drawn = False
 
     def draw(self):
-        text_color = DrawingTool.color(self.tool.options[Option.TEXT_COLOR])
-        size_multiplier = self.tool.options[Option.SIZE_MULTIPLIER]
+        text_color = DrawingTool.color(Options().text_color)
+        size_multiplier = Options().size_multiplier
         pygame.draw.lines(
             self.tool.screen,
             text_color,
@@ -512,36 +510,6 @@ class DrawableFloor(Drawable):
         image = self.tool.font.render(self.floor.name(), True, text_color)
         self.tool.screen.blit(image, (self.x + 4, self.y - self.tool.text_margin_size))
 
-#FIXME shouldn't this be in the options ?
-# Keys to the options dict
-class Option(object):
-    X_POSITION       = "x_position"
-    Y_POSITION       = "y_position"
-    WIDTH            = "width"
-    HEIGHT           = "height"
-    BACKGROUND_COLOR = "background_color"
-    FRAMERATE_LIMIT  = "framerate_limit"
-
-    SIZE_MULTIPLIER = "size_multiplier"
-    DEFAULT_SPACING = "default_spacing"
-    MIN_SPACING     = "min_spacing"
-
-    SHOW_FONT  = "show_font"
-    BOLD_FONT  = "bold_font"
-    TEXT_COLOR = "text_color"
-    WORD_WRAP  = "word_wrap"
-
-    SHOW_FLOORS         = "show_floors"
-    SHOW_HEALTH_UPS     = "show_health_ups"
-    SHOW_SPACE_ITEMS    = "show_space_items"
-    SHOW_REROLLED_ITEMS = "show_rerolled_items"
-    SHOW_BLIND_ICON     = "show_blind_icon"
-    SHOW_DESCRIPTION    = "show_description"
-
-    SHOW_CUSTOM_MESSAGE = "show_custom_message"
-    MESSAGE_DURATION    = "message_duration"
-    CUSTOM_MESSAGE      = "custom_message"
-    ITEM_DETAILS_LINK   = "item_details_link"
 
 # Taken from pygame_helpers.py
 def draw_text(surface, text, color, rect, font, aa=False, bkg=None, wrap=False):
