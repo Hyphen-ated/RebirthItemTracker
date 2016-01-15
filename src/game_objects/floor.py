@@ -33,8 +33,8 @@ class Floor(object):
         }
 
     def __init__(self, floor_id, is_alternate, curse=Curse.No_Curse):
-        self.floor_id     = floor_id
-        self.curse        = curse
+        self.floor_id = floor_id
+        self.curse = curse
         self.is_alt_floor = is_alternate
 
     def add_curse(self, curse):

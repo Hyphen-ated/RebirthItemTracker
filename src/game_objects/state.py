@@ -119,6 +119,7 @@ class TrackerState(object):
             return None
 
     def drawn(self):
+        """ Tag this state as rendered """
         self.modified = False
 
 

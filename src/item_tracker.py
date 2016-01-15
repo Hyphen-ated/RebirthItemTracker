@@ -1,4 +1,4 @@
-# Imports
+""" This module handles everything related to the tracker behaviour. """
 import json     # For importing the items and options
 import urllib2  # For checking for updates to the item tracker
 import logging  # For logging
@@ -10,8 +10,8 @@ from log_parser import LogParser
 from options import Options
 
 
-# The main class of the program
 class IsaacTracker(object):
+    """ The main class of the program """
     def __init__(self, logging_level=logging.INFO, read_delay=1):
         self.read_delay = read_delay
         self.file_prefix = "../"
@@ -34,10 +34,11 @@ class IsaacTracker(object):
 
 
 
-    # Returns text to put in the title bar
     def check_for_update(self):
+        """ Returns text to put in the title bar """
         try:
-            github_info_json = urllib2.urlopen("https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest").read()
+            latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest"
+            github_info_json = urllib2.urlopen(latest).read()
             info = json.loads(github_info_json)
             latest_version = info["name"]
 
@@ -52,18 +53,18 @@ class IsaacTracker(object):
         return ""
 
     def run(self):
+        """ The main routine which controls everything """
 
         update_notifier = self.check_for_update()
         framecount = 0
 
         # Create drawing tool to use to draw everything - it'll create its own screen
         drawing_tool = DrawingTool("Rebirth Item Tracker" + update_notifier,
-                                        self.file_prefix)
+                                   self.file_prefix)
         parser = LogParser(self.file_prefix)
 
         done = False
         log_found = False
-
 
         while not done:
 
@@ -81,7 +82,7 @@ class IsaacTracker(object):
 
             if not log_found:
                 drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
-                                                "folder inside the isaac folder, next to log.txt", True)
+                                           "folder inside the isaac folder, next to log.txt", True)
             else:
                 drawing_tool.draw_state(state)
 
@@ -89,8 +90,8 @@ class IsaacTracker(object):
             framecount += 1
 
 
-# Main
 def main():
+    """ Main """
     try:
         # Pass "logging.DEBUG" in debug mode
         rt = IsaacTracker()

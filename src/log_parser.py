@@ -9,7 +9,6 @@ import zipfile  # For compressing the log files of past runs
 from game_objects.item  import Item
 from game_objects.floor import Curse
 from game_objects.state  import TrackerState
-from view_controls.overlay import Overlay
 
 class LogParser(object):
     """
@@ -110,7 +109,7 @@ class LogParser(object):
         self.current_room = re.search(r'\((.*)\)', line).group(1)
         if 'Start Room' not in line:
             self.getting_start_items = False
-        self.log.debug("Entered room: %s" % self.current_room)
+        self.log.debug("Entered room: %s", self.current_room)
 
     def __parse_floor(self, line_number, line):
         """ Parse the floor in line and push it to the state """
@@ -145,7 +144,7 @@ class LogParser(object):
 
         # when we see a new floor 1, that means a new run has started
         if floor == 1:
-            self.log.debug("Starting new run, seed: %s" % self.current_seed)
+            self.log.debug("Starting new run, seed: %s", self.current_seed)
             self.run_start_line = line_number + self.seek
             self.state.reset(self.current_seed)
             self.run_ended = False
@@ -176,14 +175,14 @@ class LogParser(object):
             item_id = "NEW"
 
         item_name = " ".join(space_split[3:])[1:-1]
-        self.log.debug("Picked up item. id: %s, name: %s" % (item_id, item_name))
+        self.log.debug("Picked up item. id: %s, name: %s", item_id, item_name)
         if ((line_number + self.seek) - self.spawned_coop_baby) < (len(self.state.item_list) + 10) \
                 and self.state.contains_item(item_id):
             self.log.debug("Skipped duplicate item line from baby entry")
             return False
         added = self.state.add_item(item_id, self.getting_start_items)
         if not added:
-            self.log.debug("Skipped adding item %s to avoid space-bar duplicate" % item_id)
+            self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
         return True
 
     def __load_log_file(self):
@@ -250,7 +249,7 @@ class LogParser(object):
                     "end_type": end_type
                 }
                 self.run_ended = True
-                self.log.debug("End of Run! %s" % last_run)
+                self.log.debug("End of Run! %s", last_run)
                 if end_type != "Reset":
                     self.__save_file(self.run_start_line, line_number, last_run)
 
