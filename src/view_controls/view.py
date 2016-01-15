@@ -8,7 +8,7 @@ import string
 from collections import defaultdict
 from options import Options
 from game_objects.floor import Curse
-from game_objects.item import ItemProperty, Stat
+from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
 from pygame.locals import RESIZABLE
 # FIXME I don't know what to do with that, I don't use the release script
@@ -170,9 +170,9 @@ class DrawingTool(object):
             dic = defaultdict(str, seed=seed)
             # Update this dic with player stats
 
-            for stat in Stat.LIST:
+            for stat in ItemInfo.stat_list:
                 dic[stat] = Overlay.format_value(self.state.player_stats[stat])
-            dic[Stat.IS_GUPPY] = Overlay.format_guppy(self.state.guppy_set)
+            dic["guppy"] = Overlay.format_guppy(self.state.guppy_set)
 
             # Use vformat to handle the case where the user adds an
             # undefined placeholder in default_message
@@ -452,14 +452,14 @@ class DrawableItem(Drawable):
                 5. We are a spacebar AND we want to see spacebars
         """
         opt = Options()
-        if not self.item.info.get(ItemProperty.SHOWN, False):
+        if not self.item.info.shown:
             return False
-        elif self.item.info.get(ItemProperty.GUPPY, False):
+        elif self.item.info.guppy:
             return True
-        elif self.item.info.get(ItemProperty.HEALTH_ONLY, False) and \
+        elif self.item.info.health_only and \
                 not opt.show_health_ups:
             return False
-        elif self.item.info.get(ItemProperty.SPACE, False) and \
+        elif self.item.info.space and \
                 not opt.show_space_items:
             return False
         elif self.item.was_rerolled and \

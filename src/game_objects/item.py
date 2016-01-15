@@ -8,41 +8,43 @@ class Item(object):
     items_info = {}
 
     def __init__(self, item_id, floor, starting_item):
-        self.item_id       = item_id
-        self.floor         = floor # The floor the item was found on
-        self.was_rerolled  = False
+        self.item_id = item_id
+        # The floor the item was found on
+        self.floor = floor
+        # Was this item rerolled ?
+        self.was_rerolled = False
         # Is this a starting item ?
         self.starting_item = starting_item
-        # This shouldn't be serialized
-        self.info          = Item.get_item_info(item_id)
+        # ItemInfo for the current item
+        self.info = Item.get_item_info(item_id)
 
     def rerolled(self):
         """Mark the item as rerolled"""
         # Spacebar items can't be re-rolled by a D4, dice room, etc.
-        if not self.info.get(ItemProperty.SPACE, False):
+        if not self.info.space:
             self.was_rerolled = True
 
     @property
     def name(self):
         """ Return Item's name"""
-        return self.info[ItemProperty.NAME]
+        return self.info.name
 
     def generate_item_description(self):
         """ Generate the item description from its stat"""
-        desc        = ""
-        text        = self.info.get("text")
-        dmg         = self.info.get(Stat.DMG)
-        dmg_x       = self.info.get(Stat.DMG_X)
-        delay       = self.info.get(Stat.DELAY)
-        delay_x     = self.info.get(Stat.DELAY_X)
-        health      = self.info.get(Stat.HEALTH)
-        speed       = self.info.get(Stat.SPEED)
-        shot_speed  = self.info.get(Stat.SHOT_SPEED)
-        tear_range  = self.info.get(Stat.TEAR_RANGE)
-        height      = self.info.get(Stat.HEIGHT)
-        tears       = self.info.get(Stat.TEARS)
-        soul_hearts = self.info.get(Stat.SOUL_HEARTS)
-        sin_hearts  = self.info.get(Stat.SIN_HEARTS)
+        desc = ""
+        text = self.info.text
+        dmg = self.info.dmg
+        dmg_x = self.info.dmg_x
+        delay = self.info.delay
+        delay_x = self.info.delay_x
+        health = self.info.health
+        speed = self.info.speed
+        shot_speed = self.info.shot_speed
+        tear_range = self.info.range
+        height = self.info.height
+        tears = self.info.tears
+        soul_hearts = self.info.soul_hearts
+        sin_hearts = self.info.sin_hearts
         if dmg:
             desc += dmg + " dmg, "
         if dmg_x:
@@ -75,12 +77,12 @@ class Item(object):
             desc = ": " + desc
         return desc
 
-    def __eq__(self,other):
+    def __eq__(self, other):
         if not isinstance(other, Item):
             return False
         return other is not None and self.item_id == other.item_id
 
-    def __ne__(self,other):
+    def __ne__(self, other):
         if not isinstance(other, Item):
             return True
         return other is None or self.item_id != other.item_id
@@ -92,40 +94,53 @@ class Item(object):
     def get_item_info(item_id):
         """Pad the id and look for its informations in the loaded dictionary"""
         id_padded = item_id.zfill(3)
-        return Item.items_info[id_padded]
+        return ItemInfo(Item.items_info[id_padded])
 
     @staticmethod
     def contains_info(item_id):
+        """ Return true if this item exists in items_info """
         return item_id.zfill(3) in Item.items_info
 
+class ItemInfo(dict):
+    """
+    dict wrapper for item infos.
+    Properties and stats can be accessed using instance.my_stat, if it does not
+    exist, None is returned.
 
-# FIXME a namedtuple is probably enough instead of a class
-class Stat(object): # This is a subset of all available ItemProperty's
-    """ Player stat constants (keys to player_stats and player_stats_display)"""
-    DMG         = "dmg"
-    DMG_X       = "dmg_x"
-    DELAY       = "delay"
-    DELAY_X     = "delay_x"
-    HEALTH      = "health"
-    SPEED       = "speed"
-    SHOT_SPEED  = "shot_speed"
-    TEAR_RANGE  = "range"
-    HEIGHT      = "height"
-    TEARS       = "tears"
-    SOUL_HEARTS = "soul_hearts"
-    SIN_HEARTS  = "sin_hearts"
-    IS_GUPPY    = "guppy"
-    LIST        = [DMG, DELAY, SPEED, SHOT_SPEED, TEAR_RANGE, HEIGHT, TEARS] # Used for init and reset - does not have all stats yet
+    Here is a list of properties that may be available :
+        Stats :
+        - dmg
+        - dmg_x
+        - delay
+        - delay_x
+        - health
+        - speed
+        - shot_speed
+        - range
+        - height
+        - tears
+        - soul_hearts
+        - sin_hearts
+        Properties
+        - guppy
+        - name
+        - shown
+        - space
+        - health_only
+        - in_summary
+        - summary_name
+        # An item that needs to be present for this item to be mentioned in the summary;
+        # can only be one item right now
+        - summary_condition
+    """
+    stat_list = ["dmg", "delay", "speed", "shot_speed", "range", "height", "tears"]
+    def __init__(self, values):
+        super(ItemInfo, self).__init__(values)
+        self.__dict__ = self
 
-class ItemProperty(object):
-    """ Properties that items from items.json can have (these can have any stat)"""
-    NAME              = "name"
-    SHOWN             = "shown"
-    GUPPY             = "guppy"
-    SPACE             = "space"
-    HEALTH_ONLY       = "health_only"
-    IN_SUMMARY        = "in_summary"
-    SUMMARY_NAME      = "summary_name"
-    # An item that needs to be present for this item to be mentioned in the summary;
-    # can only be one item right now
-    SUMMARY_CONDITION = "summary_condition"
+    def __getattr__(self, name):
+        return None
+
+    def __missing__(self, name):
+        return self.__getattr__(name)
+

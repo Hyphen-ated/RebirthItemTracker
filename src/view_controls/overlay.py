@@ -2,7 +2,7 @@
 This module deals with everything related to the overlay text generated,
 as well as formating how to display stats
 """
-from game_objects.item  import Stat, ItemProperty
+from game_objects.item  import ItemInfo
 
 class Overlay(object):
     """The main class to handle output to overlay text files"""
@@ -41,10 +41,10 @@ class Overlay(object):
         stat_list provide the subset of stats to update, if None it will update everything
         """
         if stat_list == None:
-            stat_list = Stat.LIST + [Stat.IS_GUPPY]
+            stat_list = ItemInfo.stat_list + ["guppy"]
         for stat in stat_list:
             display = ""
-            if stat == Stat.IS_GUPPY:
+            if stat == "guppy":
                 display = Overlay.format_guppy(self.state.guppy_set)
             else:
                 display = Overlay.format_value(self.state.player_stats[stat])
@@ -54,7 +54,7 @@ class Overlay(object):
     def update_last_item_description(self):
         """Update the overlay file for item pickup description"""
         item = self.state.last_item
-        desc = item.info[ItemProperty.NAME]
+        desc = item.info.name
         desc += ": " + item.generate_item_description()
         with open(self.prefix + "overlay text/itemInfo.txt", "w+") as sfile:
             sfile.write(desc)

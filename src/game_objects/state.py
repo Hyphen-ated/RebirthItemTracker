@@ -1,6 +1,6 @@
 """This module handles anything related to the item tracker's state"""
 import logging
-from game_objects.item  import Item, Stat, ItemProperty
+from game_objects.item  import Item, ItemInfo
 from game_objects.floor import Floor
 
 class TrackerState(object):
@@ -24,7 +24,7 @@ class TrackerState(object):
         # NOTE do not serialize that
         self.player_stats = {}
         self.guppy_set = set()
-        for stat in Stat.LIST:
+        for stat in ItemInfo.stat_list:
             self.player_stats[stat] = 0.0
 
     def add_floor(self, floor, is_alternate):
@@ -55,7 +55,7 @@ class TrackerState(object):
         temp_item = Item(item_id, current_floor, is_starting_item)
 
         # Ignore repeated pickups of space bar items
-        if not (temp_item.info.get(ItemProperty.SPACE, False) and temp_item in self.item_list):
+        if not (temp_item.info.space and temp_item in self.item_list):
             self.item_list.append(temp_item)
             updated_stats = self.__add_stats_for_item(temp_item)
             return (True, updated_stats)
@@ -123,17 +123,17 @@ class TrackerState(object):
         """
         item_info = item.info
         updated = []
-        for stat in Stat.LIST:
-            if stat not in item_info:
+        for stat in ItemInfo.stat_list:
+            if not item_info[stat]:
                 continue
             updated.append(stat)
-            change = float(item_info.get(stat))
+            change = float(item_info[stat])
             self.player_stats[stat] += change
 
         # If this can make us guppy, check if we're guppy
         # Can the .get thing be actually false ?!
-        if Stat.IS_GUPPY in item_info and item_info.get(Stat.IS_GUPPY):
+        if item_info.guppy:
             self.guppy_set.add(item)
-            updated.append(Stat.IS_GUPPY)
+            updated.append("guppy")
         return updated
 
