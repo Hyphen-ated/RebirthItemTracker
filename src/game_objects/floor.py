@@ -1,10 +1,12 @@
 """ This module handles everything that is floor-related"""
+from game_objects.serializable import Serializable
+import logging
 
 class Curse(object):
     """Curse enumaration"""
     No_Curse, Blind, Darkness, Lost, Maze, Unknown, Labyrinth, Cursed = range(8)
 
-class Floor(object):
+class Floor(Serializable):
     """ This class represent a floor and handles everything related to its properties"""
     __floor_id_to_label = {
         "f1":  "B1",
@@ -31,11 +33,10 @@ class Floor(object):
         "f6g": "SHOP",
         "f7g": "GREED",
         }
-
-    def __init__(self, floor_id, is_alternate, curse=Curse.No_Curse):
+    serialize = [('floor_id', basestring), ('curse', int)]
+    def __init__(self, floor_id, curse=Curse.No_Curse):
         self.floor_id = floor_id
         self.curse = curse
-        self.is_alt_floor = is_alternate
 
     def add_curse(self, curse):
         """Add a curse to this floor"""
@@ -62,3 +63,15 @@ class Floor(object):
         if not isinstance(other, Floor):
             return True
         return other is None or self.floor_id != other.floor_id
+
+    @staticmethod
+    def from_valid_json(json_dic, *args):
+        """ Create a Floor from a type-checked dic """
+        floor_id = json_dic['floor_id']
+        curse = json_dic['curse']
+        if (floor_id not in Floor.__floor_id_to_label or
+                curse < Curse.No_Curse or
+                curse > Curse.Labyrinth):
+            logging.getLogger("tracker").error("ERROR: Invalid foor_id or curse")
+            return None
+        return Floor(floor_id, curse)

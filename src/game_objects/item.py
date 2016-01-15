@@ -1,18 +1,22 @@
 """This module handles anything related to items and their characteristics"""
+from game_objects.serializable import Serializable
+import logging
 
-class Item(object):
+class Item(Serializable):
     """This class represent an Item in the game, and handles its properties"""
 
     # This will be needed by both the log reader and the serializer,
     # it should be static
     items_info = {}
 
-    def __init__(self, item_id, floor, starting_item):
+    serialize = [('item_id', basestring), ('floor_id', basestring),
+                 ('was_rerolled', bool), ('starting_item', bool)]
+    def __init__(self, item_id, floor, starting_item, was_rerolled=False):
         self.item_id = item_id
         # The floor the item was found on
         self.floor = floor
         # Was this item rerolled ?
-        self.was_rerolled = False
+        self.was_rerolled = was_rerolled
         # Is this a starting item ?
         self.starting_item = starting_item
         # ItemInfo for the current item
@@ -28,6 +32,11 @@ class Item(object):
     def name(self):
         """ Return Item's name"""
         return self.info.name
+
+    @property
+    def floor_id(self):
+        """ Return Item's floor_id """
+        return self.floor.floor_id
 
     def generate_item_description(self):
         """ Generate the item description from its stat"""
@@ -101,6 +110,26 @@ class Item(object):
         """ Return true if this item exists in items_info """
         return item_id.zfill(3) in Item.items_info
 
+    @staticmethod
+    def from_valid_json(json_dic, *args):
+        """ Create an Item from a type-checked dic and a floor_list """
+        log = logging.getLogger("tracker")
+        floor_list = args[0]
+        floor = next((f for f in floor_list if f.floor_id == json_dic['floor_id']),
+                     None)
+        if not floor:
+            log.error("ERROR: Floor id %s is not found in state list", json_dic['floor_id'])
+            return None
+
+        item_id = json_dic['item_id']
+        if not Item.contains_info(item_id):
+            item_id = "NEW"
+
+        was_rerolled = json_dic['was_rerolled']
+        starting_item = json_dic['starting_item']
+        return Item(item_id, floor, starting_item, was_rerolled)
+
+
 class ItemInfo(dict):
     """
     dict wrapper for item infos.
@@ -143,4 +172,3 @@ class ItemInfo(dict):
 
     def __missing__(self, name):
         return self.__getattr__(name)
-

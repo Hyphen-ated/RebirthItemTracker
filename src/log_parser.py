@@ -7,7 +7,7 @@ import os       # For working with files on the operating system
 import logging  # For logging
 import zipfile  # For compressing the log files of past runs
 from game_objects.item  import Item
-from game_objects.floor import Curse
+from game_objects.floor import Floor, Curse
 from game_objects.state  import TrackerState
 
 class LogParser(object):
@@ -97,7 +97,8 @@ class LogParser(object):
         kill_time = int(line.split(" ")[-1])
         # If you re-enter a room you get a "mom clear time" again,
         # check for that (can you fight the same boss twice?)
-        self.state.add_boss(self.current_room, kill_time)
+        # FIXME right now we only have support for Mom (6)
+        self.state.add_boss("6")
 
     def __parse_seed(self, line):
         """ Parse a seed line """
@@ -150,7 +151,7 @@ class LogParser(object):
             self.run_ended = False
 
 
-        self.state.add_floor(floor_id, (alt == '1'))
+        self.state.add_floor(Floor(floor_id))
         return True
 
     def __parse_curse(self, line):
@@ -180,7 +181,7 @@ class LogParser(object):
                 and self.state.contains_item(item_id):
             self.log.debug("Skipped duplicate item line from baby entry")
             return False
-        added = self.state.add_item(item_id, self.getting_start_items)
+        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items))
         if not added:
             self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
         return True

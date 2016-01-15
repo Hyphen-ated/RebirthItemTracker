@@ -1,13 +1,16 @@
 """This module handles anything related to the item tracker's state"""
 import logging
+import json
 from game_objects.item  import Item, ItemInfo
 from game_objects.floor import Floor
+from game_objects.serializable import Serializable
 
-class TrackerState(object):
+class TrackerState(Serializable):
     """This class represents a tracker state, and handle the logic to
     modify it while keeping it coherent
     """
-
+    serialize = [('seed', basestring), ('floor_list', list),
+                 ('item_list', list), ('bosses', list)]
     def __init__(self, seed):
         self.reset(seed)
 
@@ -24,15 +27,14 @@ class TrackerState(object):
         self.floor_list = []
         self.item_list = []
         self.bosses = []
-        # NOTE do not serialize that
         self.player_stats = {}
         self.guppy_set = set()
         for stat in ItemInfo.stat_list:
             self.player_stats[stat] = 0.0
 
-    def add_floor(self, floor, is_alternate):
+    def add_floor(self, floor):
         """ Add a floor to the current run """
-        self.floor_list.append(Floor(floor, is_alternate))
+        self.floor_list.append(floor)
 
     @property
     def last_floor(self):
@@ -41,26 +43,20 @@ class TrackerState(object):
         If no floor is in the floor list, create a default one
         """
         if len(self.floor_list) == 0:
-            self.add_floor("f1", False)
+            self.add_floor(Floor("f1"))
         return self.floor_list[-1]
 
-    def add_item(self, item_id, is_starting_item, picked_up_floor=None):
+    def add_item(self, item):
         """
         Add an item to the current run, and update player's stats accordingly
         Return a tuple (boolean, list).
         The boolean is true if the item has been added, false otherwise.
-        The list contains all the stats that has been modified by this pickup
         """
-        current_floor = picked_up_floor
-        # If the item IDs are equal, it should say this item already exists
-        if current_floor == None:
-            current_floor = self.last_floor
-        temp_item = Item(item_id, current_floor, is_starting_item)
 
         # Ignore repeated pickups of space bar items
-        if not (temp_item.info.space and temp_item in self.item_list):
-            self.item_list.append(temp_item)
-            self.__add_stats_for_item(temp_item)
+        if not (item.info.space and item in self.item_list):
+            self.item_list.append(item)
+            self.__add_stats_for_item(item)
             return True
         else:
             return False
@@ -92,20 +88,19 @@ class TrackerState(object):
         self.last_floor.add_curse(curse)
 
 
-    def add_boss(self, room, kill_time):
+    def add_boss(self, bossid):
         """ Add boss to seen boss """
-        if room not in [x[0] for x in self.bosses]:
-            self.bosses.append((room, kill_time))
+        if bossid not in self.bosses:
+            self.bosses.append(bossid)
             nbosses = len(self.bosses)
             if 11 <= nbosses <= 13:
                 suffix = 'th'
             else:
                 suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(nbosses % 10, 'th')
-            logging.getLogger("tracker").debug("Defeated %s%s boss %s at time %s",
+            logging.getLogger("tracker").debug("Defeated %s%s boss %s",
                                                len(self.bosses),
                                                suffix,
-                                               room,
-                                               kill_time)
+                                               bossid)
 
     @property
     def last_boss(self):
@@ -122,6 +117,31 @@ class TrackerState(object):
         """ Tag this state as rendered """
         self.modified = False
 
+    @staticmethod
+    def from_valid_json(json_dic, *args):
+        """ Create a state from a type-checked dic """
+        state = TrackerState(json_dic['seed'])
+        # The order is important, we want a list of legal floors the item can
+        # be picked up on before parsing items
+        for floor_dic in json_dic['floor_list']:
+            floor = Floor.from_json(floor_dic)
+            if not floor:
+                return None
+            state.add_floor(floor)
+        for bossstr in json_dic['bosses']:
+            # TODO create a serializable boss class that would create
+            # a boss object with description from a bossid
+            # In any case it's sufficient to (de)serialize only bossids
+            if not isinstance(bossstr, basestring):
+                return None
+            state.add_boss(bossstr)
+        for item_dic in json_dic['item_list']:
+            item = Item.from_json(item_dic, state.floor_list)
+            if not item:
+                return None
+            state.add_item(item)
+
+        return state
 
     def __add_stats_for_item(self, item):
         """
@@ -139,3 +159,10 @@ class TrackerState(object):
         if item_info.guppy:
             self.guppy_set.add(item)
 
+
+class TrackerStateEncoder(json.JSONEncoder):
+    """ An encoder to provide to the json.load method, which handle game objects """
+    def default(self, obj):
+        if isinstance(obj, Serializable):
+            return obj.to_json()
+        return obj.__dict__
