@@ -8,6 +8,8 @@
   "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID",
   "message_duration": 7,
   "min_spacing": 24,
+  "read_delay": 15,
+  "read_from_server": false,
   "show_blind_icon": true,
   "show_custom_message": true,
   "show_description": true,
@@ -18,8 +20,12 @@
   "show_space_items": true,
   "size_multiplier": 2.0,
   "text_color": "#FFFFFF",
+  "trackerserver_authkey": "",
+  "trackerserver_url": "http://isaactracker.tk:8000",
+  "twitch_login": "",
   "width": 1000,
   "word_wrap": false,
+  "write_to_server": false,
   "x_position": 100,
   "y_position": 100
 }

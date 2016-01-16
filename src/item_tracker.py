@@ -6,6 +6,7 @@ import logging  # For logging
 # Import item tracker specific code
 from view_controls.view import DrawingTool
 from game_objects.item  import Item
+from game_objects.state  import TrackerState
 from log_parser import LogParser
 from options import Options
 

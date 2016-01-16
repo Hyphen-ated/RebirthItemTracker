@@ -58,6 +58,42 @@ class OptionsMenu(object):
         else:
             self.entries["message_duration"].configure(state=NORMAL)
 
+        # Disable custom message if we don't have to show it
+        if not self.checks.get("show_custom_message").get():
+            self.entries["custom_message"].configure(state=DISABLED)
+        else:
+            self.entries["custom_message"].configure(state=NORMAL)
+
+        # Disable twitch_login if we don't read from/write to server
+        if self.checks.get("read_from_server").get() or self.checks.get("write_to_server").get():
+            self.entries["twitch_login"].configure(state=NORMAL)
+            self.entries["trackerserver_url"].configure(state=NORMAL)
+        else:
+            self.entries["twitch_login"].configure(state=DISABLED)
+            self.entries["trackerserver_url"].configure(state=DISABLED)
+
+        # Writing to server occurs when state changes, so enable read delay iff we are reading
+        if self.checks.get("read_from_server").get():
+            self.entries["read_delay"].configure(state=NORMAL)
+        else:
+            self.entries["read_delay"].configure(state=DISABLED)
+
+        # Disable authkey if we don't write to server
+        if not self.checks.get("write_to_server").get():
+            self.entries["trackerserver_authkey"].configure(state=DISABLED)
+        else:
+            self.entries["trackerserver_authkey"].configure(state=NORMAL)
+
+    def read_callback(self):
+        if self.checks.get("read_from_server").get():
+            self.checks.get("write_to_server").set(0)
+        self.checkbox_callback()
+
+    def write_callback(self):
+        if self.checks.get("write_to_server").get():
+            self.checks.get("read_from_server").set(0)
+        self.checkbox_callback()
+
     def save_callback(self):
         # Callback for the "save" option -- rejiggers options and saves to options.json, then quits
         for key, value in self.entries.iteritems():
@@ -95,31 +131,34 @@ class OptionsMenu(object):
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
 
+        mainframe = LabelFrame(self.root, text="Tracker's Options", padx=20, pady=20)
+        # mainframe.pack(fill="both", expand="yes")
+        mainframe.grid(row=0, column=0, padx=5, pady=5)
         # Generate numeric options by looping over option types
-        self.integer_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit"]
+        self.integer_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "read_delay"]
         self.float_keys   = ["size_multiplier"]
         self.entries = {}
         nextrow = 0
         vcmd = (self.root.register(self.OnValidate), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
         for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
-            Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
-            self.entries[opt] = Entry(self.root, validate="key", validatecommand=vcmd)
+            Label(mainframe, text=self.pretty_name(opt)).grid(row=nextrow)
+            self.entries[opt] = Entry(mainframe, validate="key", validatecommand=vcmd)
             self.entries[opt].grid(row=nextrow, column=1)
             self.entries[opt].insert(0, getattr(self.options, opt))
             nextrow += 1
 
         for index, opt in enumerate(["show_font"]):
-            Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
+            Label(mainframe, text=self.pretty_name(opt)).grid(row=nextrow)
             initialvar = StringVar()
             initialvar.set(getattr(self.options, opt))
-            self.entries[opt] = ttk.Combobox(self.root, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
+            self.entries[opt] = ttk.Combobox(mainframe, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
             self.entries[opt].grid(row=nextrow, column=1)
             nextrow += 1
 
         # Generate text options by looping over option types
         for index, opt in enumerate(["item_details_link", "custom_message"]):
-            Label(self.root, text=self.pretty_name(opt)).grid(row=nextrow)
-            self.entries[opt] = Entry(self.root)
+            Label(mainframe, text=self.pretty_name(opt)).grid(row=nextrow)
+            self.entries[opt] = Entry(mainframe)
             self.entries[opt].grid(row=nextrow, column=1)
             self.entries[opt].insert(0, getattr(self.options, opt))
             nextrow += 1
@@ -128,7 +167,7 @@ class OptionsMenu(object):
         self.buttons = {}
         for index, opt in enumerate(["background_color", "text_color"]):
             self.buttons[opt] = Button(
-                self.root,
+                mainframe,
                 text=self.pretty_name(opt),
                 bg=getattr(self.options, opt),
                 fg=self.opposite_color(getattr(self.options, opt)),
@@ -142,30 +181,65 @@ class OptionsMenu(object):
                 ["show_description", "show_custom_message", "show_floors", "show_rerolled_items", "show_health_ups",
                  "show_space_items", "show_blind_icon", "word_wrap", "bold_font"]):
             self.checks[opt] = IntVar()
-            c = Checkbutton(self.root, text=self.pretty_name(opt), variable=self.checks[opt])
+            c = Checkbutton(mainframe, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
             if getattr(self.options, opt):
                 c.select()
 
             # Disable letting the user set the message duration if the show description option is disabled.
-            if opt == "show_description":
+            if opt == "show_description" or opt == "show_custom_message":
                 c.configure(command=self.checkbox_callback)
-                if not self.options.show_description:
-                    self.entries["message_duration"].configure(state=DISABLED)
 
+        serverframe = LabelFrame(self.root, text="TrackerServer's options", padx=20, pady=20)
+        serverframe.grid(row=1, column=0)
+        next_row = 0
+
+
+        callbacks = {"read_from_server":self.read_callback, "write_to_server":self.write_callback}
+        for index, opt in enumerate(["read_from_server", "write_to_server"]):
+            self.checks[opt] = IntVar()
+            c = Checkbutton(serverframe, text=self.pretty_name(opt), variable=self.checks[opt])
+            c.grid(row=next_row, column=index, pady=2)
+            c.configure(command=callbacks[opt])
+            if getattr(self.options, opt, False):
+                c.select()
+        next_row += 1
+
+
+        # Generate text options by looping over option types
+        for index, opt in enumerate(["twitch_login", "trackerserver_url", "trackerserver_authkey"]):
+            Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
+            self.entries[opt] = Entry(serverframe)
+            self.entries[opt].grid(row=next_row, column=1, pady=2)
+            self.entries[opt].insert(0, getattr(self.options, opt, ""))
+            next_row += 1
+
+        Label(serverframe, text="Read delay").grid(row=next_row, pady=2)
+        self.entries["read_delay"] = Entry(serverframe)
+        self.entries["read_delay"].grid(row=next_row, column=1, pady=2)
+        self.entries["read_delay"].insert(0, getattr(self.options, "read_delay", 15))
+
+        # Check for coherency in options with priority to read
+        self.read_callback()
+        # Disable some textboxes if needed
+        self.checkbox_callback()
+
+
+        buttonframe = LabelFrame(self.root, bd=0, padx=5, pady=5)
+        buttonframe.grid(row=2, column=0)
         # Save and cancel buttons
         save = Button(
-            self.root,
+            buttonframe,
             text="Save",
             command=self.save_callback
         )
-        save.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=0)
+        save.grid(row=0, column=0, padx=5)
         cancel = Button(
-            self.root,
+            buttonframe,
             text="Cancel",
             command=self.root.destroy
         )
-        cancel.grid(row=len(self.entries) + len(self.buttons) + len(self.checks), column=1)
+        cancel.grid(row=0, column=1, padx=5)
 
         # Start the main loop
         mainloop()
