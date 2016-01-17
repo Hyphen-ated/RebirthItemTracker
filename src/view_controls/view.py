@@ -33,7 +33,7 @@ class Clicakble(object):
         pass
 
 class DrawingTool(object):
-    def __init__(self, title, prefix):
+    def __init__(self, prefix):
         self.file_prefix = prefix
         self.next_item = (0, 0)
         self.item_position_index = []
@@ -52,13 +52,12 @@ class DrawingTool(object):
         self.clock = None
         self.win_info = None
         self.screen = None
-        self.start_pygame(title)
+        self.start_pygame()
 
-    def start_pygame(self, title):
+    def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
         pygame.init()
         self.reset_options()
-        pygame.display.set_caption(title)
         pygame.display.set_icon(self.get_image("collectibles_333.png"))
         self.clock = pygame.time.Clock()
 
@@ -440,6 +439,13 @@ class DrawingTool(object):
     def reset(self):
         self.selected_item_index = None
         self.drawn_items = []
+
+    def set_window_title(self, update_notifier, username):
+        title = "Rebirth Item Tracker" + update_notifier
+        if username:
+            title = title + ", spectating " + username
+        pygame.display.set_caption(title)
+
 
 class DrawableItem(Drawable):
     def __init__(self, item, x, y, tool):

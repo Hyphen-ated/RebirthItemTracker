@@ -65,13 +65,17 @@ class OptionsMenu(object):
         else:
             self.entries["custom_message"].configure(state=NORMAL)
 
-        # Disable twitch_login if we don't read from/write to server
+        # Disable twitch_name if we don't read from server
+        if self.checks.get("read_from_server").get():
+            self.entries["twitch_name"].configure(state=NORMAL)
+        else:
+            self.entries["twitch_name"].configure(state=DISABLED)
+
         if self.checks.get("read_from_server").get() or self.checks.get("write_to_server").get():
-            self.entries["twitch_login"].configure(state=NORMAL)
             self.entries["trackerserver_url"].configure(state=NORMAL)
         else:
-            self.entries["twitch_login"].configure(state=DISABLED)
             self.entries["trackerserver_url"].configure(state=DISABLED)
+
 
         # Writing to server occurs when state changes, so enable read delay iff we are reading
         if self.checks.get("read_from_server").get():
@@ -208,18 +212,12 @@ class OptionsMenu(object):
 
 
         # Generate text options by looping over option types
-        for index, opt in enumerate(["twitch_login", "trackerserver_url", "trackerserver_authkey"]):
+        for index, opt in enumerate(["twitch_name", "read_delay", "trackerserver_url", "trackerserver_authkey"]):
             Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
             self.entries[opt] = Entry(serverframe)
             self.entries[opt].grid(row=next_row, column=1, pady=2)
             self.entries[opt].insert(0, getattr(self.options, opt, ""))
             next_row += 1
-
-        Label(serverframe, text="Read delay").grid(row=next_row, pady=2)
-        self.entries["read_delay"] = Entry(serverframe)
-        self.entries["read_delay"].grid(row=next_row, column=1, pady=2)
-        self.entries["read_delay"].insert(0, getattr(self.options, "read_delay", 15))
-        next_row += 1
 
         get_auth = Button(
             serverframe,

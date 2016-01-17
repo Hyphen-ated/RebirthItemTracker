@@ -32,9 +32,6 @@ class IsaacTracker(object):
     def __del__(self):
         Options().save_options(self.file_prefix + "options.json")
 
-
-
-
     def check_for_update(self):
         """ Returns text to put in the title bar """
         try:
@@ -60,8 +57,8 @@ class IsaacTracker(object):
         framecount = 0
 
         # Create drawing tool to use to draw everything - it'll create its own screen
-        drawing_tool = DrawingTool("Rebirth Item Tracker" + update_notifier,
-                                   self.file_prefix)
+        drawing_tool = DrawingTool(self.file_prefix)
+        drawing_tool.set_window_title(update_notifier, "")
         parser = LogParser(self.file_prefix)
         opt = Options()
         log = logging.getLogger("tracker")
@@ -73,19 +70,26 @@ class IsaacTracker(object):
         write_to_server = opt.write_to_server
         delay = self.read_delay
         state_version = -1
+        twitch_username = None
 
         while not done:
 
             # Check for events and handle them
             done = drawing_tool.handle_events()
             # A change means the user has (de)activated an option
-            if opt.read_from_server != read_from_server:
+            if opt.read_from_server != read_from_server\
+            or opt.twitch_name != twitch_username:
                 # By setting the framecount to 0 we ensure we'll refresh the state right away
                 framecount = 0
+                twitch_username = opt.twitch_name
                 read_from_server = opt.read_from_server
                 # Also restart version count if we go back and forth from log.txt to server
                 if read_from_server:
                     state_version = -1
+                    # show who we are watching in the title bar
+                    drawing_tool.set_window_title(update_notifier, twitch_username)
+                else:
+                    drawing_tool.set_window_title(update_notifier, "")
             if opt.write_to_server and opt.write_to_server != write_to_server:
                 framecount = 0
                 write_to_server = True
@@ -104,10 +108,10 @@ class IsaacTracker(object):
             # Now we re-process the log file to get anything that might have loaded;
             # do it every read_delay seconds (making sure to truncate to an integer
             # or else it might never mod to 0)
-            if framecount % int(Options().framerate_limit * delay) == 0:
+            if (framecount % int(Options().framerate_limit * delay) == 0):
                 # Let the parser do his thing and give us a state
                 if opt.read_from_server:
-                    base_url = opt.trackerserver_url + "/tracker/api/user/" + opt.twitch_login
+                    base_url = opt.trackerserver_url + "/tracker/api/user/" + opt.twitch_name
                     try:
                         json_version = urllib2.urlopen(base_url + "/version").read()
                         if int(json_version) > state_version:
@@ -161,7 +165,10 @@ def main():
         rt.run()
     except Exception:
         import traceback
-        logging.getLogger("tracker").error(traceback.format_exc())
+        errmsg = traceback.format_exc()
+        #print it to stdout for dev troubleshooting, log it to a file for production
+        print(errmsg)
+        logging.getLogger("tracker").error(errmsg)
 
 if __name__ == "__main__":
     main()
