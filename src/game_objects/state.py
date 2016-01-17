@@ -35,6 +35,7 @@ class TrackerState(Serializable):
     def add_floor(self, floor):
         """ Add a floor to the current run """
         self.floor_list.append(floor)
+        self.modified = True
 
     @property
     def last_floor(self):
@@ -57,6 +58,7 @@ class TrackerState(Serializable):
         if not (item.info.space and item in self.item_list):
             self.item_list.append(item)
             self.__add_stats_for_item(item)
+            self.modified = True
             return True
         else:
             return False

@@ -21,7 +21,7 @@
   "size_multiplier": 2.0,
   "text_color": "#FFFFFF",
   "trackerserver_authkey": "",
-  "trackerserver_url": "http://isaactracker.tk:8000",
+  "trackerserver_url": "http://104.233.120.36:8000",
   "twitch_login": "",
   "width": 1000,
   "word_wrap": false,

@@ -123,6 +123,10 @@ class DrawingTool(object):
                     elif event.key == K_RETURN:
                         self.load_selected_detail_page()
                     elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
+                        # FIXME debug purpose only !
+                        with open("../export_state.json", "w") as state_file:
+                            state_file.write(json.dumps(self.state, cls=TrackerStateEncoder,
+                                                        sort_keys=True))
                         pass
                     #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
             elif event.type == MOUSEBUTTONDOWN:
@@ -133,11 +137,11 @@ class DrawingTool(object):
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     option_picker.OptionsMenu().run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                    self.reset()
                     self.reset_options()
-                    self.__reflow()
+                    self.reset()
+                    if self.state != None:
+                        self.__reflow()
         return False
-
 
     def draw_state(self, state):
         """
@@ -157,11 +161,14 @@ class DrawingTool(object):
             if len(self.drawn_items) > 0:
                 overlay.update_stats()
                 overlay.update_last_item_description()
-
         current_floor = self.state.last_floor
         opt = Options()
         # Clear the screen
         self.screen.fill(DrawingTool.color(opt.background_color))
+
+        # If seed has no value we just want to clear the screen
+        if state.seed == "":
+            return
 
         # 19 pixels is the default line height, but we don't know what the
         # line height is with respect to the user's particular size_multiplier.

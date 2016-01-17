@@ -7,6 +7,7 @@ import ttk
 import pygame.sysfont
 from options import Options
 import logging
+import webbrowser
 
 class OptionsMenu(object):
     """
@@ -218,6 +219,16 @@ class OptionsMenu(object):
         self.entries["read_delay"] = Entry(serverframe)
         self.entries["read_delay"].grid(row=next_row, column=1, pady=2)
         self.entries["read_delay"].insert(0, getattr(self.options, "read_delay", 15))
+        next_row += 1
+
+        get_auth = Button(
+            serverframe,
+            text="Get an authkey",
+            command=lambda: webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=cc0x4xs7f13phbtgco2xeflil2pu2uy&redirect_uri=" +
+                                            self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
+        )
+
+        get_auth.grid(row=next_row, column=1, pady=5)
 
         # Check for coherency in options with priority to read
         self.read_callback()
