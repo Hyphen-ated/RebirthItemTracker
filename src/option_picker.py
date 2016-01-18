@@ -87,8 +87,10 @@ class OptionsMenu(object):
         # Disable authkey if we don't write to server
         if not self.checks.get("write_to_server").get():
             self.entries["trackerserver_authkey"].configure(state=DISABLED)
+            self.entries["authkey_button"].configure(state=DISABLED)
         else:
             self.entries["trackerserver_authkey"].configure(state=NORMAL)
+            self.entries["authkey_button"].configure(state=NORMAL)
 
     def read_callback(self):
         if self.checks.get("read_from_server").get():
@@ -109,7 +111,7 @@ class OptionsMenu(object):
                 setattr(self.options, key, int(float(value.get())))
             elif key in self.float_keys:
                 setattr(self.options, key, float(value.get()))
-            else:
+            elif hasattr(value, "get"):
                 setattr(self.options, key, value.get())
         for key, value in self.checks.iteritems():
             setattr(self.options, key, True if value.get() else False)
@@ -127,15 +129,22 @@ class OptionsMenu(object):
         return str(hours) + "h" + str(minutes) + "m" + str(seconds) + "s"
 
     def update_twitch_name_combobox_from_server(self):
-        url = self.entries['trackerserver_url'].get() + "/tracker/api/userlist/"
-        json_state = urllib2.urlopen(url).read()
-        users = json.loads(json_state)
-        users_combobox_list = []
-        for user in users:
-            formatted_time_ago = self.seconds_to_text(user["seconds"])
-            list_entry = user["name"] + " (updated " + formatted_time_ago + " ago)"
-            users_combobox_list.append(list_entry)
-        self.entries['twitch_name']['values'] = users_combobox_list
+        try:
+            url = self.entries['trackerserver_url'].get() + "/tracker/api/userlist/"
+            json_state = urllib2.urlopen(url).read()
+            users = json.loads(json_state)
+            users_combobox_list = []
+            for user in users:
+                formatted_time_ago = self.seconds_to_text(user["seconds"])
+                list_entry = user["name"] + " (updated " + formatted_time_ago + " ago)"
+                users_combobox_list.append(list_entry)
+            self.entries['twitch_name']['values'] = users_combobox_list
+        except Exception:
+            import traceback
+            errmsg = traceback.format_exc()
+            #print it to stdout for dev troubleshooting, log it to a file for production
+            print(errmsg)
+            logging.getLogger("tracker").error(errmsg)
 
     def trim_name(self, event):
         name = self.entries['twitch_name'].get()
@@ -150,8 +159,13 @@ class OptionsMenu(object):
         table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
 
+    pretty_name_map = {"read_from_server": "Host Mode",
+                            "write_to_server": "Competitor Mode"}
+
     def pretty_name(self, s):
         # Change from a var name to something you'd show the users
+        if self.pretty_name_map.has_key(s):
+            return self.pretty_name_map.get(s)
         return " ".join(s.split("_")).title()
 
     # From http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
@@ -165,7 +179,7 @@ class OptionsMenu(object):
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
 
-        mainframe = LabelFrame(self.root, text="Tracker's Options", padx=20, pady=20)
+        mainframe = LabelFrame(self.root, text="Display Options", padx=20, pady=20)
         # mainframe.pack(fill="both", expand="yes")
         mainframe.grid(row=0, column=0, padx=5, pady=5)
         # Generate numeric options by looping over option types
@@ -224,7 +238,7 @@ class OptionsMenu(object):
             if opt == "show_description" or opt == "show_custom_message":
                 c.configure(command=self.checkbox_callback)
 
-        serverframe = LabelFrame(self.root, text="TrackerServer's options", padx=20, pady=20)
+        serverframe = LabelFrame(self.root, text="Tournament Settings", padx=20, pady=20)
         serverframe.grid(row=1, column=0)
         next_row = 0
 
@@ -232,7 +246,7 @@ class OptionsMenu(object):
         callbacks = {"read_from_server":self.read_callback, "write_to_server":self.write_callback}
         for index, opt in enumerate(["read_from_server", "write_to_server"]):
             self.checks[opt] = IntVar()
-            c = Checkbutton(serverframe, text=self.pretty_name(opt), variable=self.checks[opt])
+            c = Checkbutton(serverframe, text=self.pretty_name(opt), variable=self.checks[opt], indicatoron=False)
             c.grid(row=next_row, column=index, pady=2)
             c.configure(command=callbacks[opt])
             if getattr(self.options, opt, False):
@@ -256,14 +270,14 @@ class OptionsMenu(object):
             self.entries[opt].insert(0, getattr(self.options, opt, ""))
             next_row += 1
 
-        get_auth = Button(
+        self.entries["authkey_button"] = Button(
             serverframe,
             text="Get an authkey",
             command=lambda: webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=cc0x4xs7f13phbtgco2xeflil2pu2uy&redirect_uri=" +
                                             self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
         )
 
-        get_auth.grid(row=next_row, column=1, pady=5)
+        self.entries["authkey_button"].grid(row=next_row, column=1, pady=5)
 
         # Check for coherency in options with priority to read
         self.read_callback()
