@@ -7,6 +7,7 @@ import ttk
 import pygame.sysfont
 from options import Options
 import logging
+import urllib2
 import webbrowser
 
 class OptionsMenu(object):
@@ -92,6 +93,7 @@ class OptionsMenu(object):
     def read_callback(self):
         if self.checks.get("read_from_server").get():
             self.checks.get("write_to_server").set(0)
+            self.update_twitch_name_combobox_from_server()
         self.checkbox_callback()
 
     def write_callback(self):
@@ -112,6 +114,33 @@ class OptionsMenu(object):
         for key, value in self.checks.iteritems():
             setattr(self.options, key, True if value.get() else False)
         self.root.destroy()
+
+    def seconds_to_text(self, seconds):
+        if seconds < 60:
+            return str(seconds) + "s"
+        minutes = seconds / 60
+        seconds = seconds % 60
+        if minutes < 60:
+            return str(minutes) + "m" + str(seconds) + "s"
+        hours = minutes / 60
+        minutes = minutes % 60
+        return str(hours) + "h" + str(minutes) + "m" + str(seconds) + "s"
+
+    def update_twitch_name_combobox_from_server(self):
+        url = self.entries['trackerserver_url'].get() + "/tracker/api/userlist/"
+        json_state = urllib2.urlopen(url).read()
+        users = json.loads(json_state)
+        users_combobox_list = []
+        for user in users:
+            formatted_time_ago = self.seconds_to_text(user["seconds"])
+            list_entry = user["name"] + " (updated " + formatted_time_ago + " ago)"
+            users_combobox_list.append(list_entry)
+        self.entries['twitch_name']['values'] = users_combobox_list
+
+    def trim_name(self, event):
+        name = self.entries['twitch_name'].get()
+        name = name.partition(" (")[0]
+        self.entries['twitch_name'].set(name)
 
 
     # Taken from http://code.activestate.com/recipes/527747-invert-css-hex-colors/
@@ -211,8 +240,16 @@ class OptionsMenu(object):
         next_row += 1
 
 
+        for index, opt in enumerate(["twitch_name"]):
+            Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
+            self.entries[opt] = ttk.Combobox(serverframe, width=40)
+            self.entries[opt].bind("<<ComboboxSelected>>", self.trim_name)
+            self.entries[opt].grid(row=next_row, column=1)
+            next_row += 1
+
+
         # Generate text options by looping over option types
-        for index, opt in enumerate(["twitch_name", "read_delay", "trackerserver_url", "trackerserver_authkey"]):
+        for index, opt in enumerate(["read_delay", "trackerserver_url", "trackerserver_authkey"]):
             Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
             self.entries[opt] = Entry(serverframe)
             self.entries[opt].grid(row=next_row, column=1, pady=2)
