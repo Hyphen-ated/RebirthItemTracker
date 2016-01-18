@@ -15,5 +15,7 @@ class Options(object):
 
     def save_options(self, filename):
         """ Save current options to file """
+        self._shared_state['read_from_server'] = False
+        self._shared_state['write_to_server'] = False
         with open(filename, "w") as json_file:
             json.dump(self._shared_state, json_file, indent=3, sort_keys=True)
