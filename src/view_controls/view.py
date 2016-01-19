@@ -317,10 +317,12 @@ class DrawingTool(object):
         if y < len(self.item_position_index):
             selected_row = self.item_position_index[y]
             if x < len(selected_row):
-                if self.selected_item_index is not None:
+                if self.selected_item_index is not None \
+                and self.selected_item_index < len(self.drawn_items):
                     self.drawn_items[self.selected_item_index].selected = False
                 self.selected_item_index = selected_row[x]
-                if self.selected_item_index is not None:
+                if self.selected_item_index is not None \
+                and self.selected_item_index < len(self.drawn_items):
                     self.item_message_start_time = self.framecount
                     self.drawn_items[self.selected_item_index].selected = True
 
@@ -380,7 +382,7 @@ class DrawingTool(object):
             # We want to be showing an item but they haven't selected one,
             # that means show the newest item
             item_index_to_display = len(self.drawn_items) - 1
-        if item_index_to_display is None:
+        if item_index_to_display is None or item_index_to_display >= len(self.drawn_items):
             return False
         item = self.drawn_items[item_index_to_display].item
         desc = item.generate_item_description()
