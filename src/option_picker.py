@@ -257,6 +257,7 @@ class OptionsMenu(object):
         for index, opt in enumerate(["twitch_name"]):
             Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
             self.entries[opt] = ttk.Combobox(serverframe, width=40)
+            self.entries[opt].set(getattr(self.options, opt, ""))
             self.entries[opt].bind("<<ComboboxSelected>>", self.trim_name)
             self.entries[opt].grid(row=next_row, column=1)
             next_row += 1
