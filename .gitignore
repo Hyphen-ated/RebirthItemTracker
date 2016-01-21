@@ -10,3 +10,5 @@ build/
 .project
 .pydevproject
 .settings
+/tracker_log.txt
+/export_state.json
