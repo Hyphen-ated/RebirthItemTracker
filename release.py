@@ -21,7 +21,7 @@ shutil.move('src/dist/', installDir + "dist/") # Move the dist files to our targ
 # Then copy over all the data files
 shutil.copytree('collectibles/', installDir + 'collectibles/')
 shutil.copytree('overlay text reference/', installDir + 'overlay text/')
-shutil.copy('shortcut_for_install_dir.lnk', installDir + "Launch Item Tracker.exe.lnk")
+shutil.copy('shortcut_for_install_dir.lnk', installDir + "Launch Item Tracker.lnk")
 shutil.copy('options_default.json', installDir + "options.json")
 shutil.copy('items.json', installDir)
 shutil.copy('LICENSE.txt', installDir)

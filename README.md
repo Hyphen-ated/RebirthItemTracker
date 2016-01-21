@@ -27,3 +27,5 @@ You can mouse over items you've picked up to see their stats again, and click on
 ## Known issues
 
 * When using the _Glowing Hourglass_ right after taking any object, this object will remains in the tracker even if the character doesn't have it anymore.
+
+* If you want to make a shortcut to the tracker, make the shortcut to the file "dist/item_tracker.exe" rather than to the existing shortcut called "Launch Item Tracker"
