@@ -156,8 +156,9 @@ class OptionsMenu(object):
         table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
 
-    pretty_name_map = {"read_from_server": "Host Mode",
-                            "write_to_server": "Competitor Mode"}
+    pretty_name_map = {"read_from_server": "Watch Someone Else",
+                       "write_to_server": "Let Others Watch Me",
+                       "twitch_name": "Their Twitch Name"}
 
     def pretty_name(self, s):
         # Change from a var name to something you'd show the users
