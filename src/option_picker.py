@@ -66,31 +66,27 @@ class OptionsMenu(object):
         else:
             self.entries["custom_message"].configure(state=NORMAL)
 
-        # Disable twitch_name if we don't read from server
+    # Writing to server occurs when state changes, so enable read delay iff we are reading
         if self.checks.get("read_from_server").get():
-            self.entries["twitch_name"].configure(state=NORMAL)
+            self.entries["read_delay"].grid()
+            self.entries["twitch_name"].grid()
+            self.labels["read_delay"].grid()
+            self.labels["twitch_name"].grid()
         else:
-            self.entries["twitch_name"].configure(state=DISABLED)
-
-        if self.checks.get("read_from_server").get() or self.checks.get("write_to_server").get():
-            self.entries["trackerserver_url"].configure(state=NORMAL)
-        else:
-            self.entries["trackerserver_url"].configure(state=DISABLED)
-
-
-        # Writing to server occurs when state changes, so enable read delay iff we are reading
-        if self.checks.get("read_from_server").get():
-            self.entries["read_delay"].configure(state=NORMAL)
-        else:
-            self.entries["read_delay"].configure(state=DISABLED)
+            self.entries["read_delay"].grid_remove()
+            self.entries["twitch_name"].grid_remove()
+            self.labels["read_delay"].grid_remove()
+            self.labels["twitch_name"].grid_remove()
 
         # Disable authkey if we don't write to server
-        if not self.checks.get("write_to_server").get():
-            self.entries["trackerserver_authkey"].configure(state=DISABLED)
-            self.entries["authkey_button"].configure(state=DISABLED)
+        if self.checks.get("write_to_server").get():
+            self.entries["trackerserver_authkey"].grid()
+            self.labels["trackerserver_authkey"].grid()
+            self.buttons["authkey_button"].grid()
         else:
-            self.entries["trackerserver_authkey"].configure(state=NORMAL)
-            self.entries["authkey_button"].configure(state=NORMAL)
+            self.entries["trackerserver_authkey"].grid_remove()
+            self.labels["trackerserver_authkey"].grid_remove()
+            self.buttons["authkey_button"].grid_remove()
 
     def read_callback(self):
         if self.checks.get("read_from_server").get():
@@ -186,6 +182,7 @@ class OptionsMenu(object):
         self.integer_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "read_delay"]
         self.float_keys   = ["size_multiplier"]
         self.entries = {}
+        self.labels = {}
         nextrow = 0
         vcmd = (self.root.register(self.OnValidate), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
         for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
@@ -239,15 +236,24 @@ class OptionsMenu(object):
                 c.configure(command=self.checkbox_callback)
 
         serverframe = LabelFrame(self.root, text="Tournament Settings", padx=20, pady=20)
-        serverframe.grid(row=1, column=0)
+        serverframe.grid(row=0, column=1)
         next_row = 0
 
+
+        # Generate text options by looping over option types
+        for index, opt in enumerate(["trackerserver_url", "trackerserver_twitch_id"]):
+            self.labels[opt] = Label(serverframe, text=self.pretty_name(opt))
+            self.labels[opt].grid(row=next_row, pady=2)
+            self.entries[opt] = Entry(serverframe)
+            self.entries[opt].grid(row=next_row, column=1, pady=2)
+            self.entries[opt].insert(0, getattr(self.options, opt, ""))
+            next_row += 1
 
         callbacks = {"read_from_server":self.read_callback, "write_to_server":self.write_callback}
         for index, opt in enumerate(["read_from_server", "write_to_server"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(serverframe, text=self.pretty_name(opt), variable=self.checks[opt], indicatoron=False)
-            c.grid(row=next_row, column=index, pady=2)
+            c.grid(row=next_row, column=index, pady=2, padx=20)
             c.configure(command=callbacks[opt])
             if getattr(self.options, opt, False):
                 c.select()
@@ -255,7 +261,8 @@ class OptionsMenu(object):
 
 
         for index, opt in enumerate(["twitch_name"]):
-            Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
+            self.labels[opt] = Label(serverframe, text=self.pretty_name(opt))
+            self.labels[opt].grid(row=next_row, pady=2)
             self.entries[opt] = ttk.Combobox(serverframe, width=40)
             self.entries[opt].set(getattr(self.options, opt, ""))
             self.entries[opt].bind("<<ComboboxSelected>>", self.trim_name)
@@ -264,21 +271,22 @@ class OptionsMenu(object):
 
 
         # Generate text options by looping over option types
-        for index, opt in enumerate(["read_delay", "trackerserver_url", "trackerserver_authkey"]):
-            Label(serverframe, text=self.pretty_name(opt)).grid(row=next_row, pady=2)
+        for index, opt in enumerate(["read_delay", "trackerserver_authkey"]):
+            self.labels[opt] = Label(serverframe, text=self.pretty_name(opt))
+            self.labels[opt].grid(row=next_row, pady=2)
             self.entries[opt] = Entry(serverframe)
             self.entries[opt].grid(row=next_row, column=1, pady=2)
             self.entries[opt].insert(0, getattr(self.options, opt, ""))
             next_row += 1
 
-        self.entries["authkey_button"] = Button(
+        self.buttons["authkey_button"] = Button(
             serverframe,
             text="Get an authkey",
-            command=lambda: webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=cc0x4xs7f13phbtgco2xeflil2pu2uy&redirect_uri=" +
+            command=lambda: webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + self.entries["trackerserver_twitch_id"].get() + "&redirect_uri=" +
                                             self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
         )
 
-        self.entries["authkey_button"].grid(row=next_row, column=1, pady=5)
+        self.buttons["authkey_button"].grid(row=next_row, column=1, pady=5)
 
         # Check for coherency in options with priority to read
         self.read_callback()
