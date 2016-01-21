@@ -57,7 +57,6 @@ class DrawingTool(object):
     def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
         pygame.init()
-        self.reset_options()
         pygame.display.set_icon(self.get_image("collectibles_333.png"))
         self.clock = pygame.time.Clock()
 
@@ -76,10 +75,7 @@ class DrawingTool(object):
 
         if self.screen is None: # If screen is none, we make our own
             self.screen = pygame.display.set_mode((opt.width, opt.height), RESIZABLE)
-        if opt.show_description or opt.show_custom_message:
-            self.text_height = self.write_message(" ")
-        else:
-            self.text_height = 0
+        self.reset_options()
 
         if platform.system() == "Windows":
             self.win_info = pygameWindowInfo.PygameWindowInfo()
@@ -440,6 +436,10 @@ class DrawingTool(object):
         self._image_library = {}
         self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
         self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
+        if opt.show_description or opt.show_custom_message:
+            self.text_height = self.write_message(" ")
+        else:
+            self.text_height = 0
 
     def reset(self):
         self.selected_item_index = None
