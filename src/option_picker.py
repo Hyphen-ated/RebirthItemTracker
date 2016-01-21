@@ -115,14 +115,15 @@ class OptionsMenu(object):
 
     def seconds_to_text(self, seconds):
         if seconds < 60:
-            return str(seconds) + "s"
+            return str(seconds) + " second" + ("s" if seconds > 1 else "")
         minutes = seconds / 60
-        seconds = seconds % 60
         if minutes < 60:
-            return str(minutes) + "m" + str(seconds) + "s"
+            return str(minutes) + " minute" + ("s" if minutes > 1 else "")
         hours = minutes / 60
-        minutes = minutes % 60
-        return str(hours) + "h" + str(minutes) + "m" + str(seconds) + "s"
+        if hours < 24:
+            return str(hours) + " hour" + ("s" if hours > 1 else "")
+        days = hours / 24
+        return str(days) + " day" + ("s" if days > 1 else "")
 
     def update_twitch_name_combobox_from_server(self):
         try:
