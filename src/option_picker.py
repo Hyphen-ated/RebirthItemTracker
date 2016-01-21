@@ -251,11 +251,12 @@ class OptionsMenu(object):
             self.entries[opt].insert(0, getattr(self.options, opt, ""))
             next_row += 1
 
+        paddings = {"read_from_server": 5, "write_to_server": 120}
         callbacks = {"read_from_server":self.read_callback, "write_to_server":self.write_callback}
         for index, opt in enumerate(["read_from_server", "write_to_server"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(serverframe, text=self.pretty_name(opt), variable=self.checks[opt], indicatoron=False)
-            c.grid(row=next_row, column=index, pady=2, padx=20)
+            c.grid(row=next_row, column=index, pady=2, padx=paddings[opt])
             c.configure(command=callbacks[opt])
             if getattr(self.options, opt, False):
                 c.select()
