@@ -150,6 +150,15 @@ class DrawingTool(object):
         if self.state != state:
             self.reset()
             self.state = state
+
+        opt = Options()
+        # Clear the screen
+        self.screen.fill(DrawingTool.color(opt.background_color))
+
+        # If state is None we just want to clear the screen
+        if self.state == None:
+            return
+
         # If items were added, or removed (run restarted) regenerate items
         if self.state.modified or len(self.drawn_items) < len(self.state.item_list):
             self.__reflow()
@@ -161,13 +170,7 @@ class DrawingTool(object):
                 overlay.update_stats()
                 overlay.update_last_item_description()
         current_floor = self.state.last_floor
-        opt = Options()
-        # Clear the screen
-        self.screen.fill(DrawingTool.color(opt.background_color))
 
-        # If seed has no value we just want to clear the screen
-        if state.seed == "":
-            return
 
         # 19 pixels is the default line height, but we don't know what the
         # line height is with respect to the user's particular size_multiplier.

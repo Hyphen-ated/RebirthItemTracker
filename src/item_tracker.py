@@ -141,10 +141,8 @@ class IsaacTracker(object):
                             log.error("ERROR: Couldn't store state to server")
 
             # We got a state, now we draw it
-            if state != None:
-                drawing_tool.draw_state(state)
-            else:
-                drawing_tool.draw_state(TrackerState(""))
+            drawing_tool.draw_state(state)
+            if state == None:
                 if read_from_server:
                     drawing_tool.write_message("Unable to read state from server. Please verify "
                                                "your options setup and tracker_log.txt", True)
