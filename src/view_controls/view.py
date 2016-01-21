@@ -231,7 +231,7 @@ class DrawingTool(object):
         Regenerate the displayed item list
         '''
         opt = Options()
-        size_multiplier = opt.size_multiplier * .5
+        size_multiplier = opt.size_multiplier
         item_icon_size = int(opt.default_spacing * size_multiplier)
         item_icon_footprint = item_icon_size
         result = self.try_layout(item_icon_footprint, item_icon_size, False)
@@ -269,7 +269,7 @@ class DrawingTool(object):
             if new_drawable.shown():
                 # Check to see if we are about to go off the right edge
                 cur_column += 1
-                size_multiplier = 32 * opt.size_multiplier
+                size_multiplier = 64 * opt.size_multiplier
                 new_width = icon_footprint * cur_column + size_multiplier
                 new_height = (self.text_height + (icon_footprint + vert_padding) * (cur_row + 1)
                               + icon_size + vert_padding)
@@ -299,7 +299,7 @@ class DrawingTool(object):
         # 2d array of size h, w
         self.item_position_index = [[None for x in xrange(w)] for y in xrange(h)]
         num_displayed_items = 0
-        size_multiplier = 32 * opt.size_multiplier
+        size_multiplier = 64 * opt.size_multiplier
         for item in self.drawn_items:
             if item.shown():
                 for y in range(int(item.y), int(item.y + size_multiplier)):
@@ -349,13 +349,19 @@ class DrawingTool(object):
     def get_image(self, imagename):
         image = self._image_library.get(imagename)
         if image is None:
-            path = self.file_prefix + "/collectibles/" + imagename
+            path = self.file_prefix + "/collectibles/"
+            if Options().make_items_glow:
+                path += "glow/"
+            path += imagename
             canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
             image = pygame.image.load(canonicalized_path)
             size_multiplier = Options().size_multiplier
-            scaled_image = pygame.transform.scale(image, (
-                int(image.get_size()[0] * size_multiplier),
-                int(image.get_size()[1] * size_multiplier)))
+            scaled_image = image
+            # Resize image iff we need to
+            if size_multiplier != 1:
+                scaled_image = pygame.transform.scale(image, (
+                    int(image.get_size()[0] * size_multiplier),
+                    int(image.get_size()[1] * size_multiplier)))
             self._image_library[imagename] = scaled_image
         return image
 
@@ -404,7 +410,7 @@ class DrawingTool(object):
         return height
 
     def draw_selected_box(self, x, y):
-        size_multiplier = int(32 * Options().size_multiplier)
+        size_multiplier = int(64 * Options().size_multiplier)
         pygame.draw.rect(
             self.screen,
             DrawingTool.color(Options().text_color),
@@ -423,7 +429,7 @@ class DrawingTool(object):
     def reset_options(self):
         """ Reset state variables affected by options """
         opt = Options()
-        size_multiplier = int(8 * opt.size_multiplier)
+        size_multiplier = int(16 * opt.size_multiplier)
 
         # Anything that gets calculated and cached based on something in options
         # now needs to be flushed
@@ -504,7 +510,7 @@ class DrawableItem(Drawable):
         if self.show_blind_icon():
             self.tool.screen.blit(
                 self.tool.blind_icon,
-                (self.x, self.y + Options().size_multiplier * 12)
+                (self.x, self.y + Options().size_multiplier * 24)
             )
         # If we're selected, draw a box to highlight us
         if self.selected:
@@ -530,9 +536,9 @@ class DrawableFloor(Drawable):
             self.tool.screen,
             text_color,
             False,
-            ((self.x + 2, int(self.y + 24 * size_multiplier)),
+            ((self.x + 2, int(self.y + 48 * size_multiplier)),
              (self.x + 2, self.y),
-             (int(self.x + 16 * size_multiplier), self.y))
+             (int(self.x + 32 * size_multiplier), self.y))
         )
         image = self.tool.font.render(self.floor.name(), True, text_color)
         self.tool.screen.blit(image, (self.x + 4, self.y - self.tool.text_margin_size))

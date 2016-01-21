@@ -226,7 +226,7 @@ class OptionsMenu(object):
         self.checks = {}
         for index, opt in enumerate(
                 ["show_description", "show_custom_message", "show_floors", "show_rerolled_items", "show_health_ups",
-                 "show_space_items", "show_blind_icon", "word_wrap", "bold_font"]):
+                 "show_space_items", "show_blind_icon", "make_items_glow", "word_wrap", "bold_font"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(mainframe, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
