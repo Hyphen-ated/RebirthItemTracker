@@ -97,6 +97,8 @@ class IsaacTracker(object):
                 # state during its lifetime
                 if state != None:
                     state.modified = True
+            if not opt.write_to_server:
+                write_to_server = False
 
             if opt.read_from_server:
                 # Change the delay for polling, as we probably don't want to fetch it every second
