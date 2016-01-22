@@ -10,9 +10,10 @@ class TrackerState(Serializable):
     modify it while keeping it coherent
     """
     serialize = [('seed', basestring), ('floor_list', list),
-                 ('item_list', list), ('bosses', list)]
-    def __init__(self, seed):
+                 ('item_list', list), ('bosses', list), ('tracker_version', basestring)]
+    def __init__(self, seed, tracker_version):
         self.reset(seed)
+        self.tracker_version = tracker_version
 
 
     def reset(self, seed):
@@ -122,7 +123,7 @@ class TrackerState(Serializable):
     @staticmethod
     def from_valid_json(json_dic, *args):
         """ Create a state from a type-checked dic """
-        state = TrackerState(json_dic['seed'])
+        state = TrackerState(json_dic['seed'], json_dic['tracker_version'])
         # The order is important, we want a list of legal floors the item can
         # be picked up on before parsing items
         for floor_dic in json_dic['floor_list']:

@@ -14,8 +14,8 @@ class LogParser(object):
     """
     This class load Isaac's log file, and incrementally modify a state representing this log
     """
-    def __init__(self, prefix):
-        self.state = TrackerState("")
+    def __init__(self, prefix, tracker_version):
+        self.state = TrackerState("", tracker_version)
         self.log = logging.getLogger("tracker")
         self.file_prefix = prefix
 

@@ -26,6 +26,9 @@ class IsaacTracker(object):
         # Load items info
         with open(self.file_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
+        # load version
+        with open(self.file_prefix + 'version.txt', 'r') as f:
+            self.tracker_version = f.read()
         # Load options
         Options().load_options(self.file_prefix + "options.json")
 
@@ -40,12 +43,11 @@ class IsaacTracker(object):
             info = json.loads(github_info_json)
             latest_version = info["name"]
 
-            with open(self.file_prefix + 'version.txt', 'r') as f:
-                current_version = f.read()
-                title_text = " v" + current_version
-                if latest_version != current_version:
-                    title_text += " (new version available)"
-                return title_text
+
+            title_text = " v" + self.tracker_version
+            if latest_version != self.tracker_version:
+                title_text += " (new version available)"
+            return title_text
         except Exception as e:
             self.log.debug("Failed to find update info: " + e.message)
         return ""
@@ -59,7 +61,7 @@ class IsaacTracker(object):
         # Create drawing tool to use to draw everything - it'll create its own screen
         drawing_tool = DrawingTool(self.file_prefix)
         drawing_tool.set_window_title(update_notifier, "")
-        parser = LogParser(self.file_prefix)
+        parser = LogParser(self.file_prefix, self.tracker_version)
         opt = Options()
         log = logging.getLogger("tracker")
 
