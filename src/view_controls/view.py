@@ -157,7 +157,7 @@ class DrawingTool(object):
             return
 
         # If items were added, or removed (run restarted) regenerate items
-        if self.state.modified or len(self.drawn_items) < len(self.state.item_list):
+        if self.state.modified:
             self.__reflow()
             # We picked up an item, start the counter
             self.item_picked_up()
@@ -451,6 +451,7 @@ class DrawingTool(object):
     def reset(self):
         self.selected_item_index = None
         self.drawn_items = []
+        self.item_position_index = []
 
     def set_window_title(self, update_notifier, username):
         title = "Rebirth Item Tracker" + update_notifier
