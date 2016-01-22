@@ -120,6 +120,7 @@ class Item(Serializable):
         """ Return true if this item exists in items_info """
         return item_id.zfill(3) in Item.items_info
 
+    @property
     def flags(self):
         """ Create a string containing single characters representing certain boolean member variables """
         flagstr = ""
