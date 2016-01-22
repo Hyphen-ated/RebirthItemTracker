@@ -10,17 +10,25 @@ class Item(Serializable):
     items_info = {}
 
     serialize = [('item_id', basestring), ('floor_id', basestring),
-                 ('was_rerolled', bool), ('starting_item', bool), ('blind', bool)]
-    def __init__(self, item_id, floor, starting_item, was_rerolled=False, blind=False):
+                 ('flags', basestring)]
+    serialization_flags = {"blind":"b", "was_rerolled":"r", "starting_item":"s"}
+    def __init__(self, item_id, floor, starting_item=False, was_rerolled=False, blind=False, flagstr=None):
         self.item_id = item_id
         # The floor the item was found on
         self.floor = floor
-        # Was this item rerolled ?
-        self.was_rerolled = was_rerolled
-        # Is this a starting item ?
-        self.starting_item = starting_item
-        # Was it picked up while under the effect of curse of the blind?
-        self.blind = blind
+
+        #if we get a flag string, use that to determine the values of those other variables
+        if flagstr is not None:
+            for varname,flag in Item.serialization_flags.iteritems():
+                setattr(self, varname, flag in flagstr)
+        else:
+            # Is this a starting item ?
+            self.starting_item = starting_item
+            # Was it picked up while under the effect of curse of the blind?
+            self.blind = blind
+            # Was this item rerolled ?
+            self.was_rerolled = was_rerolled
+
         # ItemInfo for the current item
         self.info = Item.get_item_info(item_id)
 
@@ -112,6 +120,14 @@ class Item(Serializable):
         """ Return true if this item exists in items_info """
         return item_id.zfill(3) in Item.items_info
 
+    def flags(self):
+        """ Create a string containing single characters representing certain boolean member variables """
+        flagstr = ""
+        for varname,flag in Item.serialization_flags.iteritems():
+            if getattr(self, varname):
+                flagstr += flag
+        return flagstr
+
     @staticmethod
     def from_valid_json(json_dic, *args):
         """ Create an Item from a type-checked dic and a floor_list """
@@ -127,9 +143,9 @@ class Item(Serializable):
         if not Item.contains_info(item_id):
             item_id = "NEW"
 
-        was_rerolled = json_dic['was_rerolled']
-        starting_item = json_dic['starting_item']
-        return Item(item_id, floor, starting_item, was_rerolled)
+        flagstr = json_dic['flags']
+
+        return Item(item_id, floor, flagstr=flagstr)
 
 
 class ItemInfo(dict):

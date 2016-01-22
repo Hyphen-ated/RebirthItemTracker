@@ -16,7 +16,11 @@ class Serializable(object):
             if issubclass(value_type, Serializable):
                 result[key] = getattr(self, key).to_json()
             else:
-                result[key] = getattr(self, key)
+                attr = getattr(self, key)
+                if callable(attr):
+                    result[key] = attr()
+                else:
+                    result[key] = attr
         return result
 
     @staticmethod
