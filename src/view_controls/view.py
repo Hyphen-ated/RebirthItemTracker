@@ -451,6 +451,7 @@ class DrawingTool(object):
     def reset(self):
         self.selected_item_index = None
         self.drawn_items = []
+        self.item_position_index = []
 
     def set_window_title(self, update_notifier, username):
         title = "Rebirth Item Tracker" + update_notifier
