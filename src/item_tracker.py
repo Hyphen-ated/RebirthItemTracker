@@ -90,10 +90,13 @@ class IsaacTracker(object):
                     drawing_tool.set_window_title(update_notifier, twitch_username)
                 else:
                     drawing_tool.set_window_title(update_notifier, "")
+                # Force view update on change
+                if state != None:
+                    state.modified = True
             if opt.write_to_server and opt.write_to_server != write_to_server:
                 framecount = 0
                 write_to_server = True
-                # Will force writing the correct state, as the parser uses the same
+                # Will force writing the correct state to the server, as the parser uses the same
                 # state during its lifetime
                 if state != None:
                     state.modified = True
