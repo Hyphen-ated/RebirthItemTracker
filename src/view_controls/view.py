@@ -472,6 +472,7 @@ class DrawableItem(Drawable):
             it's not one of our starting items
         """
         return Options().show_blind_icon and \
+            not Options().blck_cndl_mode and \
             self.item.floor.floor_has_curse(Curse.Blind) and \
             not self.item.starting_item
 
@@ -540,7 +541,7 @@ class DrawableFloor(Drawable):
              (self.x + 2, self.y),
              (int(self.x + 32 * size_multiplier), self.y))
         )
-        image = self.tool.font.render(self.floor.name(), True, text_color)
+        image = self.tool.font.render(self.floor.name(Options().blck_cndl_mode), True, text_color)
         self.tool.screen.blit(image, (self.x + 4, self.y - self.tool.text_margin_size))
 
 

@@ -5,6 +5,7 @@
   "default_spacing": 64,
   "framerate_limit": 30,
   "height": 96,
+  "blck_cndl_mode": false,
   "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID",
   "make_items_glow": true,
   "message_duration": 7,

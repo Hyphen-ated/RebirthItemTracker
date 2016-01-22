@@ -50,9 +50,12 @@ class Floor(Serializable):
         """Return true if the floor has the curse"""
         return curse == self.curse
 
-    def name(self):
+    def name(self, xl_disabled=False):
         """Return the floor name"""
-        return Floor.__floor_id_to_label[self.floor_id]
+        id = self.floor_id
+        if xl_disabled and id.endswith('x'):
+            id = id[:-1]
+        return Floor.__floor_id_to_label[id]
 
     def __eq__(self, other):
         if not isinstance(other, Floor):

@@ -1,5 +1,6 @@
 {
    "background_color": "#3C3C3C", 
+   "blck_cndl_mode": true, 
    "bold_font": true, 
    "default_spacing": 64, 
    "framerate_limit": 30, 
