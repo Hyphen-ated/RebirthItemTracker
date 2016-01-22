@@ -172,7 +172,7 @@ class DrawingTool(object):
         # line height is with respect to the user's particular size_multiplier.
         # Thus, we can just draw a single space to ensure that the spacing is consistent
         # whether text happens to be showing or not.
-        if opt.show_description or opt.show_custom_message:
+        if opt.show_description or opt.show_status_message:
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
@@ -181,7 +181,7 @@ class DrawingTool(object):
         text_written = False
         if opt.show_description and self.item_message_countdown_in_progress():
             text_written = self.write_item_text()
-        if not text_written and opt.show_custom_message:
+        if not text_written and opt.show_status_message:
             # Draw seed/guppy text:
             seed = self.state.seed
 
@@ -195,7 +195,7 @@ class DrawingTool(object):
             # Use vformat to handle the case where the user adds an
             # undefined placeholder in default_message
             message = string.Formatter().vformat(
-                opt.custom_message,
+                opt.status_message,
                 (),
                 dic
             )
@@ -442,7 +442,7 @@ class DrawingTool(object):
         self._image_library = {}
         self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
         self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
-        if opt.show_description or opt.show_custom_message:
+        if opt.show_description or opt.show_status_message:
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0

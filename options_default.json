@@ -1,7 +1,7 @@
 {
   "background_color": "#3C3C3C",
   "bold_font": true,
-  "custom_message": "Seed: {seed} / Guppy: {guppy} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}",
+  "status_message": "Seed: {seed} / Guppy: {guppy} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}",
   "default_spacing": 64,
   "framerate_limit": 30,
   "height": 96,
@@ -12,7 +12,7 @@
   "read_delay": 15,
   "read_from_server": false,
   "show_blind_icon": true,
-  "show_custom_message": true,
+  "show_status_message": true,
   "show_description": true,
   "show_floors": true,
   "show_font": "Arial",

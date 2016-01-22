@@ -61,10 +61,10 @@ class OptionsMenu(object):
             self.entries["message_duration"].configure(state=NORMAL)
 
         # Disable custom message if we don't have to show it
-        if not self.checks.get("show_custom_message").get():
-            self.entries["custom_message"].configure(state=DISABLED)
+        if not self.checks.get("show_status_message").get():
+            self.entries["status_message"].configure(state=DISABLED)
         else:
-            self.entries["custom_message"].configure(state=NORMAL)
+            self.entries["status_message"].configure(state=NORMAL)
 
     # Writing to server occurs when state changes, so enable read delay iff we are reading
         if self.checks.get("read_from_server").get():
@@ -158,8 +158,10 @@ class OptionsMenu(object):
 
     pretty_name_map = {"read_from_server": "Watch Someone Else",
                        "write_to_server": "Let Others Watch Me",
-                       "twitch_name": "Their Twitch Name"}
-
+                       "twitch_name": "Their Twitch Name",
+                       "bold_font": "Bold"}
+    label_after_text = {"message_duration":"seconds",
+                        "framerate_limit":"fps"}
     def pretty_name(self, s):
         # Change from a var name to something you'd show the users
         if self.pretty_name_map.has_key(s):
@@ -177,33 +179,78 @@ class OptionsMenu(object):
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
 
-        mainframe = LabelFrame(self.root, text="Display Options", padx=20, pady=20)
-        # mainframe.pack(fill="both", expand="yes")
-        mainframe.grid(row=0, column=0, padx=5, pady=5)
         # Generate numeric options by looping over option types
-        self.integer_keys = ["message_duration", "min_spacing", "default_spacing", "framerate_limit", "read_delay"]
+        self.integer_keys = ["message_duration", "framerate_limit", "read_delay"]
         self.float_keys   = ["size_multiplier"]
         self.entries = {}
         self.labels = {}
-        nextrow = 0
+        self.checks = {}
+        self.buttons = {}
+
+        textframe = LabelFrame(self.root, text="Text Options", padx=20, pady=20)
+        textframe.grid(row=0, column=0, padx=5, pady=5)
         vcmd = (self.root.register(self.OnValidate), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
-        for index, opt in enumerate(["message_duration", "min_spacing", "default_spacing", "framerate_limit", "size_multiplier"]):
-            Label(mainframe, text=self.pretty_name(opt)).grid(row=nextrow)
-            self.entries[opt] = Entry(mainframe, validate="key", validatecommand=vcmd)
+        nextrow = 0
+        for index, opt in enumerate(["message_duration"]):
+            Label(textframe, text=self.pretty_name(opt)).grid(row=nextrow)
+            self.entries[opt] = Entry(textframe, validate="key", validatecommand=vcmd)
+            self.entries[opt].grid(row=nextrow, column=1)
+            self.entries[opt].insert(0, getattr(self.options, opt))
+            if opt in self.label_after_text:
+                Label(textframe, text=self.label_after_text[opt]).grid(row=nextrow, column=2)
+            nextrow += 1
+
+        for index, opt in enumerate(["show_font"]):
+            Label(textframe, text=self.pretty_name(opt)).grid(row=nextrow)
+            initialvar = StringVar()
+            initialvar.set(getattr(self.options, opt))
+            self.entries[opt] = ttk.Combobox(textframe, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
+            self.entries[opt].grid(row=nextrow, column=1)
+
+        for index, opt in enumerate(["bold_font"]):
+            self.checks[opt] = IntVar()
+            c = Checkbutton(textframe, text=self.pretty_name(opt), variable=self.checks[opt])
+            c.grid(row=nextrow, column=2)
+            nextrow += 1
+            if getattr(self.options, opt):
+                c.select()
+
+        for index, opt in enumerate(["status_message"]):
+            Label(textframe, text=self.pretty_name(opt)).grid(row=nextrow)
+            self.entries[opt] = Entry(textframe)
             self.entries[opt].grid(row=nextrow, column=1)
             self.entries[opt].insert(0, getattr(self.options, opt))
             nextrow += 1
 
-        for index, opt in enumerate(["show_font"]):
+        text_checkboxes = ["show_description", "show_status_message", "word_wrap"]
+        for index, opt in enumerate(text_checkboxes):
+            self.checks[opt] = IntVar()
+            c = Checkbutton(textframe, text=self.pretty_name(opt), variable=self.checks[opt])
+            c.grid(row=len(text_checkboxes) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
+            if getattr(self.options, opt):
+                c.select()
+
+            # Disable letting the user set the message duration if the show description option is disabled.
+            if opt == "show_description" or opt == "show_status_message":
+                c.configure(command=self.checkbox_callback)
+
+
+        mainframe = LabelFrame(self.root, text="Display Options", padx=20, pady=20)
+        # mainframe.pack(fill="both", expand="yes")
+        mainframe.grid(row=1, column=0, padx=5, pady=5)
+        nextrow = 0
+
+        for index, opt in enumerate(["framerate_limit", "size_multiplier"]):
             Label(mainframe, text=self.pretty_name(opt)).grid(row=nextrow)
-            initialvar = StringVar()
-            initialvar.set(getattr(self.options, opt))
-            self.entries[opt] = ttk.Combobox(mainframe, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
+            self.entries[opt] = Entry(mainframe, validate="key", validatecommand=vcmd)
             self.entries[opt].grid(row=nextrow, column=1)
+            self.entries[opt].insert(0, getattr(self.options, opt))
+            if opt in self.label_after_text:
+                Label(mainframe, text=self.label_after_text[opt]).grid(row=nextrow, column=2)
             nextrow += 1
 
         # Generate text options by looping over option types
-        for index, opt in enumerate(["item_details_link", "custom_message"]):
+        for index, opt in enumerate(["item_details_link"]):
             Label(mainframe, text=self.pretty_name(opt)).grid(row=nextrow)
             self.entries[opt] = Entry(mainframe)
             self.entries[opt].grid(row=nextrow, column=1)
@@ -211,7 +258,6 @@ class OptionsMenu(object):
             nextrow += 1
 
         # Generate buttons by looping over option types
-        self.buttons = {}
         for index, opt in enumerate(["background_color", "text_color"]):
             self.buttons[opt] = Button(
                 mainframe,
@@ -223,19 +269,14 @@ class OptionsMenu(object):
             self.buttons[opt].grid(row=len(self.entries), column=index)
 
         # Generate checkboxes, with special exception for show_description for message duration
-        self.checks = {}
         for index, opt in enumerate(
-                ["show_description", "show_custom_message", "show_floors", "show_rerolled_items", "show_health_ups",
-                 "show_space_items", "show_blind_icon", "make_items_glow", "word_wrap", "bold_font"]):
+                ["show_floors", "show_rerolled_items", "show_health_ups",
+                 "show_space_items", "show_blind_icon", "make_items_glow"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(mainframe, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
             if getattr(self.options, opt):
                 c.select()
-
-            # Disable letting the user set the message duration if the show description option is disabled.
-            if opt == "show_description" or opt == "show_custom_message":
-                c.configure(command=self.checkbox_callback)
 
         serverframe = LabelFrame(self.root, text="Tournament Settings", padx=20, pady=20)
         serverframe.grid(row=0, column=1)
