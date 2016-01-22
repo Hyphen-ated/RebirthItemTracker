@@ -57,7 +57,7 @@ class DrawingTool(object):
     def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
         pygame.init()
-        pygame.display.set_icon(self.get_image("collectibles_333.png"))
+        pygame.display.set_icon(self.get_image("collectibles_333.png", disable_glow=True))
         self.clock = pygame.time.Clock()
 
 
@@ -346,11 +346,11 @@ class DrawingTool(object):
     def get_scaled_icon(self, path, scale):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
-    def get_image(self, imagename):
+    def get_image(self, imagename, disable_glow=False):
         image = self._image_library.get(imagename)
         if image is None:
             path = self.file_prefix + "/collectibles/"
-            if Options().make_items_glow:
+            if Options().make_items_glow and not disable_glow:
                 path += "glow/"
             path += imagename
             canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
