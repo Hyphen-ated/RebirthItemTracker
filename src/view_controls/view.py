@@ -157,7 +157,7 @@ class DrawingTool(object):
             return
 
         # If items were added, or removed (run restarted) regenerate items
-        if self.state.modified or len(self.drawn_items) < len(self.state.item_list):
+        if self.state.modified:
             self.__reflow()
             # We picked up an item, start the counter
             self.item_picked_up()
