@@ -11,6 +11,7 @@ from game_objects.floor import Curse
 from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
 from pygame.locals import RESIZABLE
+from game_objects.state  import TrackerState, TrackerStateEncoder
 #import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Additional pygame imports
@@ -473,7 +474,7 @@ class DrawableItem(Drawable):
         """
         return Options().show_blind_icon and \
             not Options().blck_cndl_mode and \
-            self.item.floor.floor_has_curse(Curse.Blind) and \
+            self.item.blind and \
             not self.item.starting_item
 
     def shown(self):

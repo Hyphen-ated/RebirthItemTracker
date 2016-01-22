@@ -10,8 +10,8 @@ class Item(Serializable):
     items_info = {}
 
     serialize = [('item_id', basestring), ('floor_id', basestring),
-                 ('was_rerolled', bool), ('starting_item', bool)]
-    def __init__(self, item_id, floor, starting_item, was_rerolled=False):
+                 ('was_rerolled', bool), ('starting_item', bool), ('blind', bool)]
+    def __init__(self, item_id, floor, starting_item, was_rerolled=False, blind=False):
         self.item_id = item_id
         # The floor the item was found on
         self.floor = floor
@@ -19,6 +19,8 @@ class Item(Serializable):
         self.was_rerolled = was_rerolled
         # Is this a starting item ?
         self.starting_item = starting_item
+        # Was it picked up while under the effect of curse of the blind?
+        self.blind = blind
         # ItemInfo for the current item
         self.info = Item.get_item_info(item_id)
 

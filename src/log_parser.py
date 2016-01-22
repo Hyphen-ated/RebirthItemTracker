@@ -181,7 +181,9 @@ class LogParser(object):
                 and self.state.contains_item(item_id):
             self.log.debug("Skipped duplicate item line from baby entry")
             return False
-        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items))
+        #it's a blind pickup if we're on a blind floor and they don't have the black candle
+        blind_pickup = self.state.last_floor.floor_has_curse(Curse.Blind) and not self.state.contains_item('260')
+        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, blind=blind_pickup))
         if not added:
             self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
         return True
