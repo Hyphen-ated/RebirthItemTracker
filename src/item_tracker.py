@@ -1,5 +1,6 @@
 """ This module handles everything related to the tracker behaviour. """
 import json     # For importing the items and options
+import time
 import urllib2  # For checking for updates to the item tracker
 import logging  # For logging
 
@@ -13,8 +14,8 @@ from options import Options
 
 class IsaacTracker(object):
     """ The main class of the program """
-    def __init__(self, logging_level=logging.INFO, read_delay=1):
-        self.read_delay = read_delay
+    def __init__(self, logging_level=logging.INFO, read_timer=1):
+        self.read_timer = read_timer
         self.file_prefix = "../"
 
 
@@ -70,9 +71,10 @@ class IsaacTracker(object):
         state = None
         read_from_server = opt.read_from_server
         write_to_server = opt.write_to_server
-        delay = self.read_delay
+        update_timer = self.read_timer
         state_version = -1
         twitch_username = None
+        new_states_queue = []
 
         while not done:
 
@@ -85,6 +87,7 @@ class IsaacTracker(object):
                 framecount = 0
                 twitch_username = opt.twitch_name
                 read_from_server = opt.read_from_server
+                read_states_queue = []
                 # Also restart version count if we go back and forth from log.txt to server
                 if read_from_server:
                     state_version = -1
@@ -107,15 +110,15 @@ class IsaacTracker(object):
 
             if opt.read_from_server:
                 # Change the delay for polling, as we probably don't want to fetch it every second
-                delay = opt.read_delay
+                update_timer = 5
             else:
-                delay = self.read_delay
+                update_timer = self.read_timer
 
 
             # Now we re-process the log file to get anything that might have loaded;
-            # do it every read_delay seconds (making sure to truncate to an integer
+            # do it every update_timer seconds (making sure to truncate to an integer
             # or else it might never mod to 0)
-            if (framecount % int(Options().framerate_limit * delay) == 0):
+            if (framecount % int(Options().framerate_limit * update_timer) == 0):
                 # Let the parser do his thing and give us a state
                 if opt.read_from_server:
                     base_url = opt.trackerserver_url + "/tracker/api/user/" + opt.twitch_name
@@ -125,8 +128,9 @@ class IsaacTracker(object):
                             # FIXME better handling of 404 error ?
                             json_state = urllib2.urlopen(base_url).read()
                             json_dict = json.loads(json_state)
-                            state = TrackerState.from_json(json_dict)
+                            new_state = TrackerState.from_json(json_dict)
                             state_version = int(json_version)
+                            read_states_queue.append((state_version, new_state))
                     except Exception:
                         state = None
                         log.error("Couldn't load state from server")
@@ -146,6 +150,15 @@ class IsaacTracker(object):
                             url = opener.open(request)
                         except Exception:
                             log.error("ERROR: Couldn't store state to server")
+
+            # check the new state at the front of the queue to see if it's time to use it
+            if len(new_states_queue) > 0:
+                (state_timestamp, new_state) = new_states_queue[0]
+                current_timestamp = int(time.time())
+                if current_timestamp - state_timestamp >= opt.read_delay:
+                    state = new_state
+                    new_states_queue.pop(0)
+
 
             # We got a state, now we draw it
             drawing_tool.draw_state(state)
