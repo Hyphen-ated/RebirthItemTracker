@@ -87,7 +87,7 @@ class IsaacTracker(object):
                 framecount = 0
                 twitch_username = opt.twitch_name
                 read_from_server = opt.read_from_server
-                read_states_queue = []
+                new_states_queue = []
                 # Also restart version count if we go back and forth from log.txt to server
                 if read_from_server:
                     state_version = -1
@@ -130,7 +130,7 @@ class IsaacTracker(object):
                             json_dict = json.loads(json_state)
                             new_state = TrackerState.from_json(json_dict)
                             state_version = int(json_version)
-                            read_states_queue.append((state_version, new_state))
+                            new_states_queue.append((state_version, new_state))
                     except Exception:
                         state = None
                         log.error("Couldn't load state from server")
