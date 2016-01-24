@@ -88,6 +88,10 @@ class DrawingTool(object):
         """ Tick the clock. """
         self.clock.tick(int(Options().framerate_limit))
 
+    def save_window_position(self):
+        win_pos = self.win_info.getScreenPosition()
+        Options().x_position = win_pos["left"]
+        Options().y_position = win_pos["top"]
 
     def handle_events(self):
         """ Handle any pygame event """
@@ -95,10 +99,6 @@ class DrawingTool(object):
         # pygame logic
         for event in pygame.event.get():
             if event.type == QUIT:
-                if platform.system() == "Windows":
-                    win_pos = self.win_info.getScreenPosition()
-                    opt.x_position = win_pos["left"]
-                    opt.y_position = win_pos["top"]
                 return True
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
@@ -118,6 +118,8 @@ class DrawingTool(object):
                         self.change_item_selected(-1)
                     elif event.key == K_RETURN:
                         self.load_selected_detail_page()
+                    elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
+                        return True
                     elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
                         # FIXME debug purpose only !
                         with open("../export_state.json", "w") as state_file:

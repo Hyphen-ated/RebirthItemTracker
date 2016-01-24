@@ -172,6 +172,8 @@ class IsaacTracker(object):
             drawing_tool.tick()
             framecount += 1
 
+        # main loop finished. program is exiting
+        drawing_tool.save_window_position()
 
 def main():
     """ Main """
