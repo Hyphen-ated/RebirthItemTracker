@@ -94,14 +94,14 @@ class IsaacTracker(object):
                 else:
                     drawing_tool.set_window_title(update_notifier, "")
                 # Force view update on change
-                if state != None:
+                if state is not None:
                     state.modified = True
             if opt.write_to_server and opt.write_to_server != write_to_server:
                 framecount = 0
                 write_to_server = True
                 # Will force writing the correct state to the server, as the parser uses the same
                 # state during its lifetime
-                if state != None:
+                if state is not None:
                     state.modified = True
             if not opt.write_to_server:
                 write_to_server = False
@@ -136,7 +136,7 @@ class IsaacTracker(object):
                         log.error(traceback.format_exc())
                 else:
                     state = parser.parse()
-                    if state != None and write_to_server and state.modified:
+                    if state is not None and write_to_server and state.modified:
                         opener = urllib2.build_opener(urllib2.HTTPHandler)
                         put_url = opt.trackerserver_url + "/tracker/api/update/" + opt.trackerserver_authkey
                         json_string = json.dumps(state, cls=TrackerStateEncoder, sort_keys=True)
@@ -160,7 +160,7 @@ class IsaacTracker(object):
 
             # We got a state, now we draw it
             drawing_tool.draw_state(state)
-            if state == None:
+            if state is None:
                 if read_from_server:
                     drawing_tool.write_message("Unable to read state from server. Please verify "
                                                "your options setup and tracker_log.txt", True)

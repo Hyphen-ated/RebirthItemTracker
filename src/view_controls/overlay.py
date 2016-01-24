@@ -40,7 +40,7 @@ class Overlay(object):
         Update file content for a subset (or all) the player's stats.
         stat_list provide the subset of stats to update, if None it will update everything
         """
-        if stat_list == None:
+        if stat_list is None:
             stat_list = ItemInfo.stat_list + ["guppy"]
         for stat in stat_list:
             display = ""

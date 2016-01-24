@@ -139,7 +139,7 @@ class DrawingTool(object):
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset_options()
                     self.reset()
-                    if self.state != None:
+                    if self.state is not None:
                         self.__reflow()
         return False
 
@@ -157,7 +157,7 @@ class DrawingTool(object):
         self.screen.fill(DrawingTool.color(opt.background_color))
 
         # If state is None we just want to clear the screen
-        if self.state == None:
+        if self.state is None:
             return
 
         # If items were added, or removed (run restarted) regenerate items
