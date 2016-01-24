@@ -73,6 +73,7 @@ class IsaacTracker(object):
         state_version = -1
         twitch_username = None
         new_states_queue = []
+        screen_error_message = ""
 
         while not done:
 
@@ -89,6 +90,7 @@ class IsaacTracker(object):
                 # Also restart version count if we go back and forth from log.txt to server
                 if read_from_server:
                     state_version = -1
+                    state = None
                     # show who we are watching in the title bar
                     drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue))
                 else:
@@ -121,6 +123,7 @@ class IsaacTracker(object):
                 # Let the parser do his thing and give us a state
                 if opt.read_from_server:
                     base_url = opt.trackerserver_url + "/tracker/api/user/" + opt.twitch_name
+                    json_dict = None
                     try:
                         json_version = urllib2.urlopen(base_url + "/version").read()
                         if int(json_version) > state_version:
@@ -128,6 +131,8 @@ class IsaacTracker(object):
                             json_state = urllib2.urlopen(base_url).read()
                             json_dict = json.loads(json_state)
                             new_state = TrackerState.from_json(json_dict)
+                            if new_state is None:
+                                raise Exception
                             state_version = int(json_version)
                             new_states_queue.append((state_version, new_state))
                             drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
@@ -136,6 +141,16 @@ class IsaacTracker(object):
                         log.error("Couldn't load state from server")
                         import traceback
                         log.error(traceback.format_exc())
+                        if json_dict is not None:
+                            their_version = ""
+                            if "tracker_version" in json_dict:
+                                their_version = json_dict["tracker_version"]
+                            else:
+                                # this is the only version that can upload to the server but doesn't include a version string
+                                their_version = "0.10-beta1"
+
+                            if their_version != self.tracker_version:
+                                screen_error_message = "They are using tracker version " + their_version + " but you have " + self.tracker_version
                 else:
                     state = parser.parse()
                     if state is not None and write_to_server and state.modified:
@@ -155,7 +170,7 @@ class IsaacTracker(object):
             if len(new_states_queue) > 0:
                 (state_timestamp, new_state) = new_states_queue[0]
                 current_timestamp = int(time.time())
-                if current_timestamp - state_timestamp >= opt.read_delay:
+                if current_timestamp - state_timestamp >= opt.read_delay or state is None:
                     state = new_state
                     new_states_queue.pop(0)
                     drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
@@ -165,11 +180,12 @@ class IsaacTracker(object):
             drawing_tool.draw_state(state)
             if state is None:
                 if read_from_server:
-                    drawing_tool.write_message("Unable to read state from server. Please verify "
-                                               "your options setup and tracker_log.txt", True)
+                    if screen_error_message == "":
+                        screen_error_message = "Unable to read state from server. Please verify your options setup and tracker_log.txt"
                 else:
                     drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
                                                "folder inside the isaac folder, next to log.txt", True)
+                drawing_tool.write_message(screen_error_message, True)
 
 
             drawing_tool.tick()
