@@ -130,7 +130,7 @@ class IsaacTracker(object):
                             new_state = TrackerState.from_json(json_dict)
                             state_version = int(json_version)
                             new_states_queue.append((state_version, new_state))
-                            drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue))
+                            drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
                     except Exception:
                         state = None
                         log.error("Couldn't load state from server")
@@ -158,7 +158,7 @@ class IsaacTracker(object):
                 if current_timestamp - state_timestamp >= opt.read_delay:
                     state = new_state
                     new_states_queue.pop(0)
-                    drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue))
+                    drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
 
 
             # We got a state, now we draw it

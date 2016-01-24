@@ -116,6 +116,12 @@ class DrawingTool(object):
                         self.change_item_selected(1)
                     elif event.key == K_LEFT:
                         self.change_item_selected(-1)
+                    elif event.key == K_UP and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
+                        opt.read_delay += 1
+                        self.update_window_title()
+                    elif event.key == K_DOWN and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
+                        opt.read_delay = max(0, opt.read_delay - 1)
+                        self.update_window_title()
                     elif event.key == K_RETURN:
                         self.load_selected_detail_page()
                     elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
@@ -457,13 +463,18 @@ class DrawingTool(object):
         self.drawn_items = []
         self.item_position_index = []
 
-    def set_window_title(self, update_notifier, watching_player=None, updates_queued=0, uploading=False):
-        title = "Rebirth Item Tracker" + update_notifier
-        if watching_player:
-            title = title + ", spectating " + watching_player + " (" + str(updates_queued) + " updates queued)"
-        if uploading:
+    def set_window_title(self, update_notifier, watching_player=None, updates_queued=0, read_delay=0, uploading=False):
+        self.window_title_info = WindowTitleInfo(update_notifier, watching_player, updates_queued, uploading)
+        self.update_window_title()
+
+    def update_window_title(self):
+        title = "Rebirth Item Tracker" + self.window_title_info.update_notifier
+        if self.window_title_info.watching_player:
+            title = title + ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
+        if self.window_title_info.uploading:
             title = title + ", uploading to server"
         pygame.display.set_caption(title)
+
 
 
 class DrawableItem(Drawable):
@@ -531,6 +542,13 @@ class DrawableItem(Drawable):
             return
         url = url.replace("$ID", self.item.item_id)
         webbrowser.open(url, autoraise=True)
+
+class WindowTitleInfo:
+    def __init__(self, update_notifier, watching_player, updates_queued, uploading):
+        self.update_notifier = update_notifier
+        self.watching_player = watching_player
+        self.updates_queued = updates_queued
+        self.uploading = uploading
 
 class DrawableFloor(Drawable):
     def __init__(self, floor, x, y, tool):
