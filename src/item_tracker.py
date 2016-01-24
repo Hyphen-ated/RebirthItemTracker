@@ -111,7 +111,7 @@ class IsaacTracker(object):
 
             if opt.read_from_server:
                 # Change the delay for polling, as we probably don't want to fetch it every second
-                update_timer = 5
+                update_timer = 2
             else:
                 update_timer = self.read_timer
 
