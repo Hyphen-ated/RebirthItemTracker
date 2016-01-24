@@ -1,5 +1,6 @@
 """ This module handles everything related to the tracker's window """
 import json
+import logging
 import os
 import platform # For determining what operating system the script is being run on
 import pygame   # This is the main graphics library used for the item tracker
@@ -454,7 +455,8 @@ class DrawingTool(object):
         except Exception:
             import traceback
             errmsg = traceback.format_exc()
-            log.error("ERROR: Couldn't load font, falling back to Arial")
+            log = logging.getLogger("tracker")
+            log.error("ERROR: Couldn't load font \"" + opt.show_font +"\", falling back to Arial")
             log.error(errmsg)
             self.font = pygame.font.SysFont(
                     "arial",
