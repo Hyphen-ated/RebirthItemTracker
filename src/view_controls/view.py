@@ -457,10 +457,12 @@ class DrawingTool(object):
         self.drawn_items = []
         self.item_position_index = []
 
-    def set_window_title(self, update_notifier, username):
+    def set_window_title(self, update_notifier, watching_player=None, updates_queued=0, uploading=False):
         title = "Rebirth Item Tracker" + update_notifier
-        if username:
-            title = title + ", spectating " + username
+        if watching_player:
+            title = title + ", spectating " + watching_player + " (" + str(updates_queued) + " updates queued)"
+        if uploading:
+            title = title + ", uploading to server"
         pygame.display.set_caption(title)
 
 
