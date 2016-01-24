@@ -177,6 +177,7 @@ class OptionsMenu(object):
     def run(self):
         # Create root
         self.root = Tk()
+        self.root.attributes("-topmost", True)
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
 
@@ -340,7 +341,7 @@ class OptionsMenu(object):
 
 
         buttonframe = LabelFrame(self.root, bd=0, padx=5, pady=5)
-        buttonframe.grid(row=2, column=0)
+        buttonframe.grid(row=2, column=1)
         # Save and cancel buttons
         save = Button(
             buttonframe,

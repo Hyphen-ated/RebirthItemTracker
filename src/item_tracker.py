@@ -67,11 +67,9 @@ class IsaacTracker(object):
         log = logging.getLogger("tracker")
 
         done = False
-        log_found = False
         state = None
         read_from_server = opt.read_from_server
         write_to_server = opt.write_to_server
-        update_timer = self.read_timer
         state_version = -1
         twitch_username = None
         new_states_queue = []

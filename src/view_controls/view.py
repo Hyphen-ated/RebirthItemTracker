@@ -130,6 +130,8 @@ class DrawingTool(object):
                     self.load_selected_detail_page()
                 if event.button == 3:
                     import option_picker
+                    self.screen.fill(DrawingTool.color(opt.background_color))
+                    pygame.display.flip()
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     option_picker.OptionsMenu().run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
