@@ -445,11 +445,23 @@ class DrawingTool(object):
         # Anything that gets calculated and cached based on something in options
         # now needs to be flushed
         self.text_margin_size = size_multiplier
-        self.font = pygame.font.SysFont(
-            opt.show_font,
-            size_multiplier,
-            bold=opt.bold_font
-        )
+        try:
+            self.font = pygame.font.SysFont(
+                opt.show_font,
+                size_multiplier,
+                bold=opt.bold_font
+            )
+        except Exception:
+            import traceback
+            errmsg = traceback.format_exc()
+            log.error("ERROR: Couldn't load font, falling back to Arial")
+            log.error(errmsg)
+            self.font = pygame.font.SysFont(
+                    "arial",
+                    size_multiplier,
+                    bold=opt.bold_font
+            )
+
         self._image_library = {}
         self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
         self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)

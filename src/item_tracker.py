@@ -164,7 +164,10 @@ class IsaacTracker(object):
                         try:
                             url = opener.open(request)
                         except Exception:
+                            import traceback
+                            errmsg = traceback.format_exc()
                             log.error("ERROR: Couldn't store state to server")
+                            log.error(errmsg)
 
             # check the new state at the front of the queue to see if it's time to use it
             if len(new_states_queue) > 0:
