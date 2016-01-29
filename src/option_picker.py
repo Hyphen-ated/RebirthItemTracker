@@ -325,11 +325,16 @@ class OptionsMenu(object):
             self.entries[opt].insert(0, getattr(self.options, opt, ""))
             next_row += 1
 
+        def authkey_fn():
+            webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + self.entries["trackerserver_twitch_id"].get() + "&redirect_uri=" +
+                            self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
+            self.entries["trackerserver_authkey"].delete(0, last=END)
+
+
         self.buttons["authkey_button"] = Button(
             serverframe,
             text="Get an authkey",
-            command=lambda: webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + self.entries["trackerserver_twitch_id"].get() + "&redirect_uri=" +
-                                            self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
+            command=authkey_fn
         )
 
         self.buttons["authkey_button"].grid(row=next_row, column=1, pady=5)
