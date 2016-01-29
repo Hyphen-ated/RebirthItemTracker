@@ -34,6 +34,10 @@ class Clicakble(object):
     def on_click(self):
         pass
 
+class Event(object):
+    DONE = 1
+    OPTIONS_UPDATE = 2
+
 class DrawingTool(object):
     def __init__(self, prefix):
         self.file_prefix = prefix
@@ -100,7 +104,7 @@ class DrawingTool(object):
         # pygame logic
         for event in pygame.event.get():
             if event.type == QUIT:
-                return True
+                return Event.DONE
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
                 opt.width = event.dict["w"]
@@ -126,7 +130,7 @@ class DrawingTool(object):
                     elif event.key == K_RETURN:
                         self.load_selected_detail_page()
                     elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
-                        return True
+                        return Event.DONE
                     elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
                         # FIXME debug purpose only !
                         with open("../export_state.json", "w") as state_file:
@@ -148,7 +152,8 @@ class DrawingTool(object):
                     self.reset()
                     if self.state is not None:
                         self.__reflow()
-        return False
+                    return Event.OPTIONS_UPDATE
+        return None
 
     def draw_state(self, state):
         """
@@ -405,6 +410,13 @@ class DrawingTool(object):
         desc = item.generate_item_description()
         self.text_height = self.write_message("%s%s" % (item.name, desc))
         return True
+
+    def write_error_message(self, message):
+        opt = Options()
+        # Clear the screen
+        self.screen.fill(DrawingTool.color(opt.background_color))
+        self.write_message(message, flip=True)
+
 
     def write_message(self, message, flip=False):
         opt = Options()

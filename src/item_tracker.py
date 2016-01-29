@@ -5,7 +5,7 @@ import urllib2  # For checking for updates to the item tracker
 import logging  # For logging
 
 # Import item tracker specific code
-from view_controls.view import DrawingTool
+from view_controls.view import DrawingTool, Event
 from game_objects.item  import Item
 from game_objects.state  import TrackerState, TrackerStateEncoder
 from log_parser import LogParser
@@ -66,24 +66,22 @@ class IsaacTracker(object):
         opt = Options()
         log = logging.getLogger("tracker")
 
-        done = False
+        event_result = None
         state = None
         read_from_server = opt.read_from_server
         write_to_server = opt.write_to_server
         state_version = -1
         twitch_username = None
         new_states_queue = []
-        screen_error_message = ""
+        screen_error_message = None
 
-        while not done:
+        while event_result != Event.DONE:
 
             # Check for events and handle them
-            done = drawing_tool.handle_events()
+            event_result = drawing_tool.handle_events()
             # A change means the user has (de)activated an option
             if opt.read_from_server != read_from_server\
             or opt.twitch_name != twitch_username:
-                # By setting the framecount to 0 we ensure we'll refresh the state right away
-                framecount = 0
                 twitch_username = opt.twitch_name
                 read_from_server = opt.read_from_server
                 new_states_queue = []
@@ -95,17 +93,11 @@ class IsaacTracker(object):
                     drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue))
                 else:
                     drawing_tool.set_window_title(update_notifier)
-                # Force view update on change
-                if state is not None:
-                    state.modified = True
+
             if opt.write_to_server and opt.write_to_server != write_to_server:
-                framecount = 0
                 write_to_server = True
                 drawing_tool.set_window_title(update_notifier, uploading=True)
-                # Will force writing the correct state to the server, as the parser uses the same
-                # state during its lifetime
-                if state is not None:
-                    state.modified = True
+
             if not opt.write_to_server:
                 write_to_server = False
 
@@ -114,6 +106,14 @@ class IsaacTracker(object):
                 update_timer = 2
             else:
                 update_timer = self.read_timer
+
+            if event_result == Event.OPTIONS_UPDATE:
+                # By setting the framecount to 0 we ensure we'll refresh the state right away
+                framecount = 0
+                screen_error_message = None
+                # force updates after changing options
+                if state is not None:
+                    state.modified = True
 
 
             # Now we re-process the log file to get anything that might have loaded;
@@ -152,8 +152,11 @@ class IsaacTracker(object):
                             if their_version != self.tracker_version:
                                 screen_error_message = "They are using tracker version " + their_version + " but you have " + self.tracker_version
                 else:
+                    force_draw = state and state.modified
                     state = parser.parse()
-                    if state is not None and write_to_server and state.modified:
+                    if force_draw:
+                        state.modified = True
+                    if state is not None and write_to_server and state.modified and screen_error_message is None:
                         opener = urllib2.build_opener(urllib2.HTTPHandler)
                         put_url = opt.trackerserver_url + "/tracker/api/update/" + opt.trackerserver_authkey
                         json_string = json.dumps(state, cls=TrackerStateEncoder, sort_keys=True)
@@ -162,12 +165,20 @@ class IsaacTracker(object):
                         request.add_header('Content-Type', 'application/json')
                         request.get_method = lambda: 'PUT'
                         try:
-                            url = opener.open(request)
-                        except Exception:
+                            result = opener.open(request)
+                            result_json = json.loads(result.read())
+                            updated_user = result_json["updated_user"]
+                            if updated_user is None:
+                                screen_error_message = "The server didn't recognize you. Try getting a new authkey in the options menu."
+                            else:
+                                screen_error_message = None
+                        except Exception as e:
                             import traceback
                             errmsg = traceback.format_exc()
-                            log.error("ERROR: Couldn't store state to server")
+                            log.error("ERROR: Couldn't send item info to server")
                             log.error(errmsg)
+                            screen_error_message = "ERROR: Couldn't send item info to server, check tracker_log.txt"
+
 
             # check the new state at the front of the queue to see if it's time to use it
             if len(new_states_queue) > 0:
@@ -179,17 +190,18 @@ class IsaacTracker(object):
                     drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
 
 
-            # We got a state, now we draw it
-            drawing_tool.draw_state(state)
-            if state is None:
-                if read_from_server:
-                    if screen_error_message == "":
-                        screen_error_message = "Unable to read state from server. Please verify your options setup and tracker_log.txt"
-                else:
-                    drawing_tool.write_message("log.txt not found. Put the RebirthItemTracker "
-                                               "folder inside the isaac folder, next to log.txt", True)
-                drawing_tool.write_message(screen_error_message, True)
 
+            if state is None and screen_error_message is None:
+                if read_from_server:
+                    screen_error_message = "Unable to read state from server. Please verify your options setup and tracker_log.txt"
+                else:
+                    screen_error_message = "log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt"
+
+            if screen_error_message is not None:
+                drawing_tool.write_error_message(screen_error_message)
+            else:
+                # We got a state, now we draw it
+                drawing_tool.draw_state(state)
 
             drawing_tool.tick()
             framecount += 1
