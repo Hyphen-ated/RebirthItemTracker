@@ -145,7 +145,7 @@ class DrawingTool(object):
                     self.save_window_position()
                     import option_picker
                     self.screen.fill(DrawingTool.color(opt.background_color))
-                    pygame.display.flip()
+                    self.write_message("Editing options...", flip=True)
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     option_picker.OptionsMenu().run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
