@@ -361,6 +361,54 @@ class OptionsMenu(object):
         )
         cancel.grid(row=0, column=1, padx=5)
 
+
+        # We're going to jump through a lot of hoops so we can position the options window on top of the tracker...
+        # ... WITHOUT going off the edge of the screen
+
+        # first we start out placing outselves at the tracker's position
+        x_pos = getattr(self.options, "x_position")
+        y_pos = getattr(self.options, "y_position")
+
+        # now we make ourselves invisible and fullscreen. this is a hack to measure the size and position of the monitor
+        # we can't use the "screenwidth" and "screenheight" functions because they only give info on the primary display!
+        self.root.geometry('+%d+%d' % (x_pos, y_pos))
+        self.root.attributes("-alpha", 00)
+        self.root.state("zoomed")
+        self.root.update()
+
+        # our current width and height are now our display's width and height
+        screen_width = self.root.winfo_width()
+        screen_height = self.root.winfo_height()
+
+        # get the upper left corner of the monitor
+        origin_x = self.root.winfo_x()
+        origin_y = self.root.winfo_y()
+
+        # now we get out of invisible fullscreen mode
+        self.root.state("normal")
+        self.root.attributes("-alpha", 0xFF)
+
+        # here's the actual size of the window we're drawing
+        window_width = self.root.winfo_width()
+        window_height = self.root.winfo_height()
+
+        # now we can make sure we don't go off the sides
+        max_x = origin_x + screen_width - window_width - 30
+        max_y = origin_y + screen_height - window_height - 30
+
+        x_pos = min(x_pos, max_x)
+        y_pos = min(y_pos, max_y)
+
+        # clamp origin after clamping the other side, so that if our window is too big we lose the bottom/right instead of top/left
+        x_pos = max(x_pos, origin_x)
+        y_pos = max(y_pos, origin_y)
+
+
+        self.root.geometry('+%d+%d' % (x_pos, y_pos))
+        self.root.update()
+
+        self.root.focus_force()
+
         # Start the main loop
         mainloop()
 
