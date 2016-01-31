@@ -9,6 +9,7 @@ from options import Options
 import logging
 import urllib2
 import webbrowser
+import platform
 
 class OptionsMenu(object):
     """
@@ -373,8 +374,13 @@ class OptionsMenu(object):
         # we can't use the "screenwidth" and "screenheight" functions because they only give info on the primary display!
         self.root.geometry('+%d+%d' % (x_pos, y_pos))
         self.root.attributes("-alpha", 00)
-        self.root.state("zoomed")
-        self.root.update()
+        if platform.system() == "Windows":
+            self.root.state("zoomed")
+            self.root.update()
+        else:
+            self.root.attributes("-fullscreen", True)
+            # For some reason using 'update' here affects the actual window height we want to get later
+            self.root.update_idletasks()
 
         # our current width and height are now our display's width and height
         screen_width = self.root.winfo_width()
@@ -385,8 +391,12 @@ class OptionsMenu(object):
         origin_y = self.root.winfo_y()
 
         # now we get out of invisible fullscreen mode
-        self.root.state("normal")
         self.root.attributes("-alpha", 0xFF)
+        if platform.system() == "Windows":
+            self.root.state("normal")
+        else:
+            self.root.attributes("-fullscreen", False)
+            self.root.update()
 
         # here's the actual size of the window we're drawing
         window_width = self.root.winfo_width()
