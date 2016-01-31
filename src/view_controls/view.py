@@ -94,9 +94,10 @@ class DrawingTool(object):
         self.clock.tick(int(Options().framerate_limit))
 
     def save_window_position(self):
-        win_pos = self.win_info.getScreenPosition()
-        Options().x_position = win_pos["left"]
-        Options().y_position = win_pos["top"]
+        if platform.system() == "Windows":
+            win_pos = self.win_info.getScreenPosition()
+            Options().x_position = win_pos["left"]
+            Options().y_position = win_pos["top"]
 
     def handle_events(self):
         """ Handle any pygame event """
