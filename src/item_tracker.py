@@ -156,7 +156,7 @@ class IsaacTracker(object):
                     state = parser.parse()
                     if force_draw:
                         state.modified = True
-                    if not opt.trackerserver_authkey:
+                    if write_to_server and not opt.trackerserver_authkey:
                         screen_error_message = "Your authkey is blank. Get a new authkey in the options menu and paste it into the authkey text field."
                     if state is not None and write_to_server and state.modified and screen_error_message is None:
                         opener = urllib2.build_opener(urllib2.HTTPHandler)
