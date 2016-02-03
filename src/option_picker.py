@@ -1,4 +1,5 @@
 from Tkinter import *
+from multiprocessing import Queue
 from tkColorChooser import askcolor
 import json
 from string import maketrans, lower
@@ -10,6 +11,7 @@ import logging
 import urllib2
 import webbrowser
 import platform
+import threading
 
 class OptionsMenu(object):
     """
@@ -25,6 +27,7 @@ class OptionsMenu(object):
                       'Mangal', 'Microsoft Sans Serif', 'Miriam', 'Miriam Fixed', 'Narkisim', 'Raavi', 'Rod', 'Shruti',
                       'SimHei', 'Simplified Arabic', 'Simplified Arabic Fixed', 'Sylfaen', 'Tahoma', 'Times New Roman',
                       'Traditional Arabic', 'Trebuchet MS', 'Tunga', 'Verdana']
+        self.network_queue = Queue()
 
         # Check if the system has the fonts installed, and remove them from the list if it doesn't
         try:
@@ -51,7 +54,8 @@ class OptionsMenu(object):
     label_after_text = {"message_duration":"seconds",
                         "framerate_limit":"fps"}
     connection_labels = {"starting":"Connecting to server for player list...",
-                         "done": "Connecting to server for player list... Done"}
+                         "done": "Connecting to server for player list... Done",
+                         "fail": "Connecting to server for player list... Failed"}
 
     def pretty_name(self, s):
         # Change from a var name to something you'd show the users
@@ -107,9 +111,8 @@ class OptionsMenu(object):
         if self.checks.get("read_from_server").get():
             self.checks.get("write_to_server").set(0)
             self.labels["server_connect_label"].config(text=self.connection_labels["starting"])
-            self.root.update()
-            self.update_twitch_name_combobox_from_server()
-            self.labels["server_connect_label"].config(text=self.connection_labels["done"])
+            t = threading.Thread(target=self.get_server_userlist_and_enqueue)
+            t.start()
 
 
         self.checkbox_callback()
@@ -145,23 +148,39 @@ class OptionsMenu(object):
         days = hours / 24
         return str(days) + " day" + ("s" if days > 1 else "")
 
-    def update_twitch_name_combobox_from_server(self):
+    def get_server_userlist_and_enqueue(self):
         try:
             url = self.entries['trackerserver_url'].get() + "/tracker/api/userlist/"
             json_state = urllib2.urlopen(url).read()
             users = json.loads(json_state)
-            users_combobox_list = []
-            for user in users:
-                formatted_time_ago = self.seconds_to_text(user["seconds"])
-                list_entry = user["name"] + " (updated " + formatted_time_ago + " ago)"
-                users_combobox_list.append(list_entry)
-            self.entries['twitch_name']['values'] = users_combobox_list
+            success = True
         except Exception:
             import traceback
             errmsg = traceback.format_exc()
             #print it to stdout for dev troubleshooting, log it to a file for production
             print(errmsg)
             logging.getLogger("tracker").error(errmsg)
+            users = []
+            success = False
+        network_result = {"users": users, "success": success}
+        self.network_queue.put(network_result)
+
+    def process_network_results(self):
+        while self.network_queue.qsize():
+            try:
+                network_result = self.network_queue.get(0)
+                users_combobox_list = []
+                for user in network_result["users"]:
+                    formatted_time_ago = self.seconds_to_text(user["seconds"])
+                    list_entry = user["name"] + " (updated " + formatted_time_ago + " ago)"
+                    users_combobox_list.append(list_entry)
+                self.entries['twitch_name']['values'] = users_combobox_list
+                label = "done" if network_result["success"] else "fail"
+                self.labels["server_connect_label"].config(text=self.connection_labels[label])
+            except Queue.Empty:
+                pass
+        self.root.after(100, self.process_network_results)
+
 
     def trim_name(self, event):
         name = self.entries['twitch_name'].get()
@@ -312,7 +331,7 @@ class OptionsMenu(object):
         next_row += 1
 
         for index, opt in enumerate(["server_connect_label"]):
-            self.labels[opt] = Label(self.root, text="", width=len(self.connection_labels["done"]))
+            self.labels[opt] = Label(self.root, text="", width=len(self.connection_labels["fail"]))
             self.labels[opt].grid(row=next_row, pady=2, columnspan=2, in_=serverframe)
             next_row += 1
 
@@ -427,6 +446,9 @@ class OptionsMenu(object):
         self.root.update()
 
         self.root.focus_force()
+
+        # we're polling this queue for network results 10 times per second. this avoids blocking the main thread when we talk to the server
+        self.root.after(100, self.process_network_results())
 
         # Start the main loop
         mainloop()
