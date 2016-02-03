@@ -43,9 +43,22 @@ class OptionsMenu(object):
             log.error(traceback.print_exc())
 
 
-    """
-    Callbacks
-    """
+    pretty_name_map = {"read_from_server": "Watch Someone Else",
+                       "write_to_server": "Let Others Watch Me",
+                       "twitch_name": "Their Twitch Name",
+                       "bold_font": "Bold",
+                       "blck_cndl_mode": "BLCK CNDL mode" }
+    label_after_text = {"message_duration":"seconds",
+                        "framerate_limit":"fps"}
+    connection_labels = {"starting":"Connecting to server for player list...",
+                         "done": "Connecting to server for player list... Done"}
+
+    def pretty_name(self, s):
+        # Change from a var name to something you'd show the users
+        if self.pretty_name_map.has_key(s):
+            return self.pretty_name_map.get(s)
+        return " ".join(s.split("_")).title()
+
     def color_callback(self, source):
         # Prompt a color picker, set the options and the background/foreground of the button
         nums, hex_color = askcolor(color=getattr(self.options, source), title="Color Chooser")
@@ -78,6 +91,7 @@ class OptionsMenu(object):
             self.entries["twitch_name"].grid_remove()
             self.labels["read_delay"].grid_remove()
             self.labels["twitch_name"].grid_remove()
+            self.labels["server_connect_label"].config(text="")
 
         # Disable authkey if we don't write to server
         if self.checks.get("write_to_server").get():
@@ -92,7 +106,12 @@ class OptionsMenu(object):
     def read_callback(self):
         if self.checks.get("read_from_server").get():
             self.checks.get("write_to_server").set(0)
+            self.labels["server_connect_label"].config(text=self.connection_labels["starting"])
+            self.root.update()
             self.update_twitch_name_combobox_from_server()
+            self.labels["server_connect_label"].config(text=self.connection_labels["done"])
+
+
         self.checkbox_callback()
 
     def write_callback(self):
@@ -156,19 +175,6 @@ class OptionsMenu(object):
         color = color.lower()
         table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
-
-    pretty_name_map = {"read_from_server": "Watch Someone Else",
-                       "write_to_server": "Let Others Watch Me",
-                       "twitch_name": "Their Twitch Name",
-                       "bold_font": "Bold",
-                       "blck_cndl_mode": "BLCK CNDL mode"}
-    label_after_text = {"message_duration":"seconds",
-                        "framerate_limit":"fps"}
-    def pretty_name(self, s):
-        # Change from a var name to something you'd show the users
-        if self.pretty_name_map.has_key(s):
-            return self.pretty_name_map.get(s)
-        return " ".join(s.split("_")).title()
 
     # From http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
     def OnValidate(self, d, i, P, s, S, v, V, W):
@@ -285,7 +291,6 @@ class OptionsMenu(object):
         serverframe.grid(row=0, column=1)
         next_row = 0
 
-
         # Generate text options by looping over option types
         for index, opt in enumerate(["trackerserver_url", "trackerserver_twitch_id"]):
             self.labels[opt] = Label(serverframe, text=self.pretty_name(opt))
@@ -306,6 +311,10 @@ class OptionsMenu(object):
                 c.select()
         next_row += 1
 
+        for index, opt in enumerate(["server_connect_label"]):
+            self.labels[opt] = Label(self.root, text="", width=len(self.connection_labels["done"]))
+            self.labels[opt].grid(row=next_row, pady=2, columnspan=2, in_=serverframe)
+            next_row += 1
 
         for index, opt in enumerate(["twitch_name"]):
             self.labels[opt] = Label(serverframe, text=self.pretty_name(opt))
