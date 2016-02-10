@@ -3,6 +3,7 @@
    "blck_cndl_mode": true, 
    "bold_font": true, 
    "default_spacing": 64, 
+   "enable_mouseover": true,
    "framerate_limit": 30, 
    "height": 96, 
    "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID", 

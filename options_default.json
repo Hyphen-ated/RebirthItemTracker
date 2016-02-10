@@ -1,8 +1,10 @@
 {
+
   "background_color": "#3C3C3C",
   "bold_font": true,
   "status_message": "Seed: {seed} / Guppy: {guppy} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}",
   "default_spacing": 64,
+  "enable_mouseover": true,
   "framerate_limit": 30,
   "height": 96,
   "blck_cndl_mode": false,

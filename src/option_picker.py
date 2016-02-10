@@ -298,8 +298,8 @@ class OptionsMenu(object):
 
         # Generate checkboxes, with special exception for show_description for message duration
         for index, opt in enumerate(
-                ["show_floors", "show_rerolled_items", "show_health_ups",
-                 "show_space_items", "show_blind_icon", "make_items_glow","blck_cndl_mode"]):
+                ["enable_mouseover", "show_floors", "show_rerolled_items", "show_health_ups",
+                 "show_space_items", "show_blind_icon", "make_items_glow", "blck_cndl_mode"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(mainframe, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row

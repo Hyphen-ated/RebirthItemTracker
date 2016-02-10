@@ -27,7 +27,7 @@ class Drawable(object):
         self.tool = tool
         self.is_drawn = False
 
-    def draw(self):
+    def draw(self, selected=False):
         raise NotImplementedError("This object needs to implement draw()")
 
 class Clicakble(object):
@@ -117,28 +117,23 @@ class DrawingTool(object):
                     pos = pygame.mouse.get_pos()
                     self.select_item_on_hover(*pos)
             elif event.type == KEYDOWN:
-                if len(self.drawn_items) > 0:
-                    if event.key == K_RIGHT:
-                        self.change_item_selected(1)
-                    elif event.key == K_LEFT:
-                        self.change_item_selected(-1)
-                    elif event.key == K_UP and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
-                        opt.read_delay += 1
-                        self.update_window_title()
-                    elif event.key == K_DOWN and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
-                        opt.read_delay = max(0, opt.read_delay - 1)
-                        self.update_window_title()
-                    elif event.key == K_RETURN:
-                        self.load_selected_detail_page()
-                    elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
-                        return Event.DONE
-                    elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
-                        # FIXME debug purpose only !
-                        with open("../export_state.json", "w") as state_file:
-                            state_file.write(json.dumps(self.state, cls=TrackerStateEncoder,
-                                                        sort_keys=True))
-                        pass
-                    #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
+                if event.key == K_UP and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
+                    opt.read_delay += 1
+                    self.update_window_title()
+                elif event.key == K_DOWN and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
+                    opt.read_delay = max(0, opt.read_delay - 1)
+                    self.update_window_title()
+                elif event.key == K_RETURN:
+                    self.load_selected_detail_page()
+                elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
+                    return Event.DONE
+                elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
+                    # FIXME debug purpose only !
+                    with open("../export_state.json", "w") as state_file:
+                        state_file.write(json.dumps(self.state, cls=TrackerStateEncoder,
+                                                    sort_keys=True))
+                    pass
+                #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
             elif event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.load_selected_detail_page()
@@ -222,6 +217,7 @@ class DrawingTool(object):
 
         floor_to_draw = None
 
+        idx = 0
         # Draw items on screen, excluding filtered items:
         for drawable_item in self.drawn_items:
             if floor_to_draw is None or floor_to_draw.floor != drawable_item.item.floor:
@@ -233,7 +229,9 @@ class DrawingTool(object):
                 )
             if not floor_to_draw.is_drawn and opt.show_floors:
                 floor_to_draw.draw()
-            drawable_item.draw()
+            drawable_item.draw(selected=(idx == self.selected_item_index))
+
+            idx += 1
 
         # Also draw the floor if we hit the end, so the current floor is visible
         if opt.show_floors and floor_to_draw is not None:
@@ -332,30 +330,17 @@ class DrawingTool(object):
                 num_displayed_items += 1
 
     def select_item_on_hover(self, x, y):
+        if not Options().enable_mouseover:
+            return
+
         if y < len(self.item_position_index):
             selected_row = self.item_position_index[y]
             if x < len(selected_row):
-                if self.selected_item_index is not None \
-                and self.selected_item_index < len(self.drawn_items):
-                    self.drawn_items[self.selected_item_index].selected = False
                 self.selected_item_index = selected_row[x]
+
                 if self.selected_item_index is not None \
                 and self.selected_item_index < len(self.drawn_items):
                     self.item_message_start_time = self.framecount
-                    self.drawn_items[self.selected_item_index].selected = True
-
-    def change_item_selected(self, adjust_by):
-        """
-        Change the item selected in the tracker.
-        If no item is selected yet, select the first one if possible
-        """
-        if self.selected_item_index is None:
-            self.selected_item_index = 0
-            adjust_by = 0
-        self.drawn_items[self.selected_item_index].selected = False
-        self.selected_item_index += adjust_by
-        self.selected_item_index = max(0, min(self.selected_item_index, len(self.drawn_items) - 1))
-        self.drawn_items[self.selected_item_index].selected = True
 
     def load_selected_detail_page(self):
         if self.selected_item_index is None:
@@ -510,7 +495,6 @@ class DrawableItem(Drawable):
         super(DrawableItem, self).__init__(x, y, tool)
         self.item = item
         self.is_drawn = False
-        self.selected = False
 
     def show_blind_icon(self):
         """
@@ -548,7 +532,7 @@ class DrawableItem(Drawable):
             return False
         return True
 
-    def draw(self):
+    def draw(self, selected=False):
         image = self.tool.get_image(DrawingTool.id_to_image(self.item.item_id))
         self.tool.screen.blit(image, (self.x, self.y))
         # If we're a re-rolled item, draw a little d4 near us
@@ -561,7 +545,7 @@ class DrawableItem(Drawable):
                 (self.x, self.y + Options().size_multiplier * 24)
             )
         # If we're selected, draw a box to highlight us
-        if self.selected:
+        if selected:
             self.tool.draw_selected_box(self.x, self.y)
 
     def load_detail_page(self):
@@ -584,7 +568,7 @@ class DrawableFloor(Drawable):
         self.floor = floor
         self.is_drawn = False
 
-    def draw(self):
+    def draw(self, selected=False):
         text_color = DrawingTool.color(Options().text_color)
         size_multiplier = Options().size_multiplier
         pygame.draw.lines(
