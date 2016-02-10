@@ -97,6 +97,18 @@ class OptionsMenu(object):
             self.labels["twitch_name"].grid_remove()
             self.labels["server_connect_label"].config(text="")
 
+        if self.checks.get("change_server").get():
+            self.entries["trackerserver_url"].grid()
+            self.entries["trackerserver_twitch_id"].grid()
+            self.labels["trackerserver_url"].grid()
+            self.labels["trackerserver_twitch_id"].grid()
+        else:
+            self.entries["trackerserver_url"].grid_remove()
+            self.entries["trackerserver_twitch_id"].grid_remove()
+            self.labels["trackerserver_url"].grid_remove()
+            self.labels["trackerserver_twitch_id"].grid_remove()
+
+
         # Disable authkey if we don't write to server
         if self.checks.get("write_to_server").get():
             self.entries["trackerserver_authkey"].grid()
@@ -113,8 +125,6 @@ class OptionsMenu(object):
             self.labels["server_connect_label"].config(text=self.connection_labels["starting"])
             t = threading.Thread(target=self.get_server_userlist_and_enqueue)
             t.start()
-
-
         self.checkbox_callback()
 
     def write_callback(self):
@@ -309,6 +319,15 @@ class OptionsMenu(object):
         serverframe = LabelFrame(self.root, text="Tournament Settings", padx=20, pady=20)
         serverframe.grid(row=0, column=1, rowspan=2, sticky=N)
         next_row = 0
+
+        for index, opt in enumerate(["change_server"]):
+            self.checks[opt] = IntVar()
+            c = Checkbutton(serverframe, text=self.pretty_name(opt), variable=self.checks[opt], indicatoron=False)
+            c.grid(row=next_row, column=0, pady=2)
+            c.configure(command=self.checkbox_callback)
+            if getattr(self.options, opt, False):
+                c.select()
+        next_row += 1
 
         # Generate text options by looping over option types
         for index, opt in enumerate(["trackerserver_url", "trackerserver_twitch_id"]):
