@@ -307,7 +307,7 @@ class OptionsMenu(object):
                 c.select()
 
         serverframe = LabelFrame(self.root, text="Tournament Settings", padx=20, pady=20)
-        serverframe.grid(row=0, column=1)
+        serverframe.grid(row=0, column=1, rowspan=2, sticky=N)
         next_row = 0
 
         # Generate text options by looping over option types
