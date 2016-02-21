@@ -6,6 +6,7 @@ import platform # For determining what operating system the script is being run 
 import pygame   # This is the main graphics library used for the item tracker
 import webbrowser
 import string
+from Tkinter import Tk # For clipboard functionality
 from collections import defaultdict
 from options import Options
 from game_objects.floor import Curse
@@ -106,16 +107,19 @@ class DrawingTool(object):
         for event in pygame.event.get():
             if event.type == QUIT:
                 return Event.DONE
+
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
                 opt.width = event.dict["w"]
                 opt.height = event.dict["h"]
                 self.__reflow()
                 pygame.display.flip()
+
             elif event.type == MOUSEMOTION:
                 if pygame.mouse.get_focused():
                     pos = pygame.mouse.get_pos()
                     self.select_item_on_hover(*pos)
+
             elif event.type == KEYDOWN:
                 if event.key == K_UP and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
                     opt.read_delay += 1
@@ -128,12 +132,20 @@ class DrawingTool(object):
                 elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
                     return Event.DONE
                 elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
-                    # FIXME debug purpose only !
-                    with open("../export_state.json", "w") as state_file:
-                        state_file.write(json.dumps(self.state, cls=TrackerStateEncoder,
-                                                    sort_keys=True))
-                    pass
+                    # Debug function to write the state to a json file
+                    #with open("../export_state.json", "w") as state_file:
+                    #    state_file.write(json.dumps(self.state, cls=TrackerStateEncoder, sort_keys=True))
+
+                    # Write the seed to the clipboard
+                    # (from http://stackoverflow.com/questions/579687/how-do-i-copy-a-string-to-the-clipboard-on-windows-using-python)
+                    r = Tk()
+                    r.withdraw()
+                    r.clipboard_clear()
+                    r.clipboard_append(self.state.seed)
+                    r.destroy()
+
                 #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
+
             elif event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.load_selected_detail_page()
@@ -150,6 +162,7 @@ class DrawingTool(object):
                     if self.state is not None:
                         self.__reflow()
                     return Event.OPTIONS_UPDATE
+
         return None
 
     def draw_state(self, state):
