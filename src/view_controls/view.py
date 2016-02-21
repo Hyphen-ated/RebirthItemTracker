@@ -528,6 +528,7 @@ class DrawableItem(Drawable):
                 3. We are health pickup AND we want to see health pickups
                 4. We are rerolled AND we want to see rerolls
                 5. We are a spacebar AND we want to see spacebars
+                6. We are the D6 AND we don't want to exclude the D6
         """
         opt = Options()
         if not self.item.info.shown:
@@ -543,6 +544,9 @@ class DrawableItem(Drawable):
         elif self.item.was_rerolled and \
                 not opt.show_rerolled_items:
             return False
+        elif self.item.info.name == "The D6" and \
+                opt.exclude_d6:
+            return False 
         return True
 
     def draw(self, selected=False):

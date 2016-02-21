@@ -5,6 +5,7 @@
   "change_server": false,
   "default_spacing": 64,
   "enable_mouseover": true,
+  "exclude_d6": true,
   "framerate_limit": 30,
   "height": 96,
   "blck_cndl_mode": false,

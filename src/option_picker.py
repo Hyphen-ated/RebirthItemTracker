@@ -50,7 +50,8 @@ class OptionsMenu(object):
                        "write_to_server": "Let Others Watch Me",
                        "twitch_name": "Their Twitch Name",
                        "bold_font": "Bold",
-                       "blck_cndl_mode": "BLCK CNDL mode" }
+                       "blck_cndl_mode": "BLCK CNDL mode",
+                       "exclude_d6" : "Exclude The D6" }
     label_after_text = {"message_duration":"seconds",
                         "framerate_limit":"fps"}
     connection_labels = {"starting":"Connecting to server for player list...",
@@ -309,7 +310,8 @@ class OptionsMenu(object):
         # Generate checkboxes, with special exception for show_description for message duration
         for index, opt in enumerate(
                 ["enable_mouseover", "show_floors", "show_rerolled_items", "show_health_ups",
-                 "show_space_items", "show_blind_icon", "make_items_glow", "blck_cndl_mode"]):
+                 "show_space_items", "show_blind_icon", "make_items_glow", "blck_cndl_mode",
+                 "exclude_d6"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(mainframe, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
