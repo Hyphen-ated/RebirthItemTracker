@@ -1,8 +1,8 @@
 {
    "NEW": {
-      "name": "Afterbirth Item",
+      "name": "Unknown Item",
       "shown": true,
-      "text": "This item doesn't exist yet"
+      "text": "Tracker doesn't know this item yet"
    },
    "001": {
       "name": "The Sad Onion",
