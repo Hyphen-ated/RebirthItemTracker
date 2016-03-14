@@ -99,14 +99,10 @@ class OptionsMenu(object):
 
         if self.checks.get("change_server").get():
             self.entries["trackerserver_url"].grid()
-            self.entries["trackerserver_twitch_id"].grid()
             self.labels["trackerserver_url"].grid()
-            self.labels["trackerserver_twitch_id"].grid()
         else:
             self.entries["trackerserver_url"].grid_remove()
-            self.entries["trackerserver_twitch_id"].grid_remove()
             self.labels["trackerserver_url"].grid_remove()
-            self.labels["trackerserver_twitch_id"].grid_remove()
 
 
         # Disable authkey if we don't write to server
@@ -174,6 +170,19 @@ class OptionsMenu(object):
             success = False
         network_result = {"users": users, "success": success}
         self.network_queue.put(network_result)
+
+    def get_server_twitch_client_id(self):
+        try:
+            url = self.entries['trackerserver_url'].get() + "/tracker/api/twitchclientid/"
+            return urllib2.urlopen(url).read()
+        except Exception:
+            import traceback
+            errmsg = traceback.format_exc()
+            #print it to stdout for dev troubleshooting, log it to a file for production
+            print(errmsg)
+            logging.getLogger("tracker").error(errmsg)
+            return None
+
 
     def process_network_results(self):
         while self.network_queue.qsize():
@@ -330,7 +339,7 @@ class OptionsMenu(object):
         next_row += 1
 
         # Generate text options by looping over option types
-        for index, opt in enumerate(["trackerserver_url", "trackerserver_twitch_id"]):
+        for index, opt in enumerate(["trackerserver_url"]):
             self.labels[opt] = Label(serverframe, text=self.pretty_name(opt))
             self.labels[opt].grid(row=next_row, pady=2)
             self.entries[opt] = Entry(serverframe)
@@ -374,9 +383,16 @@ class OptionsMenu(object):
             next_row += 1
 
         def authkey_fn():
-            webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + self.entries["trackerserver_twitch_id"].get() + "&redirect_uri=" +
-                            self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
             self.entries["trackerserver_authkey"].delete(0, last=END)
+            twitch_client_id = self.get_server_twitch_client_id()
+            if twitch_client_id is not None:
+                webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + twitch_client_id + "&redirect_uri=" +
+                                self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
+            else:
+                #todo: show an error
+                pass
+
+
 
 
         self.buttons["authkey_button"] = Button(
