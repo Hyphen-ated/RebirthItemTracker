@@ -2243,7 +2243,7 @@
    },
    "378": {
       "name": "Number 2",
-      "text": "Chance to spawn butt bombs when you're hit",
+      "text": "Spawns a butt bomb after 3 seconds of uninterrupted firing",
       "shown": true
    },
    "379": {
