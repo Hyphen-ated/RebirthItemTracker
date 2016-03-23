@@ -30,16 +30,6 @@ class TrackerState(Serializable):
         self.bosses = []
         self.player_stats = {}
         self.guppy_set = set()
-        self.beelzebub_set = set()
-        self.bob_set = set()
-        self.conjoined_set= set()
-        self.funguy_set = set()
-        self.leviathan_set = set()
-        self.ohcrap_set = set()
-        self.seraphim_set = set()
-        self.spun_set = set()
-        self.yesmother_set = set()
-        self.superbum_set = set()
         for stat in ItemInfo.stat_list:
             self.player_stats[stat] = 0.0
 
@@ -171,27 +161,6 @@ class TrackerState(Serializable):
         # Can the .get thing be actually false ?!
         if item_info.guppy:
             self.guppy_set.add(item)
-        # If this can make us beelzebub, check if we're beelzebub
-        if item_info.beelzebub:
-            self.beelzebub_set.add(item)
-        if item_info.bob:
-            self.bob_set.add(item)
-        if item_info.conjoined:
-            self.conjoined_set.add(item)
-        if item_info.funguy:
-            self.funguy_set.add(item)
-        if item_info.leviathan:
-            self.leviathan_set.add(item)
-        if item_info.ohcrap:
-            self.ohcrap_set.add(item)
-        if item_info.seraphim:
-            self.seraphim_set.add(item)
-        if item_info.spun:
-            self.spun_set.add(item)
-        if item_info.yesmother:
-            self.yesmother_set.add(item)
-        if item_info.superbum:
-            self.superbum_set.add(item)
 
 
 class TrackerStateEncoder(json.JSONEncoder):
