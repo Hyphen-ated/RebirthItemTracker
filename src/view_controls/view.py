@@ -107,19 +107,16 @@ class DrawingTool(object):
         for event in pygame.event.get():
             if event.type == QUIT:
                 return Event.DONE
-
             elif event.type == VIDEORESIZE:
                 self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
                 opt.width = event.dict["w"]
                 opt.height = event.dict["h"]
                 self.__reflow()
                 pygame.display.flip()
-
             elif event.type == MOUSEMOTION:
                 if pygame.mouse.get_focused():
                     pos = pygame.mouse.get_pos()
                     self.select_item_on_hover(*pos)
-
             elif event.type == KEYDOWN:
                 if event.key == K_UP and pygame.key.get_mods() & KMOD_CTRL and opt.read_from_server:
                     opt.read_delay += 1
@@ -132,20 +129,12 @@ class DrawingTool(object):
                 elif event.key == K_F4 and pygame.key.get_mods() & KMOD_ALT:
                     return Event.DONE
                 elif event.key == K_c and pygame.key.get_mods() & KMOD_CTRL:
-                    # Debug function to write the state to a json file
-                    #with open("../export_state.json", "w") as state_file:
-                    #    state_file.write(json.dumps(self.state, cls=TrackerStateEncoder, sort_keys=True))
-
-                    # Write the seed to the clipboard
-                    # (from http://stackoverflow.com/questions/579687/how-do-i-copy-a-string-to-the-clipboard-on-windows-using-python)
-                    r = Tk()
-                    r.withdraw()
-                    r.clipboard_clear()
-                    r.clipboard_append(self.state.seed)
-                    r.destroy()
-
+                    # FIXME debug purpose only !
+                    with open("../export_state.json", "w") as state_file:
+                        state_file.write(json.dumps(self.state, cls=TrackerStateEncoder,
+                                                    sort_keys=True))
+                    pass
                 #self.generate_run_summary() # This is commented out because run summaries are broken with the new "state" model rewrite of the item tracker
-
             elif event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.load_selected_detail_page()
@@ -162,7 +151,6 @@ class DrawingTool(object):
                     if self.state is not None:
                         self.__reflow()
                     return Event.OPTIONS_UPDATE
-
         return None
 
     def draw_state(self, state):
@@ -209,7 +197,7 @@ class DrawingTool(object):
         if opt.show_description and self.item_message_countdown_in_progress():
             text_written = self.write_item_text()
         if not text_written and opt.show_status_message:
-            # Draw seed/guppy text:
+            # Draw seed/transformation text:
             seed = self.state.seed
 
             dic = defaultdict(str, seed=seed)
@@ -217,9 +205,18 @@ class DrawingTool(object):
 
             for stat in ItemInfo.stat_list:
                 dic[stat] = Overlay.format_value(self.state.player_stats[stat])
-            dic["guppy"] = Overlay.format_guppy(self.state.guppy_set)
-
-            # Use vformat to handle the case where the user adds an
+            dic["beelzebub"] = Overlay.format_transformation(self.state.beelzebub_set)
+            dic["guppy"] = Overlay.format_transformation(self.state.guppy_set)
+            dic["conjoined"] = Overlay.format_transformation(self.state.conjoined_set)
+            dic["bob"] = Overlay.format_transformation(self.state.bob_set)
+            dic["funguy"] = Overlay.format_transformation(self.state.funguy_set)
+            dic["leviathan"] = Overlay.format_transformation(self.state.leviathan_set)
+            dic["ohcrap"] = Overlay.format_transformation(self.state.ohcrap_set)
+            dic["seraphim"] = Overlay.format_transformation(self.state.seraphim_set)
+            dic["spun"] = Overlay.format_transformation(self.state.spun_set)
+            dic["yesmother"] = Overlay.format_transformation(self.state.yesmother_set)
+            dic["superbum"] = Overlay.format_transformation(self.state.superbum_set)
+			# Use vformat to handle the case where the user adds an
             # undefined placeholder in default_message
             message = string.Formatter().vformat(
                 opt.status_message,
@@ -524,7 +521,7 @@ class DrawableItem(Drawable):
         """
             We should show if the following is true:
                 1. We are showable
-                2. We are guppy
+                2. We are a new transformation
                 3. We are health pickup AND we want to see health pickups
                 4. We are rerolled AND we want to see rerolls
                 5. We are a spacebar AND we want to see spacebars
@@ -533,6 +530,26 @@ class DrawableItem(Drawable):
         if not self.item.info.shown:
             return False
         elif self.item.info.guppy:
+            return True
+        elif self.item.info.bob:
+            return True
+        elif self.item.info.conjoined:
+            return True
+        elif self.item.info.funguy:
+            return True
+        elif self.item.info.leviathan:
+            return True
+        elif self.item.info.ohcrap:
+            return True
+        elif self.item.info.seraphim:
+            return True
+        elif self.item.info.spun:
+            return True
+        elif self.item.info.yesmother:
+            return True
+        elif self.item.info.superbum:
+            return True
+        elif self.item.info.beelzebub:
             return True
         elif self.item.info.health_only and \
                 not opt.show_health_ups:

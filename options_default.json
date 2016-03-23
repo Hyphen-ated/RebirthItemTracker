@@ -1,7 +1,7 @@
 {
   "background_color": "#3C3C3C",
   "bold_font": true,
-  "status_message": "Seed: {seed} / Guppy: {guppy} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}",
+  "status_message": "Seed: {seed} / Guppy: {guppy} / Beelzebub: {beelzebub} / Spun: {spun} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}",
   "change_server": false,
   "default_spacing": 64,
   "enable_mouseover": true,
@@ -25,6 +25,7 @@
   "size_multiplier": 1.0,
   "text_color": "#FFFFFF",
   "trackerserver_authkey": "",
+  "trackerserver_twitch_id": "cc0x4xs7f13phbtgco2xeflil2pu2uy",
   "trackerserver_url": "http://kanye.space:8000",
   "twitch_name": "",
   "width": 1000,
