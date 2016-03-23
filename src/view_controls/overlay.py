@@ -27,13 +27,13 @@ class Overlay(object):
         return display
 
     @staticmethod
-    def format_guppy(guppy_set):
+    def format_transformation(guppy_set):
         """Format a guppy_set for displaying"""
         # NOTE this is not only used in this class
         if len(guppy_set) >= 3:
             return "yes"
         else:
-            return str(len(guppy_set))
+            return str(len(guppy_set))		
 
     def update_stats(self, stat_list=None):
         """
@@ -45,7 +45,27 @@ class Overlay(object):
         for stat in stat_list:
             display = ""
             if stat == "guppy":
-                display = Overlay.format_guppy(self.state.guppy_set)
+                display = Overlay.format_transformation(self.state.guppy_set)
+            elif stat == "beelzebub":
+				display = Overlay.format_transformation(self.state.beelzebub_set)
+            elif stat == "bob":
+				display = Overlay.format_transformation(self.state.bob_set)
+            elif stat == "conjoined":
+				display = Overlay.format_transformation(self.state.conjoined_set)
+            elif stat == "funguy":
+				display = Overlay.format_transformation(self.state.funguy_set)
+            elif stat == "leviathan":
+				display = Overlay.format_transformation(self.state.leviathan_set)
+            elif stat == "ohcrap":
+				display = Overlay.format_transformation(self.state.ohcrap_set)
+            elif stat == "seraphim":
+				display = Overlay.format_transformation(self.state.seraphim_set)
+            elif stat == "spun":
+				display = Overlay.format_transformation(self.state.spun_set)
+            elif stat == "yesmother":
+				display = Overlay.format_transformation(self.state.yesmother_set)
+            elif stat == "superbum":
+				display = Overlay.format_transformation(self.state.superbum_set)
             else:
                 display = Overlay.format_value(self.state.player_stats[stat])
             with open(self.prefix + "overlay text/" + stat + ".txt", "w+") as sfile:

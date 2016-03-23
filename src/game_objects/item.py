@@ -171,6 +171,16 @@ class ItemInfo(dict):
         - sin_hearts
         Properties
         - guppy
+		- bob
+		- conjoined
+		- funguy
+		- leviathan
+		- ohcrap
+		- seraphim
+		- spun
+		- yesmother
+		- superbum
+		- beelzebub
         - name
         - shown
         - space
