@@ -170,7 +170,7 @@ class ItemInfo(dict):
         - soul_hearts
         - sin_hearts
         Properties
-        - guppy
+        - guppy, bob, conjoined, funguy, leviathan, ohcrap, seraphim, spun, yesmother, superbum, beelzebub
         - name
         - shown
         - space
@@ -181,6 +181,7 @@ class ItemInfo(dict):
         # can only be one item right now
         - summary_condition
     """
+    transform_list = ["guppy", "bob", "conjoined", "funguy", "leviathan", "ohcrap", "seraphim", "spun", "yesmother", "superbum", "beelzebub"]
     stat_list = ["dmg", "delay", "speed", "shot_speed", "range", "height", "tears"]
     def __init__(self, values):
         super(ItemInfo, self).__init__(values)

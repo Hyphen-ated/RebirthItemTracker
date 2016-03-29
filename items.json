@@ -57,21 +57,25 @@
    "008": {
       "name": "Brother Bobby",
       "shown": true,
+      "conjoined": true,
       "text": "familiar (3.5 dmg / tear)"
    },
    "009": {
       "name": "Skatole",
       "shown": true,
+      "beelzebub": true,
       "text": "flies won't attack you"
    },
    "010": {
       "name": "Halo of Flies",
       "shown": true,
+      "beelzebub": true,
       "text": "two fly orbitals"
    },
    "011": {
       "name": "1UP",
       "shown": true,
+      "funguy": true,
       "text": "+1 life"
    },
    "012": {
@@ -85,12 +89,14 @@
       "speed": "0.3",
       "text": "size up",
       "in_summary": true,
+      "funguy": true,
       "summary_name": "MMush"
    },
    "013": {
       "name": "The Virus",
       "speed": "-0.1",
       "shown": true,
+      "spun": true,
       "text": "poison touch, speed delayed"
    },
    "014": {
@@ -98,6 +104,7 @@
       "height": "0.5",
       "range": "5.25",
       "shown": true,
+      "spun": true,
       "speed": "0.6",
       "text": ""
    },
@@ -194,6 +201,7 @@
       "height": "0.5",
       "range": "5.25",
       "shown": true,
+      "yesmother": true,
       "text": ""
    },
    "030": {
@@ -201,6 +209,7 @@
       "height": "0.5",
       "range": "5.25",
       "shown": true,
+      "yesmother": true,
       "text": ""
    },
    "031": {
@@ -208,6 +217,7 @@
       "height": "0.5",
       "range": "5.25",
       "shown": true,
+      "yesmother": true,
       "text": ""
    },
    "032": {
@@ -219,6 +229,7 @@
    "033": {
       "name": "The Bible",
       "shown": true,
+      "seraphim": true,
       "text": "temporary flight, instantly kills mom / it lives",
       "space": true
    },
@@ -237,6 +248,7 @@
    "036": {
       "name": "The Poop",
       "shown": true,
+      "ohcrap": true,
       "text": "makes a poop",
       "space": true
    },
@@ -255,6 +267,7 @@
    "039": {
       "name": "Mom's Bra",
       "shown": true,
+      "yesmother": true,
       "text": "temporarily freezes enemies",
       "space": true
    },
@@ -267,12 +280,14 @@
    "041": {
       "name": "Mom's Pad",
       "shown": true,
+      "yesmother": true,
       "text": "temporarily fears enemies",
       "space": true
    },
    "042": {
       "name": "Bob's Rotten Head",
       "shown": true,
+      "bob": true,
       "text": "shoots a poison bomb (50 dmg + 6-8 / tick)",
       "space": true
    },
@@ -321,6 +336,7 @@
       "name": "Pentagram",
       "dmg": "1",
       "shown": true,
+      "leviathan": true,
       "text": "+20% deal chance"
    },
    "052": {
@@ -346,6 +362,7 @@
    "055": {
       "name": "Mom's Eye",
       "shown": true,
+      "yesmother": true,
       "text": "chance to shoot a 2nd tear backwards"
    },
    "056": {
@@ -357,6 +374,7 @@
    "057": {
       "name": "Distant Admiration",
       "shown": true,
+      "beelzebub": true,
       "text": "orbital (5 dmg / tick)"
    },
    "058": {
@@ -400,6 +418,7 @@
    "067": {
       "name": "Sister Maggy",
       "shown": true,
+      "conjoined": true,
       "text": "familiar (3.5 dmg / tear)"
    },
    "068": {
@@ -418,6 +437,7 @@
       "name": "Growth Hormones",
       "dmg": "1",
       "shown": true,
+      "spun": true,
       "speed": "0.4",
       "text": ""
    },
@@ -426,12 +446,14 @@
       "height": "1.5",
       "range": "-4.25",
       "shown": true,
+      "funguy": true,
       "speed": "0.3",
       "text": "size down"
    },
    "072": {
       "name": "Rosary",
       "shown": true,
+      "seraphim": true,
       "soul_hearts": "3",
       "text": "puts the bible into most item pools"
    },
@@ -473,6 +495,7 @@
       "dmg": "1",
       "name": "The Mark",
       "shown": true,
+      "leviathan": true,
       "speed": "0.2",
       "soul_hearts": "1"
    },
@@ -480,6 +503,7 @@
       "dmg": "0.5",
       "name": "The Pact",
       "shown": true,
+      "leviathan": true,
       "tears": "0.7",
       "soul_hearts": "2"
    },
@@ -500,6 +524,7 @@
       "name": "The Nail",
       "shown": true,
       "speed": "-0.18",
+      "leviathan": true,
       "text": "+1 soul heart, temporarily crush rocks",
       "space": true
    },
@@ -597,6 +622,7 @@
    "100": {
       "name": "Little Steven",
       "shown": true,
+      "conjoined": true,
       "text": "familiar (3.5 dmg / tear, homing tears)"
    },
    "101": {
@@ -606,6 +632,7 @@
       "height": "0.5",
       "range": "0.25",
       "shown": true,
+      "seraphim": true,
       "speed": "0.3",
       "tears": "0.2",
       "text": ""
@@ -613,6 +640,7 @@
    "102": {
       "name": "Mom's Bottle of Pills",
       "shown": true,
+      "yesmother": true,
       "text": "spawns a random pill",
       "space": true
    },
@@ -657,6 +685,7 @@
       "name": "Mom's Contacts",
       "range": "0.25",
       "shown": true,
+      "yesmother": true,
       "text": "chance to shoot a freeze tear, range delayed"
    },
    "111": {
@@ -668,6 +697,7 @@
    "112": {
       "name": "Guardian Angel",
       "shown": true,
+      "seraphim": true,
       "text": "orbital (7 dmg / tick)"
    },
    "113": {
@@ -679,6 +709,7 @@
       "name": "Mom's Knife",
       "shown": true,
       "text": "replaces tears with a knife (current dmg x 2 / tick)",
+      "yesmother": true,
       "in_summary": true,
       "summary_name": "Knife"
    },
@@ -701,6 +732,7 @@
       "name": "Brimstone",
       "delay_x": "3",
       "shown": true,
+      "leviathan": true,
       "text": "tears become blood laser, hits 12 or 13 times",
       "in_summary": true,
       "summary_name": "Brim"
@@ -717,6 +749,7 @@
       "shown": true,
       "speed": "0.3",
       "tears": "1.7",
+      "funguy": true,
       "text": "dmg * 0.9 - 0.4"
    },
    "121": {
@@ -727,6 +760,7 @@
       "range": "0.25",
       "shown": true,
       "speed": "-0.1",
+      "funguy": true,
       "text": ""
    },
    "122": {
@@ -768,6 +802,7 @@
    "128": {
       "name": "Forever Alone",
       "shown": true,
+      "beelzebub": true,
       "text": "orbital (2 dmg / tick)"
    },
    "129": {
@@ -833,11 +868,13 @@
    "139": {
       "name": "Mom's Purse",
       "shown": true,
+      "yesmother": true,
       "text": "can carry 2 trinkets instead of 1"
    },
    "140": {
       "name": "Bob's Curse",
       "shown": true,
+      "bob": true,
       "text": "+5 bombs, bombs deal poison dmg"
    },
    "141": {
@@ -854,12 +891,14 @@
       "name": "Speed Ball",
       "shot_speed": "0.2",
       "shown": true,
+      "spun": true,
       "speed": "0.3",
       "text": ""
    },
    "144": {
       "name": "Bum Friend",
       "shown": true,
+      "superbum": true,
       "text": "turns floor money into other pickups"
    },
    "145": {
@@ -884,6 +923,7 @@
    "148": {
       "name": "Infestation",
       "shown": true,
+      "beelzebub": true,
       "text": "spawns blue flies when hit"
    },
    "149": {
@@ -892,6 +932,7 @@
       "delay_x": "2",
       "height": "13",
       "shown": true,
+      "bob": true,
       "text": "explosive tears, +40 dmg",
       "in_summary": true,
       "summary_name": "Cac"
@@ -904,6 +945,7 @@
    "151": {
       "name": "The Mulligan",
       "shown": true,
+      "beelzebub": true,
       "text": "1/6 chance for blue fly on tear hit, effectively x1.33 damage"
    },
    "152": {
@@ -950,6 +992,7 @@
    "159": {
       "name": "Spirit of the Night",
       "shown": true,
+      "leviathan": true,
       "text": "flight, spectral tears"
    },
    "160": {
@@ -995,6 +1038,7 @@
    "167": {
       "name": "Harlequin Baby",
       "shown": true,
+      "conjoined": true,
       "text": "familiar (4 dmg / tear)"
    },
    "168": {
@@ -1036,6 +1080,7 @@
    "173": {
       "name": "Mitre",
       "shown": true,
+      "seraphim": true,
       "text": "better chance of finding soul hearts"
    },
    "174": {
@@ -1105,11 +1150,13 @@
       "name": "Holy Grail",
       "health": "1",
       "shown": true,
+      "seraphim": true,
       "text": "flight"
    },
    "185": {
       "name": "Dead Dove",
       "shown": true,
+      "seraphim": true,
       "text": "flight, spectral tears"
    },
    "186": {
@@ -1172,6 +1219,7 @@
    "195": {
       "name": "Mom's Coin Purse",
       "shown": true,
+      "yesmother": true,
       "text": "spawns 4 random pills"
    },
    "196": {
@@ -1196,11 +1244,13 @@
    "199": {
       "name": "Mom's Key",
       "shown": true,
+      "yesmother": true,
       "text": "more pickups from chests, spawns 2 keys"
    },
    "200": {
       "name": "Mom's Eyeshadow",
       "shown": true,
+      "yesmother": true,
       "text": "chance to shoot charm tears"
    },
    "201": {
@@ -1298,6 +1348,7 @@
    "217": {
       "name": "Mom's Wig",
       "shown": true,
+      "yesmother": true,
       "text": "chance to spawn blue spiders when shooting"
    },
    "218": {
@@ -1367,6 +1418,7 @@
    "228": {
       "name": "Mom's Perfume",
       "shown": true,
+      "yesmother": true,
       "delay": "-1",
       "text": "chance to shoot fear shots"
    },
@@ -1381,6 +1433,7 @@
       "sin_hearts": "6",
       "dmg": "1.5",
       "name": "Abaddon",
+      "leviathan": true,
       "shown": true,
       "speed": "0.2",
       "text": "lose red hearts, chance for fear shots"
@@ -1412,6 +1465,7 @@
    "236": {
       "name": "E. Coli",
       "shown": true,
+      "ohcrap": true,
       "text": "enemies turn to poop on touch"
    },
    "237": {
@@ -1436,6 +1490,7 @@
    "240": {
       "name": "Experimental Treatment",
       "shown": true,
+      "spun": true,
       "text": "randomly increases or decreases stats (doesn't swap)"
    },
    "241": {
@@ -1480,6 +1535,7 @@
    "248": {
       "name": "Hive Mind",
       "shown": true,
+      "beelzebub": true,
       "text": "blue spiders and flies do 2x dmg",
       "in_summary": true,
       "summary_condition": "Guppy"
@@ -1569,6 +1625,7 @@
    "264": {
       "name": "Smart Fly",
       "shown": true,
+      "beelzebub": true,
       "text": "spawns a fly familiar when hit (1.5 dmg / tick)"
    },
    "265": {
@@ -1589,11 +1646,13 @@
    "268": {
       "name": "Rotten Baby",
       "shown": true,
+      "conjoined": true,
       "text": "familiar (shoots blue flies)"
    },
    "269": {
       "name": "Headless Baby",
       "shown": true,
+      "conjoined": true,
       "text": "makes a trail of creep"
    },
    "270": {
@@ -1609,16 +1668,19 @@
    "272": {
       "name": "BBF",
       "shown": true,
+      "beelzebub": true,
       "text": "familiar (70 dmg explosion)"
    },
    "273": {
       "name": "Bob's Brain",
       "shown": true,
+      "bob": true,
       "text": "familiar (approx. 69 dmg explosion)"
    },
    "274": {
       "name": "Best Bud",
       "shown": true,
+      "beelzebub": true,
       "text": "spawns a fly orbital when hit (5 dmg / tick)"
    },
    "275": {
@@ -1643,11 +1705,13 @@
    "278": {
       "name": "Dark Bum",
       "shown": true,
+      "superbum": true,
       "text": "converts 1.5 red heart pickups to a soul heart or spider"
    },
    "279": {
       "name": "Big Fan",
       "shown": true,
+      "beelzebub": true,
       "text": "orbital (2 dmg / tick)"
    },
    "280": {
@@ -1717,6 +1781,7 @@
    "291": {
       "name": "FLUSH!",
       "shown": true,
+      "ohcrap": true,
       "text": "non-boss enemies turn to poop",
       "space": true
    },
@@ -1854,6 +1919,7 @@
       "shown": true,
       "text": "1-hit shield for every room",
       "in_summary": true,
+      "seraphim": true,
       "summary_name": "Mantle"
    },
    "314": {
@@ -1892,6 +1958,7 @@
    "320": {
       "name": "???'s Only Friend",
       "shown": true,
+      "beelzebub": true,
       "text": "familiar (2.5 dmg / tick)"
    },
    "321": {
@@ -1902,6 +1969,7 @@
    "322": {
       "name": "Mongo Baby",
       "shown": true,
+      "conjoined": true,
       "text": "familiar (copies other familiars or 3.5 dmg / tear)"
    },
    "323": {
@@ -2037,6 +2105,7 @@
       "health": "1",
       "shot_speed": "-0.16",
       "shown": true,
+      "funguy": true,
       "tears": "0.7",
       "text": ""
    },
@@ -2059,6 +2128,7 @@
       "height": "0.5",
       "range": "5.25",
       "shown": true,
+      "spun": true,
       "text": ""
    },
    "346": {
@@ -2119,6 +2189,7 @@
       "name": "Mom's Pearls",
       "text": "",
       "shown": true,
+      "yesmother": true,
       "range": "1.25",
       "luck": "1",
       "height": "0.5"
@@ -2163,16 +2234,19 @@
    "363": {
       "name": "Sworn Protector",
       "text": "orbital (7 dmg / tick)",
+      "seraphim": true,
       "shown": true
    },
    "364": {
       "name": "Friend Zone",
       "text": "orbital (3 dmg / tick)",
+      "beelzebub": true,
       "shown": true
    },
    "365": {
       "name": "Lost Fly",
       "text": "Hugs walls (7 dmg / tick)",
+      "beelzebub": true,
       "shown": true
    },
    "366": {
@@ -2298,6 +2372,7 @@
    "388": {
       "name": "Key Bum",
       "text": "He wants your keys!",
+      "superbum": true,
       "shown": true
    },
    "389": {
@@ -2356,12 +2431,14 @@
    "398": {
       "name": "God's Flesh",
       "text": "Tears can shrink enemies, making them squishable",
+      "funguy": true,
       "shown": true
    },
    "399": {
       "name": "Maw Of The Void",
       "text": "Charge for a black ring",
       "shown": true,
+      "leviathan": true,
       "height": "0.5",
       "dmg": "1"
    },
@@ -2503,6 +2580,7 @@
    "426": {
       "name": "Obsessed Fan",
       "text": "Copies your movement, does contact damage",
+      "beelzebub": true,
       "shown": true
    },
    "427": {
@@ -2525,6 +2603,7 @@
    "430": {
       "name": "Papa Fly",
       "text": "Copies your movement, shoots at enemies",
+      "beelzebub": true,
       "shown": true
    },
    "431": {

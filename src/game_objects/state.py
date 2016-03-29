@@ -29,9 +29,11 @@ class TrackerState(Serializable):
         self.item_list = []
         self.bosses = []
         self.player_stats = {}
-        self.guppy_set = set()
+        self.player_transforms = {}
         for stat in ItemInfo.stat_list:
             self.player_stats[stat] = 0.0
+        for transform in ItemInfo.transform_list:
+            self.player_transforms[transform] = set()
 
     def add_floor(self, floor):
         """ Add a floor to the current run """
@@ -156,11 +158,10 @@ class TrackerState(Serializable):
                 continue
             change = float(item_info[stat])
             self.player_stats[stat] += change
-
-        # If this can make us guppy, check if we're guppy
-        # Can the .get thing be actually false ?!
-        if item_info.guppy:
-            self.guppy_set.add(item)
+        for transform in ItemInfo.transform_list:
+            if not item_info[transform]:
+                continue
+            self.player_transforms[transform].add(item)
 
 
 class TrackerStateEncoder(json.JSONEncoder):

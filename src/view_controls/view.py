@@ -216,8 +216,9 @@ class DrawingTool(object):
             # Update this dic with player stats
 
             for stat in ItemInfo.stat_list:
-                dic[stat] = Overlay.format_value(self.state.player_stats[stat])
-            dic["guppy"] = Overlay.format_guppy(self.state.guppy_set)
+                dic[stat] = Overlay.format_value(self.state.player_stats[stat])            
+            for transform in ItemInfo.transform_list:
+                dic[transform] = Overlay.format_transform(self.state.player_transforms[transform])
 
             # Use vformat to handle the case where the user adds an
             # undefined placeholder in default_message
@@ -524,16 +525,14 @@ class DrawableItem(Drawable):
         """
             We should show if the following is true:
                 1. We are showable
-                2. We are guppy
-                3. We are health pickup AND we want to see health pickups
-                4. We are rerolled AND we want to see rerolls
-                5. We are a spacebar AND we want to see spacebars
+                2. We are health pickup AND we want to see health pickups
+                3. We are rerolled AND we want to see rerolls
+                4. We are a spacebar AND we want to see spacebars
+                Note: Removed Guppy check as it doesn't seem necessary here, as a result I didn't add any of the transformations
         """
         opt = Options()
         if not self.item.info.shown:
             return False
-        elif self.item.info.guppy:
-            return True
         elif self.item.info.health_only and \
                 not opt.show_health_ups:
             return False

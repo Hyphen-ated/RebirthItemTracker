@@ -27,28 +27,30 @@ class Overlay(object):
         return display
 
     @staticmethod
-    def format_guppy(guppy_set):
-        """Format a guppy_set for displaying"""
+    def format_transform(transform_set):
+        """Format a transform_set for displaying"""
         # NOTE this is not only used in this class
-        if len(guppy_set) >= 3:
+        if len(transform_set) >= 3:
             return "yes"
         else:
-            return str(len(guppy_set))
+            return str(len(transform_set))
 
-    def update_stats(self, stat_list=None):
+    def update_stats(self, stat_list=None, transform_list=None):
         """
         Update file content for a subset (or all) the player's stats.
         stat_list provide the subset of stats to update, if None it will update everything
         """
         if stat_list is None:
-            stat_list = ItemInfo.stat_list + ["guppy"]
+            stat_list = ItemInfo.stat_list
         for stat in stat_list:
-            display = ""
-            if stat == "guppy":
-                display = Overlay.format_guppy(self.state.guppy_set)
-            else:
-                display = Overlay.format_value(self.state.player_stats[stat])
+            display = Overlay.format_value(self.state.player_stats[stat])
             with open(self.prefix + "overlay text/" + stat + ".txt", "w+") as sfile:
+                sfile.write(display)
+        if transform_list is None:
+            transform_list = ItemInfo.transform_list
+        for transform in transform_list:
+            display = Overlay.format_transform(self.state.player_transforms[transform])
+            with open(self.prefix + "overlay text/" + transform + ".txt", "w+") as sfile:
                 sfile.write(display)
 
     def update_last_item_description(self):
