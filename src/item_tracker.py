@@ -11,13 +11,11 @@ from game_objects.state  import TrackerState, TrackerStateEncoder
 from log_parser import LogParser
 from options import Options
 
-
 class IsaacTracker(object):
     """ The main class of the program """
     def __init__(self, logging_level=logging.INFO, read_timer=1):
         self.read_timer = read_timer
         self.file_prefix = "../"
-
 
         self.log = logging.getLogger("tracker")
         # This will erase our tracker log file from previous runs
@@ -115,7 +113,6 @@ class IsaacTracker(object):
                 if state is not None:
                     state.modified = True
 
-
             # Now we re-process the log file to get anything that might have loaded;
             # do it every update_timer seconds (making sure to truncate to an integer
             # or else it might never mod to 0)
@@ -181,7 +178,6 @@ class IsaacTracker(object):
                             log.error(errmsg)
                             screen_error_message = "ERROR: Couldn't send item info to server, check tracker_log.txt"
 
-
             # check the new state at the front of the queue to see if it's time to use it
             if len(new_states_queue) > 0:
                 (state_timestamp, new_state) = new_states_queue[0]
@@ -190,8 +186,6 @@ class IsaacTracker(object):
                     state = new_state
                     new_states_queue.pop(0)
                     drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
-
-
 
             if state is None and screen_error_message is None:
                 if read_from_server:

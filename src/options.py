@@ -1,7 +1,6 @@
 """ ItemTracker's option module """
 import json
 
-
 class Options(object):
     """ Options' singleton """
     _shared_state = {}

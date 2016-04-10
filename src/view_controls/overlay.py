@@ -1,6 +1,6 @@
 """
 This module deals with everything related to the overlay text generated,
-as well as formating how to display stats
+as well as formatting how to display stats
 """
 from game_objects.item  import ItemInfo
 
@@ -63,5 +63,3 @@ class Overlay(object):
         """Update the overlay file the seed"""
         with open(self.prefix + "overlay text/seed.txt", "w+") as sfile:
             sfile.write(self.state.seed)
-
-

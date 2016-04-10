@@ -13,7 +13,7 @@ from game_objects.floor import Curse
 from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
 from pygame.locals import RESIZABLE
-from game_objects.state  import TrackerState, TrackerStateEncoder
+from game_objects.state import TrackerState, TrackerStateEncoder
 #import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Additional pygame imports
@@ -66,7 +66,6 @@ class DrawingTool(object):
         pygame.init()
         pygame.display.set_icon(self.get_image("collectibles_333.png", disable_glow=True))
         self.clock = pygame.time.Clock()
-
 
         opt = Options()
         # figure out where we should put our window.
@@ -193,7 +192,6 @@ class DrawingTool(object):
                 overlay.update_stats()
                 overlay.update_last_item_description()
         current_floor = self.state.last_floor
-
 
         # 19 pixels is the default line height, but we don't know what the
         # line height is with respect to the user's particular size_multiplier.
@@ -417,7 +415,6 @@ class DrawingTool(object):
         self.screen.fill(DrawingTool.color(opt.background_color))
         self.write_message(message, flip=True)
 
-
     def write_message(self, message, flip=False):
         opt = Options()
         height = draw_text(
@@ -494,14 +491,20 @@ class DrawingTool(object):
         self.update_window_title()
 
     def update_window_title(self):
-        title = "Rebirth Item Tracker" + self.window_title_info.update_notifier
-        if self.window_title_info.watching_player:
-            title = title + ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
-        if self.window_title_info.uploading:
-            title = title + ", uploading to server"
+        # The user wants a hard-coded window title
+        if Options().custom_title_enabled == True:
+            title = Options().custom_title
+
+        # The user wants the standard item tracker title (the default)
+        else:
+            title = "Rebirth Item Tracker" + self.window_title_info.update_notifier
+            if self.window_title_info.watching_player:
+                title = title + ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
+            if self.window_title_info.uploading:
+                title = title + ", uploading to server"
+
+        # Set the title
         pygame.display.set_caption(title)
-
-
 
 class DrawableItem(Drawable):
     def __init__(self, item, x, y, tool):
@@ -594,7 +597,6 @@ class DrawableFloor(Drawable):
         )
         image = self.tool.font.render(self.floor.name(Options().blck_cndl_mode), True, text_color)
         self.tool.screen.blit(image, (self.x + 4, self.y - self.tool.text_margin_size))
-
 
 # Taken from pygame_helpers.py
 def draw_text(surface, text, color, rect, font, aa=False, bkg=None, wrap=False):
