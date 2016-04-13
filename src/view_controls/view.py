@@ -14,6 +14,7 @@ from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
 from pygame.locals import RESIZABLE
 from game_objects.state  import TrackerState, TrackerStateEncoder
+from math import floor
 #import pygame._view # Uncomment this if you are trying to run release.py and you get: "ImportError: No module named _view"
 
 # Additional pygame imports
@@ -245,9 +246,11 @@ class DrawingTool(object):
 
             idx += 1
 
-        # Also draw the floor if we hit the end, so the current floor is visible
-        if opt.show_floors and floor_to_draw is not None:
-            if floor_to_draw.floor != current_floor and current_floor is not None:
+        # Also draw the floor if we hit the end or if the list is empty,
+        # so the current floor is visible
+        if opt.show_floors and current_floor is not None:
+            if floor_to_draw is None or (floor_to_draw is not None and
+                                         floor_to_draw.floor != current_floor):
                 x, y = self.next_item
                 DrawableFloor(current_floor, x, y, self).draw()
 
@@ -261,60 +264,94 @@ class DrawingTool(object):
         '''
         opt = Options()
         size_multiplier = opt.size_multiplier
-        item_icon_size = int(opt.default_spacing * size_multiplier)
-        item_icon_footprint = item_icon_size
-        result = self.try_layout(item_icon_footprint, item_icon_size, False)
-        while result is None:
-            item_icon_footprint -= 1
-            if (item_icon_footprint < opt.min_spacing or
-                    item_icon_footprint < 4):
-                result = self.try_layout(item_icon_footprint, item_icon_size,
-                                         True)
-            else:
-                result = self.try_layout(item_icon_footprint, item_icon_size,
-                                         False)
 
-        self.drawn_items = result
+        # Empty the previous drawn items list
+        self.drawn_items[:] = []
+        # Build the list of items to display
+        items_to_flow = [x for x in self.state.item_list if self.show_item(x)]
+        n_items_to_flow = len(items_to_flow)
+
+        if n_items_to_flow == 0:
+            self.next_item = (0, self.text_height + self.text_margin_size)
+            return
+
+        # Check for trailing floor and consider we'll have to draw it
+        if items_to_flow[-1].floor != self.state.last_floor:
+            n_items_to_flow += 1
+
+        # Compute the icon size according to user's multiplier, as well as
+        # the minimum size that we want to display (the "footprint")
+        icon_size = int(opt.default_spacing * size_multiplier)
+        min_icon_footprint = int(opt.min_spacing * size_multiplier)
+
+        # Declare these variables here so that we can reuse it after the loop
+        max_col = 0
+        available_width = 0
+
+        # Find the biggest possible footprint while displaying every items,
+        chosen_icon_footprint = icon_size
+        while chosen_icon_footprint >= min_icon_footprint:
+            # Compute the maximum number of columns, taking into account the
+            # last item's width
+            available_width = opt.width - (icon_size - chosen_icon_footprint)
+            if opt.enable_mouseover:
+                # Boxes have a line width of 2px, so we need to substract them
+                available_width -= 2
+            max_col = floor(available_width/chosen_icon_footprint)
+            row_height = chosen_icon_footprint
+            if opt.show_floors:
+                row_height += self.text_margin_size
+            max_row = floor((opt.height - self.text_height)/row_height)
+            # We have our maximum number of columns and rows visible, we can
+            # check if everything will fit, or if we reached the minimal size
+            if (n_items_to_flow <= max_col * max_row or
+                chosen_icon_footprint == min_icon_footprint):
+                break
+            chosen_icon_footprint -= 1
+
+        unused_pixels = 0
+        # If we fully filled the row, and the number of items per line doesn't
+        # match the exact windows width, then we have some pixels left to use
+        # to perfectly "stretch" the items
+        if n_items_to_flow > max_col or chosen_icon_footprint != icon_size:
+            unused_pixels = available_width % chosen_icon_footprint
+
+        # Compute the strech needed per item, and the possible stretch remaining
+        # We use max_col - 1 because we want the first item to be left-aligned
+        stretch_per_item = 0
+        stretch_remaining = 0
+        if max_col > 1:
+            stretch_per_item = int(unused_pixels/(max_col-1))
+            if stretch_per_item == 0:
+                stretch_remaining = unused_pixels
+            else:
+                stretch_remaining = unused_pixels % stretch_per_item
+
+        # Compute x,y positions for each items
+        cur_col = 0
+        cur_row = 0
+        xpos = 0
+        ypos = self.text_height + self.text_margin_size
+        for item in items_to_flow:
+            # Deal with drawable items
+            self.drawn_items.append(DrawableItem(item, xpos, ypos, self))
+            cur_col += 1
+            if (cur_col%max_col == 0):
+                cur_col = 0
+                cur_row += 1
+                xpos = 0
+                ypos += self.text_margin_size + chosen_icon_footprint
+            else:
+                xpos += chosen_icon_footprint + stretch_per_item
+                # If some stretch is remaining, add 1 px per item until we reach
+                # the maximum stretch remaining
+                if cur_col <= stretch_remaining:
+                    xpos += 1
+
+        # Set coordinates for trailing floor, in case it would be needed
+        self.next_item = (xpos, ypos)
         self.build_position_index()
 
-    def try_layout(self, icon_footprint, icon_size, force_layout):
-        new_drawable_items = []
-        cur_row = 0
-        cur_column = 0
-        vert_padding = 0
-        opt = Options()
-        if opt.show_floors:
-            vert_padding = self.text_margin_size
-        collected_items = self.state.item_list
-        for item in collected_items:
-            initial_x = icon_footprint * cur_column
-            initial_y = self.text_height + (icon_footprint * cur_row) + (
-                vert_padding * (cur_row + 1))
-
-            # Deal with drawable items
-            new_drawable = DrawableItem(item, initial_x, initial_y, self)
-
-            # Only bother adding anything if we're going to show it
-            if new_drawable.shown():
-                # Check to see if we are about to go off the right edge
-                cur_column += 1
-                size_multiplier = 64 * opt.size_multiplier
-                new_width = icon_footprint * cur_column + size_multiplier
-                new_height = (self.text_height + (icon_footprint + vert_padding) * (cur_row + 1)
-                              + icon_size + vert_padding)
-                if new_width > opt.width:
-                    if (not force_layout) and new_height > opt.height:
-                        return None
-                    cur_row += 1
-                    cur_column = 0
-                new_drawable_items.append(new_drawable)
-
-        # Finally, we set next_item so that if we have an empty floor,
-        # we can use those coordinates to place it
-        initial_x = icon_footprint * cur_column
-        initial_y = self.text_height + (icon_footprint * cur_row) + (vert_padding * (cur_row + 1))
-        self.next_item = (initial_x, initial_y)
-        return new_drawable_items
 
     def build_position_index(self):
         '''
@@ -330,7 +367,7 @@ class DrawingTool(object):
         num_displayed_items = 0
         size_multiplier = 64 * opt.size_multiplier
         for item in self.drawn_items:
-            if item.shown():
+            if self.show_item(item.item):
                 for y in range(int(item.y), int(item.y + size_multiplier)):
                     if y >= h:
                         continue
@@ -452,15 +489,15 @@ class DrawingTool(object):
     def reset_options(self):
         """ Reset state variables affected by options """
         opt = Options()
-        size_multiplier = int(16 * opt.size_multiplier)
+        font_size = int(16 * opt.size_multiplier)
 
         # Anything that gets calculated and cached based on something in options
         # now needs to be flushed
-        self.text_margin_size = size_multiplier
+        self.text_margin_size = font_size
         try:
             self.font = pygame.font.SysFont(
                 opt.show_font,
-                size_multiplier,
+                font_size,
                 bold=opt.bold_font
             )
         except Exception:
@@ -471,13 +508,13 @@ class DrawingTool(object):
             log.error(errmsg)
             self.font = pygame.font.SysFont(
                     "arial",
-                    size_multiplier,
+                    font_size,
                     bold=opt.bold_font
             )
 
         self._image_library = {}
-        self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), size_multiplier * 2)
-        self.blind_icon = self.get_scaled_icon("questionmark.png", size_multiplier * 2)
+        self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), font_size * 2)
+        self.blind_icon = self.get_scaled_icon("questionmark.png", font_size * 2)
         if opt.show_description or opt.show_status_message:
             self.text_height = self.write_message(" ")
         else:
@@ -500,6 +537,32 @@ class DrawingTool(object):
             title = title + ", uploading to server"
         pygame.display.set_caption(title)
 
+    def show_item(self, item):
+        """
+            We should show if the following is true:
+                1. We are showable
+                2. We are guppy
+                3. We are health pickup AND we want to see health pickups
+                4. We are rerolled AND we want to see rerolls
+                5. We are a spacebar AND we want to see spacebars
+        """
+        opt = Options()
+        if not item.info.shown:
+            return False
+        elif item.info.guppy:
+            return True
+        elif item.info.health_only and \
+                not opt.show_health_ups:
+                    return False
+        elif item.info.space and \
+                not opt.show_space_items:
+                    return False
+        elif item.was_rerolled and \
+                not opt.show_rerolled_items:
+                    return False
+        return True
+
+
 
 
 class DrawableItem(Drawable):
@@ -518,31 +581,6 @@ class DrawableItem(Drawable):
             not Options().blck_cndl_mode and \
             self.item.blind and \
             not self.item.starting_item
-
-    def shown(self):
-        """
-            We should show if the following is true:
-                1. We are showable
-                2. We are guppy
-                3. We are health pickup AND we want to see health pickups
-                4. We are rerolled AND we want to see rerolls
-                5. We are a spacebar AND we want to see spacebars
-        """
-        opt = Options()
-        if not self.item.info.shown:
-            return False
-        elif self.item.info.guppy:
-            return True
-        elif self.item.info.health_only and \
-                not opt.show_health_ups:
-            return False
-        elif self.item.info.space and \
-                not opt.show_space_items:
-            return False
-        elif self.item.was_rerolled and \
-                not opt.show_rerolled_items:
-            return False
-        return True
 
     def draw(self, selected=False):
         image = self.tool.get_image(DrawingTool.id_to_image(self.item.item_id))
