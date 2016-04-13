@@ -184,7 +184,6 @@ class DrawingTool(object):
 
         # If items were added, or removed (run restarted) regenerate items
         if self.state.modified:
-            self.__reflow()
             # We picked up an item, start the counter
             self.item_picked_up()
             overlay = Overlay(self.file_prefix, self.state)
@@ -195,16 +194,9 @@ class DrawingTool(object):
         current_floor = self.state.last_floor
 
 
-        # 19 pixels is the default line height, but we don't know what the
-        # line height is with respect to the user's particular size_multiplier.
-        # Thus, we can just draw a single space to ensure that the spacing is consistent
-        # whether text happens to be showing or not.
-        if opt.show_description or opt.show_status_message:
-            self.text_height = self.write_message(" ")
-        else:
-            self.text_height = 0
-
         # Draw item pickup text, if applicable
+        # Save the previous text_height to know if we need to reflow the items
+        text_height_before = self.text_height
         text_written = False
         if opt.show_description and self.item_message_countdown_in_progress():
             text_written = self.write_item_text()
@@ -227,6 +219,13 @@ class DrawingTool(object):
                 dic
             )
             self.text_height = self.write_message(message)
+        elif not text_written:
+            self.text_height = 0
+
+        # We want to reflow if the state has been modified or if the text
+        # height has changed
+        if self.state.modified or self.text_height != text_height_before:
+            self.__reflow()
 
         floor_to_draw = None
 
