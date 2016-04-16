@@ -45,7 +45,6 @@ class OptionsMenu(object):
             import traceback
             log.error(traceback.print_exc())
 
-
     pretty_name_map = {"read_from_server": "Watch Someone Else",
                        "write_to_server": "Let Others Watch Me",
                        "twitch_name": "Their Twitch Name",
@@ -212,14 +211,14 @@ class OptionsMenu(object):
         name = name.partition(" (")[0]
         self.entries['twitch_name'].set(name)
 
-    # Taken from http://code.activestate.com/recipes/527747-invert-css-hex-colors/
+    # From: http://code.activestate.com/recipes/527747-invert-css-hex-colors/
     def opposite_color(self, color):
         # Get the opposite color of a hex color, just to make text on buttons readable
         color = color.lower()
         table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
 
-    # From http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
+    # From: http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
     def OnValidate(self, d, i, P, s, S, v, V, W):
         # This validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)
         return P == "" or re.search("^\d+(\.\d*)?$", P) is not None
@@ -289,7 +288,6 @@ class OptionsMenu(object):
 
         # Draw the "Display Options" box
         display_options_frame = LabelFrame(self.root, text="Display Options", padx=20, pady=20)
-        # display_options_frame.pack(fill="both", expand="yes")
         display_options_frame.grid(row=1, column=0, padx=5, pady=5)
         next_row = 0
 
@@ -407,7 +405,7 @@ class OptionsMenu(object):
                 webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + twitch_client_id + "&redirect_uri=" +
                                 self.entries['trackerserver_url'].get() + "/tracker/setup&scope=", autoraise=True)
             else:
-                #todo: show an error
+                # TODO: show an error
                 pass
 
         self.buttons["authkey_button"] = Button(
@@ -420,11 +418,13 @@ class OptionsMenu(object):
 
         # Check for coherency in options with priority to read
         self.read_callback()
+
         # Disable some textboxes if needed
         self.checkbox_callback()
 
         buttonframe = LabelFrame(self.root, bd=0, padx=5, pady=5)
         buttonframe.grid(row=2, column=1)
+
         # Save and cancel buttons
         save = Button(
             buttonframe,
@@ -446,7 +446,7 @@ class OptionsMenu(object):
         x_pos = getattr(self.options, "x_position")
         y_pos = getattr(self.options, "y_position")
 
-        # Now we make ourselves invisible and fullscreen. this is a hack to measure the size and position of the monitor
+        # Now we make ourselves invisible and fullscreen (this is a hack to measure the size and position of the monitor)
         # We can't use the "screenwidth" and "screenheight" functions because they only give info on the primary display!
         self.root.geometry('+%d+%d' % (x_pos, y_pos))
         self.root.attributes("-alpha", 00)

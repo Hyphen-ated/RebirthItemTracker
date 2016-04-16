@@ -1,8 +1,8 @@
 """ This module handles everything related to the tracker behaviour. """
 import json     # For importing the items and options
-import time
+import time     # For referencing the "state" timestamp that we get from the server
 import urllib2  # For checking for updates to the item tracker
-import logging  # For logging
+import logging  # For logging to a flat file
 
 # Import item tracker specific code
 from view_controls.view import DrawingTool, Event
@@ -18,14 +18,14 @@ class IsaacTracker(object):
         self.file_prefix = "../"
 
         self.log = logging.getLogger("tracker")
-        # This will erase our tracker log file from previous runs
-        self.log.addHandler(logging.FileHandler(self.file_prefix + "tracker_log.txt", mode='w'))
+        self.log.addHandler(logging.FileHandler(self.file_prefix + "tracker_log.txt", mode='w')) # This will erase our tracker log file from previous runs
         self.log.setLevel(logging_level)
 
         # Load items info
         with open(self.file_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
-        # load version
+
+        # Load version
         with open(self.file_prefix + 'version.txt', 'r') as f:
             self.tracker_version = f.read()
         # Load options
@@ -66,6 +66,7 @@ class IsaacTracker(object):
 
         event_result = None
         state = None
+        custom_title_enabled = opt.custom_title_enabled
         read_from_server = opt.read_from_server
         write_to_server = opt.write_to_server
         state_version = -1
@@ -74,12 +75,17 @@ class IsaacTracker(object):
         screen_error_message = None
 
         while event_result != Event.DONE:
-
             # Check for events and handle them
             event_result = drawing_tool.handle_events()
-            # A change means the user has (de)activated an option
-            if opt.read_from_server != read_from_server\
-            or opt.twitch_name != twitch_username:
+
+            # The user checked or unchecked the "Custom Title Enabled" checkbox
+            if opt.custom_title_enabled != custom_title_enabled:
+                custom_title_enabled = opt.custom_title_enabled
+                drawing_tool.set_window_title(update_notifier)
+                print 'getting here'
+
+            # The user started or stopped watching someone from the server (or they started watching a new person from the server)
+            if opt.read_from_server != read_from_server or opt.twitch_name != twitch_username:
                 twitch_username = opt.twitch_name
                 read_from_server = opt.read_from_server
                 new_states_queue = []
@@ -87,11 +93,12 @@ class IsaacTracker(object):
                 if read_from_server:
                     state_version = -1
                     state = None
-                    # show who we are watching in the title bar
+                    # Show who we are watching in the title bar
                     drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue))
                 else:
                     drawing_tool.set_window_title(update_notifier)
 
+            # The user started or stopped broadcasting to the server
             if opt.write_to_server and opt.write_to_server != write_to_server:
                 write_to_server = True
                 drawing_tool.set_window_title(update_notifier, uploading=True)
@@ -109,7 +116,7 @@ class IsaacTracker(object):
                 # By setting the framecount to 0 we ensure we'll refresh the state right away
                 framecount = 0
                 screen_error_message = None
-                # force updates after changing options
+                # Force updates after changing options
                 if state is not None:
                     state.modified = True
 
@@ -143,7 +150,7 @@ class IsaacTracker(object):
                             if "tracker_version" in json_dict:
                                 their_version = json_dict["tracker_version"]
                             else:
-                                # this is the only version that can upload to the server but doesn't include a version string
+                                # This is the only version that can upload to the server but doesn't include a version string
                                 their_version = "0.10-beta1"
 
                             if their_version != self.tracker_version:
@@ -178,7 +185,7 @@ class IsaacTracker(object):
                             log.error(errmsg)
                             screen_error_message = "ERROR: Couldn't send item info to server, check tracker_log.txt"
 
-            # check the new state at the front of the queue to see if it's time to use it
+            # Check the new state at the front of the queue to see if it's time to use it
             if len(new_states_queue) > 0:
                 (state_timestamp, new_state) = new_states_queue[0]
                 current_timestamp = int(time.time())
@@ -202,7 +209,7 @@ class IsaacTracker(object):
             drawing_tool.tick()
             framecount += 1
 
-        # main loop finished. program is exiting
+        # Main loop finished; program is exiting
         drawing_tool.save_window_position()
 
 def main():
@@ -214,7 +221,7 @@ def main():
     except Exception:
         import traceback
         errmsg = traceback.format_exc()
-        #print it to stdout for dev troubleshooting, log it to a file for production
+        # Print it to stdout for dev troubleshooting, log it to a file for production
         print(errmsg)
         logging.getLogger("tracker").error(errmsg)
 
