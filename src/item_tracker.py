@@ -82,7 +82,6 @@ class IsaacTracker(object):
             if opt.custom_title_enabled != custom_title_enabled:
                 custom_title_enabled = opt.custom_title_enabled
                 drawing_tool.set_window_title(update_notifier)
-                print 'getting here'
 
             # The user started or stopped watching someone from the server (or they started watching a new person from the server)
             if opt.read_from_server != read_from_server or opt.twitch_name != twitch_username:
