@@ -27,7 +27,6 @@
   "status_message": "Seed: {seed} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range} / Guppy: {guppy} / Leviathan: {leviathan} / Spun: {spun}",
   "text_color": "#FFFFFF",
   "trackerserver_authkey": "",
-  "trackerserver_twitch_id": "",
   "trackerserver_url": "http://kanye.space:8000",
   "twitch_name": "",
   "width": 1000,
