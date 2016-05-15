@@ -1,7 +1,7 @@
 {
   "background_color": "#3C3C3C",
   "bold_font": true,
-  "status_message": "Seed: {seed} / Guppy: {guppy} / Leviathan: {leviathan} / Spun: {spun} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range}",
+  "status_message": "Seed: {seed} / dmg: {dmg} / tears: {tears} / delay: {delay} / speed: {speed} / range: {range} / Guppy: {guppy} / Leviathan: {leviathan} / Spun: {spun}",
   "change_server": false,
   "default_spacing": 64,
   "enable_mouseover": true,
