@@ -49,7 +49,8 @@ class OptionsMenu(object):
                        "write_to_server": "Let Others Watch Me",
                        "twitch_name": "Their Twitch Name",
                        "bold_font": "Bold",
-                       "blck_cndl_mode": "BLCK CNDL mode" }
+                       "blck_cndl_mode": "BLCK CNDL mode",
+                       "custom_title_enabled": "Change Window Title"}
     label_after_text = {"message_duration":"seconds",
                         "framerate_limit":"fps"}
     connection_labels = {"starting":"Connecting to server for player list...",
