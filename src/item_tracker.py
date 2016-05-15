@@ -73,6 +73,7 @@ class IsaacTracker(object):
         twitch_username = None
         new_states_queue = []
         screen_error_message = None
+        retry_in = 0
 
         while event_result != Event.DONE:
             # Check for events and handle them
@@ -111,10 +112,14 @@ class IsaacTracker(object):
             else:
                 update_timer = self.read_timer
 
-            if event_result == Event.OPTIONS_UPDATE:
+            # Force refresh state if we updated options or if we need to retry
+            # to contact the server.
+            if (event_result == Event.OPTIONS_UPDATE or
+                (screen_error_message is not None and retry_in == 0)):
                 # By setting the framecount to 0 we ensure we'll refresh the state right away
                 framecount = 0
                 screen_error_message = None
+                retry_in = 0
                 # Force updates after changing options
                 if state is not None:
                     state.modified = True
@@ -123,6 +128,8 @@ class IsaacTracker(object):
             # do it every update_timer seconds (making sure to truncate to an integer
             # or else it might never mod to 0)
             if (framecount % int(Options().framerate_limit * update_timer) == 0):
+                if retry_in != 0:
+                    retry_in -= 1
                 # Let the parser do his thing and give us a state
                 if opt.read_from_server:
                     base_url = opt.trackerserver_url + "/tracker/api/user/" + opt.twitch_name
@@ -183,6 +190,8 @@ class IsaacTracker(object):
                             log.error("ERROR: Couldn't send item info to server")
                             log.error(errmsg)
                             screen_error_message = "ERROR: Couldn't send item info to server, check tracker_log.txt"
+                            # Retry to write the state in 10*update_timer (aka 10 sec in write mode)
+                            retry_in = 10
 
             # Check the new state at the front of the queue to see if it's time to use it
             if len(new_states_queue) > 0:
@@ -196,6 +205,8 @@ class IsaacTracker(object):
             if state is None and screen_error_message is None:
                 if read_from_server:
                     screen_error_message = "Unable to read state from server. Please verify your options setup and tracker_log.txt"
+                    # Retry to read the state in 5*update_timer (aka 10 sec in read mode)
+                    retry_in = 5
                 else:
                     screen_error_message = "log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt"
 
