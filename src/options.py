@@ -1,7 +1,6 @@
 """ ItemTracker's option module """
 import json
 
-
 class Options(object):
     """ Options' singleton """
     _shared_state = {}
@@ -15,7 +14,7 @@ class Options(object):
 
     def save_options(self, filename):
         """ Save current options to file """
-        # stop users from leaving the server options on
+        # Stop users from leaving the server options on
         self._shared_state['read_from_server'] = False
         self._shared_state['write_to_server'] = False
         with open(filename, "w") as json_file:
