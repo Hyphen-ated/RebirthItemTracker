@@ -301,7 +301,9 @@ class DrawingTool(object):
             row_height = chosen_icon_footprint
             if opt.show_floors:
                 row_height += self.text_margin_size
-            max_row = floor((opt.height - self.text_height)/row_height)
+            # height also has to take into account the size of the items on the edges, so they never flow off the bottom
+            available_height = opt.height - self.text_height - (icon_size - chosen_icon_footprint)
+            max_row = floor(available_height/row_height)
             # We have our maximum number of columns and rows visible, we can
             # check if everything will fit, or if we reached the minimal size
             if (n_items_to_flow <= max_col * max_row or
