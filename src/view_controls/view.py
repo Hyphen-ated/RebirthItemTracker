@@ -60,6 +60,7 @@ class DrawingTool(object):
         self.clock = None
         self.win_info = None
         self.screen = None
+        self.window_title_info = WindowTitleInfo()
         self.start_pygame()
 
     def start_pygame(self):
@@ -526,24 +527,37 @@ class DrawingTool(object):
         self.drawn_items = []
         self.item_position_index = []
 
-    def set_window_title(self, update_notifier, watching_player=None, updates_queued=0, read_delay=0, uploading=False):
-        self.window_title_info = WindowTitleInfo(update_notifier, watching_player, updates_queued, uploading)
+    def set_window_title_info(self, watching=None, uploading=None, watching_player=None, update_notifier=None, updates_queued=None ):
+        if watching is not None:
+            self.window_title_info.watching = watching
+        if uploading is not None:
+            self.window_title_info.uploading = uploading
+        if watching_player is not None:
+            self.window_title_info.watching_player = watching_player
+        if update_notifier is not None:
+            self.window_title_info.update_notifier = update_notifier
+        if updates_queued is not None:
+            self.window_title_info.updates_queued = updates_queued
+
         self.update_window_title()
 
     def update_window_title(self):
+        title = ""
         # The user wants a hard-coded window title
-        if Options().custom_title_enabled == True:
+        if Options().custom_title_enabled:
             title = Options().custom_title
-
-        # The user wants the standard item tracker title (the default)
         else:
-            title = "Rebirth Item Tracker" + self.window_title_info.update_notifier
-            if self.window_title_info.watching_player:
-                title = title + ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
-            if self.window_title_info.uploading:
-                title = title + ", uploading to server"
+            title = "Rebirth Item Tracker"
 
-        # Set the title
+        if self.window_title_info.update_notifier:
+            title += self.window_title_info.update_notifier
+
+        if self.window_title_info.watching:
+            title += ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
+        elif self.window_title_info.uploading:
+            title += ", uploading to server"
+
+        # Set the title on the actual window
         pygame.display.set_caption(title)
 
     def show_item(self, item):
@@ -617,11 +631,19 @@ class DrawableItem(Drawable):
         webbrowser.open(url, autoraise=True)
 
 class WindowTitleInfo:
-    def __init__(self, update_notifier, watching_player, updates_queued, uploading):
-        self.update_notifier = update_notifier
+    def __init__(self, uploading, watching, update_notifier, watching_player, updates_queued):
+        self.uploading = uploading
+        self.watching = watching
         self.watching_player = watching_player
         self.updates_queued = updates_queued
-        self.uploading = uploading
+        self.update_notifier = update_notifier
+    def __init__(self):
+        self.uploading = False
+        self.watching = False
+        self.watching_player = None
+        self.updates_queued = None
+        self.update_notifier = None
+
 
 class DrawableFloor(Drawable):
     def __init__(self, floor, x, y, tool):

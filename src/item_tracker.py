@@ -59,7 +59,7 @@ class IsaacTracker(object):
 
         # Create drawing tool to use to draw everything - it'll create its own screen
         drawing_tool = DrawingTool(self.file_prefix)
-        drawing_tool.set_window_title(update_notifier)
+        drawing_tool.set_window_title_info(update_notifier=update_notifier)
         parser = LogParser(self.file_prefix, self.tracker_version)
         opt = Options()
         log = logging.getLogger("tracker")
@@ -74,6 +74,7 @@ class IsaacTracker(object):
         new_states_queue = []
         screen_error_message = None
         retry_in = 0
+        update_timer = 2
 
         while event_result != Event.DONE:
             # Check for events and handle them
@@ -82,7 +83,7 @@ class IsaacTracker(object):
             # The user checked or unchecked the "Custom Title Enabled" checkbox
             if opt.custom_title_enabled != custom_title_enabled:
                 custom_title_enabled = opt.custom_title_enabled
-                drawing_tool.set_window_title(update_notifier)
+                drawing_tool.update_window_title()
 
             # The user started or stopped watching someone from the server (or they started watching a new person from the server)
             if opt.read_from_server != read_from_server or opt.twitch_name != twitch_username:
@@ -93,24 +94,18 @@ class IsaacTracker(object):
                 if read_from_server:
                     state_version = -1
                     state = None
+                    # Change the delay for polling, as we probably don't want to fetch it every second
+                    update_timer = 2
                     # Show who we are watching in the title bar
-                    drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue))
+                    drawing_tool.set_window_title_info(watching=True, watching_player=twitch_username, updates_queued=len(new_states_queue))
                 else:
-                    drawing_tool.set_window_title(update_notifier)
+                    drawing_tool.set_window_title_info(watching=False)
+                    update_timer = self.read_timer
 
             # The user started or stopped broadcasting to the server
-            if opt.write_to_server and opt.write_to_server != write_to_server:
-                write_to_server = True
-                drawing_tool.set_window_title(update_notifier, uploading=True)
-
-            if not opt.write_to_server:
-                write_to_server = False
-
-            if opt.read_from_server:
-                # Change the delay for polling, as we probably don't want to fetch it every second
-                update_timer = 2
-            else:
-                update_timer = self.read_timer
+            if opt.write_to_server != write_to_server:
+                write_to_server = opt.write_to_server
+                drawing_tool.set_window_title_info(uploading=opt.write_to_server)
 
             # Force refresh state if we updated options or if we need to retry
             # to contact the server.
@@ -145,7 +140,7 @@ class IsaacTracker(object):
                                 raise Exception
                             state_version = int(json_version)
                             new_states_queue.append((state_version, new_state))
-                            drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
+                            drawing_tool.set_window_title_info(updates_queued=len(new_states_queue))
                     except Exception:
                         state = None
                         log.error("Couldn't load state from server")
@@ -200,7 +195,7 @@ class IsaacTracker(object):
                 if current_timestamp - state_timestamp >= opt.read_delay or state is None:
                     state = new_state
                     new_states_queue.pop(0)
-                    drawing_tool.set_window_title(update_notifier, watching_player=twitch_username, updates_queued=len(new_states_queue), read_delay=opt.read_delay)
+                    drawing_tool.set_window_title_info(updates_queued=len(new_states_queue))
 
             if state is None and screen_error_message is None:
                 if read_from_server:
