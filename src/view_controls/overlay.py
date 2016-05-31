@@ -56,8 +56,11 @@ class Overlay(object):
     def update_last_item_description(self):
         """Update the overlay file for item pickup description"""
         item = self.state.last_item
-        desc = item.info.name
-        desc += ": " + item.generate_item_description()
+        if item:
+            desc = item.info.name
+            desc += ": " + item.generate_item_description()
+        else:
+            desc = ""
         with open(self.prefix + "overlay text/itemInfo.txt", "w+") as sfile:
             sfile.write(desc)
 
