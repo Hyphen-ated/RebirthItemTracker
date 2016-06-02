@@ -548,14 +548,13 @@ class DrawingTool(object):
             title = Options().custom_title
         else:
             title = "Rebirth Item Tracker"
+            if self.window_title_info.update_notifier:
+                title += self.window_title_info.update_notifier
 
-        if self.window_title_info.update_notifier:
-            title += self.window_title_info.update_notifier
-
-        if self.window_title_info.watching:
-            title += ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
-        elif self.window_title_info.uploading:
-            title += ", uploading to server"
+            if self.window_title_info.watching:
+                title += ", spectating " + self.window_title_info.watching_player + ". Delay: " + str(Options().read_delay) + ". Updates queued: " + str(self.window_title_info.updates_queued)
+            elif self.window_title_info.uploading:
+                title += ", uploading to server"
 
         # Set the title on the actual window
         pygame.display.set_caption(title)
