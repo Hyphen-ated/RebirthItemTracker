@@ -269,7 +269,7 @@ class DrawingTool(object):
         # Empty the previous drawn items list
         self.drawn_items[:] = []
         # Build the list of items to display
-        items_to_flow = [x for x in self.state.item_list if self.show_item(x)]
+        items_to_flow = [x for x in self.state.item_list if self.show_item(x)] if self.state is not None else []
         n_items_to_flow = len(items_to_flow)
 
         if n_items_to_flow == 0:
