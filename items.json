@@ -2668,10 +2668,10 @@
       "text": "Huge laser for 15 seconds, lasts across rooms and floors",
       "shown": true,
       "space": true
-   }
+   },
    "442":{
       "name": "Dark Prince's Crown",
-      "text": "Double damage at exactly 1 red heart"
+      "text": "Double damage at exactly 1 red heart",
       "shown": true
    },
    "443":{
@@ -2682,12 +2682,12 @@
    },
    "444":{
       "name": "Lead Pencil",
-      "text": "Every 15 tears you will fire a lung shot with double damage"
+      "text": "Every 15 tears you will fire a lung shot with double damage",
       "shown": true
    },
    "445":{
       "name": "Dog Tooth",
-      "text": "Upon entering a room with a secret room, a wolf howl will sound",
+      "text": "A wolf howl will sound when there's a secret room or trapdoor",
       "damage": "0.3",
       "speed": "0.1",
       "shown": true
@@ -2725,12 +2725,12 @@
    },
    "452":{
       "name": "Varicose Veins",
-      "text": "Tammy's head on damage"
+      "text": "Tammy's head on damage",
       "shown": true
    },
    "453":{
       "name": "Compound Fracture",
-      "text": "Shoots bone tears",
+      "text": "Tears split into bone shards that each do half damage",
       "range": "1.5",
       "shown": true
    },
@@ -2741,15 +2741,14 @@
    },
    "455":{
       "name": "Dad's Lost Coin",
-      "text": "Drops lucky penny and gives range-up",
+      "text": "Drops a lucky penny",
       "range": "1.5",
       "shown": true
    },
    "456":{
       "name": "Moldy Bread",
-      "text": "Health up",
       "health": "1",
-      "shown": true
+      "shown": false
    },
    "457":{
       "name": "Cone Head",
@@ -2774,23 +2773,23 @@
    },
    "461":{
       "name": "Parasitoid",
-      "text": "Spider/fly spawn + slow chance",
+      "text": "Some tears slow enemies and spawn a spider/fly",
       "shown": true
    },
    "462":{
       "name": "Eye of Belial",
-      "text": "Piercing tears. After hitting its first enemy each tear: double damage + homing",
+      "text": "Piercing. After a tear hits it gets double damage + homing",
       "shown": true
    },
    "463":{
       "name": "Sulfuric Acid",
-      "text": "Chance to break objects",
+      "text": "Tears have a chance to break objects",
       "damage": "0.3",
       "shown": true
    },
    "464":{
       "name": "Glyph of Balance",
-      "text": "Gives soul hearts, might do something else as well",
+      "text": "Unknown effect",
 	  "soulhearts": "2",
       "shown": true
    },
@@ -2817,22 +2816,22 @@
    },
    "469":{
       "name": "Depression",
-      "text": "Familiar leaving a trail that damages, chance of triggering Crack the sky effect on touch",
+      "text": "Familiar leaving a trail that damages, chance of triggering beam effect on touch",
       "shown": true
    },
    "470":{
       "name": "Hushy",
-      "text": "Familiar that moves when one isnt firing tears, dealing 2 contact damage per tick",
+      "text": "Familiar that moves when you're not shooting. Does 2 contact damage per tick",
       "shown": true
    },
    "471":{
       "name": "Lil Monstro",
-      "text": "Familiar (3.5 dmg / Monsto's lung",
+      "text": "Familiar that shoots a base damage lung",
       "shown": true
    },
    "472":{
       "name": "King Baby",
-      "text": "Familiar that stops when Isaac shoots tears then teleports to the character, other familiars follows it"
+      "text": "Familiar that other familiars follow",
       "shown": true
    },
    "473":{
@@ -2842,18 +2841,18 @@
    },
    "474":{
       "name": "Tonsil",
-      "text": "Currently unknown",
+      "text": "Unknown",
       "shown": true
    },
    "475":{
       "name": "Plan C",
-      "text": "Deals 9,999,999 damage to a room and kills you 3 seconds later, single use item",
+      "text": "Deals 9,999,999 damage to a room and kills you 3 seconds later, single use",
       "space": true,
       "shown": true
    },
    "476":{
       "name": "D1",
-      "text": "Spawns 1-3 friendly flies or spiders and rolls consumables in room into flies or spiders",
+      "text": "Spawns 1-3 friendly flies/spiders and rolls consumables into them too",
       "space": true,
       "shown": true
    },
@@ -2865,43 +2864,43 @@
    },
    "478":{
       "name": "Pause",
-      "text": "Freezes enemies in the room until you press the fire button again, doesnt work on bosses",
+      "text": "Freezes enemies in the room until you shoot, even bosses",
       "space": true,
       "shown": true
    },
    "479":{
       "name": "Smelter",
-      "text": "Destroys and gives the player the currently held trinket effects on use",
+      "text": "Consumes trinket to make its effect permanent",
       "space": true,
       "shown": true
    },
    "480":{
       "name": "Compost",
-      "text": "Spaws one friendly fly or spider for ever consumable in the room",
+      "text": "Spaws one friendly fly or spider for every consumable in the room",
       "space": true,
       "shown": true
    },
    "481":{
       "name": "Dataminer",
-      "text": "Fucks shit up, check platgod for more info",
+      "text": "Distorted graphics and random tears for one room, random stat changes",
       "space": true,
       "shown": true
    },
    "482":{
       "name": "Clicker",
-      "text": "Changes you into another character, with a chance of remove last picked up item",
+      "text": "Changes you into another character, with a chance to remove last picked up item",
       "space": true,
       "shown": true
    },
    "483":{
       "name": "MaMa Mega!",
-      "text": "Explodes all objects in room, does 200 damage in every room on floor, opens all secret doors",
+      "text": "One use: blows up objects, 200 damage to every room, opens all secret doors, for the whole floor",
       "space": true,
       "shown": true
    },
    "484":{
       "name": "Wait What?",
-      "text": "Kind of like butter bean",
+      "text": "Wave of rocks that hurts enemies",
       "space": true,
       "shown": true
    },
@@ -2913,13 +2912,13 @@
    },
    "486":{
       "name": "Dull Razor",
-      "text": "Hurts the player without taking damage",
+      "text": "'Hurts' the player without doing damage",
       "space": true,
       "shown": true
    },
    "487":{
       "name": "Potato Peeler",
-      "text": "Upon use it removes one red heart and gives 0.2 dmg and cube of meat",
+      "text": "When used: -1 red heart, +0.2 dmg, gain a cube of meat. Reusable.",
       "space": true,
       "shown": true
    },
@@ -2931,13 +2930,13 @@
    },
    "489":{
       "name": "D infinity",
-      "text": "Gives random dice upon pickup, every time its used it'll reroll into another dice",
+      "text": "Gives random dice upon pickup, every time it's used it'll reroll into another one",
       "space": true,
       "shown": true
    },
    "490":{
       "name": "Eden's Soul",
-      "text": "Spawns two item pedestals on use, must be charged first",
+      "text": "One use: Spawns two item pedestals, must be charged first",
       "space": true,
       "shown": true
    },
@@ -2948,18 +2947,18 @@
    },
    "492":{
       "name": "YO LISTEN!",
-      "text": "Familiar, Travels to any secrets in a room, if no secrets it will just roam",
+      "text": "Familiar, Travels to any secrets in a room",
       "luck": "1",
       "shown": true
    },
    "493":{
       "name": "Adderline",
-      "text": "For every empty red heart container player gains +0.2 damage and size-up",
+      "text": "For every empty red heart container: +0.2 damage and size-up",
       "shown": true
    },
    "494":{
       "name": "Jacob's Ladder",
-      "text": "Upon hitting an object or enemy it shoots 1-2 sparks in a random direction taking half current damage",
+      "text": "When a tear hits something: 1-2 sparks in a random direction, each does half damage",
       "shown": true
    },
    "495":{
@@ -2979,17 +2978,17 @@
    },
    "498":{
       "name": "Duality",
-      "text": "Like more options but for doors to Devil deal or Angel room",
+      "text": "Choice between devil or angel rooms every time you earn a deal",
       "shown": true
    },
    "499":{
       "name": "Eucharist",
-      "text": "Like Goat head but for Angel Rooms",
+      "text": "Angel rooms appear whenever possible",
       "shown": true
    },
    "500":{
       "name": "Sack of Sacks",
-      "text": "Familiar, chance of dropping a sack when having cleared a room",
+      "text": "Familiar, chance to drop a sack after clearing rooms",
       "shown": true
    },
    "501":{
@@ -2999,28 +2998,28 @@
    },
    "502":{
       "name": "Large Zit",
-      "text": "Random chance to fire a creep shot",
+      "text": "Random chance to fire a creep shot with x2 dmg",
       "shown": true
    },
    "503":{
       "name": "Little Horn",
-      "text": "Chance of firing a piercing void tear that instantly kills normal enemies on contact",
+      "text": "Chance to fire a piercing void tear that instantly kills normal enemies",
       "shown": true
    },
    "504":{
       "name": "Brown Nugget",
-      "text": "Spawns a fly turrent upon use",
+      "text": "Spawns a fly turret that does 2 dmg per shot",
       "space": true,
       "shown": true
    },
    "505":{
       "name": "Poke Go",
-      "text": "Chance of befriending a random enemy in a room",
+      "text": "Chance to spawn random familiar each room, which survives as long as it doesn't take too much damage",
       "shown": true
    },
    "506":{
       "name": "BackStabber",
-      "text": "Shooting an enemy in the back causes a bleed effect doing 10% of total health damage every 5s",
+      "text": "Shooting a non-bleeding enemy in the back does x2 dmg and adds bleed effect that kills after 50s of slow damage",
       "shown": true
    },
    "507":{
@@ -3031,12 +3030,12 @@
    },
    "508":{
       "name": "Mom's Razor",
-      "text": "Orbital dealing 20% of tear damage, and chance to cause bleed. Doesnt block tears",
+      "text": "Non-blocking orbital dealing 20% of tear damage, and and adds bleed effect that kills after 50s of slow damage",
       "shown": true
    },
    "509":{
       "name": "Bloodshot Eye",
-      "text": "Orbital, 2 dmg/tick and shoots tears every 2 seconds",
+      "text": "Orbital, 2 dmg/tick and shoots 3.5dmg tears every 2 seconds",
       "shown": true
    },
    "510":{
