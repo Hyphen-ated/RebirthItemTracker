@@ -2669,4 +2669,380 @@
       "shown": true,
       "space": true
    }
+   "442":{
+      "name": "Dark Prince's Crown",
+      "text": "Double damage at exactly 1 red heart"
+      "shown": true
+   },
+   "443":{
+      "name": "Apple!",
+      "text": "Random chance to fire a 400% damage razor blade",
+      "tears": "0.4",
+      "shown": true
+   },
+   "444":{
+      "name": "Lead Pencil",
+      "text": "Every 15 tears you will fire a lung shot with double damage"
+      "shown": true
+   },
+   "445":{
+      "name": "Dog Tooth",
+      "text": "Upon entering a room with a secret room, a wolf howl will sound",
+      "damage": "0.3",
+      "speed": "0.1",
+      "shown": true
+   },
+   "446":{
+      "name": "Dead Tooth",
+      "text": "Poisonous aura",
+      "shown": true
+   },
+   "447":{
+      "name":"Linger Bean",
+      "text": "While firing you have a chance to spawn a poop cloud that deals damage",
+      "shown": true
+   },
+   "448":{
+      "name": "Shard of Glass",
+      "text": "Chance to get +5 range and blood creep for the current room when damaged",
+      "shown": true
+   },
+   "449":{
+      "name":"Metal Plate",
+      "text": "Chance to deflect enemy bullets",
+	  "soulhearts": "1",
+      "shown": true
+   },
+   "450":{
+      "name": "Eye of Greed",
+      "text": "Chance for midas touch tear effect",
+      "shown": true
+   },
+   "451":{
+      "name": "Tarot Cloth",
+      "text": "Random card or rune drop on pickup. Doubles the use of any tarot card used",
+      "shown": true
+   },
+   "452":{
+      "name": "Varicose Veins",
+      "text": "Tammy's head on damage"
+      "shown": true
+   },
+   "453":{
+      "name": "Compound Fracture",
+      "text": "Shoots bone tears",
+      "range": "1.5",
+      "shown": true
+   },
+   "454":{
+      "name": "Polydactyly",
+      "text": "Adds consumable space, drops 1 card/pill/rune on pickup",
+      "shown": true
+   },
+   "455":{
+      "name": "Dad's Lost Coin",
+      "text": "Drops lucky penny and gives range-up",
+      "range": "1.5",
+      "shown": true
+   },
+   "456":{
+      "name": "Moldy Bread",
+      "text": "Health up",
+      "health": "1",
+      "shown": true
+   },
+   "457":{
+      "name": "Cone Head",
+      "text": "Chance of not taking damage when hit",
+      "soulhearts": "1",
+      "shown": true
+   },
+   "458":{
+      "name": "Belly Button",
+      "text": "Drops random trinket on pickup. Extra trinket slot.",
+      "shown": true
+   },
+   "459":{
+      "name": "Sinus Infection",
+      "text": "Poison tear chance dealing tear damage for 60s",
+      "shown": true
+   },
+   "460":{
+      "name": "Glaucoma",
+      "text": "Concussive tear chance",
+      "shown": true
+   },
+   "461":{
+      "name": "Parasitoid",
+      "text": "Spider/fly spawn + slow chance",
+      "shown": true
+   },
+   "462":{
+      "name": "Eye of Belial",
+      "text": "Piercing tears. After hitting its first enemy each tear: double damage + homing",
+      "shown": true
+   },
+   "463":{
+      "name": "Sulfuric Acid",
+      "text": "Chance to break objects",
+      "damage": "0.3",
+      "shown": true
+   },
+   "464":{
+      "name": "Glyph of Balance",
+      "text": "Gives soul hearts, might do something else as well",
+	  "soulhearts": "2",
+      "shown": true
+   },
+   "465":{
+      "name":"Analog Stick",
+      "text": "Allows you to fire tears diagonally",
+      "delay": "-2",
+      "shown": true
+   },
+   "466":{
+      "name":"Contagion",
+      "text":"First enemy killed in a room will explode and release poison gas to give same effect to nearby enemies",
+      "shown": true
+   },
+   "467":{
+      "name": "Finger!",
+      "text": "Damages enemies in the direction its pointed in, on-hit status effects works",
+      "shown": true
+   },
+   "468":{
+      "name": "Shade",
+      "text": "Familiar that'll follow movements with a 3s delay, dealing contact damage",
+      "shown": true
+   },
+   "469":{
+      "name": "Depression",
+      "text": "Familiar leaving a trail that damages, chance of triggering Crack the sky effect on touch",
+      "shown": true
+   },
+   "470":{
+      "name": "Hushy",
+      "text": "Familiar that moves when one isnt firing tears, dealing 2 contact damage per tick",
+      "shown": true
+   },
+   "471":{
+      "name": "Lil Monstro",
+      "text": "Familiar (3.5 dmg / Monsto's lung",
+      "shown": true
+   },
+   "472":{
+      "name": "King Baby",
+      "text": "Familiar that stops when Isaac shoots tears then teleports to the character, other familiars follows it"
+      "shown": true
+   },
+   "473":{
+      "name": "Big Chubby",
+      "text": "Familiar, like lil chubby but slower, 2.7 dmg/tick",
+      "shown": true
+   },
+   "474":{
+      "name": "Tonsil",
+      "text": "Currently unknown",
+      "shown": true
+   },
+   "475":{
+      "name": "Plan C",
+      "text": "Deals 9,999,999 damage to a room and kills you 3 seconds later, single use item",
+      "space": true,
+      "shown": true
+   },
+   "476":{
+      "name": "D1",
+      "text": "Spawns 1-3 friendly flies or spiders and rolls consumables in room into flies or spiders",
+      "space": true,
+      "shown": true
+   },
+   "477":{
+      "name": "Void",
+      "text": "Consumes items in the room, if a spacebar items adds the effect to itself, if passive gives a stat-up",
+      "space": true,
+      "shown": true
+   },
+   "478":{
+      "name": "Pause",
+      "text": "Freezes enemies in the room until you press the fire button again, doesnt work on bosses",
+      "space": true,
+      "shown": true
+   },
+   "479":{
+      "name": "Smelter",
+      "text": "Destroys and gives the player the currently held trinket effects on use",
+      "space": true,
+      "shown": true
+   },
+   "480":{
+      "name": "Compost",
+      "text": "Spaws one friendly fly or spider for ever consumable in the room",
+      "space": true,
+      "shown": true
+   },
+   "481":{
+      "name": "Dataminer",
+      "text": "Fucks shit up, check platgod for more info",
+      "space": true,
+      "shown": true
+   },
+   "482":{
+      "name": "Clicker",
+      "text": "Changes you into another character, with a chance of remove last picked up item",
+      "space": true,
+      "shown": true
+   },
+   "483":{
+      "name": "MaMa Mega!",
+      "text": "Explodes all objects in room, does 200 damage in every room on floor, opens all secret doors",
+      "space": true,
+      "shown": true
+   },
+   "484":{
+      "name": "Wait What?",
+      "text": "Kind of like butter bean",
+      "space": true,
+      "shown": true
+   },
+   "485":{
+      "name": "Crooked Penny",
+      "text": "50/50 chance to either double all consumables and items in the room, or destroy them",
+      "space": true,
+      "shown": true
+   },
+   "486":{
+      "name": "Dull Razor",
+      "text": "Hurts the player without taking damage",
+      "space": true,
+      "shown": true
+   },
+   "487":{
+      "name": "Potato Peeler",
+      "text": "Upon use it removes one red heart and gives 0.2 dmg and cube of meat",
+      "space": true,
+      "shown": true
+   },
+   "488":{
+      "name": "Metronome",
+      "text": "Random item effect in room on use",
+      "space": true,
+      "shown": true
+   },
+   "489":{
+      "name": "D infinity",
+      "text": "Gives random dice upon pickup, every time its used it'll reroll into another dice",
+      "space": true,
+      "shown": true
+   },
+   "490":{
+      "name": "Eden's Soul",
+      "text": "Spawns two item pedestals on use, must be charged first",
+      "space": true,
+      "shown": true
+   },
+   "491":{
+      "name": "Acid Baby",
+      "text": "Familiar, drops pill every 2 floors, on pill use poisons all enemies in the room",
+      "shown": true
+   },
+   "492":{
+      "name": "YO LISTEN!",
+      "text": "Familiar, Travels to any secrets in a room, if no secrets it will just roam",
+      "luck": "1",
+      "shown": true
+   },
+   "493":{
+      "name": "Adderline",
+      "text": "For every empty red heart container player gains +0.2 damage and size-up",
+      "shown": true
+   },
+   "494":{
+      "name": "Jacob's Ladder",
+      "text": "Upon hitting an object or enemy it shoots 1-2 sparks in a random direction taking half current damage",
+      "shown": true
+   },
+   "495":{
+      "name": "Ghost Pepper",
+      "text": "Chance of shoting a fire with 23 dmg instead of a tear",
+      "shown": true
+   },
+   "496":{
+      "name": "Euthanasia",
+      "text": "Chance of shooting a needle with 3x dmg, if enemy is killed with a needle it will explode into more needles",
+      "shown": true
+   },
+   "497":{
+      "name": "Camo Undies",
+      "text": "Invisible to enemies in each room until pressing the fire button",
+      "shown": true
+   },
+   "498":{
+      "name": "Duality",
+      "text": "Like more options but for doors to Devil deal or Angel room",
+      "shown": true
+   },
+   "499":{
+      "name": "Eucharist",
+      "text": "Like Goat head but for Angel Rooms",
+      "shown": true
+   },
+   "500":{
+      "name": "Sack of Sacks",
+      "text": "Familiar, chance of dropping a sack when having cleared a room",
+      "shown": true
+   },
+   "501":{
+      "name": "Greed's Gullet",
+      "text": "Gives an extra heart container every 25 coins held",
+      "shown": true
+   },
+   "502":{
+      "name": "Large Zit",
+      "text": "Random chance to fire a creep shot",
+      "shown": true
+   },
+   "503":{
+      "name": "Little Horn",
+      "text": "Chance of firing a piercing void tear that instantly kills normal enemies on contact",
+      "shown": true
+   },
+   "504":{
+      "name": "Brown Nugget",
+      "text": "Spawns a fly turrent upon use",
+      "space": true,
+      "shown": true
+   },
+   "505":{
+      "name": "Poke Go",
+      "text": "Chance of befriending a random enemy in a room",
+      "shown": true
+   },
+   "506":{
+      "name": "BackStabber",
+      "text": "Shooting an enemy in the back causes a bleed effect doing 10% of total health damage every 5s",
+      "shown": true
+   },
+   "507":{
+      "name": "Sharp Straw",
+      "text": "Deals damage to all enemies in the room and chance to drop heart",
+      "space": true,
+      "shown": true
+   },
+   "508":{
+      "name": "Mom's Razor",
+      "text": "Orbital dealing 20% of tear damage, and chance to cause bleed. Doesnt block tears",
+      "shown": true
+   },
+   "509":{
+      "name": "Bloodshot Eye",
+      "text": "Orbital, 2 dmg/tick and shoots tears every 2 seconds",
+      "shown": true
+   },
+   "510":{
+      "name": "Delirious",
+      "text": "Spawns random charmed boss for current room",
+      "space": true,
+      "shown": true
+   }
 }
