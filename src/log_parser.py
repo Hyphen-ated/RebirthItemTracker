@@ -204,16 +204,18 @@ class LogParser(object):
         """
         path = None
         logfile_location = ""
+        version_path_fragment = self.opt.game_version
 
         if platform.system() == "Windows":
             logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac {}/'
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
                 os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
+            version_path_fragment = version_path_fragment.lower()
         elif platform.system() == "Darwin":
             logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac {}/'
 
-        logfile_location = logfile_location.format(self.opt.game_version)
+        logfile_location = logfile_location.format(version_path_fragment)
 
         for check in (self.file_prefix + '../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
