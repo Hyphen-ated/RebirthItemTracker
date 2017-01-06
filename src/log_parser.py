@@ -66,6 +66,11 @@ class LogParser(object):
         """
         Parse a line using the (line_number, line) tuple
         """
+        #in afterbirth+, all lines start with this. we want to slice it off.
+        info_prefix = '[INFO] - '
+        if line.startswith(info_prefix):
+            line = line[len(info_prefix):]
+
         if line.startswith('Mom clear time:'):
             self.__parse_boss(line)
 
