@@ -160,6 +160,7 @@ class DrawingTool(object):
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset_options()
                     self.reset()
+
                     if self.state is not None:
                         self.__reflow()
                     return Event.OPTIONS_UPDATE

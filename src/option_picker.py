@@ -27,6 +27,7 @@ class OptionsMenu(object):
                       'Mangal', 'Microsoft Sans Serif', 'Miriam', 'Miriam Fixed', 'Narkisim', 'Raavi', 'Rod', 'Shruti',
                       'SimHei', 'Simplified Arabic', 'Simplified Arabic Fixed', 'Sylfaen', 'Tahoma', 'Times New Roman',
                       'Traditional Arabic', 'Trebuchet MS', 'Tunga', 'Verdana']
+        self.game_versions = ['Rebirth', 'Afterbirth', 'Afterbirth+']
         self.network_queue = Queue()
 
         # Check if the system has the fonts installed, and remove them from the list if it doesn't
@@ -255,9 +256,9 @@ class OptionsMenu(object):
 
         for index, opt in enumerate(["show_font"]):
             Label(text_options_frame, text=self.pretty_name(opt)).grid(row=next_row)
-            initialvar = StringVar()
-            initialvar.set(getattr(self.options, opt))
-            self.entries[opt] = ttk.Combobox(text_options_frame, values=sorted(self.fonts), textvariable=initialvar, state='readonly')
+            initialfont = StringVar()
+            initialfont.set(getattr(self.options, opt))
+            self.entries[opt] = ttk.Combobox(text_options_frame, values=sorted(self.fonts), textvariable=initialfont, state='readonly')
             self.entries[opt].grid(row=next_row, column=1)
 
         for index, opt in enumerate(["bold_font"]):
@@ -287,10 +288,18 @@ class OptionsMenu(object):
             if opt == "show_description" or opt == "show_status_message":
                 c.configure(command=self.checkbox_callback)
 
-        # Draw the "Display Options" box
-        display_options_frame = LabelFrame(self.root, text="Display Options", padx=20, pady=20)
+        # Draw the other options box
+        display_options_frame = LabelFrame(self.root, text="", padx=20, pady=20)
         display_options_frame.grid(row=1, column=0, padx=5, pady=5)
         next_row = 0
+
+        for index, opt in enumerate(["game_version"]):
+            Label(display_options_frame, text=self.pretty_name(opt)).grid(row=next_row)
+            initialversion = StringVar()
+            initialversion.set(getattr(self.options, opt))
+            self.entries[opt] = ttk.Combobox(display_options_frame, values=self.game_versions, textvariable=initialversion, state='readonly')
+            self.entries[opt].grid(row=next_row, column=1)
+            next_row += 1
 
         for index, opt in enumerate(["framerate_limit", "size_multiplier"]):
             Label(display_options_frame, text=self.pretty_name(opt)).grid(row=next_row)

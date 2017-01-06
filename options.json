@@ -4,10 +4,11 @@
    "bold_font": true, 
    "change_server": true, 
    "custom_title": "Racer 1 Items", 
-   "custom_title_enabled": false,
+   "custom_title_enabled": false, 
    "default_spacing": 64, 
    "enable_mouseover": true, 
    "framerate_limit": 30, 
+   "game_version": "Afterbirth+",
    "height": 100,
    "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID", 
    "make_items_glow": true, 
@@ -32,6 +33,6 @@
    "width": 1315, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 1684, 
-   "y_position": 801
+   "x_position": 1726, 
+   "y_position": 1011
 }

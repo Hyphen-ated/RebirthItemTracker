@@ -60,14 +60,16 @@ class IsaacTracker(object):
         # Create drawing tool to use to draw everything - it'll create its own screen
         drawing_tool = DrawingTool(self.file_prefix)
         drawing_tool.set_window_title_info(update_notifier=update_notifier)
-        parser = LogParser(self.file_prefix, self.tracker_version)
         opt = Options()
+
+        parser = LogParser(self.file_prefix, self.tracker_version)
 
         event_result = None
         state = None
         custom_title_enabled = opt.custom_title_enabled
         read_from_server = opt.read_from_server
         write_to_server = opt.write_to_server
+        game_version = opt.game_version
         state_version = -1
         twitch_username = None
         new_states_queue = []
@@ -105,6 +107,10 @@ class IsaacTracker(object):
             if opt.write_to_server != write_to_server:
                 write_to_server = opt.write_to_server
                 drawing_tool.set_window_title_info(uploading=opt.write_to_server)
+
+            if opt.game_version != game_version:
+                parser.reset()
+                game_version = opt.game_version
 
             # Force refresh state if we updated options or if we need to retry
             # to contact the server.

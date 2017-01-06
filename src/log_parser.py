@@ -9,6 +9,7 @@ import zipfile  # For compressing the log files of past runs
 from game_objects.item  import Item
 from game_objects.floor import Floor, Curse
 from game_objects.state  import TrackerState
+from options import Options
 
 class LogParser(object):
     """
@@ -19,13 +20,12 @@ class LogParser(object):
         self.log = logging.getLogger("tracker")
         self.file_prefix = prefix
 
-        self.game_version = ""
-        self.__reset()
+        self.reset()
 
         # FIXME run summary.
         self.run_ended = 0
 
-    def __reset(self):
+    def reset(self):
         """Reset variable specific to the log file/run"""
         # Variables describing the parser state
         self.getting_start_items = False
@@ -38,7 +38,7 @@ class LogParser(object):
         self.run_start_line = 0
         self.seek = 0
         self.spawned_coop_baby = 0
-
+        self.state.reset(self.current_seed)
 
 
     def parse(self):
@@ -46,6 +46,8 @@ class LogParser(object):
         Parse the log file and return a TrackerState object,
         or None if the log file couldn't be found
         """
+
+        self.opt = Options()
         # Attempt to load log_file
         if not self.__load_log_file():
             return None
@@ -120,10 +122,12 @@ class LogParser(object):
     def __parse_floor(self, line_number, line):
         """ Parse the floor in line and push it to the state """
         # Create a floor tuple with the floor id and the alternate id
-        if self.game_version == "Afterbirth":
+        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
             regexp_str = r"Level::Init m_Stage (\d+), m_StageType (\d+)"
-        else:
+        elif self.opt.game_version == "Rebirth":
             regexp_str = r"Level::Init m_Stage (\d+), m_AltStage (\d+)"
+        else:
+            raise Exception("unknown game version: " + self.opt.game_version)
         floor_tuple = tuple([re.search(regexp_str, line).group(x) for x in [1, 2]])
 
         self.getting_start_items = True
@@ -132,7 +136,7 @@ class LogParser(object):
         alt = floor_tuple[1]
 
         # Special handling for cath and chest and Afterbirth
-        if self.game_version == "Afterbirth":
+        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
             # In Afterbirth Cath is an alternate of Sheol (which is 10)
             # and Chest is an alternate of Dark room (which is 11)
             if floor == 10 and alt == '0':
@@ -200,21 +204,16 @@ class LogParser(object):
         """
         path = None
         logfile_location = ""
-        game_names = ("Afterbirth", "Rebirth")
+
         if platform.system() == "Windows":
             logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac {}/'
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
                 os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
-            game_names = ("afterbirth", "rebirth")
         elif platform.system() == "Darwin":
             logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac {}/'
-        if os.path.exists(logfile_location.format(game_names[0])):
-            logfile_location = logfile_location.format(game_names[0])
-            self.game_version = "Afterbirth"
-        else:
-            logfile_location = logfile_location.format(game_names[1])
-            self.game_version = "Rebirth"
+
+        logfile_location = logfile_location.format(self.opt.game_version)
 
         for check in (self.file_prefix + '../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
@@ -226,7 +225,7 @@ class LogParser(object):
         cached_length = len(self.content)
         file_size = os.path.getsize(path)
         if cached_length > file_size or cached_length == 0: # New log file or first time loading the log
-            self.__reset()
+            self.reset()
             self.content = open(path, 'rb').read()
         elif cached_length < file_size:  # Append existing content
             f = open(path, 'rb')
