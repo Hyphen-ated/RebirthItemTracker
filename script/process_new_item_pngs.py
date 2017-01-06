@@ -11,7 +11,7 @@ for file in os.listdir(dir_with_new_files):
         files.append(file)
 
 for file in files:
-    m = re.match("collectibles_(\d\d\d)_.*\.png", file)
+    m = re.match("collectibles_(\d\d\d|\d\d\dx)_.*\.png", file)
     newname = "collectibles_" + m.group(1) + ".png"
 
     shutil.copyfile(dir_with_new_files + file, "collectibles/" + newname)
