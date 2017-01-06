@@ -120,7 +120,7 @@ class LogParser(object):
     def __parse_floor(self, line_number, line):
         """ Parse the floor in line and push it to the state """
         # Create a floor tuple with the floor id and the alternate id
-        if self.game_version == "Afterbirth":
+        if self.game_version == "Afterbirth" or self.game_version == "Afterbirth+":
             regexp_str = r"Level::Init m_Stage (\d+), m_StageType (\d+)"
         else:
             regexp_str = r"Level::Init m_Stage (\d+), m_AltStage (\d+)"
