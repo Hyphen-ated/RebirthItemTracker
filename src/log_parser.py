@@ -200,20 +200,23 @@ class LogParser(object):
         """
         path = None
         logfile_location = ""
-        game_names = ("Afterbirth", "Rebirth")
+        game_names = ("Afterbirth+", "Afterbirth", "Rebirth")
         if platform.system() == "Windows":
             logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac {}/'
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
                 os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
-            game_names = ("afterbirth", "rebirth")
+            game_names = ("afterbirth+", "afterbirth", "rebirth")
         elif platform.system() == "Darwin":
             logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac {}/'
         if os.path.exists(logfile_location.format(game_names[0])):
             logfile_location = logfile_location.format(game_names[0])
+            self.game_version = "Afterbirth+"
+        elif os.path.exists(logfile_location.format(game_names[1])):
+            logfile_location = logfile_location.format(game_names[1])
             self.game_version = "Afterbirth"
         else:
-            logfile_location = logfile_location.format(game_names[1])
+            logfile_location = logfile_location.format(game_names[2])
             self.game_version = "Rebirth"
 
         for check in (self.file_prefix + '../log.txt', logfile_location + 'log.txt'):
