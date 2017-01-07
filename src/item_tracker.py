@@ -217,7 +217,7 @@ class IsaacTracker(object):
                 drawing_tool.draw_state(state)
 
             # if we're watching someone and they change their game version, it can require us to reset
-            if last_game_version != state.game_version:
+            if state and last_game_version != state.game_version:
                 drawing_tool.reset_options()
                 last_game_version = state.game_version
 
