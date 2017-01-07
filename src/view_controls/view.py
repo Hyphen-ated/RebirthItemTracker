@@ -60,8 +60,10 @@ class DrawingTool(object):
         self.clock = None
         self.win_info = None
         self.screen = None
+        self.show_floors = False
         self.window_title_info = WindowTitleInfo()
         self.start_pygame()
+
 
     def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
@@ -242,7 +244,7 @@ class DrawingTool(object):
                     drawable_item.y,
                     self
                 )
-            if not floor_to_draw.is_drawn and opt.show_floors:
+            if not floor_to_draw.is_drawn and self.show_floors:
                 floor_to_draw.draw()
             drawable_item.draw(selected=(idx == self.selected_item_index))
 
@@ -250,7 +252,7 @@ class DrawingTool(object):
 
         # Also draw the floor if we hit the end or if the list is empty,
         # so the current floor is visible
-        if opt.show_floors and current_floor is not None:
+        if self.show_floors and current_floor is not None:
             if floor_to_draw is None or (floor_to_draw is not None and
                                          floor_to_draw.floor != current_floor):
                 x, y = self.next_item
@@ -301,7 +303,7 @@ class DrawingTool(object):
                 available_width -= 2
             max_col = floor(available_width/chosen_icon_footprint)
             row_height = chosen_icon_footprint
-            if opt.show_floors:
+            if self.show_floors:
                 row_height += self.text_margin_size
             # height also has to take into account the size of the items on the edges, so they never flow off the bottom
             available_height = opt.height - self.text_height - (icon_size - chosen_icon_footprint)
@@ -513,6 +515,7 @@ class DrawingTool(object):
         # Anything that gets calculated and cached based on something in options
         # now needs to be flushed
         self.text_margin_size = font_size
+        self.show_floors = opt.show_floors and opt.game_version != "Antibirth"
         try:
             self.font = pygame.font.SysFont(
                 opt.show_font,
@@ -538,6 +541,8 @@ class DrawingTool(object):
             self.text_height = self.write_message(" ")
         else:
             self.text_height = 0
+
+
 
     def reset(self):
         self.selected_item_index = None
