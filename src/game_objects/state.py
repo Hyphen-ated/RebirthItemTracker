@@ -10,13 +10,12 @@ class TrackerState(Serializable):
     modify it while keeping it coherent
     """
     serialize = [('seed', basestring), ('floor_list', list),
-                 ('item_list', list), ('bosses', list), ('tracker_version', basestring)]
-    def __init__(self, seed, tracker_version):
-        self.reset(seed)
+                 ('item_list', list), ('bosses', list), ('tracker_version', basestring), ('game_version', basestring)]
+    def __init__(self, seed, tracker_version, game_version):
+        self.reset(seed, game_version)
         self.tracker_version = tracker_version
 
-
-    def reset(self, seed):
+    def reset(self, seed, game_version):
         """
         Reset a run to a given string
         This should be enough to enable the GC to clean everything from the previous run
@@ -25,6 +24,7 @@ class TrackerState(Serializable):
         # The view can then put it to false once it's been rendered
         self.modified = True
         self.seed = seed
+        self.game_version = game_version
         self.floor_list = []
         self.item_list = []
         self.bosses = []
@@ -125,7 +125,7 @@ class TrackerState(Serializable):
     @staticmethod
     def from_valid_json(json_dic, *args):
         """ Create a state from a type-checked dic """
-        state = TrackerState(json_dic['seed'], json_dic['tracker_version'])
+        state = TrackerState(json_dic['seed'], json_dic['tracker_version'], json_dic['game_version'])
         # The order is important, we want a list of legal floors the item can
         # be picked up on before parsing items
         for floor_dic in json_dic['floor_list']:

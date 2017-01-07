@@ -421,7 +421,7 @@ class DrawingTool(object):
             need_path = True
 
             # if we're in antibirth mode, check if there's an antibirth version of the image first
-            if Options().game_version == "Antibirth":
+            if self.state and self.state.game_version == "Antibirth":
                 path = self.make_path(imagename, disable_glow, True)
                 if os.path.isfile(path):
                     need_path = False
@@ -515,7 +515,7 @@ class DrawingTool(object):
         # Anything that gets calculated and cached based on something in options
         # now needs to be flushed
         self.text_margin_size = font_size
-        self.show_floors = opt.show_floors and opt.game_version != "Antibirth"
+        self.show_floors = opt.show_floors and (not self.state or self.state.game_version != "Antibirth")
         try:
             self.font = pygame.font.SysFont(
                 opt.show_font,

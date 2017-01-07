@@ -16,7 +16,7 @@ class LogParser(object):
     This class load Isaac's log file, and incrementally modify a state representing this log
     """
     def __init__(self, prefix, tracker_version):
-        self.state = TrackerState("", tracker_version)
+        self.state = TrackerState("", tracker_version, Options().game_version)
         self.log = logging.getLogger("tracker")
         self.file_prefix = prefix
 
@@ -38,7 +38,7 @@ class LogParser(object):
         self.run_start_line = 0
         self.seek = 0
         self.spawned_coop_baby = 0
-        self.state.reset(self.current_seed)
+        self.state.reset(self.current_seed, Options().game_version)
 
 
     def parse(self):
@@ -101,7 +101,7 @@ class LogParser(object):
         # when we see a new seed, that means it's a new run
         self.log.debug("Starting new run, seed: %s", self.current_seed)
         self.run_start_line = line_number + self.seek
-        self.state.reset(self.current_seed)
+        self.state.reset(self.current_seed, Options().game_version)
         self.run_ended = False
 
     def __parse_room(self, line):

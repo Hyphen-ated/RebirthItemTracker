@@ -76,6 +76,7 @@ class IsaacTracker(object):
         screen_error_message = None
         retry_in = 0
         update_timer = 2
+        last_game_version = None
 
         while event_result != Event.DONE:
             # Check for events and handle them
@@ -139,7 +140,7 @@ class IsaacTracker(object):
                         if int(json_version) > state_version:
                             # FIXME better handling of 404 error ?
                             json_state = urllib2.urlopen(base_url).read()
-                            json_dict = json.loads(json_state)
+                            json_dict = json.loads(json_state, "utf-8")
                             new_state = TrackerState.from_json(json_dict)
                             if new_state is None:
                                 raise Exception
@@ -196,7 +197,7 @@ class IsaacTracker(object):
             if len(new_states_queue) > 0:
                 (state_timestamp, new_state) = new_states_queue[0]
                 current_timestamp = int(time.time())
-                if current_timestamp - state_timestamp >= opt.read_delay or state is None:
+                if current_timestamp - state_timestamp >= opt.read_delay or opt.read_delay == 0 or state is None:
                     state = new_state
                     new_states_queue.pop(0)
                     drawing_tool.set_window_title_info(updates_queued=len(new_states_queue))
@@ -214,6 +215,11 @@ class IsaacTracker(object):
             else:
                 # We got a state, now we draw it
                 drawing_tool.draw_state(state)
+
+            # if we're watching someone and they change their game version, it can require us to reset
+            if last_game_version != state.game_version:
+                drawing_tool.reset_options()
+                last_game_version = state.game_version
 
             drawing_tool.tick()
             framecount += 1
