@@ -4,7 +4,9 @@ RebirthItemTracker
 This uses the `log.txt` file to track item pickups in The Binding of Isaac: Rebirth, Afterbirth, Afterbirth+, and Antibirth.
 
 This is particularly useful for streamers, so their viewers can see their items, but can be used by anyone. The game's
-built-in item tracker only shows 10 items and doesn't include several oth. Additionally, it...
+built-in item tracker only shows 10 items and the pause screen items are hard to read. 
+
+Additionally, the tracker...
 
 - tells you what an item does when you pick it up.
 - marks items that were picked up during a _Curse of the Blind_.
