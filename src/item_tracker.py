@@ -208,7 +208,7 @@ class IsaacTracker(object):
                     # Retry to read the state in 5*update_timer (aka 10 sec in read mode)
                     retry_in = 5
                 else:
-                    screen_error_message = "log.txt not found. Put the RebirthItemTracker folder inside the isaac folder, next to log.txt"
+                    screen_error_message = "log.txt for " + opt.game_version + " not found. Make sure you have the right game selected in options."
 
             if screen_error_message is not None:
                 drawing_tool.write_error_message(screen_error_message)
