@@ -403,15 +403,31 @@ class DrawingTool(object):
     def get_scaled_icon(self, path, scale):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
+    def make_path(self, imagename, disable_glow, antibirth=False):
+        path = self.file_prefix + "/collectibles/"
+        if antibirth:
+            path += "antibirth/"
+        if Options().make_items_glow and not disable_glow:
+            path += "glow/"
+        path += imagename
+        return path.replace('/', os.sep).replace('\\', os.sep)
+
     def get_image(self, imagename, disable_glow=False):
         image = self._image_library.get(imagename)
         if image is None:
-            path = self.file_prefix + "/collectibles/"
-            if Options().make_items_glow and not disable_glow:
-                path += "glow/"
-            path += imagename
-            canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-            image = pygame.image.load(canonicalized_path)
+            path = ""
+            need_path = True
+
+            # if we're in antibirth mode, check if there's an antibirth version of the image first
+            if Options().game_version == "Antibirth":
+                path = self.make_path(imagename, disable_glow, True)
+                if os.path.isfile(path):
+                    need_path = False
+
+            if need_path:
+                path = self.make_path(imagename, disable_glow)
+
+            image = pygame.image.load(path)
             size_multiplier = Options().size_multiplier
             scaled_image = image
             # Resize image iff we need to

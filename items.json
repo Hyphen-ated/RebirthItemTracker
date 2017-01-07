@@ -3043,5 +3043,466 @@
       "text": "Spawns random charmed boss for current room",
       "space": true,
       "shown": true
+   },
+   "1000":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1001":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1002":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1003":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1004":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1005":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1006":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1007":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1008":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1009":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1010":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1011":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1012":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1013":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1014":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1015":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1016":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1017":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1018":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1019":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1020":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1021":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1022":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1023":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1024":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1025":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1026":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1027":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1028":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1029":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1030":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1031":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1032":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1033":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1034":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1035":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1036":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1037":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1038":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1039":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1040":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1041":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1042":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1043":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1044":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1045":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1046":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1047":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1048":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1049":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1050":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1051":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1052":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1053":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1054":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1055":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1056":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1057":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1058":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1059":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1060":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1061":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1062":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1063":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1064":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1065":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1066":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1067":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1068":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1069":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1070":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1071":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1072":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1073":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1074":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1075":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1076":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1077":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1078":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1079":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1080":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1081":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1082":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1083":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1084":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1085":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1086":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1087":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1088":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1089":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1090":{
+      "name": "",
+      "text": "",
+      "shown": true
+   },
+   "1091":{
+      "name": "",
+      "text": "",
+      "shown": true
    }
+
 }
