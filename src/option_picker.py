@@ -489,8 +489,8 @@ class OptionsMenu(object):
         window_height = self.root.winfo_height()
 
         # Now we can make sure we don't go off the sides
-        max_x = origin_x + screen_width - window_width - 30
-        max_y = origin_y + screen_height - window_height - 30
+        max_x = origin_x + screen_width - window_width - 50
+        max_y = origin_y + screen_height - window_height - 50
 
         x_pos = min(x_pos, max_x)
         y_pos = min(y_pos, max_y)
