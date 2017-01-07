@@ -230,18 +230,21 @@
       "name": "The Bible",
       "shown": true,
       "seraphim": true,
+	  "bookworm": true,
       "text": "temporary flight, instantly kills mom / it lives",
       "space": true
    },
    "034": {
       "name": "The Book of Belial",
       "shown": true,
+	  "bookworm": true,
       "text": "+12.5% deal chance, x1.5 dmg with blood of the martyr, temporary +2 dmg",
       "space": true
    },
    "035": {
       "name": "The Necronomicon",
       "shown": true,
+	  "bookworm": true,
       "text": "deals 40 dmg to the room",
       "space": true
    },
@@ -380,6 +383,7 @@
    "058": {
       "name": "Book of Shadows",
       "shown": true,
+	  "bookworm": true,
       "text": "temporary invincibility",
       "space": true
    },
@@ -406,6 +410,7 @@
    "065": {
       "name": "Anarchist's Cookbook",
       "shown": true,
+	  "bookworm": true,
       "text": "spawns 6 troll bombs",
       "space": true
    },
@@ -488,6 +493,7 @@
    "078": {
       "name": "Book of Revelations",
       "shown": true,
+	  "bookworm": true,
       "text": "+1 soul heart, changes floor boss to a horseman",
       "space": true
    },
@@ -559,6 +565,7 @@
    "089": {
       "name": "Spider Bite",
       "shown": true,
+	  "spiderbaby": true,
       "text": "chance to shoot a slowing tear"
    },
    "090": {
@@ -606,6 +613,7 @@
    "097": {
       "name": "The Book of Sin",
       "shown": true,
+	  "bookworm": true,
       "text": "spawns a random pickup",
       "space": true
    },
@@ -959,6 +967,7 @@
       "delay": "3",
       "delay_x" : "2.1",
       "shown": true,
+	  "spiderbaby": true,
       "text": "quad shot",
       "in_summary": true,
       "summary_name": "Quad"
@@ -1067,6 +1076,7 @@
    "171": {
       "name": "Spider Butt",
       "shown": true,
+	  "spiderbaby": true,
       "text": "temporarily slows enemies and deals 10 dmg",
       "space": true
    },
@@ -1200,6 +1210,7 @@
    "192": {
       "name": "Telepathy for Dummies",
       "shown": true,
+	  "bookworm": true,
       "text": "temporary homing tears",
       "space": true
    },
@@ -1312,6 +1323,7 @@
    "211": {
       "name": "Spiderbaby",
       "shown": true,
+	  "spiderbaby": true,
       "text": "spawn blue spiders when hit"
    },
    "212": {
@@ -1757,12 +1769,14 @@
    "287": {
       "name": "Book of Secrets",
       "shown": true,
+	  "bookworm": true,
       "text": "randomly get map, compass, or blue map for the floor",
       "space": true
    },
    "288": {
       "name": "Box of Spiders",
       "shown": true,
+	  "spiderbaby": true,
       "text": "spawns 2-4 blue spiders",
       "space": true
    },
@@ -1788,6 +1802,7 @@
    "292": {
       "name": "The Satanic Bible",
       "shown": true,
+	  "bookworm": true,
       "text": "+1 sin heart",
       "space": true
    },
@@ -2459,6 +2474,7 @@
    },
    "403": {
       "name": "Spider Mod",
+	  "spiderbaby": true,
       "text": "Shows damage and hp numbers, inflicts random status effects to enemies",
       "shown": true
    },
