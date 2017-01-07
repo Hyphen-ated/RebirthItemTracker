@@ -82,7 +82,7 @@ class LogParser(object):
         if line.startswith('Room'):
             self.__parse_room(line)
         if line.startswith('Level::Init'):
-            self.__parse_floor(line)
+            self.__parse_floor(line, line_number)
         if line.startswith("Curse"):
             self.__parse_curse(line)
         if line.startswith("Spawn co-player!"):
@@ -93,23 +93,28 @@ class LogParser(object):
         if line.startswith('Adding collectible'):
             self.__parse_item(line_number, line)
 
+    def __trigger_new_run(self, line_number):
+        self.log.debug("Starting new run, seed: %s", self.current_seed)
+        self.run_start_line = line_number + self.seek
+        self.state.reset(self.current_seed, Options().game_version)
+        self.run_ended = False
+
     def __parse_seed(self, line, line_number):
         """ Parse a seed line """
         # This assumes a fixed width, but from what I see it seems safe
         self.current_seed = line[16:25]
 
-        # when we see a new seed, that means it's a new run
-        self.log.debug("Starting new run, seed: %s", self.current_seed)
-        self.run_start_line = line_number + self.seek
-        self.state.reset(self.current_seed, Options().game_version)
-        self.run_ended = False
+        # Antibirth doesn't have a proper way to detect run resets
+        # it will wipe the tracker when doing a "continue"
+        if self.opt.game_version == "Antibirth":
+            self.__trigger_new_run(line_number)
 
     def __parse_room(self, line):
         """ Parse a room line """
         if 'Start Room' not in line:
             self.getting_start_items = False
 
-    def __parse_floor(self, line):
+    def __parse_floor(self, line, line_number):
         """ Parse the floor in line and push it to the state """
         # Create a floor tuple with the floor id and the alternate id
         if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
@@ -124,6 +129,10 @@ class LogParser(object):
         # Assume floors aren't cursed until we see they are
         floor = int(floor_tuple[0])
         alt = floor_tuple[1]
+
+        if floor == 1 and self.opt.game_version != "Antibirth":
+            self.__trigger_new_run(line_number)
+
 
         # Special handling for cath and chest and Afterbirth
         if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
