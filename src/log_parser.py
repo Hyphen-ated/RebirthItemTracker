@@ -106,10 +106,8 @@ class LogParser(object):
 
     def __parse_room(self, line):
         """ Parse a room line """
-        self.current_room = re.search(r'\((.*)\)', line).group(1)
         if 'Start Room' not in line:
             self.getting_start_items = False
-        self.log.debug("Entered room: %s", self.current_room)
 
     def __parse_floor(self, line):
         """ Parse the floor in line and push it to the state """
