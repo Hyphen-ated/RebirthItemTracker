@@ -51,7 +51,7 @@ class Overlay(object):
         for transform in transform_list:
             display = Overlay.format_transform(self.state.player_transforms[transform])
             with open(self.prefix + "overlay text/" + transform + ".txt", "w+") as sfile:
-                sfile.write(display)
+                sfile.write(display + "/3")
 
     def update_last_item_description(self):
         """Update the overlay file for item pickup description"""
