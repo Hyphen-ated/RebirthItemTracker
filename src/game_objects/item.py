@@ -9,15 +9,18 @@ class Item(Serializable):
     # it should be static
     items_info = {}
 
-    serialize = [('item_id', basestring), ('floor_id', basestring),
+    serialize = [('item_id', basestring),
+                 ('floor_id', basestring),
                  ('flags', basestring)]
     serialization_flags = {"blind":"b", "was_rerolled":"r", "starting_item":"s"}
     def __init__(self, item_id, floor, starting_item=False, was_rerolled=False, blind=False, flagstr=None):
+        # The numerical item id of the item (this corresponds to the in-game IDs)
         self.item_id = item_id
+
         # The floor the item was found on
         self.floor = floor
 
-        #if we get a flag string, use that to determine the values of those other variables
+        # If we get a flag string, use that to determine the values of those other variables
         if flagstr is not None:
             for varname,flag in Item.serialization_flags.iteritems():
                 setattr(self, varname, flag in flagstr)

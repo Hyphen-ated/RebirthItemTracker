@@ -9,8 +9,12 @@ class TrackerState(Serializable):
     """This class represents a tracker state, and handle the logic to
     modify it while keeping it coherent
     """
-    serialize = [('seed', basestring), ('floor_list', list),
-                 ('item_list', list), ('bosses', list), ('tracker_version', basestring), ('game_version', basestring)]
+    serialize = [('seed', basestring),
+                 ('floor_list', list),
+                 ('item_list', list),
+                 ('bosses', list),
+                 ('tracker_version', basestring),
+                 ('game_version', basestring)]
     def __init__(self, seed, tracker_version, game_version):
         self.reset(seed, game_version)
         self.tracker_version = tracker_version
@@ -53,7 +57,7 @@ class TrackerState(Serializable):
     def add_item(self, item):
         """
         Add an item to the current run, and update player's stats accordingly
-        Return a tuple (boolean, list).
+        Return a boolean.
         The boolean is true if the item has been added, false otherwise.
         """
 
@@ -65,6 +69,29 @@ class TrackerState(Serializable):
             return True
         else:
             return False
+
+    def remove_item(self, item_id):
+        """
+        Remove an item from the current run, and update player's stats accordingly
+        Return a boolean.
+        The boolean is true if the item has been removed, false otherwise.
+        """
+
+        # Find the index of the item
+        foundItem = False
+        for item in self.item_list:
+            if item.item_id == item_id:
+                foundItem = True
+                break
+
+        # We don't have this item in our inventory
+        if not foundItem:
+            return False
+
+        self.item_list.remove(item)
+        self.__remove_stats_for_item(item)
+        self.modified = True
+        return True
 
     @property
     def last_item(self):
@@ -162,6 +189,23 @@ class TrackerState(Serializable):
             if not item_info[transform]:
                 continue
             self.player_transforms[transform].add(item)
+
+    def __remove_stats_for_item(self, item):
+        """
+        Update player's stats with the given item.
+        """
+        item_info = item.info
+        for stat in ItemInfo.stat_list:
+            if not item_info[stat]:
+                continue
+            change = float(item_info[stat])
+            self.player_stats[stat] -= change
+
+        for transform in ItemInfo.transform_list:
+            if not item_info[transform]:
+                continue
+            # TODO Handle transformations
+            #self.player_transforms[transform].add(item)
 
 
 class TrackerStateEncoder(json.JSONEncoder):
