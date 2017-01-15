@@ -172,7 +172,7 @@ class LogParser(object):
             self.log.debug("Skipped duplicate item line from baby presence")
             return False
         space_split = line.split(" ") # Hacky string manipulation
-        item_id = space_split[2] # A string has the form of "Adding collectible 105 (The D6)"
+        item_id = space_split[2] # When you pick up an item, this has the form: "Adding collectible 105 (The D6)"
 
         # Check if the item ID exists
         if not Item.contains_info(item_id):
@@ -185,7 +185,7 @@ class LogParser(object):
             self.log.debug("Skipped duplicate item line from baby entry")
             return False
 
-        # It is a blind pickup if we are on a blind floor and we do not have the Black Candle
+        # It's a blind pickup if we're on a blind floor and we don't have the Black Candle
         blind_pickup = self.state.last_floor.floor_has_curse(Curse.Blind) and not self.state.contains_item('260')
         added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, blind=blind_pickup))
         if not added:
@@ -195,7 +195,7 @@ class LogParser(object):
     def __parse_item_remove(self, line_number, line):
         """ Parse an item and remove it from the state """
         space_split = line.split(" ") # Hacky string manipulation
-        item_id = space_split[4] # A string has the form of "Removing collectible 105"
+        item_id = space_split[4] # When you lose an item, this has the form: "Lua Debug: Removing collectible 105"
 
         # Check if the item ID exists
         if not Item.contains_info(item_id):

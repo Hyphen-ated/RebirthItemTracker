@@ -72,14 +72,15 @@ class TrackerState(Serializable):
 
     def remove_item(self, item_id):
         """
-        Remove an item from the current run, and update player's stats accordingly
+        Remove the given item from the current run, and update player's stats accordingly.
+        If we have multiples of that item, the removed item is the most recent of them.
         Return a boolean.
-        The boolean is true if the item has been removed, false otherwise.
+        The boolean is true if an item has been removed, false otherwise.
         """
 
-        # Find the index of the item
+        # Find the item by iterating backwards through the list
         foundItem = False
-        for item in self.item_list:
+        for item in reversed(self.item_list):
             if item.item_id == item_id:
                 foundItem = True
                 break
