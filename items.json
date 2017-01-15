@@ -230,7 +230,6 @@
       "name": "The Bible",
       "shown": true,
       "seraphim": true,
-	  "bookworm": true,
       "text": "temporary flight, instantly kills mom / it lives",
       "space": true
    },
@@ -244,7 +243,6 @@
    "035": {
       "name": "The Necronomicon",
       "shown": true,
-	  "bookworm": true,
       "text": "deals 40 dmg to the room",
       "space": true
    },
@@ -1802,7 +1800,6 @@
    "292": {
       "name": "The Satanic Bible",
       "shown": true,
-	  "bookworm": true,
       "text": "+1 sin heart",
       "space": true
    },
