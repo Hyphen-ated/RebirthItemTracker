@@ -2748,7 +2748,7 @@
    "456":{
       "name": "Moldy Bread",
       "health": "1",
-      "shown": false
+      "shown": true
    },
    "457":{
       "name": "Cone Head",
