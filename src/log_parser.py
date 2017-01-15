@@ -73,10 +73,11 @@ class LogParser(object):
         if line.startswith(info_prefix):
             line = line[len(info_prefix):]
 
-        # Check and handle the end of the run; the order is important.
-        # We want it after boss kill but before "RNG Start Seed".
         self.__check_end_run(line_number + self.seek, line)
 
+        #TODO: also parse version number for non-AB+
+        if line.startswith('Binding of Isaac: Afterbirth+'):
+            self.__parse_version_number(line)
         if line.startswith('RNG Start Seed:'):
             self.__parse_seed(line, line_number)
         if line.startswith('Room'):
@@ -100,6 +101,10 @@ class LogParser(object):
         self.run_start_line = line_number + self.seek
         self.state.reset(self.current_seed, Options().game_version)
         self.run_ended = False
+
+    def __parse_version_number(self, line):
+        offset = len('Binding of Isaac: Afterbirth+')
+        self.state.version_number = line[offset:]
 
     def __parse_seed(self, line, line_number):
         """ Parse a seed line """

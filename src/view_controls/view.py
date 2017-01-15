@@ -208,7 +208,7 @@ class DrawingTool(object):
             # Draw seed/guppy text:
             seed = self.state.seed
 
-            dic = defaultdict(str, seed=seed)
+            dic = defaultdict(str, seed=seed, version_number=self.state.version_number)
             # Update this dic with player stats
 
             for stat in ItemInfo.stat_list:
