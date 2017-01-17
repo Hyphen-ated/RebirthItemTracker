@@ -231,6 +231,7 @@ class OptionsMenu(object):
         self.root.attributes("-topmost", True)
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
+        self.root.iconbitmap(default='options.ico')
 
         # Generate numeric options by looping over option types
         self.integer_keys = ["message_duration", "framerate_limit", "read_delay"]

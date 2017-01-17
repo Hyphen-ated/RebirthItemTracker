@@ -16,6 +16,8 @@ os.chdir("src")
 subprocess.call("cxfreeze.py item_tracker.py --base-name=Win32GUI --target-dir dist ", shell=True, stdout=sys.stdout, stderr=sys.stderr)
 os.chdir("..")
 
+shutil.copy('src/options.ico', 'src/dist/options.ico')
+
 shutil.move('src/dist/', installDir + "dist/") # Move the dist files to our target directory
 
 # Then copy over all the data files
