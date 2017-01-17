@@ -12,7 +12,6 @@ class TrackerState(Serializable):
     serialize = [('seed', basestring),
                  ('floor_list', list),
                  ('item_list', list),
-                 ('bosses', list),
                  ('tracker_version', basestring),
                  ('game_version', basestring)]
     def __init__(self, seed, tracker_version, game_version):
@@ -31,7 +30,6 @@ class TrackerState(Serializable):
         self.game_version = game_version
         self.floor_list = []
         self.item_list = []
-        self.bosses = []
         self.player_stats = {}
         self.player_transforms = {}
         for stat in ItemInfo.stat_list:
@@ -120,32 +118,6 @@ class TrackerState(Serializable):
         """ Add a curse to current floor """
         self.last_floor.add_curse(curse)
 
-
-    def add_boss(self, bossid):
-        """ Add boss to seen boss """
-        if bossid not in self.bosses:
-            self.bosses.append(bossid)
-            nbosses = len(self.bosses)
-            if 11 <= nbosses <= 13:
-                suffix = 'th'
-            else:
-                suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(nbosses % 10, 'th')
-            logging.getLogger("tracker").debug("Defeated %s%s boss %s",
-                                               len(self.bosses),
-                                               suffix,
-                                               bossid)
-
-    @property
-    def last_boss(self):
-        """
-        Get last boss encountered
-        Can return None !
-        """
-        if len(self.bosses) > 0:
-            return self.bosses[-1]
-        else:
-            return None
-
     def drawn(self):
         """ Tag this state as rendered """
         self.modified = False
@@ -161,13 +133,6 @@ class TrackerState(Serializable):
             if not floor:
                 return None
             state.add_floor(floor)
-        for bossstr in json_dic['bosses']:
-            # TODO create a serializable boss class that would create
-            # a boss object with description from a bossid
-            # In any case it's sufficient to (de)serialize only bossids
-            if not isinstance(bossstr, basestring):
-                return None
-            state.add_boss(bossstr)
         for item_dic in json_dic['item_list']:
             item = Item.from_json(item_dic, state.floor_list)
             if not item:

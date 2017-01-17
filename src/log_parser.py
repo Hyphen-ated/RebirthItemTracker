@@ -1,11 +1,8 @@
 """ This module handles everything related to log parsing """
-import time     # For getting the current timestamp
-import StringIO # For writing out the log to the "run_logs" folder
 import platform # For determining what operating system the script is being run on
 import re       # For parsing the log file (regular expressions)
 import os       # For working with files on the operating system
 import logging  # For logging
-import zipfile  # For compressing the log files of past runs
 from game_objects.item  import Item
 from game_objects.floor import Floor, Curse
 from game_objects.state  import TrackerState
@@ -21,9 +18,6 @@ class LogParser(object):
         self.file_prefix = prefix
 
         self.reset()
-
-        # FIXME run summary.
-        self.run_ended = 0
 
     def reset(self):
         """Reset variable specific to the log file/run"""
@@ -73,8 +67,6 @@ class LogParser(object):
         if line.startswith(info_prefix):
             line = line[len(info_prefix):]
 
-        self.__check_end_run(line_number + self.seek, line)
-
         #TODO: also parse version number for non-AB+
         if line.startswith('Binding of Isaac: Afterbirth+'):
             self.__parse_version_number(line)
@@ -100,7 +92,6 @@ class LogParser(object):
         self.log.debug("Starting new run, seed: %s", self.current_seed)
         self.run_start_line = line_number + self.seek
         self.state.reset(self.current_seed, Options().game_version)
-        self.run_ended = False
 
     def __parse_version_number(self, line):
         offset = len('Binding of Isaac: Afterbirth+')
@@ -252,47 +243,4 @@ class LogParser(object):
             f.seek(cached_length + 1)
             self.content += f.read()
         return True
-
-
-# Above are legacy method for handling end of run
-    def __check_end_run(self, line_number, line):
-        if not self.run_ended:
-            died_to = ""
-            end_type = ""
-            # FIXME right now I don't think boss detection in the log is working properly
-            if self.state.last_boss and self.state.last_boss[0] in ['???', 'The Lamb', 'Mega Satan']:
-                end_type = "Won"
-            elif (self.state.seed != '') and line.startswith('RNG Start Seed:'):
-                end_type = "Reset"
-            elif line.startswith('Game Over.'):
-                end_type = "Death"
-                died_to = re.search(r'(?i)Killed by \((.*)\) spawned', line).group(1)
-            if end_type:
-                last_run = {
-                    "bosses":   self.state.bosses,
-                    "items":    self.state.item_list,
-                    "seed":     self.state.seed,
-                    "died_to":  died_to,
-                    "end_type": end_type
-                }
-                self.run_ended = True
-                self.log.debug("End of Run! %s", last_run)
-                if end_type != "Reset":
-                    self.__save_file(self.run_start_line, line_number, last_run)
-
-    def __save_file(self, start, end, last_run):
-        dir_name = self.file_prefix + "run_logs"
-        if not os.path.isdir(dir_name):
-            os.mkdir(dir_name)
-        timestamp = int(time.time())
-        seed = self.state.seed.replace(" ", "")
-        data = "\n".join(self.splitfile[start:end + 1])
-        # FIXME improve
-        data = "%s\nRUN_OVER_LINE\n%s" % (data, last_run)
-        run_name = "%s%s.log" % (seed, timestamp)
-        in_memory_file = StringIO.StringIO()
-        with zipfile.ZipFile(in_memory_file, mode='w', compression=zipfile.ZIP_DEFLATED) as zf:
-            zf.writestr(run_name, data)
-        with open(self.file_prefix + "run_logs/" + run_name + ".zip", "wb") as f:
-            f.write(in_memory_file.getvalue())
 
