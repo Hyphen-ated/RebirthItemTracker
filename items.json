@@ -3081,6 +3081,7 @@
    "437": {
       "name": "D7",
       "text": "Respawns the current room",
+      "space": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
