@@ -17,6 +17,7 @@ class TrackerState(Serializable):
     def __init__(self, seed, tracker_version, game_version):
         self.reset(seed, game_version)
         self.tracker_version = tracker_version
+        self.version_number = ''
 
     def reset(self, seed, game_version):
         """

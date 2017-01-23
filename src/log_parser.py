@@ -67,8 +67,10 @@ class LogParser(object):
         if line.startswith(info_prefix):
             line = line[len(info_prefix):]
 
-        #TODO: also parse version number for non-AB+
-        if line.startswith('Binding of Isaac: Afterbirth+'):
+        # AB and AB+ version messages both start with this text (AB+ has a + at the end)
+        if line.startswith('Binding of Isaac: Afterbirth'):
+            self.__parse_version_number(line)
+        if line.startswith('Binding of Isaac: Rebirth'):
             self.__parse_version_number(line)
         if line.startswith('RNG Start Seed:'):
             self.__parse_seed(line, line_number)
@@ -94,8 +96,8 @@ class LogParser(object):
         self.state.reset(self.current_seed, Options().game_version)
 
     def __parse_version_number(self, line):
-        offset = len('Binding of Isaac: Afterbirth+')
-        self.state.version_number = line[offset:]
+        words = line.split()
+        self.state.version_number = words[-1]
 
     def __parse_seed(self, line, line_number):
         """ Parse a seed line """
