@@ -6,7 +6,7 @@
   "custom_title": "",
   "custom_title_enabled": false,
   "default_spacing": 64,
-  "enable_mouseover": true,
+  "enable_mouseover": false,
   "framerate_limit": 30,
   "game_version": "Afterbirth+",
   "height": 100,
