@@ -11,28 +11,34 @@ from game_objects.state  import TrackerState, TrackerStateEncoder
 from log_parser import LogParser
 from options import Options
 
+# this logging stuff has to be outside of the IsaacTracker class so we can use it when it fails to instantiate
+wdir_prefix = "../"
+error_log = logging.getLogger("tracker")
+error_log.addHandler(logging.FileHandler(wdir_prefix + "tracker_log.txt", mode='w')) # This will erase our tracker log file from previous runs
+error_log.setLevel(logging.INFO)
+
+def log_error(msg):
+    # Print it to stdout for dev troubleshooting, log it to a file for production
+    print(msg)
+    error_log.error(msg)
+
 class IsaacTracker(object):
     """ The main class of the program """
-    def __init__(self, logging_level=logging.INFO, read_timer=1):
+    def __init__(self, read_timer=1):
         self.read_timer = read_timer
-        self.file_prefix = "../"
-
-        self.log = logging.getLogger("tracker")
-        self.log.addHandler(logging.FileHandler(self.file_prefix + "tracker_log.txt", mode='w')) # This will erase our tracker log file from previous runs
-        self.log.setLevel(logging_level)
 
         # Load items info
-        with open(self.file_prefix + "items.json", "r") as items_file:
+        with open(wdir_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
 
         # Load version
-        with open(self.file_prefix + 'version.txt', 'r') as f:
+        with open(wdir_prefix + 'version.txt', 'r') as f:
             self.tracker_version = f.read()
         # Load options
-        Options().load_options(self.file_prefix + "options.json")
+        Options().load_options(wdir_prefix + "options.json")
 
     def __del__(self):
-        Options().save_options(self.file_prefix + "options.json")
+        Options().save_options(wdir_prefix + "options.json")
 
     def check_for_update(self):
         """ Returns text to put in the title bar """
@@ -48,7 +54,7 @@ class IsaacTracker(object):
                 title_text += " (new version available)"
             return title_text
         except Exception as e:
-            self.log_error("Failed to find update info: " + e.message)
+            log_error("Failed to find update info: " + e.message)
         return ""
 
     def run(self):
@@ -58,11 +64,11 @@ class IsaacTracker(object):
         framecount = 0
 
         # Create drawing tool to use to draw everything - it'll create its own screen
-        drawing_tool = DrawingTool(self.file_prefix)
+        drawing_tool = DrawingTool(wdir_prefix)
         drawing_tool.set_window_title_info(update_notifier=update_notifier)
         opt = Options()
 
-        parser = LogParser(self.file_prefix, self.tracker_version)
+        parser = LogParser(wdir_prefix, self.tracker_version)
 
         event_result = None
         state = None
@@ -151,7 +157,7 @@ class IsaacTracker(object):
                         state = None
                         self.log.error("Couldn't load state from server")
                         import traceback
-                        self.log_error(traceback.format_exc())
+                        log_error(traceback.format_exc())
                         if json_dict is not None:
                             if "tracker_version" in json_dict:
                                 their_version = json_dict["tracker_version"]
@@ -187,8 +193,8 @@ class IsaacTracker(object):
                         except Exception as e:
                             import traceback
                             errmsg = traceback.format_exc()
-                            self.log_error("ERROR: Couldn't send item info to server")
-                            self.log_error(errmsg)
+                            log_error("ERROR: Couldn't send item info to server")
+                            log_error(errmsg)
                             screen_error_message = "ERROR: Couldn't send item info to server, check tracker_log.txt"
                             # Retry to write the state in 10*update_timer (aka 10 sec in write mode)
                             retry_in = 10
@@ -227,12 +233,6 @@ class IsaacTracker(object):
         # Main loop finished; program is exiting
         drawing_tool.save_window_position()
 
-    def log_error(self, msg):
-        # Print it to stdout for dev troubleshooting, log it to a file for production
-        print(msg)
-        self.log.error(msg)
-
-
 def main():
     """ Main """
     try:
@@ -242,7 +242,7 @@ def main():
     except Exception:
         import traceback
         errmsg = traceback.format_exc()
-        rt.log_error(errmsg)
+        log_error(errmsg)
 
 if __name__ == "__main__":
     main()

@@ -15,7 +15,7 @@ class LogParser(object):
     def __init__(self, prefix, tracker_version):
         self.state = TrackerState("", tracker_version, Options().game_version)
         self.log = logging.getLogger("tracker")
-        self.file_prefix = prefix
+        self.wdir_prefix = prefix
 
         self.reset()
 
@@ -228,7 +228,7 @@ class LogParser(object):
 
         logfile_location = logfile_location.format(version_path_fragment)
 
-        for check in (self.file_prefix + '../log.txt', logfile_location + 'log.txt'):
+        for check in (self.wdir_prefix + '../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
                 path = check
                 break

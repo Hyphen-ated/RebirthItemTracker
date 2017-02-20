@@ -42,7 +42,7 @@ class Event(object):
 
 class DrawingTool(object):
     def __init__(self, prefix):
-        self.file_prefix = prefix
+        self.wdir_prefix = prefix
         self.next_item = (0, 0)
         self.item_position_index = []
         self.drawn_items = []
@@ -190,7 +190,7 @@ class DrawingTool(object):
         if self.state.modified:
             # We picked up an item, start the counter
             self.item_picked_up()
-            overlay = Overlay(self.file_prefix, self.state)
+            overlay = Overlay(self.wdir_prefix, self.state)
             overlay.update_seed()
             if len(self.drawn_items) > 0:
                 overlay.update_stats()
@@ -406,7 +406,7 @@ class DrawingTool(object):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
     def make_path(self, imagename, disable_glow, antibirth=False):
-        path = self.file_prefix + "/collectibles/"
+        path = self.wdir_prefix + "/collectibles/"
         if antibirth:
             path += "antibirth/"
         if Options().make_items_glow and not disable_glow:
