@@ -398,7 +398,7 @@ class DrawingTool(object):
                     self.item_message_start_time = self.framecount
 
     def load_selected_detail_page(self):
-        if self.selected_item_index is None:
+        if self.selected_item_index is None or self.selected_item_index < len(self.drawn_items):
             return
         self.drawn_items[self.selected_item_index].load_detail_page()
 
