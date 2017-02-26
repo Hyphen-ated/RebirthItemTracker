@@ -149,13 +149,13 @@ class IsaacTracker(object):
                             json_dict = json.loads(json_state, "utf-8")
                             new_state = TrackerState.from_json(json_dict)
                             if new_state is None:
-                                raise Exception
+                                raise Exception("server gave us empty state")
                             state_version = int(json_version)
                             new_states_queue.append((state_version, new_state))
                             drawing_tool.set_window_title_info(updates_queued=len(new_states_queue))
                     except Exception:
                         state = None
-                        self.log.error("Couldn't load state from server")
+                        log_error("Couldn't load state from server")
                         import traceback
                         log_error(traceback.format_exc())
                         if json_dict is not None:
