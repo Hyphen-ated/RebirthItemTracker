@@ -14,7 +14,7 @@ from options import Options
 # this logging stuff has to be outside of the IsaacTracker class so we can use it when it fails to instantiate
 wdir_prefix = "../"
 error_log = logging.getLogger("tracker")
-error_log.addHandler(logging.FileHandler(wdir_prefix + "tracker_log.txt", mode='w')) # This will erase our tracker log file from previous runs
+error_log.addHandler(logging.FileHandler(wdir_prefix + "tracker_log.txt", mode='a'))
 error_log.setLevel(logging.INFO)
 
 def log_error(msg):
