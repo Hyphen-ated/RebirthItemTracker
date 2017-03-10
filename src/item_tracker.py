@@ -41,9 +41,6 @@ class IsaacTracker(object):
         # Load options
         Options().load_options(wdir_prefix + "options.json")
 
-    def __del__(self):
-        Options().save_options(wdir_prefix + "options.json")
-
     def check_for_update(self):
         """ Returns text to put in the title bar """
         try:
@@ -236,6 +233,7 @@ class IsaacTracker(object):
 
         # Main loop finished; program is exiting
         drawing_tool.save_window_position()
+        Options().save_options(wdir_prefix + "options.json")
 
 def main():
     """ Main """
