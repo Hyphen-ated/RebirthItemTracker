@@ -32,6 +32,8 @@ class LogParser(object):
         self.run_start_line = 0
         self.seek = 0
         self.spawned_coop_baby = 0
+        self.log_file_handle = None
+        self.log_file_path = self.__find_log_file()
         self.state.reset(self.current_seed, Options().game_version)
 
     def parse(self):
@@ -211,14 +213,13 @@ class LogParser(object):
         # to see if this item is actually in our inventory or not.
         return self.state.remove_item(item_id)
 
-    def __load_log_file(self):
+    def __find_log_file(self):
         """
-        Attempt to load log file from common location.
-        Return true if successfully loaded, false otherwise
+        Try to find the game log file
+        Returns a string path, or None if we couldn't find it
         """
-        path = None
         logfile_location = ""
-        version_path_fragment = self.opt.game_version
+        version_path_fragment = Options().game_version
         if version_path_fragment == "Antibirth":
             version_path_fragment = "Rebirth"
 
@@ -226,7 +227,7 @@ class LogParser(object):
             logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac {}/'
         elif platform.system() == "Linux":
             logfile_location = os.getenv('XDG_DATA_HOME',
-                os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
+                                         os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
             version_path_fragment = version_path_fragment.lower()
         elif platform.system() == "Darwin":
             logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac {}/'
@@ -236,19 +237,22 @@ class LogParser(object):
 
         for check in (self.wdir_prefix + '../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
-                path = check
-                break
-        if path is None:
-            return False
+                return check
+        return None
+
+
+    def __load_log_file(self):
+        if self.log_file_handle is None:
+            self.log_file_handle = open(self.log_file_path, 'rb')
 
         cached_length = len(self.content)
-        file_size = os.path.getsize(path)
+        file_size = os.path.getsize(self.log_file_path)
+
         if cached_length > file_size or cached_length == 0: # New log file or first time loading the log
             self.reset()
-            self.content = open(path, 'rb').read()
+            self.content = open(self.log_file_path, 'rb').read()
         elif cached_length < file_size:  # Append existing content
-            f = open(path, 'rb')
-            f.seek(cached_length + 1)
-            self.content += f.read()
+            self.log_file_handle.seek(cached_length + 1)
+            self.content += self.log_file_handle.read()
         return True
 
