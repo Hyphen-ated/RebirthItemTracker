@@ -33,6 +33,7 @@ class IsaacTracker(object):
 
         with open(wdir_prefix + "items_custom.json", "r") as custom_items_file:
             Item.custom_items_info = json.load(custom_items_file)
+        Item.determine_custom_item_names()
 
         # Load version
         with open(wdir_prefix + 'version.txt', 'r') as f:

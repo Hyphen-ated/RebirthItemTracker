@@ -139,6 +139,13 @@ class Item(Serializable):
         else:
             return item_id in Item.items_info
 
+    @staticmethod
+    def determine_custom_item_names():
+        """ For custom items that don't have a specific display name set, make the display name the same as the name id"""
+        for k,v in Item.custom_items_info.iteritems():
+            if "name" not in v:
+                v["name"] = k
+
     @property
     def flags(self):
         """ Create a string containing single characters representing certain boolean member variables """
