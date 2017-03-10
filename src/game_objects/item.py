@@ -5,16 +5,27 @@ import logging
 class Item(Serializable):
     """This class represent an Item in the game, and handles its properties"""
 
-    # This will be needed by both the log reader and the serializer,
-    # it should be static
+    # These will be needed by both the log reader and the serializer. They're set in ItemTracker.__init__
+    # they shouldn't change after that.
     items_info = {}
+    custom_items_info = {}
 
     serialize = [('item_id', basestring),
                  ('floor_id', basestring),
                  ('flags', basestring)]
+
+    modded_item_id_prefix = "m"
+
     serialization_flags = {"blind":"b", "was_rerolled":"r", "starting_item":"s"}
     def __init__(self, item_id, floor, starting_item=False, was_rerolled=False, blind=False, flagstr=None):
-        # The numerical item id of the item (this corresponds to the in-game IDs)
+        # item_id is a string that identifies what kind of item it is.
+        # If this is numeric, then it represents an item from the base game, an official expansion, or antibirth
+        # If it's non-numeric, then it represents an item from a mod. numeric ids of modded items are unstable, so the
+        # value we use is the name of the custom item as displayed in log.txt, prefixed with "m" (for "mod") in case someone makes
+        # an item with a numeric name. (The "m" isn't shown in items_custom.json, because it's a hacky impl detail)
+        # For example, the Racing+ mod has a custom version of the item "Betrayal". log.txt will display this:
+        # [INFO] - Adding collectible 512 (Betrayal)
+        # and the value of item_id would be "mBetrayal"
         self.item_id = item_id
 
         # The floor the item was found on
@@ -25,7 +36,7 @@ class Item(Serializable):
             for varname,flag in Item.serialization_flags.iteritems():
                 setattr(self, varname, flag in flagstr)
         else:
-            # Is this a starting item ?
+            # Is this an item the player has at the start of a run? like isaac's D6 or eden's things.
             self.starting_item = starting_item
             # Was it picked up while under the effect of curse of the blind?
             self.blind = blind
@@ -115,12 +126,18 @@ class Item(Serializable):
     @staticmethod
     def get_item_info(item_id):
         """look for its informations in the loaded dictionary"""
-        return ItemInfo(Item.items_info[item_id])
+        if item_id[0] == Item.modded_item_id_prefix:
+            return ItemInfo(Item.custom_items_info[item_id[1:]])
+        else:
+            return ItemInfo(Item.items_info[item_id])
 
     @staticmethod
     def contains_info(item_id):
-        """ Return true if this item exists in items_info """
-        return item_id in Item.items_info
+        """ Return true if we know an item with this id """
+        if item_id[0] == Item.modded_item_id_prefix:
+            return item_id[1:] in Item.custom_items_info
+        else:
+            return item_id in Item.items_info
 
     @property
     def flags(self):

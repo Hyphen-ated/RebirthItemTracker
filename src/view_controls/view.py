@@ -68,7 +68,7 @@ class DrawingTool(object):
     def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
         pygame.init()
-        pygame.display.set_icon(self.get_image("collectibles_333.png", disable_glow=True))
+        pygame.display.set_icon(self.get_image("collectibles_333.png"))
         self.clock = pygame.time.Clock()
 
         opt = Options()
@@ -405,16 +405,14 @@ class DrawingTool(object):
     def get_scaled_icon(self, path, scale):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
-    def make_path(self, imagename, disable_glow, antibirth=False):
+    def make_path(self, imagename, antibirth=False):
         path = self.wdir_prefix + "/collectibles/"
         if antibirth:
             path += "antibirth/"
-        if Options().make_items_glow and not disable_glow:
-            path += "glow/"
         path += imagename
         return path.replace('/', os.sep).replace('\\', os.sep)
 
-    def get_image(self, imagename, disable_glow=False):
+    def get_image(self, imagename):
         image = self._image_library.get(imagename)
         if image is None:
             path = ""
@@ -422,12 +420,12 @@ class DrawingTool(object):
 
             # if we're in antibirth mode, check if there's an antibirth version of the image first
             if self.state and self.state.game_version == "Antibirth":
-                path = self.make_path(imagename, disable_glow, True)
+                path = self.make_path(imagename, True)
                 if os.path.isfile(path):
                     need_path = False
 
             if need_path:
-                path = self.make_path(imagename, disable_glow)
+                path = self.make_path(imagename)
 
             image = pygame.image.load(path)
             size_multiplier = Options().size_multiplier
@@ -504,7 +502,7 @@ class DrawingTool(object):
         return Color(str(stringcolor))
 
     @staticmethod
-    def id_to_image(id):
+    def numeric_id_to_image_path(id):
         return 'collectibles_%s.png' % id.zfill(3)
 
     def reset_options(self):
@@ -535,7 +533,7 @@ class DrawingTool(object):
             )
 
         self._image_library = {}
-        self.roll_icon = self.get_scaled_icon(self.id_to_image("284"), font_size * 2)
+        self.roll_icon = self.get_scaled_icon(self.numeric_id_to_image_path("284"), font_size * 2)
         self.blind_icon = self.get_scaled_icon("questionmark.png", font_size * 2)
         if opt.show_description or opt.show_status_message:
             self.text_height = self.write_message(" ")
@@ -629,7 +627,23 @@ class DrawableItem(Drawable):
             not self.item.starting_item
 
     def draw(self, selected=False):
-        image = self.tool.get_image(DrawingTool.id_to_image(self.item.item_id))
+        graphics_id = self.item.info.graphics_id
+        if graphics_id is None or len(graphics_id) == 0:
+            graphics_id = self.item.item_id
+
+        imagename = ""
+        if graphics_id[0] == 'm':
+            imagename = "custom/"
+
+        if Options().make_items_glow:
+            imagename += "glow/"
+
+        if graphics_id[0] == 'm':
+            imagename += graphics_id[1:] + ".png"
+        else:
+            imagename += DrawingTool.numeric_id_to_image_path(graphics_id)
+
+        image = self.tool.get_image(imagename)
         self.tool.screen.blit(image, (self.x, self.y))
         # If we're a re-rolled item, draw a little d4 near us
         if self.item.was_rerolled:

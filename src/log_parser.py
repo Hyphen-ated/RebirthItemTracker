@@ -169,14 +169,20 @@ class LogParser(object):
         if len(self.splitfile) > 1 and self.splitfile[line_number + self.seek - 1] == line:
             self.log.debug("Skipped duplicate item line from baby presence")
             return False
-        space_split = line.split(" ") # Hacky string manipulation
-        item_id = space_split[2] # When you pick up an item, this has the form: "Adding collectible 105 (The D6)"
-
-        # Check if the item ID exists
-        if not Item.contains_info(item_id):
-            item_id = "NEW"
-
+        space_split = line.split(" ")
+        numeric_id = space_split[2] # When you pick up an item, this has the form: "Adding collectible 105 (The D6)"
         item_name = " ".join(space_split[3:])[1:-1]
+        item_id = ""
+
+        # Check if we recognize the numeric id
+        if Item.contains_info(numeric_id):
+            item_id = numeric_id
+        else:
+            # it might be a modded custom item. let's see if we recognize the name
+            item_id = Item.modded_item_id_prefix + item_name
+            if not Item.contains_info(item_id):
+                item_id = "NEW"
+
         self.log.debug("Picked up item. id: %s, name: %s", item_id, item_name)
         if ((line_number + self.seek) - self.spawned_coop_baby) < (len(self.state.item_list) + 10) \
                 and self.state.contains_item(item_id):
