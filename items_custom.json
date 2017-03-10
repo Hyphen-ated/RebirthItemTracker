@@ -14,6 +14,26 @@
     "introduced_in": "Racing+",
     "graphics_id": "158"
   },
+  "Debug": {
+    "name": "Debug",
+    "shown": true,
+    "text": "NODUDE",
+    "space": true,
+    "introduced_in": "Racing+"
+  },
+  "Off Limits": {
+    "name": "Off Limits",
+    "shown": true,
+    "text": "",
+    "introduced_in": "Racing+"
+  },
+  "Soul Jar": {
+    "name": "Soul Jar",
+    "shown": true,
+    "text": "",
+    "space": true,
+    "introduced_in": "Racing+"
+  },
   "The Book of Sin": {
     "name": "The Book of Sin",
     "shown": true,
