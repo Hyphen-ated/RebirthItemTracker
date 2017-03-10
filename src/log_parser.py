@@ -69,6 +69,12 @@ class LogParser(object):
         if line.startswith(info_prefix):
             line = line[len(info_prefix):]
 
+        # Messages printed by mods have this prefix.
+        # strip it, so mods can spoof actual game log messages to us if they want to
+        luadebug_prefix ='Lua Debug: '
+        if line.startswith(luadebug_prefix):
+            line = line[len(luadebug_prefix):]
+
         # AB and AB+ version messages both start with this text (AB+ has a + at the end)
         if line.startswith('Binding of Isaac: Afterbirth'):
             self.__parse_version_number(line)
@@ -201,17 +207,21 @@ class LogParser(object):
     def __parse_item_remove(self, line_number, line):
         """ Parse an item and remove it from the state """
         space_split = line.split(" ") # Hacky string manipulation
-        item_id = space_split[4] # When you lose an item, this has the form: "Lua Debug: Removing collectible 105"
+        item_id = space_split[2] # When you lose an item, this has the form: "Removing collectible 105 (The D6)"
+        item_name = " ".join(space_split[3:])[1:-1]
 
         # Check if the item ID exists
-        if not Item.contains_info(item_id):
-            return False
+        if Item.contains_info(item_id):
+            removal_id = item_id
+        else:
+            # that means it's probably a custom item
+            removal_id = Item.modded_item_id_prefix + item_name
 
-        self.log.debug("Removed item. id: %s", item_id)
+        self.log.debug("Removed item. id: %s", removal_id)
 
         # A check will be made inside the remove_item function
         # to see if this item is actually in our inventory or not.
-        return self.state.remove_item(item_id)
+        return self.state.remove_item(removal_id)
 
     def __find_log_file(self):
         """
