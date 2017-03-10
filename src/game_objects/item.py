@@ -114,14 +114,13 @@ class Item(Serializable):
 
     @staticmethod
     def get_item_info(item_id):
-        """Pad the id and look for its informations in the loaded dictionary"""
-        id_padded = item_id.zfill(3)
-        return ItemInfo(Item.items_info[id_padded])
+        """look for its informations in the loaded dictionary"""
+        return ItemInfo(Item.items_info[item_id])
 
     @staticmethod
     def contains_info(item_id):
         """ Return true if this item exists in items_info """
-        return item_id.zfill(3) in Item.items_info
+        return item_id in Item.items_info
 
     @property
     def flags(self):
