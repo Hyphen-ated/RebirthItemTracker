@@ -1,16 +1,27 @@
 #checks for updates, then runs the actual tracker
 import json
 import os, shutil
+import threading
 import urllib2
 import logging
 import zipfile
 from StringIO import StringIO
 from Tkinter import *
-
 import errno
+import time
+from enum import Enum
+
+
+class UpdateStep(Enum):
+    PROMPTING = "Asking about update"
+    PRE_DOWNLOAD = "Preparing for update"
+    DOWNLOAD = "Downloading update zip"
+    EXTRACT = "Extracting update zip"
+    PERFORMING = "Performing update"
+    DONE = "Update finished"
 
 wdir_prefix = "../"
-update_option_name = "automatically_update"
+update_option_name = "check_for_updates"
 
 error_log = logging.getLogger("tracker")
 error_log.addHandler(logging.FileHandler(wdir_prefix + "tracker_log.txt", mode='a'))
@@ -30,6 +41,7 @@ def mkdir_p(path):
             pass
         else:
             raise
+
 # also got this from some guy on stackoverflow.
 # I just want a version of shutil.copytree that can overwrite into an existing dest dir. that's what this is.
 def recursive_overwrite(src, dest, ignore=None):
@@ -53,8 +65,9 @@ class Updater(object):
     def __init__(self):
         self.latest_version = ""
 
-        self.run_the_tracker = True
         self.root = None
+        self.update_thread = None
+        self.update_step = None
 
         self.options_file = wdir_prefix + "options.json"
         if not os.path.isfile(self.options_file):
@@ -66,8 +79,10 @@ class Updater(object):
         with open(wdir_prefix + 'version.txt', 'r') as f:
             self.current_version = f.read()
 
+    # creates tk window and blocks until it goes away
     def check_if_update_possible(self):
         try:
+            #if the update option isn't present, the default is to do updates.
             if update_option_name not in self.options or self.options[update_option_name]:
                 # check if github has a newer version than us
                 latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTrackerTest/releases/latest"
@@ -75,34 +90,49 @@ class Updater(object):
                 info = json.loads(github_info_json)
                 self.latest_version = info["name"]
                 if self.latest_version != self.current_version:
-                    self.run_the_tracker = False
-                    self.run_update_window()
+                    return True
         except Exception:
             import traceback
-            errmsg = traceback.format_exc()
+            errmsg = "Error while checking whether there's a new version:\n" + traceback.format_exc()
             log_error(errmsg)
+        return False
 
 
-    def run_update_window(self):
+    def create_update_window(self):
+        self.update_step = UpdateStep.PROMPTING
         self.root = Tk()
         self.root.wm_title("Update Item Tracker")
         self.root.resizable(False, False)
-        self.root.minsize(300, 100)
+        self.root.minsize(500, 300)
         self.label = Label(self.root, text="Your current version is " + self.current_version + "\nThe latest version is " + self.latest_version)
         self.label.pack()
 
-        self.update = Button(self.root, text="Update Now", command=self.do_update)
+        self.update = Button(self.root, text="Update Now", command=self.trigger_update_thread)
         self.update.pack()
 
         self.ignore = Button(self.root, text="Ignore Updates", command=self.ignore_updates)
         self.ignore.pack()
         mainloop()
 
-    def do_update(self):
+    def trigger_update_thread(self):
+        self.update_step = UpdateStep.PRE_DOWNLOAD
         self.update.pack_forget()
         self.ignore.pack_forget()
-        self.label['text'] = "Updating, please wait..."
-        self.root.update()
+
+
+        self.update_thread = threading.Thread(target=self.do_update)
+        self.update_thread.start()
+        self.check_update_status()
+
+    def check_update_status(self):
+        self.label['text'] = "Updating, please wait...\n" + self.update_step.value
+        if self.update_step == UpdateStep.DONE:
+            self.root.destroy()
+            return
+
+        self.root.after(200, self.check_update_status)
+
+    def do_update(self):
         backupdir = wdir_prefix + "options backups/" + self.current_version
         mkdir_p(backupdir)
         shutil.copy(wdir_prefix + "options.json", backupdir)
@@ -113,15 +143,18 @@ class Updater(object):
 
         mkdir_p(scratch)
         try:
+            self.update_step = UpdateStep.DOWNLOAD
             url = 'https://github.com/Hyphen-ated/RebirthItemTrackerTest/releases/download/' + self.latest_version + '/Rebirth.Item.Tracker-' + self.latest_version + ".zip"
             urlstream = urllib2.urlopen(url)
             myzip = zipfile.ZipFile(StringIO(urlstream.read()))
+            self.update_step = UpdateStep.EXTRACT
             myzip.extractall(scratch)
         except Exception as e:
             log_error('Failed to download and extract latest version from GitHub ( url was :' + url + " )")
             import traceback
             log_error(traceback.format_exc())
 
+        self.update_step = UpdateStep.PERFORMING
         shutil.rmtree(wdir_prefix + "collectibles")
         shutil.rmtree(wdir_prefix + "overlay text")
         shutil.rmtree(wdir_prefix + "tracker-lib")
@@ -129,8 +162,7 @@ class Updater(object):
         innerdir = scratch + "Rebirth Item Tracker/"
         shutil.move(innerdir + "updater-lib", scratch)
         recursive_overwrite(innerdir, "..")
-        self.run_the_tracker = True
-        self.root.destroy()
+        self.update_step = UpdateStep.DONE
 
     def ignore_updates(self):
         self.options[update_option_name] = False
@@ -141,12 +173,13 @@ class Updater(object):
 
 def main():
     updater = Updater()
-    updater.check_if_update_possible()
+    if updater.check_if_update_possible():
+        #blocks until either an update is finished or they skip the update
+        updater.create_update_window()
 
-    # launch the real tracker
-    if updater.run_the_tracker:
-        os.chdir(wdir_prefix + "tracker-lib/")
-        os.execl("item_tracker.exe", "Rebirth Item Tracker")
+    print("launching tracker")
+    os.chdir(wdir_prefix + "tracker-lib/")
+    os.execl("item_tracker.exe", "Rebirth Item Tracker")
 
 main()
 

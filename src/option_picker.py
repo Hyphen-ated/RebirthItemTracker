@@ -334,7 +334,7 @@ class OptionsMenu(object):
         for index, opt in enumerate(
                 ["enable_mouseover", "show_floors", "show_rerolled_items", "show_health_ups",
                  "show_space_items", "show_blind_icon", "make_items_glow", "blck_cndl_mode",
-                 "custom_title_enabled"]):
+                 "check_for_updates", "custom_title_enabled"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(display_options_frame, text=self.pretty_name(opt), variable=self.checks[opt])
             c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2) # 2 checkboxes per row
