@@ -41,13 +41,15 @@ class IsaacTracker(object):
         # Load options
         Options().load_options(wdir_prefix + "options.json")
 
+
+
     def run(self):
         """ The main routine which controls everything """
         framecount = 0
 
         # Create drawing tool to use to draw everything - it'll create its own screen
         drawing_tool = DrawingTool(wdir_prefix)
-        drawing_tool.set_window_title_info()
+        drawing_tool.set_window_title_info(update_notifier=(" v" + self.tracker_version))
         opt = Options()
 
         parser = LogParser(wdir_prefix, self.tracker_version)
