@@ -8,7 +8,6 @@ import zipfile
 from StringIO import StringIO
 from Tkinter import *
 import errno
-import time
 from enum import Enum
 
 
@@ -160,16 +159,34 @@ class Updater(object):
         shutil.rmtree(wdir_prefix + "tracker-lib")
 
         innerdir = scratch + "Rebirth Item Tracker/"
+
+        with open("options_default.json", "r") as old_defaults_json:
+            old_defaults = json.load(old_defaults_json)
+
+        with open(innerdir + "options_default.json", "r") as new_defaults_json:
+            new_defaults = json.load(new_defaults_json)
+
+        for k,v in old_defaults.iteritems():
+            # for each default option they left unchanged, if the default changed in the new version, give them the new default
+            if k in self.options and self.options[k] == v and new_defaults[k] != v:
+                self.options[k] = new_defaults[k]
+
+        self.write_options()
+
         shutil.move(innerdir + "updater-lib", scratch)
         recursive_overwrite(innerdir, "..")
         self.update_step = UpdateStep.DONE
 
     def ignore_updates(self):
         self.options[update_option_name] = False
-        with open(self.options_file, "w") as json_file:
-            json.dump(self.options, json_file, indent=3, sort_keys=True)
+        self.write_options()
         self.run_the_tracker = True
         self.root.destroy()
+
+    def write_options(self):
+        with open(self.options_file, "w") as json_file:
+            json.dump(self.options, json_file, indent=3, sort_keys=True)
+
 
 def main():
     updater = Updater()
