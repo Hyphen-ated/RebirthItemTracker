@@ -41,32 +41,13 @@ class IsaacTracker(object):
         # Load options
         Options().load_options(wdir_prefix + "options.json")
 
-    def check_for_update(self):
-        """ Returns text to put in the title bar """
-        try:
-            latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest"
-            github_info_json = urllib2.urlopen(latest).read()
-            info = json.loads(github_info_json)
-            latest_version = info["name"]
-
-
-            title_text = " v" + self.tracker_version
-            if latest_version != self.tracker_version:
-                title_text += " (new version available)"
-            return title_text
-        except Exception as e:
-            log_error("Failed to find update info: " + e.message)
-        return ""
-
     def run(self):
         """ The main routine which controls everything """
-
-        update_notifier = self.check_for_update()
         framecount = 0
 
         # Create drawing tool to use to draw everything - it'll create its own screen
         drawing_tool = DrawingTool(wdir_prefix)
-        drawing_tool.set_window_title_info(update_notifier=update_notifier)
+        drawing_tool.set_window_title_info()
         opt = Options()
 
         parser = LogParser(wdir_prefix, self.tracker_version)
