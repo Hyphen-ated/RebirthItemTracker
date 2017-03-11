@@ -5,6 +5,8 @@ import urllib2
 import logging
 from Tkinter import *
 
+import errno
+
 wdir_prefix = "./"
 update_option_name = "automatically_update"
 
@@ -16,6 +18,15 @@ def log_error(msg):
     # Print it to stdout for dev troubleshooting, log it to a file for production
     print(msg)
     error_log.error(msg)
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
 
 class Updater(object):
     def __init__(self):
@@ -67,7 +78,9 @@ class Updater(object):
         mainloop()
 
     def do_update(self):
-
+        backupdir = "options backups/" + self.current_version
+        mkdir_p(backupdir)
+        shutil.copy("options.json", backupdir)
 
 
         self.run_the_tracker = True
