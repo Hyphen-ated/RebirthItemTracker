@@ -70,7 +70,7 @@ class Updater(object):
         try:
             if update_option_name not in self.options or self.options[update_option_name]:
                 # check if github has a newer version than us
-                latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest"
+                latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTrackerTest/releases/latest"
                 github_info_json = urllib2.urlopen(latest).read()
                 info = json.loads(github_info_json)
                 self.latest_version = info["name"]
@@ -113,7 +113,7 @@ class Updater(object):
 
         mkdir_p(scratch)
         try:
-            url = 'https://github.com/Hyphen-ated/RebirthItemTracker/releases/download/' + self.latest_version + '/RebirthItemTracker-' + self.latest_version + ".zip"
+            url = 'https://github.com/Hyphen-ated/RebirthItemTrackerTest/releases/download/' + self.latest_version + '/Rebirth.Item.Tracker-' + self.latest_version + ".zip"
             urlstream = urllib2.urlopen(url)
             myzip = zipfile.ZipFile(StringIO(urlstream.read()))
             myzip.extractall(scratch)
@@ -128,8 +128,7 @@ class Updater(object):
 
         innerdir = scratch + "Rebirth Item Tracker/"
         shutil.move(innerdir + "updater-lib", scratch)
-        recursive_overwrite(innerdir + "Rebirth Item Tracker/", "..")
-
+        recursive_overwrite(innerdir, "..")
         self.run_the_tracker = True
         self.root.destroy()
 
@@ -146,7 +145,7 @@ def main():
 
     # launch the real tracker
     if updater.run_the_tracker:
-        os.chdir("dist/")
+        os.chdir(wdir_prefix + "tracker-lib/")
         os.execl("item_tracker.exe", "Rebirth Item Tracker")
 
 main()
