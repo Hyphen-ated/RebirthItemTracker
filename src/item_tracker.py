@@ -1,5 +1,7 @@
 """ This module handles everything related to the tracker behaviour. """
 import json     # For importing the items and options
+import os
+import shutil
 import time     # For referencing the "state" timestamp that we get from the server
 import urllib2  # For checking for updates to the item tracker
 import logging  # For logging to a flat file
@@ -26,6 +28,15 @@ class IsaacTracker(object):
     """ The main class of the program """
     def __init__(self, read_timer=1):
         self.read_timer = read_timer
+
+        new_updater_dir = wdir_prefix + "update_scratchdir/updater-lib"
+        if os.path.exists(new_updater_dir):
+            # we found a new version of the updater, from when the updater presumably just ran
+            old_updater_dir = wdir_prefix + "updater-lib"
+            if os.path.exists(old_updater_dir):
+                shutil.rmtree(old_updater_dir)
+            shutil.copytree(new_updater_dir, old_updater_dir)
+            shutil.rmtree(wdir_prefix + "update_scratchdir")
 
         # Load items info
         with open(wdir_prefix + "items.json", "r") as items_file:
