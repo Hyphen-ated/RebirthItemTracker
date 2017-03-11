@@ -6,9 +6,7 @@ import logging
 from Tkinter import *
 
 wdir_prefix = "./"
-latest_version = ""
 update_option_name = "automatically_update"
-run_the_tracker = True
 
 error_log = logging.getLogger("tracker")
 error_log.addHandler(logging.FileHandler(wdir_prefix + "tracker_log.txt", mode='a'))
@@ -19,71 +17,75 @@ def log_error(msg):
     print(msg)
     error_log.error(msg)
 
+class Updater(object):
+    def __init__(self):
+        self.latest_version = ""
 
-options_file = wdir_prefix + "options.json"
-if not os.path.isfile(options_file):
-    shutil.copy(wdir_prefix + "options_default.json", options_file)
+        self.run_the_tracker = True
+        self.root = None
 
-with open(options_file, "r") as options_json:
-    options = json.load(options_json)
+        self.options_file = wdir_prefix + "options.json"
+        if not os.path.isfile(self.options_file):
+            shutil.copy(wdir_prefix + "options_default.json", self.options_file)
 
-with open(wdir_prefix + 'version.txt', 'r') as f:
-    current_version = f.read()
+        with open(self.options_file, "r") as options_json:
+            self.options = json.load(options_json)
 
-def check_if_update_possible():
-    try:
-        if update_option_name not in options or options[update_option_name]:
-            # check if github has a newer version than us
-            latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest"
-            github_info_json = urllib2.urlopen(latest).read()
-            info = json.loads(github_info_json)
-            global latest_version
-            latest_version = info["name"]
-            if latest_version != current_version:
-                global run_the_tracker
-                run_the_tracker = False
-                run_update_window()
-    except Exception:
-        import traceback
-        errmsg = traceback.format_exc()
-        log_error(errmsg)
+        with open(wdir_prefix + 'version.txt', 'r') as f:
+            self.current_version = f.read()
 
-root = None
-def run_update_window():
-    global root
-    root = Tk()
-    root.wm_title("Update Item Tracker")
-    root.resizable(False, False)
-    root.minsize(300, 100)
-    label = Label(root, text="Your current version is " + current_version + "\nThe latest version is " + latest_version)
-    label.pack()
+    def check_if_update_possible(self):
+        try:
+            if update_option_name not in self.options or self.options[update_option_name]:
+                # check if github has a newer version than us
+                latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest"
+                github_info_json = urllib2.urlopen(latest).read()
+                info = json.loads(github_info_json)
+                self.latest_version = info["name"]
+                if self.latest_version != self.current_version:
+                    self.run_the_tracker = False
+                    self.run_update_window()
+        except Exception:
+            import traceback
+            errmsg = traceback.format_exc()
+            log_error(errmsg)
 
-    update = Button(root, text="Update Now", command=do_update)
-    update.pack()
 
-    ignore = Button(root, text="Ignore Updates", command=ignore_updates)
-    ignore.pack()
-    mainloop()
+    def run_update_window(self):
+        self.root = Tk()
+        self.root.wm_title("Update Item Tracker")
+        self.root.resizable(False, False)
+        self.root.minsize(300, 100)
+        label = Label(self.root, text="Your current version is " + self.current_version + "\nThe latest version is " + self.latest_version)
+        label.pack()
 
-def do_update():
-    print("hey")
-    global run_the_tracker
-    run_the_tracker = True
-    root.destroy()
+        update = Button(self.root, text="Update Now", command=self.do_update)
+        update.pack()
 
-def ignore_updates():
-    options[update_option_name] = False
-    with open(options_file, "w") as json_file:
-        json.dump(options, json_file, indent=3, sort_keys=True)
-    global run_the_tracker
-    run_the_tracker = True
-    root.destroy()
+        ignore = Button(self.root, text="Ignore Updates", command=self.ignore_updates)
+        ignore.pack()
+        mainloop()
+
+    def do_update(self):
+
+
+
+        self.run_the_tracker = True
+        self.root.destroy()
+
+    def ignore_updates(self):
+        self.options[update_option_name] = False
+        with open(self.options_file, "w") as json_file:
+            json.dump(self.options, json_file, indent=3, sort_keys=True)
+        self.run_the_tracker = True
+        self.root.destroy()
 
 def main():
-    check_if_update_possible()
+    updater = Updater()
+    updater.check_if_update_possible()
 
     # launch the real tracker
-    if run_the_tracker:
+    if updater.run_the_tracker:
         os.chdir("dist/")
         os.execl("item_tracker.exe", "Rebirth Item Tracker")
 
