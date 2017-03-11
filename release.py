@@ -37,7 +37,7 @@ shutil.move('src/dist/', installDir + 'tracker-lib/')
 # Then copy over all the data files
 shutil.copytree('collectibles/', installDir + 'collectibles/')
 shutil.copytree('overlay text reference/', installDir + 'overlay text/')
-shutil.copy('options_default.json', installDir)
+shutil.copy('options_default.json', installDir + "tracker-lib/")
 shutil.copy('items.json', installDir)
 shutil.copy('items_custom.json', installDir)
 shutil.copy('LICENSE.txt', installDir)

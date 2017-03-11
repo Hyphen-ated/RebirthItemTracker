@@ -51,7 +51,12 @@ class IsaacTracker(object):
             self.tracker_version = f.read()
         # Load options
         Options().load_options(wdir_prefix + "options.json")
-
+        defaults_path = "options_default.json"
+        # if we're running in production, this file will be in our dir.
+        # if we're running from source, it will be up a level
+        if not os.path.exists(defaults_path):
+            defaults_path = wdir_prefix + defaults_path
+        Options().load_missing_defaults(defaults_path)
 
 
     def run(self):

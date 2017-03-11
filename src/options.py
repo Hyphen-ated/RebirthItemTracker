@@ -19,3 +19,10 @@ class Options(object):
         self._shared_state['write_to_server'] = False
         with open(filename, "w") as json_file:
             json.dump(self._shared_state, json_file, indent=3, sort_keys=True)
+
+    def load_missing_defaults(self, filename):
+        with open(filename, "r") as json_file:
+            defaults = json.load(json_file)
+            for k,v in defaults.iteritems():
+                if k not in self._shared_state:
+                    self._shared_state[k] = v

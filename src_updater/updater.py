@@ -71,7 +71,7 @@ class Updater(object):
 
         self.options_file = wdir_prefix + "options.json"
         if not os.path.isfile(self.options_file):
-            shutil.copy(wdir_prefix + "options_default.json", self.options_file)
+            shutil.copy(wdir_prefix + "tracker-lib/options_default.json", self.options_file)
 
         with open(self.options_file, "r") as options_json:
             self.options = json.load(options_json)
