@@ -4,6 +4,7 @@ import os, shutil
 import threading
 import urllib2
 import logging
+import webbrowser
 import zipfile
 from StringIO import StringIO
 from Tkinter import *
@@ -18,6 +19,7 @@ class UpdateStep(Enum):
     EXTRACT = "Extracting update zip"
     PERFORMING = "Performing update"
     DONE = "Update finished"
+    ERROR = "Error"
 
 wdir_prefix = "../"
 update_option_name = "check_for_updates"
@@ -118,7 +120,6 @@ class Updater(object):
         self.update.pack_forget()
         self.ignore.pack_forget()
 
-
         self.update_thread = threading.Thread(target=self.do_update)
         self.update_thread.start()
         self.check_update_status()
@@ -129,53 +130,73 @@ class Updater(object):
             self.root.destroy()
             return
 
-        self.root.after(200, self.check_update_status)
+        if self.update_step == UpdateStep.ERROR:
+            self.label['text'] = "Sorry, there was an error during the update!\n"+\
+                "You'll probably have to manually download the new version\n"+\
+                "and copy in your old options.json (if you care about your settings.)"+\
+                "Please report this and include your tracker_log.txt, as well as what version you had"
+            reportbtn = Button(self.root, text="Open bug report page", command=self.open_report_page)
+            reportbtn.pack()
+        else:
+            self.root.after(200, self.check_update_status)
+
+    def open_report_page(self):
+        webbrowser.open("https://github.com/Hyphen-ated/RebirthItemTracker/issues", autoraise=True)
+        self.root.destroy()
 
     def do_update(self):
-        backupdir = wdir_prefix + "options backups/" + self.current_version
-        mkdir_p(backupdir)
-        shutil.copy(wdir_prefix + "options.json", backupdir)
-
-        scratch = wdir_prefix + "update_scratchdir/"
-        if os.path.exists(scratch):
-            shutil.rmtree(scratch)
-
-        mkdir_p(scratch)
         try:
-            self.update_step = UpdateStep.DOWNLOAD
-            url = 'https://github.com/Hyphen-ated/RebirthItemTrackerTest/releases/download/' + self.latest_version + '/Rebirth.Item.Tracker-' + self.latest_version + ".zip"
-            urlstream = urllib2.urlopen(url)
-            myzip = zipfile.ZipFile(StringIO(urlstream.read()))
-            self.update_step = UpdateStep.EXTRACT
-            myzip.extractall(scratch)
-        except Exception as e:
-            log_error('Failed to download and extract latest version from GitHub ( url was :' + url + " )")
+            backupdir = wdir_prefix + "options backups/" + self.current_version
+            mkdir_p(backupdir)
+            shutil.copy(wdir_prefix + "options.json", backupdir)
+
+            scratch = wdir_prefix + "update_scratchdir/"
+            if os.path.exists(scratch):
+                shutil.rmtree(scratch)
+
+            mkdir_p(scratch)
+            try:
+                self.update_step = UpdateStep.DOWNLOAD
+                url = 'https://github.com/Hyphen-ated/RebirthItemTrackerTest/releases/download/' + self.latest_version + '/Rebirth.Item.Tracker-' + self.latest_version + ".zip"
+                urlstream = urllib2.urlopen(url)
+                myzip = zipfile.ZipFile(StringIO(urlstream.read()))
+                self.update_step = UpdateStep.EXTRACT
+                myzip.extractall(scratch)
+            except Exception as e:
+                log_error('Failed to download and extract latest version from GitHub ( url was :' + url + " )")
+                import traceback
+                log_error(traceback.format_exc())
+                self.update_step = UpdateStep.ERROR
+                return
+
+            self.update_step = UpdateStep.PERFORMING
+            shutil.rmtree(wdir_prefix + "collectibles")
+            shutil.rmtree(wdir_prefix + "overlay text")
+            shutil.rmtree(wdir_prefix + "tracker-lib")
+
+            innerdir = scratch + "Rebirth Item Tracker/"
+
+            with open("options_default.json", "r") as old_defaults_json:
+                old_defaults = json.load(old_defaults_json)
+
+            with open(innerdir + "options_default.json", "r") as new_defaults_json:
+                new_defaults = json.load(new_defaults_json)
+
+            for k,v in old_defaults.iteritems():
+                # for each default option they left unchanged, if the default changed in the new version, give them the new default
+                if k in self.options and self.options[k] == v and new_defaults[k] != v:
+                    self.options[k] = new_defaults[k]
+
+            self.write_options()
+
+            shutil.move(innerdir + "updater-lib", scratch)
+            recursive_overwrite(innerdir, "..")
+            self.update_step = UpdateStep.DONE
+        except Exception:
             import traceback
+            log_error("Error while attempting tracker update")
             log_error(traceback.format_exc())
-
-        self.update_step = UpdateStep.PERFORMING
-        shutil.rmtree(wdir_prefix + "collectibles")
-        shutil.rmtree(wdir_prefix + "overlay text")
-        shutil.rmtree(wdir_prefix + "tracker-lib")
-
-        innerdir = scratch + "Rebirth Item Tracker/"
-
-        with open("options_default.json", "r") as old_defaults_json:
-            old_defaults = json.load(old_defaults_json)
-
-        with open(innerdir + "options_default.json", "r") as new_defaults_json:
-            new_defaults = json.load(new_defaults_json)
-
-        for k,v in old_defaults.iteritems():
-            # for each default option they left unchanged, if the default changed in the new version, give them the new default
-            if k in self.options and self.options[k] == v and new_defaults[k] != v:
-                self.options[k] = new_defaults[k]
-
-        self.write_options()
-
-        shutil.move(innerdir + "updater-lib", scratch)
-        recursive_overwrite(innerdir, "..")
-        self.update_step = UpdateStep.DONE
+            self.update_step = UpdateStep.ERROR
 
     def ignore_updates(self):
         self.options[update_option_name] = False
@@ -189,14 +210,19 @@ class Updater(object):
 
 
 def main():
-    updater = Updater()
-    if updater.check_if_update_possible():
-        #blocks until either an update is finished or they skip the update
-        updater.create_update_window()
+    try:
+        updater = Updater()
+        if updater.check_if_update_possible():
+            #blocks until either an update is finished or they skip the update
+            updater.create_update_window()
 
-    print("launching tracker")
-    os.chdir(wdir_prefix + "tracker-lib/")
-    os.execl("item_tracker.exe", "Rebirth Item Tracker")
+        print("launching tracker")
+        os.chdir(wdir_prefix + "tracker-lib/")
+        os.execl("item_tracker.exe", "Rebirth Item Tracker")
+    except Exception:
+        import traceback
+        log_error("Error with tracker updater outside of the actual update process")
+        log_error(traceback.format_exc())
 
 main()
 
