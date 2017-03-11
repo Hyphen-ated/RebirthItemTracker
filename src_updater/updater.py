@@ -9,6 +9,9 @@ import zipfile
 from StringIO import StringIO
 from Tkinter import *
 import errno
+import traceback
+
+import time
 from enum import Enum
 
 
@@ -30,6 +33,7 @@ error_log.setLevel(logging.INFO)
 
 def log_error(msg):
     # Print it to stdout for dev troubleshooting, log it to a file for production
+    msg = time.strftime("%Y-%m-%d %H:%M:%S ") + msg
     print(msg)
     error_log.error(msg)
 
@@ -93,7 +97,6 @@ class Updater(object):
                 if self.latest_version != self.current_version:
                     return True
         except Exception:
-            import traceback
             errmsg = "Error while checking whether there's a new version:\n" + traceback.format_exc()
             log_error(errmsg)
         return False
@@ -163,9 +166,8 @@ class Updater(object):
                 self.update_step = UpdateStep.EXTRACT
                 myzip.extractall(scratch)
             except Exception as e:
-                log_error('Failed to download and extract latest version from GitHub ( url was :' + url + " )")
-                import traceback
-                log_error(traceback.format_exc())
+                errmsg = "Failed to download and extract latest version from GitHub ( url was :" + url + " )\n" + traceback.format_exc()
+                log_error()
                 self.update_step = UpdateStep.ERROR
                 return
 
@@ -193,9 +195,8 @@ class Updater(object):
             recursive_overwrite(innerdir, "..")
             self.update_step = UpdateStep.DONE
         except Exception:
-            import traceback
-            log_error("Error while attempting tracker update")
-            log_error(traceback.format_exc())
+            errmsg = "Error while attempting tracker update\n" + traceback.format_exc()
+            log_error(errmsg)
             self.update_step = UpdateStep.ERROR
 
     def ignore_updates(self):
@@ -220,9 +221,8 @@ def main():
         os.chdir(wdir_prefix + "tracker-lib/")
         os.execl("item_tracker.exe", "Rebirth Item Tracker")
     except Exception:
-        import traceback
-        log_error("Error with tracker updater outside of the actual update process")
-        log_error(traceback.format_exc())
+        errmsg = "Error with tracker updater outside of the actual update process\n" + traceback.format_exc()
+        log_error(errmsg)
 
 main()
 

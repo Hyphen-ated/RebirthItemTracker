@@ -2,6 +2,9 @@
 from game_objects.serializable import Serializable
 import logging
 
+from error_stuff import log_error
+
+
 class Curse(object):
     """Curse enumaration"""
     No_Curse, Blind, Darkness, Lost, Maze, Unknown, Labyrinth, Cursed = range(8)
@@ -75,6 +78,6 @@ class Floor(Serializable):
         if (floor_id not in Floor.__floor_id_to_label or
                 curse < Curse.No_Curse or
                 curse > Curse.Labyrinth):
-            logging.getLogger("tracker").error("ERROR: Invalid foor_id or curse")
+            log_error("ERROR: Invalid foor_id or curse (" + floor_id + ", " + curse + ")")
             return None
         return Floor(floor_id, curse)

@@ -1,3 +1,4 @@
+import traceback
 from Tkinter import *
 from multiprocessing import Queue
 from tkColorChooser import askcolor
@@ -12,6 +13,7 @@ import urllib2
 import webbrowser
 import platform
 import threading
+from error_stuff import log_error
 
 class OptionsMenu(object):
     """
@@ -41,10 +43,8 @@ class OptionsMenu(object):
             for index in to_delete[::-1]:
                 del self.fonts[index]
         except:
-            log = logging.getLogger("tracker")
-            log.error("There may have been an error detecting system fonts.")
-            import traceback
-            log.error(traceback.print_exc())
+            log_error("There may have been an error detecting system fonts.\n" + traceback.print_exc())
+
 
     pretty_name_map = {"read_from_server": "Watch Someone Else",
                        "write_to_server": "Let Others Watch Me",
@@ -168,11 +168,7 @@ class OptionsMenu(object):
             users = json.loads(json_state)
             success = True
         except Exception:
-            import traceback
-            errmsg = traceback.format_exc()
-            #print it to stdout for dev troubleshooting, log it to a file for production
-            print(errmsg)
-            logging.getLogger("tracker").error(errmsg)
+            log_error("Problem getting userlist from tracker server\n" + traceback.format_exc())
             users = []
             success = False
         network_result = {"users": users, "success": success}
@@ -183,11 +179,7 @@ class OptionsMenu(object):
             url = self.entries['trackerserver_url'].get() + "/tracker/api/twitchclientid/"
             return urllib2.urlopen(url).read()
         except Exception:
-            import traceback
-            errmsg = traceback.format_exc()
-            #print it to stdout for dev troubleshooting, log it to a file for production
-            print(errmsg)
-            logging.getLogger("tracker").error(errmsg)
+            log_error("Couldn't get twitch client id from tracker server\n" + traceback.format_exc())
             return None
 
 

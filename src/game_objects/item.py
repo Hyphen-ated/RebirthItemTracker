@@ -2,6 +2,9 @@
 from game_objects.serializable import Serializable
 import logging
 
+from error_stuff import log_error
+
+
 class Item(Serializable):
     """This class represent an Item in the game, and handles its properties"""
 
@@ -158,12 +161,11 @@ class Item(Serializable):
     @staticmethod
     def from_valid_json(json_dic, *args):
         """ Create an Item from a type-checked dic and a floor_list """
-        log = logging.getLogger("tracker")
         floor_list = args[0]
         floor = next((f for f in floor_list if f.floor_id == json_dic['floor_id']),
                      None)
         if not floor:
-            log.error("ERROR: Floor id %s is not found in state list", json_dic['floor_id'])
+            log_error("ERROR: Floor id %s is not found in state list", json_dic['floor_id'])
             return None
 
         item_id = json_dic['item_id']

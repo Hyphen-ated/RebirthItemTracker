@@ -4,7 +4,7 @@ import os
 import shutil
 import time     # For referencing the "state" timestamp that we get from the server
 import urllib2  # For checking for updates to the item tracker
-import logging  # For logging to a flat file
+import traceback
 
 # Import item tracker specific code
 from view_controls.view import DrawingTool, Event
@@ -12,17 +12,9 @@ from game_objects.item  import Item
 from game_objects.state  import TrackerState, TrackerStateEncoder
 from log_parser import LogParser
 from options import Options
+from error_stuff import log_error, log_dir
 
-# this logging stuff has to be outside of the IsaacTracker class so we can use it when it fails to instantiate
-wdir_prefix = "../"
-error_log = logging.getLogger("tracker")
-error_log.addHandler(logging.FileHandler(wdir_prefix + "tracker_log.txt", mode='a'))
-error_log.setLevel(logging.INFO)
-
-def log_error(msg):
-    # Print it to stdout for dev troubleshooting, log it to a file for production
-    print(msg)
-    error_log.error(msg)
+wdir_prefix = log_dir # this is "../". doing it this way to avoid import cycle
 
 class IsaacTracker(object):
     """ The main class of the program """
@@ -155,9 +147,7 @@ class IsaacTracker(object):
                             drawing_tool.set_window_title_info(updates_queued=len(new_states_queue))
                     except Exception:
                         state = None
-                        log_error("Couldn't load state from server")
-                        import traceback
-                        log_error(traceback.format_exc())
+                        log_error("Couldn't load state from server\n" + traceback.format_exc())
                         if json_dict is not None:
                             if "tracker_version" in json_dict:
                                 their_version = json_dict["tracker_version"]
@@ -191,10 +181,7 @@ class IsaacTracker(object):
                             else:
                                 screen_error_message = None
                         except Exception as e:
-                            import traceback
-                            errmsg = traceback.format_exc()
-                            log_error("ERROR: Couldn't send item info to server")
-                            log_error(errmsg)
+                            log_error("ERROR: Couldn't send item info to server\n" + traceback.format_exc())
                             screen_error_message = "ERROR: Couldn't send item info to server, check tracker_log.txt"
                             # Retry to write the state in 10*update_timer (aka 10 sec in write mode)
                             retry_in = 10
@@ -241,9 +228,7 @@ def main():
         rt = IsaacTracker()
         rt.run()
     except Exception:
-        import traceback
-        errmsg = traceback.format_exc()
-        log_error(errmsg)
+        log_error(traceback.format_exc())
 
 if __name__ == "__main__":
     main()

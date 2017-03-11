@@ -1,6 +1,9 @@
 """ This module handles everything related to (De)serialization. """
 import logging
 
+from error_stuff import log_error
+
+
 class Serializable(object):
     """
     Base class for a serializable object.
@@ -35,14 +38,14 @@ class Serializable(object):
         """
         log = logging.getLogger("tracker")
         if not isinstance(json_dic, dict):
-            log.error("ERROR: json_dic is not a dictionary")
+            log_error("ERROR: json_dic is not a dictionary")
             return None
         # Basic type check
         for key, value_type in cls.serialize:
             if key not in json_dic:
-                log.error("ERROR: key %s not found in dictionary", key)
+                log_error("ERROR: key "+ key + " not found in dictionary")
                 return None
             if not isinstance(json_dic[key], value_type):
-                log.error("ERROR: key %s is not a %s as expected", key, value_type.__name__)
+                log_error("ERROR: key " + key + " is not a " + value_type.__name__ + " as expected")
                 return None
         return cls.from_valid_json(json_dic, *args)
