@@ -3,11 +3,13 @@ import json
 import os, shutil
 import urllib2
 import logging
+import zipfile
+from StringIO import StringIO
 from Tkinter import *
 
 import errno
 
-wdir_prefix = "./"
+wdir_prefix = "../"
 update_option_name = "automatically_update"
 
 error_log = logging.getLogger("tracker")
@@ -19,6 +21,7 @@ def log_error(msg):
     print(msg)
     error_log.error(msg)
 
+# got this from some guy on stackoverflow
 def mkdir_p(path):
     try:
         os.makedirs(path)
@@ -27,6 +30,24 @@ def mkdir_p(path):
             pass
         else:
             raise
+# also got this from some guy on stackoverflow.
+# I just want a version of shutil.copytree that can overwrite into an existing dest dir. that's what this is.
+def recursive_overwrite(src, dest, ignore=None):
+    if os.path.isdir(src):
+        if not os.path.isdir(dest):
+            os.makedirs(dest)
+        files = os.listdir(src)
+        if ignore is not None:
+            ignored = ignore(src, files)
+        else:
+            ignored = set()
+        for f in files:
+            if f not in ignored:
+                recursive_overwrite(os.path.join(src, f),
+                                    os.path.join(dest, f),
+                                    ignore)
+    else:
+        shutil.copyfile(src, dest)
 
 class Updater(object):
     def __init__(self):
@@ -67,21 +88,47 @@ class Updater(object):
         self.root.wm_title("Update Item Tracker")
         self.root.resizable(False, False)
         self.root.minsize(300, 100)
-        label = Label(self.root, text="Your current version is " + self.current_version + "\nThe latest version is " + self.latest_version)
-        label.pack()
+        self.label = Label(self.root, text="Your current version is " + self.current_version + "\nThe latest version is " + self.latest_version)
+        self.label.pack()
 
-        update = Button(self.root, text="Update Now", command=self.do_update)
-        update.pack()
+        self.update = Button(self.root, text="Update Now", command=self.do_update)
+        self.update.pack()
 
-        ignore = Button(self.root, text="Ignore Updates", command=self.ignore_updates)
-        ignore.pack()
+        self.ignore = Button(self.root, text="Ignore Updates", command=self.ignore_updates)
+        self.ignore.pack()
         mainloop()
 
     def do_update(self):
-        backupdir = "options backups/" + self.current_version
+        self.update.pack_forget()
+        self.ignore.pack_forget()
+        self.label['text'] = "Updating, please wait..."
+        self.root.update()
+        backupdir = wdir_prefix + "options backups/" + self.current_version
         mkdir_p(backupdir)
-        shutil.copy("options.json", backupdir)
+        shutil.copy(wdir_prefix + "options.json", backupdir)
 
+        scratch = wdir_prefix + "update_scratchdir/"
+        if os.path.exists(scratch):
+            shutil.rmtree(scratch)
+
+        mkdir_p(scratch)
+        try:
+            url = 'https://github.com/Hyphen-ated/RebirthItemTracker/releases/download/' + self.latest_version + '/RebirthItemTracker-' + self.latest_version + ".zip"
+            urlstream = urllib2.urlopen(url)
+            myzip = zipfile.ZipFile(StringIO(urlstream.read()))
+            myzip.extractall(scratch)
+        except Exception as e:
+            log_error('Failed to download and extract latest version from GitHub ( url was :' + url + " )")
+            import traceback
+            log_error(traceback.format_exc())
+
+        shutil.rmtree(wdir_prefix + "collectibles")
+        shutil.rmtree(wdir_prefix + "overlay text")
+        shutil.rmtree(wdir_prefix + "tracker-lib")
+
+        innerdir = scratch + "Rebirth Item Tracker/"
+        shutil.move(innerdir + "updater-lib", scratch)
+        recursive_overwrite(innerdir + "Rebirth Item Tracker/", "..")
 
         self.run_the_tracker = True
         self.root.destroy()
