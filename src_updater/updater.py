@@ -97,8 +97,7 @@ class Updater(object):
                 if self.latest_version != self.current_version:
                     return True
         except Exception:
-            errmsg = "Error while checking whether there's a new version:\n" + traceback.format_exc()
-            log_error(errmsg)
+            log_error("Error while checking whether there's a new version:\n" + traceback.format_exc())
         return False
 
 
@@ -136,8 +135,8 @@ class Updater(object):
         if self.update_step == UpdateStep.ERROR:
             self.label['text'] = "Sorry, there was an error during the update!\n"+\
                 "You'll probably have to manually download the new version\n"+\
-                "and copy in your old options.json (if you care about your settings.)"+\
-                "Please report this and include your tracker_log.txt, as well as what version you had"
+                "and copy in your old options.json (if you care about your settings.)\n"+\
+                "Please report this bug and include your tracker_log.txt, as well as what version you had"
             reportbtn = Button(self.root, text="Open bug report page", command=self.open_report_page)
             reportbtn.pack()
         else:
@@ -166,8 +165,7 @@ class Updater(object):
                 self.update_step = UpdateStep.EXTRACT
                 myzip.extractall(scratch)
             except Exception as e:
-                errmsg = "Failed to download and extract latest version from GitHub ( url was :" + url + " )\n" + traceback.format_exc()
-                log_error()
+                log_error("Failed to download and extract latest version from GitHub ( url was :" + url + " )\n" + traceback.format_exc())
                 self.update_step = UpdateStep.ERROR
                 return
 
@@ -195,8 +193,7 @@ class Updater(object):
             recursive_overwrite(innerdir, "..")
             self.update_step = UpdateStep.DONE
         except Exception:
-            errmsg = "Error while attempting tracker update\n" + traceback.format_exc()
-            log_error(errmsg)
+            log_error("Error while attempting tracker update\n" + traceback.format_exc())
             self.update_step = UpdateStep.ERROR
 
     def ignore_updates(self):
@@ -217,12 +214,14 @@ def main():
             #blocks until either an update is finished or they skip the update
             updater.create_update_window()
 
+        if updater.update_step == UpdateStep.ERROR:
+            return
+
         print("launching tracker")
         os.chdir(wdir_prefix + "tracker-lib/")
         os.execl("item_tracker.exe", "Rebirth Item Tracker")
     except Exception:
-        errmsg = "Error with tracker updater outside of the actual update process\n" + traceback.format_exc()
-        log_error(errmsg)
+        log_error("Error with tracker updater outside of the actual update process\n" + traceback.format_exc())
 
 main()
 
