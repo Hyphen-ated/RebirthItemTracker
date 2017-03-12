@@ -31,6 +31,10 @@ folder with your log.txt and it will force it to use the specific one it finds t
 between different isaac games by using the tracker option, and you'd have to have multiple tracker installs to use for
 Antibirth vs Afterbirth+, for example. Normally this should not have to happen.)
 
+The tracker checks for updates each time you launch it, and will update itself if you allow it. This only works on Windows. You can toggle this in the options window.
+
+The tracker can be used on Linux or Mac, but you have to run it from source, and it can't autoupdate. Read "HOW TO BUILD.txt" for instructions.
+
 ## Tournament/Restreaming Use
 
 First, each competitor needs to go to the options screen, click "Let Others Watch Me", click "Get an authkey", authorize the application on twitch in the browser window that pops up, and then paste the authkey they receive into the tracker. After getting an authkey once, this step doesn't need to happen again. Don't show the authkey on stream.
@@ -45,6 +49,6 @@ The host needs to run a separate copy of the tracker for each competitor. To com
 
 * When using the _Glowing Hourglass_ right after taking any object, this object will remains in the tracker even if the character doesn't have it anymore.
 
-* If you want to make a shortcut to the tracker, make the shortcut to the file "dist/item_tracker.exe" rather than to the existing shortcut called "Launch Item Tracker"
+* If you want to make a shortcut to the tracker, and you want autoupdates to work, make the shortcut to the file "Rebirth Item Tracker.exe" and not "item_tracker.exe".
 
 * When playing Antibirth, it doesn't display detailed item information, nor can it keep track of what floor you're on.
