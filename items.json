@@ -989,6 +989,7 @@
       "name": "Best Friend",
       "shown": true,
       "text": "spawns a decoy (110 dmg explosion)",
+      "space": true,
       "introduced_in": "Rebirth"
    },
    "137": {
