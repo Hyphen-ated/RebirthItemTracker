@@ -23,6 +23,11 @@ class UpdateStep(Enum):
     PERFORMING = "Performing update"
     DONE = "Update finished"
     ERROR = "Error"
+    SKIP = "Skipping update"
+
+# specific kinds of errors where we can actionably tell the user what to do to fix it, not just "please report"
+class UpdateError(Enum):
+    ALREADY_RUNNING = 1
 
 wdir_prefix = "../"
 update_option_name = "check_for_updates"
@@ -73,6 +78,7 @@ class Updater(object):
         self.root = None
         self.update_thread = None
         self.update_step = None
+        self.update_error = None
 
         self.options_file = wdir_prefix + "options.json"
         if not os.path.isfile(self.options_file):
@@ -113,7 +119,10 @@ class Updater(object):
         self.update = Button(self.root, text="Update Now", command=self.trigger_update_thread)
         self.update.pack()
 
-        self.ignore = Button(self.root, text="Ignore Updates", command=self.ignore_updates)
+        self.justlaunchit = Button(self.root, text="Ignore Update This Time", command=self.just_launch_it)
+        self.justlaunchit.pack()
+
+        self.ignore = Button(self.root, text="Ignore Updates Forever", command=self.ignore_updates)
         self.ignore.pack()
         mainloop()
 
@@ -133,12 +142,24 @@ class Updater(object):
             return
 
         if self.update_step == UpdateStep.ERROR:
-            self.label['text'] = "Sorry, there was an error during the update!\n"+\
-                "You'll probably have to manually download the new version\n"+\
-                "and copy in your old options.json (if you care about your settings.)\n"+\
-                "Please report this bug and include your tracker_log.txt, as well as what version you had"
             reportbtn = Button(self.root, text="Open bug report page", command=self.open_report_page)
-            reportbtn.pack()
+            ignorebtn = Button(self.root, text="Ignore updates", command=self.ignore_updates)
+            closebtn = Button(self.root, text="OK", command=self.dont_launch)
+
+            if self.update_error == UpdateError.ALREADY_RUNNING:
+                self.label['text']="Another copy of the tracker seems to be running already, close it and retry.\n"+ \
+                                   "If that doesn't work, please report this bug and include your tracker_log.txt"
+                reportbtn.pack()
+                closebtn.pack()
+            else:
+                # generic problem we don't have special handling for
+                self.label['text'] = "Sorry, there was an error during the update.\n"+\
+                    "You might need to just manually download the new version\n"+\
+                    "and copy in your old options.json (if you care about your settings.)\n"+\
+                    "Please report this bug and include your tracker_log.txt, as well as what version you had."
+                reportbtn.pack()
+                ignorebtn.pack()
+
         else:
             self.root.after(200, self.check_update_status)
 
@@ -185,9 +206,21 @@ class Updater(object):
 
             self.write_options()
 
-            shutil.rmtree(wdir_prefix + "collectibles")
-            shutil.rmtree(wdir_prefix + "overlay text")
-            shutil.rmtree(wdir_prefix + "tracker-lib")
+            path_to_exe = wdir_prefix + "tracker-lib/item_tracker.exe"
+            # the exe might not exist if we're trying to recover from a previous botched update, that's okay
+            if os.path.exists(path_to_exe):
+                try:
+                   os.remove(path_to_exe)
+                except Exception:
+                    # failing to remove the exe means very likely it's currently running
+                    self.update_step = UpdateStep.ERROR
+                    self.update_error = UpdateError.TRACKER_RUNNING
+                    return
+
+            for subdir in ["collectibles", "overlay text", "tracker-lib"]:
+                dir_to_remove = wdir_prefix + subdir
+                if os.path.isdir(dir_to_remove):
+                    shutil.rmtree(dir_to_remove)
 
             shutil.move(innerdir + "updater-lib", scratch)
             recursive_overwrite(innerdir, "..")
@@ -196,10 +229,18 @@ class Updater(object):
             log_error("Error while attempting tracker update\n" + traceback.format_exc())
             self.update_step = UpdateStep.ERROR
 
+    def just_launch_it(self):
+        self.update_step = UpdateStep.SKIP
+        self.root.destroy()
+
     def ignore_updates(self):
         self.options[update_option_name] = False
         self.write_options()
-        self.run_the_tracker = True
+        self.update_step = UpdateStep.SKIP
+        self.root.destroy()
+
+    def dont_launch(self):
+        self.update_step = UpdateStep.ERROR
         self.root.destroy()
 
     def write_options(self):
