@@ -27,7 +27,7 @@ os.chdir("..")
 shutil.move('src_updater/dist/', installDir + "updater-lib/")
 
 os.chdir("src")
-subprocess.call("cxfreeze.py item_tracker.py --base-name=Win32GUI --target-dir dist ", shell=True, stdout=sys.stdout, stderr=sys.stderr)
+subprocess.call("cxfreeze.py item_tracker.py --base-name=Win32GUI --target-dir dist --icon mind.ico", shell=True, stdout=sys.stdout, stderr=sys.stderr)
 os.chdir("..")
 shutil.copy('src/options.ico', 'src/dist/options.ico')
 shutil.move('src/dist/', installDir + 'tracker-lib/')
