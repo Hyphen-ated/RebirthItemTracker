@@ -3,6 +3,7 @@
   "blck_cndl_mode": false,
   "bold_font": true,
   "change_server": false,
+  "check_for_updates": true,
   "custom_title": "",
   "custom_title_enabled": false,
   "default_spacing": 64,
