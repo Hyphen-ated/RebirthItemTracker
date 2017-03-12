@@ -170,16 +170,12 @@ class Updater(object):
                 return
 
             self.update_step = UpdateStep.PERFORMING
-            shutil.rmtree(wdir_prefix + "collectibles")
-            shutil.rmtree(wdir_prefix + "overlay text")
-            shutil.rmtree(wdir_prefix + "tracker-lib")
-
             innerdir = scratch + "Rebirth Item Tracker/"
 
-            with open("options_default.json", "r") as old_defaults_json:
+            with open(wdir_prefix + "tracker-lib/options_default.json", "r") as old_defaults_json:
                 old_defaults = json.load(old_defaults_json)
 
-            with open(innerdir + "options_default.json", "r") as new_defaults_json:
+            with open(innerdir + "tracker-lib/options_default.json", "r") as new_defaults_json:
                 new_defaults = json.load(new_defaults_json)
 
             for k,v in old_defaults.iteritems():
@@ -188,6 +184,10 @@ class Updater(object):
                     self.options[k] = new_defaults[k]
 
             self.write_options()
+
+            shutil.rmtree(wdir_prefix + "collectibles")
+            shutil.rmtree(wdir_prefix + "overlay text")
+            shutil.rmtree(wdir_prefix + "tracker-lib")
 
             shutil.move(innerdir + "updater-lib", scratch)
             recursive_overwrite(innerdir, "..")
