@@ -12,6 +12,8 @@ import errno
 import traceback
 
 import time
+
+import subprocess
 from enum import Enum
 
 
@@ -27,7 +29,7 @@ class UpdateStep(Enum):
 
 # specific kinds of errors where we can actionably tell the user what to do to fix it, not just "please report"
 class UpdateError(Enum):
-    ALREADY_RUNNING = 1
+    TRACKER_RUNNING = 1
 
 wdir_prefix = "../"
 update_option_name = "check_for_updates"
@@ -129,7 +131,9 @@ class Updater(object):
     def trigger_update_thread(self):
         self.update_step = UpdateStep.PRE_DOWNLOAD
         self.update.pack_forget()
+        self.justlaunchit.pack_forget()
         self.ignore.pack_forget()
+
 
         self.update_thread = threading.Thread(target=self.do_update)
         self.update_thread.start()
@@ -142,26 +146,30 @@ class Updater(object):
             return
 
         if self.update_step == UpdateStep.ERROR:
-            reportbtn = Button(self.root, text="Open bug report page", command=self.open_report_page)
-            ignorebtn = Button(self.root, text="Ignore updates", command=self.ignore_updates)
-            closebtn = Button(self.root, text="OK", command=self.dont_launch)
-
-            if self.update_error == UpdateError.ALREADY_RUNNING:
-                self.label['text']="Another copy of the tracker seems to be running already, close it and retry.\n"+ \
-                                   "If that doesn't work, please report this bug and include your tracker_log.txt"
-                reportbtn.pack()
-                closebtn.pack()
-            else:
-                # generic problem we don't have special handling for
-                self.label['text'] = "Sorry, there was an error during the update.\n"+\
-                    "You might need to just manually download the new version\n"+\
-                    "and copy in your old options.json (if you care about your settings.)\n"+\
-                    "Please report this bug and include your tracker_log.txt, as well as what version you had."
-                reportbtn.pack()
-                ignorebtn.pack()
-
+            self.handle_error()
         else:
             self.root.after(200, self.check_update_status)
+
+    def handle_error(self):
+        reportbtn = Button(self.root, text="Open bug report page", command=self.open_report_page)
+        ignorebtn = Button(self.root, text="Ignore Updates Forever", command=self.ignore_updates)
+        closebtn = Button(self.root, text="OK", command=self.dont_launch)
+
+        if self.update_error == UpdateError.TRACKER_RUNNING:
+            self.label['text']="Another copy of the tracker seems to be running already, close it and retry.\n"+ \
+                               "If that doesn't work, please report this bug and include your tracker_log.txt"
+            reportbtn.pack()
+            closebtn.pack()
+        else:
+            # generic problem we don't have special handling for
+            self.label['text'] = "Sorry, there was an error during the update.\n"+ \
+                                 "You might need to just manually download the new version\n"+ \
+                                 "and copy in your old options.json (if you care about your settings.)\n"+ \
+                                 "Please report this bug and include your tracker_log.txt, as well as what version you had."
+            reportbtn.pack()
+            ignorebtn.pack()
+            closebtn.pack()
+
 
     def open_report_page(self):
         webbrowser.open("https://github.com/Hyphen-ated/RebirthItemTracker/issues", autoraise=True)
@@ -169,6 +177,12 @@ class Updater(object):
 
     def do_update(self):
         try:
+            tasklist = subprocess.check_output('tasklist', shell=True)
+            if "item_tracker.exe" in tasklist:
+                self.update_step = UpdateStep.ERROR
+                self.update_error = UpdateError.TRACKER_RUNNING
+                return
+
             backupdir = wdir_prefix + "options backups/" + self.current_version
             mkdir_p(backupdir)
             shutil.copy(wdir_prefix + "options.json", backupdir)
@@ -215,6 +229,7 @@ class Updater(object):
                     # failing to remove the exe means very likely it's currently running
                     self.update_step = UpdateStep.ERROR
                     self.update_error = UpdateError.TRACKER_RUNNING
+                    log_error(traceback.format_exc())
                     return
 
             for subdir in ["collectibles", "overlay text", "tracker-lib"]:
