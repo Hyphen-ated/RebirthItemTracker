@@ -206,8 +206,11 @@ class DrawingTool(object):
         # Save the previous text_height to know if we need to reflow the items
         text_height_before = self.text_height
         text_written = False
-        if opt.show_description and self.item_message_countdown_in_progress():
-            text_written = self.write_item_text()
+        if self.item_message_countdown_in_progress():
+            if opt.show_description:
+                text_written = self.write_item_text()
+        else:
+            self.selected_item_index = None
         if not text_written and opt.show_status_message:
             # Draw seed/guppy text:
             seed = self.state.seed
