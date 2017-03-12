@@ -12,7 +12,7 @@ class Curse(object):
 class Floor(Serializable):
     """ This class represent a floor and handles everything related to its properties"""
     __floor_id_to_label = {
-        "f1":  "ROFL",
+        "f1":  "B1",
         "f2":  "B2",
         "f3":  "C1",
         "f4":  "C2",
