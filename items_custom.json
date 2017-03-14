@@ -20,12 +20,18 @@
   },
   "Off Limits": {
     "shown": true,
-    "text": "",
+    "text": "You filthy cheater",
+    "introduced_in": "Racing+"
+  },
+  "Schoolbag": {
+    "shown": true,
+    "name":"Schoolbag",
+    "text": "More active item room",
     "introduced_in": "Racing+"
   },
   "Soul Jar": {
     "shown": true,
-    "text": "",
+    "text": "Can't pick up soul/black hearts, but guaranteed deal if no damage",
     "space": true,
     "introduced_in": "Racing+"
   },

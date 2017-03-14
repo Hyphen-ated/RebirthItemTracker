@@ -3,6 +3,7 @@
    "blck_cndl_mode": true, 
    "bold_font": true, 
    "change_server": true, 
+   "check_for_updates": true, 
    "custom_title": "Racer 1 Items", 
    "custom_title_enabled": false, 
    "default_spacing": 64, 
@@ -11,7 +12,7 @@
    "game_version": "Afterbirth+", 
    "height": 100, 
    "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID", 
-   "make_items_glow": true, 
+   "make_items_glow": false, 
    "message_duration": 2, 
    "min_spacing": 24, 
    "read_delay": 15, 
@@ -33,6 +34,6 @@
    "width": 1315, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 7, 
-   "y_position": 915
+   "x_position": 158, 
+   "y_position": 929
 }
