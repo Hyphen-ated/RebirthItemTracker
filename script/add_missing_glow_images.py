@@ -1,17 +1,17 @@
 # Run this to add glow versions of any item images that don't currently have glow versions.
-# requires imagemagick
+# This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
 
 import os
 
 def add_glow_to_dir(dirname):
     glows = {}
-    for file in os.listdir(os.path.join(dirname, "glow")):
-        if file.endswith(".png"):
+    for file in os.listdir(os.path.join(dirname, 'glow')):
+        if file.endswith('.png'):
             glows[file] = True
 
     for file in os.listdir(dirname):
         if file not in glows:
-            if file.endswith(".png"):
+            if file.endswith('.png'):
                 file_path = os.path.join(dirname, file)
                 file_glow_path = os.path.join(dirname, 'glow', file)
                 cmd = 'convert "' + file_path + '" ' +\
@@ -21,6 +21,6 @@ def add_glow_to_dir(dirname):
                 print(cmd)
                 os.system(cmd)
 
-add_glow_to_dir(os.path.join("..", "collectibles"))
-add_glow_to_dir(os.path.join("..", "collectibles", "antibirth"))
-add_glow_to_dir(os.path.join("..", "collectibles", "custom"))
+add_glow_to_dir(os.path.join('..', 'collectibles'))
+add_glow_to_dir(os.path.join('..', 'collectibles', 'antibirth'))
+add_glow_to_dir(os.path.join('..', 'collectibles', 'custom'))
