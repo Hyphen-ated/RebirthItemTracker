@@ -4112,5 +4112,712 @@
       "shown": true,
       "introduced_in": "Antibirth"
    }
-
+   "2001": {
+      "name": "Swallowed Penny",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2002": {
+      "name": "Petrified Poop",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2003": {
+      "name": "AAA Battery",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2004": {
+      "name": "Broken Remote",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2005": {
+      "name": "Purple Heart",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2006": {
+      "name": "Broken Magnet",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2007": {
+      "name": "Rosary Bead",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2008": {
+      "name": "Cartridge",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2009": {
+      "name": "Pulse Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2010": {
+      "name": "Wiggle Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2011": {
+      "name": "Ring Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2012": {
+      "name": "Flat Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2013": {
+      "name": "Store Credit",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2014": {
+      "name": "Callus",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2015": {
+      "name": "Lucky Rock",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2016": {
+      "name": "Mom's Toenail",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2017": {
+      "name": "Black Lipstick",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2018": {
+      "name": "Bible Tract",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2019": {
+      "name": "Paper Clip",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2020": {
+      "name": "Monkey Paw",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2021": {
+      "name": "Mysterious Paper",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2022": {
+      "name": "Daemon's Tail",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2023": {
+      "name": "Missing Poster",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2024": {
+      "name": "Butt Penny",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2025": {
+      "name": "Mysterious Candy",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2026": {
+      "name": "Hook Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2027": {
+      "name": "Whip Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2028": {
+      "name": "Broken Ankh",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2029": {
+      "name": "Fish Head",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2030": {
+      "name": "Pinky Eye",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2031": {
+      "name": "Push Pin",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2032": {
+      "name": "Liberty Cap",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2033": {
+      "name": "Umbilical Cord",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2034": {
+      "name": "Child's Heart",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2035": {
+      "name": "Curved Horn",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2036": {
+      "name": "Rusted Key",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2037": {
+      "name": "Goat Hoof",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2038": {
+      "name": "Mom's Pearl",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2039": {
+      "name": "Cancer (Trinket)",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2040": {
+      "name": "Red Patch",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2041": {
+      "name": "Match Stick",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2042": {
+      "name": "Lucky Toe",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2043": {
+      "name": "Cursed Skull",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2044": {
+      "name": "Safety Cap",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2045": {
+      "name": "Ace of Spades",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2046": {
+      "name": "Isaac's Fork",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2048": {
+      "name": "A Missing Page",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2049": {
+      "name": "Bloody Penny",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2050": {
+      "name": "Burnt Penny",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2051": {
+      "name": "Flat Penny",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2052": {
+      "name": "Counterfeit Penny",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2053": {
+      "name": "Tick",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2054": {
+      "name": "Isaac's Head",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2055": {
+      "name": "Maggy's Faith",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2056": {
+      "name": "Judas' Tongue",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2057": {
+      "name": "???'s Soul",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2058": {
+      "name": "Samson's Lock",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2059": {
+      "name": "Cain's Eye",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2060": {
+      "name": "Eve's Bird Foot",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2061": {
+      "name": "The Left Hand",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Rebirth"
+   },
+   "2062": {
+      "name": "Shiny Rock",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2063": {
+      "text": "",
+      "shown": true,
+      "name": "Safety Scissors",
+      "introduced_in": "Afterbirth"
+   },
+   "2064": {
+      "name": "Rainbow Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2065": {
+      "name": "Tape Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2066": {
+      "name": "Lazy Worm",
+      "introduced_in": "Afterbirth"
+      "text": "",
+      "shown": true,
+   },
+   "2067": {
+      "name": "Cracked Dice",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2068": {
+      "name": "Super Magnet",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2069": {
+      "name": "Faded Polaroid",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2070": {
+      "name": "Louse",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2071": {
+      "name": "Bob's Bladder",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2072": {
+      "name": "Watch Battery",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2073": {
+      "name": "Blasting Cap",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2074": {
+      "name": "Stud Finder",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2075": {
+      "name": "Error",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2076": {
+      "name": "Poker Chip",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2077": {
+      "name": "Blister",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2078": {
+      "name": "Second Hand",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2079": {
+      "name": "Endless Nameless",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2080": {
+      "name": "Black Feather",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2081": {
+      "name": "Blind Rage",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2082": {
+      "name": "Golden Horse Shoe",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2083": {
+      "name": "Store Key",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2084": {
+      "name": "Rib of Greed",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2085": {
+      "name": "Karma",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2086": {
+      "name": "Lil Larva",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2087": {
+      "name": "Mom's Locket",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2088": {
+      "name": "NO!",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2089": {
+      "name": "Child Leash",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2090": {
+      "name": "Brown Cap",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth"
+   },
+   "2091": {
+      "name": "Meconium",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2092": {
+      "name": "Cracked Crown",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2093": {
+      "name": "Used Diaper",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2094": {
+      "name": "Fish Tail",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2095": {
+      "name": "Black Tooth",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2096": {
+      "name": "Ouroboros Worm",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2097": {
+      "name": "Tonsil",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2098": {
+      "name": "Nose Goblin",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2099": {
+      "name": "Super Ball",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2100": {
+      "name": "Vibrant Bulb",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2101": {
+      "name": "Dim Bulb",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2102": {
+      "name": "Fragmented Card",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2103": {
+      "name": "Equality!",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2104": {
+      "name": "Wish Bone",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2105": {
+      "name": "Bag Lunch",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2106": {
+      "name": "Lost Cork",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2107": {
+      "name": "Crow Heart",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2108": {
+      "name": "Walnut",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2109": {
+      "name": "Duct Tape",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2110": {
+      "name": "Silver Dollar",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2111": {
+      "name": "Bloody Crown",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2112": {
+      "name": "Pay To Win",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2113": {
+      "name": "Locust of Wrath",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2114": {
+      "name": "Locust of Pestilence",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2115": {
+      "name": "Locust of Famine",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2116": {
+      "name": "Locust of Death",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2117": {
+      "name": "Locust of Conquest",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2118": {
+      "name": "Bat Wing",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   },
+   "2119": {
+      "name": "Stem Cell",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Afterbirth+"
+   }
 }

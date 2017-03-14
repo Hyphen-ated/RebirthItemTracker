@@ -93,9 +93,9 @@ class LogParser(object):
         if re.search(r"Added \d+ Collectibles", line):
             self.log.debug("Reroll detected!")
             self.state.reroll()
-        if line.startswith('Adding collectible'):
+        if line.startswith('Adding collectible '):
             self.__parse_item_add(line_number, line)
-        if line.startswith('Removing collectible'):
+        if line.startswith('Removing collectible '):
             self.__parse_item_remove(line_number, line)
 
     def __trigger_new_run(self, line_number):

@@ -23,14 +23,14 @@ class IsaacTracker(object):
 
         new_updater_dir = wdir_prefix + "update_scratchdir/updater-lib"
         if os.path.exists(new_updater_dir):
-            # we found a new version of the updater, from when the updater presumably just ran
+            # We found a new version of the updater, from when the updater presumably just ran
             old_updater_dir = wdir_prefix + "updater-lib"
             if os.path.exists(old_updater_dir):
                 shutil.rmtree(old_updater_dir)
             shutil.copytree(new_updater_dir, old_updater_dir)
             shutil.rmtree(wdir_prefix + "update_scratchdir")
 
-        # Load items info
+        # Load items/trinkets info
         with open(wdir_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
 
@@ -41,11 +41,12 @@ class IsaacTracker(object):
         # Load version
         with open(wdir_prefix + 'version.txt', 'r') as f:
             self.tracker_version = f.read()
+
         # Load options
         Options().load_options(wdir_prefix + "options.json")
         defaults_path = "options_default.json"
-        # if we're running in production, this file will be in our dir.
-        # if we're running from source, it will be up a level
+        # If we're running in production, this file will be in our dir.
+        # If we're running from source, it will be up a level
         if not os.path.exists(defaults_path):
             defaults_path = wdir_prefix + defaults_path
         Options().load_missing_defaults(defaults_path)
