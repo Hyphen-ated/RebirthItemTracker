@@ -6,10 +6,10 @@
 
 import os
 
-for file in os.listdir('incoming'):
+for file in os.listdir('in'):
     if file.endswith('.png'):
-        in_file = os.path.join('incoming', file)
-        out_file = os.path.join('resized', file)
+        in_file = os.path.join('in', file)
+        out_file = os.path.join('out', file)
         cmd = 'convert "' + in_file + '" ' +\
               '-scale 200% "' + out_file + '"'
         print(cmd)

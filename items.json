@@ -4111,7 +4111,7 @@
       "text": "",
       "shown": true,
       "introduced_in": "Antibirth"
-   }
+   },
    "2001": {
       "name": "Swallowed Penny",
       "text": "",
@@ -4498,9 +4498,9 @@
    },
    "2066": {
       "name": "Lazy Worm",
-      "introduced_in": "Afterbirth"
       "text": "",
       "shown": true,
+      "introduced_in": "Afterbirth"
    },
    "2067": {
       "name": "Cracked Dice",
