@@ -1,6 +1,7 @@
 # this is a script to add new item pngs to the repository in the form the tracker expects
 # basically we're going from "collectibles_440_kidneystone.png" to "collectibles_440.png"
 # this is not part of the tracker itself
+
 import os, re, shutil
 
 files = []
