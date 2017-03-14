@@ -35,6 +35,13 @@
     "space": true,
     "introduced_in": "Racing+"
   },
+  "Smelter": {
+    "shown": true,
+    "text": "Consumes trinket to make its effect permanent",
+    "space": true,
+    "introduced_in": "Racing+",
+    "graphics_id": "479"
+  },
   "The Book of Sin": {
     "shown": true,
     "bookworm": true,
@@ -43,5 +50,4 @@
     "introduced_in": "Racing+",
     "graphics_id": "97"
   }
-
 }
