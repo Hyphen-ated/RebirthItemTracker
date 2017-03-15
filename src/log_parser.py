@@ -95,6 +95,8 @@ class LogParser(object):
             self.state.reroll()
         if line.startswith('Adding collectible '):
             self.__parse_item_add(line_number, line)
+        if line.startswith('Gulping trinket '):
+            self.__parse_trinket_gulp(line)
         if line.startswith('Removing collectible '):
             self.__parse_item_remove(line_number, line)
 
@@ -204,7 +206,26 @@ class LogParser(object):
             self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
         return True
 
-    def __parse_item_remove(self, line_number, line):
+    def __parse_trinket_gulp(self, line):
+        """ Parse a (modded) trinket gulp and push it to the state """
+        space_split = line.split(" ")
+        # When using a mod like racing+, a trinket gulp has the form: "Gulping trinket 10"
+        numeric_id = space_split[2] + 2000 # the tracker hackily maps trinkets to items 2000 and up.
+
+        # Check if we recognize the numeric id
+        if Item.contains_info(numeric_id):
+            item_id = numeric_id
+        else:
+            item_id = "NEW"
+
+        self.log.debug("Gulped trinket: %s", item_id)
+
+        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items))
+        if not added:
+            self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
+        return True
+
+    def __parse_item_remove(self, line):
         """ Parse an item and remove it from the state """
         space_split = line.split(" ") # Hacky string manipulation
         item_id = space_split[2] # When you lose an item, this has the form: "Removing collectible 105 (The D6)"
