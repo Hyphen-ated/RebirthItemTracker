@@ -210,7 +210,7 @@ class LogParser(object):
         """ Parse a (modded) trinket gulp and push it to the state """
         space_split = line.split(" ")
         # When using a mod like racing+, a trinket gulp has the form: "Gulping trinket 10"
-        numeric_id = space_split[2] + 2000 # the tracker hackily maps trinkets to items 2000 and up.
+        numeric_id = str(int(space_split[2]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
 
         # Check if we recognize the numeric id
         if Item.contains_info(numeric_id):
