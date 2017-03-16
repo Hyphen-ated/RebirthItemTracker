@@ -98,7 +98,7 @@ class LogParser(object):
         if line.startswith('Gulping trinket '):
             self.__parse_trinket_gulp(line)
         if line.startswith('Removing collectible '):
-            self.__parse_item_remove(line_number, line)
+            self.__parse_item_remove(line)
 
     def __trigger_new_run(self, line_number):
         self.log.debug("Starting new run, seed: %s", self.current_seed)
