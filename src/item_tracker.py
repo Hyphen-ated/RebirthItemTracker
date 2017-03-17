@@ -11,6 +11,7 @@ from view_controls.view import DrawingTool, Event
 from game_objects.item  import Item
 from game_objects.state  import TrackerState, TrackerStateEncoder
 from log_parser import LogParser
+from log_finder import LogFinder
 from options import Options
 from error_stuff import log_error, log_dir
 
@@ -61,7 +62,7 @@ class IsaacTracker(object):
         drawing_tool.set_window_title_info(update_notifier=(" v" + self.tracker_version))
         opt = Options()
 
-        parser = LogParser(wdir_prefix, self.tracker_version)
+        parser = LogParser(wdir_prefix, self.tracker_version, LogFinder())
 
         event_result = None
         state = None

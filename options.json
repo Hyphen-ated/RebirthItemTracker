@@ -12,7 +12,7 @@
    "game_version": "Afterbirth+", 
    "height": 100, 
    "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID", 
-   "make_items_glow": false, 
+   "make_items_glow": true, 
    "message_duration": 2, 
    "min_spacing": 24, 
    "read_delay": 15, 
@@ -34,6 +34,6 @@
    "width": 1315, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 187, 
-   "y_position": 944
+   "x_position": 5, 
+   "y_position": 887
 }

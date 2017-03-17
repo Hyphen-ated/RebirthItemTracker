@@ -1,5 +1,4 @@
 """ This module handles everything related to log parsing """
-import platform # For determining what operating system the script is being run on
 import re       # For parsing the log file (regular expressions)
 import os       # For working with files on the operating system
 import logging  # For logging
@@ -12,10 +11,11 @@ class LogParser(object):
     """
     This class load Isaac's log file, and incrementally modify a state representing this log
     """
-    def __init__(self, prefix, tracker_version):
+    def __init__(self, prefix, tracker_version, log_finder):
         self.state = TrackerState("", tracker_version, Options().game_version)
         self.log = logging.getLogger("tracker")
         self.wdir_prefix = prefix
+        self.log_finder = log_finder
 
         self.reset()
 
@@ -33,7 +33,8 @@ class LogParser(object):
         self.seek = 0
         self.spawned_coop_baby = 0
         self.log_file_handle = None
-        self.log_file_path = self.__find_log_file()
+        # if they switched between rebirth and afterbirth, the log file we use could change
+        self.log_file_path = self.log_finder.find_log_file(self.wdir_prefix)
         self.state.reset(self.current_seed, Options().game_version)
 
     def parse(self):
@@ -244,32 +245,7 @@ class LogParser(object):
         # to see if this item is actually in our inventory or not.
         return self.state.remove_item(removal_id)
 
-    def __find_log_file(self):
-        """
-        Try to find the game log file
-        Returns a string path, or None if we couldn't find it
-        """
-        logfile_location = ""
-        version_path_fragment = Options().game_version
-        if version_path_fragment == "Antibirth":
-            version_path_fragment = "Rebirth"
 
-        if platform.system() == "Windows":
-            logfile_location = os.environ['USERPROFILE'] + '/Documents/My Games/Binding of Isaac {}/'
-        elif platform.system() == "Linux":
-            logfile_location = os.getenv('XDG_DATA_HOME',
-                                         os.path.expanduser('~') + '/.local/share') + '/binding of isaac {}/'
-            version_path_fragment = version_path_fragment.lower()
-        elif platform.system() == "Darwin":
-            logfile_location = os.path.expanduser('~') + '/Library/Application Support/Binding of Isaac {}/'
-
-
-        logfile_location = logfile_location.format(version_path_fragment)
-
-        for check in (self.wdir_prefix + '../log.txt', logfile_location + 'log.txt'):
-            if os.path.isfile(check):
-                return check
-        return None
 
 
     def __load_log_file(self):
