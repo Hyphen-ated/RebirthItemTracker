@@ -5,11 +5,22 @@
 # This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
 
 import os
+import sys
 
-for file in os.listdir('in'):
+incoming_files_directory = 'in'
+outgoing_files_directory = 'out'
+
+if not os.path.isdir(incoming_files_directory):
+    print('The incoming files directory of "' + incoming_files_directory + '" does not exist.')
+    sys.exit(1)
+
+if not os.path.isdir(outgoing_files_directory):
+    os.makedirs(outgoing_files_directory)
+
+for file in os.listdir(incoming_files_directory):
     if file.endswith('.png'):
-        in_file = os.path.join('in', file)
-        out_file = os.path.join('out', file)
+        in_file = os.path.join(incoming_files_directory, file)
+        out_file = os.path.join(outgoing_files_directory, file)
         cmd = 'convert "' + in_file + '" ' +\
               '-scale 200% "' + out_file + '"'
         print(cmd)
