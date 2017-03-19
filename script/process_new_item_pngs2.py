@@ -11,8 +11,9 @@ for file in os.listdir(dir_with_new_files):
     files.append(file)
 
 for file in files:
-    m = re.match('(\d+)\.png', file)
-    newname = 'collectibles_2' + m.group(1).zfill(3) + '.png'
+    #m = re.match('collectibles_(\d+)\.png', file)
+    m = re.match('collectibles_2(\d+)\.png', file) # For trinkets
+    newname = str(int(m.group(1))) + '.png'
 
     shutil.copyfile(os.path.join(dir_with_new_files, file), os.path.join("out", newname))
     print newname
