@@ -22,5 +22,5 @@ def add_glow_to_dir(dirname):
                 os.system(cmd)
 
 add_glow_to_dir(os.path.join('..', 'collectibles'))
-#add_glow_to_dir(os.path.join('..', 'collectibles', 'antibirth'))
+add_glow_to_dir(os.path.join('..', 'collectibles', 'antibirth'))
 add_glow_to_dir(os.path.join('..', 'collectibles', 'custom'))

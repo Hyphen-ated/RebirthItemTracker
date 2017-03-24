@@ -4,9 +4,10 @@
 
 import os, re, shutil
 
-files = []
-dir_with_new_files = 'in'
+incoming_files_directory = 'in'
+outgoing_files_directory = 'out'
 
+files = []
 for file in os.listdir(dir_with_new_files):
     files.append(file)
 

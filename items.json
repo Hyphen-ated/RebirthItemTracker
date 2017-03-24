@@ -3560,6 +3560,63 @@
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
+   "511":{
+      "name": "Angry Fly",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "512":{
+      "name": "Black Hole",
+      "text": "",
+      "space": true,
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "513":{
+      "name": "Bozo",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "514":{
+      "name": "Broken Modem",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "515":{
+      "name": "Mystery Gift",
+      "text": "",
+      "space": true,
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "516":{
+      "name": "Sprinkler",
+      "text": "",
+      "space": true,
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "517":{
+      "name": "Fast Bombs",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "518":{
+      "name": "Buddy in a Box",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "519":{
+      "name": "Lil Delirium",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
    "1000":{
       "name":" ",
       "text": "",

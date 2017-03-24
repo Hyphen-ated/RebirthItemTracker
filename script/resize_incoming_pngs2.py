@@ -22,6 +22,6 @@ for file in os.listdir(incoming_files_directory):
         in_file = os.path.join(incoming_files_directory, file)
         out_file = os.path.join(outgoing_files_directory, file)
         cmd = 'convert "' + in_file + '" ' +\
-              '-scale 50% "' + out_file + '"'
+              '-scale 200% "' + out_file + '"'
         print(cmd)
         os.system(cmd)
