@@ -1,5 +1,6 @@
 # Run this to add glow versions of any item images that don't currently have glow versions.
 # This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
+# This script ignores "in" and "out"
 
 import os
 

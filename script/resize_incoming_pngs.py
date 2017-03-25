@@ -1,5 +1,5 @@
-# this takes png files it finds in scripts/incoming and makes copies of each one in scripts/resized that are double size
-# the workflow is: put new files in incoming, run this, put the new files in the appropriate place in collectibles/
+# this takes png files it finds in scripts/in and makes copies of each one in scripts/out that are double size
+# the workflow is: put new files in, run this, put the new files in the appropriate place in collectibles/
 # then run add_missing_glow_images.py
 
 # This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
@@ -7,8 +7,8 @@
 import os
 import sys
 
-incoming_files_directory = 'in'
-outgoing_files_directory = 'out'
+incoming_files_directory = 'renamed_images'
+outgoing_files_directory = 'resized_images'
 
 if not os.path.isdir(incoming_files_directory):
     print('The incoming files directory of "' + incoming_files_directory + '" does not exist.')
