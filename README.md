@@ -52,3 +52,5 @@ The host needs to run a separate copy of the tracker for each competitor. To com
 * If you want to make a shortcut to the tracker, and you want autoupdates to work, make the shortcut to the file "Rebirth Item Tracker.exe" and not "item_tracker.exe".
 
 * When playing Antibirth, it doesn't display detailed item information, nor can it keep track of what floor you're on.
+
+* If you ever close and relaunch the game, the tracker will forget anything that happened during the current run.
