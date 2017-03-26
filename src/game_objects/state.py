@@ -30,6 +30,7 @@ class TrackerState(Serializable):
         self.seed = seed
         self.game_version = game_version
         self.floor_list = []
+        self.room_num = "null"
         self.item_list = []
         self.player_stats = {}
         self.player_transforms = {}
@@ -112,12 +113,13 @@ class TrackerState(Serializable):
         """ Tag every (non-spacebar) items as rerolled """
         [item.rerolled() for item in self.item_list]
 
-
-
     # Add curse to last floor
     def add_curse(self, curse):
         """ Add a curse to current floor """
         self.last_floor.add_curse(curse)
+
+    def change_room(self, room_num):
+        self.room_num = room_num
 
     def drawn(self):
         """ Tag this state as rendered """
@@ -174,6 +176,7 @@ class TrackerState(Serializable):
             # TODO Handle transformations
             #self.player_transforms[transform].add(item)
 
+            
 
 class TrackerStateEncoder(json.JSONEncoder):
     """ An encoder to provide to the json.load method, which handle game objects """
