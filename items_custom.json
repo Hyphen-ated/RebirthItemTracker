@@ -13,7 +13,7 @@
   },
   "Crystal Ball": {
     "shown": true,
-    "text": "reveals the floor and spawns a card, rune, or soul heart",
+    "text": "Reveals the floor and spawns a card, rune, or soul heart",
     "space": true,
     "introduced_in": "Racing+",
     "graphics_id": "158"
@@ -22,6 +22,11 @@
     "shown": true,
     "text": "NODUDE",
     "space": true,
+    "introduced_in": "Racing+"
+  },
+  "Finished": {
+    "shown": false,
+    "text": "Race completed",
     "introduced_in": "Racing+"
   },
   "Off Limits": {
@@ -51,14 +56,14 @@
   "The Book of Sin": {
     "shown": true,
     "bookworm": true,
-    "text": "spawns a random pickup",
+    "text": "Spawns a random pickup",
     "space": true,
     "introduced_in": "Racing+",
     "graphics_id": "97"
   },
   "Victory Lap": {
     "shown": false,
-    "text": "",
+    "text": "Let's keep this build going",
     "introduced_in": "Racing+",
     "graphics_id": "127"
   }
