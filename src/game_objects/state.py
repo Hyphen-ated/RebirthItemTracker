@@ -30,7 +30,7 @@ class TrackerState(Serializable):
         self.seed = seed
         self.game_version = game_version
         self.floor_list = []
-        self.room_num = "null"
+        self.room_id = "null"
         self.item_list = []
         self.player_stats = {}
         self.player_transforms = {}
@@ -118,8 +118,8 @@ class TrackerState(Serializable):
         """ Add a curse to current floor """
         self.last_floor.add_curse(curse)
 
-    def change_room(self, room_num):
-        self.room_num = room_num
+    def change_room(self, room_id):
+        self.room_id = room_id
 
     def drawn(self):
         """ Tag this state as rendered """

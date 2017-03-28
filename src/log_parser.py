@@ -125,10 +125,10 @@ class LogParser(object):
         if 'Start Room' not in line:
             self.getting_start_items = False
 
-        match = re.search(r"Room (\d+\.\d+)\(", line)
+        match = re.search(r"Room (.+?)\(", line)
         if match:
-            room_num = match.group(1)
-            self.state.change_room(room_num)
+            room_id = match.group(1)
+            self.state.change_room(room_id)
 
     def __parse_floor(self, line, line_number):
         """ Parse the floor in line and push it to the state """
