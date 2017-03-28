@@ -4876,5 +4876,23 @@
       "text": "",
       "shown": true,
       "introduced_in": "Afterbirth+"
+   },
+   "2120": {
+      "name": "Hairpin",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "2121": {
+      "name": "Wooden Cross",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
+   },
+   "2122": {
+      "name": "Butter!",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #1"
    }
 }
