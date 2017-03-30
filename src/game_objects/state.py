@@ -30,7 +30,7 @@ class TrackerState(Serializable):
         self.seed = seed
         self.game_version = game_version
         self.floor_list = []
-        self.room_id = "null"
+        self.room_id = "none"
         self.item_list = []
         self.player_stats = {}
         self.player_transforms = {}
