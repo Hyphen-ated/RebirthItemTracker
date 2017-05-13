@@ -3617,6 +3617,45 @@
       "shown": true,
       "introduced_in": "Booster Pack #1"
    },
+   "520":{
+      "name": "Jumper Cables",
+      "text": "Get 1 bar of charge for each 15 enemies killed",
+      "shown": true,
+      "introduced_in": "Booster Pack #2"
+   },
+   "521":{
+      "name": "Coupon",
+      "text": "Makes one random item in a shop free",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Booster Pack #2"
+   },
+   "522":{
+      "name": "Telekinesis",
+      "text": "Freezes and then reflects enemy tears",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Booster Pack #2"
+   },
+   "523":{
+      "name": "Moving Box",
+      "text": "Grabs up to six pickups or items, then spawns them when used again",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Booster Pack #2"
+   },
+   "524":{
+      "name": "Technology Zero",
+      "text": "Your tears are connected by electricity",
+      "shown": true,
+      "introduced_in": "Booster Pack #2"
+   },
+   "525":{
+      "name": "Leprosy",
+      "text": "Taking damage spawns orbitals",
+      "shown": true,
+      "introduced_in": "Booster Pack #2"
+   },
    "1000":{
       "name":" ",
       "text": "",
@@ -4894,5 +4933,11 @@
       "text": "",
       "shown": true,
       "introduced_in": "Booster Pack #1"
+   },
+   "2123": {
+      "name": "Filigree Feather",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #2"
    }
 }
