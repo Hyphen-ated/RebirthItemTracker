@@ -254,6 +254,9 @@ class LogParser(object):
 
 
     def __load_log_file(self):
+        if self.log_file_path is None:
+            return False
+
         if self.log_file_handle is None:
             self.log_file_handle = open(self.log_file_path, 'rb')
 

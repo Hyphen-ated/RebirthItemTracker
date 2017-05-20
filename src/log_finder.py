@@ -1,8 +1,12 @@
+import logging
 import os, platform
 from options import Options
 
 
 class LogFinder(object):
+    def __init__(self):
+        self.log = logging.getLogger("tracker")
+
     def find_log_file(self, wdir_prefix=".."):
         """
         Try to find the game log file
@@ -27,4 +31,6 @@ class LogFinder(object):
         for check in (wdir_prefix + '../log.txt', logfile_location + 'log.txt'):
             if os.path.isfile(check):
                 return check
+
+        self.log.error("Couldn't find log.txt in " + logfile_location)
         return None
