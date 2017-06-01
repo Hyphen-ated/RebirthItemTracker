@@ -73,6 +73,30 @@
     "introduced_in": "Racing+",
     "graphics_id": "127"
   },
+  "Samael Dead Eye": {
+    "shown": true,
+    "text": "Damage increases when you hit enemies, up to 2x. Has a chance to reset to when you miss.",
+    "introduced_in": "Samael",
+    "graphics_id": "373"
+  },
+  "Samael Chocolate Milk": {
+    "shown": true,
+    "text": "charge tears (max is 4x dmg and 2.5x delay)",
+    "introduced_in": "Samael",
+    "graphics_id": "69"
+  },
+  "Samael Dr. Fetus": {
+    "shown": true,
+    "text": "Invulnerability and increased attack speed",
+    "introduced_in": "Samael",
+    "graphics_id": "52"
+  },
+  "Samael Marked": {
+    "shown": true,
+    "text": "Directed tears",
+    "introduced_in": "Samael",
+    "graphics_id": "394"
+  },
   "Wraith Skull": {
     "shown": true,
     "text": "Invulnerability and increased attack speed",
