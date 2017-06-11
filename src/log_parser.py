@@ -139,14 +139,18 @@ class LogParser(object):
             regexp_str = r"Level::Init m_Stage (\d+), m_AltStage (\d+)"
         else:
             return
-        floor_tuple = tuple([re.search(regexp_str, line).group(x) for x in [1, 2]])
-
+        search_result = re.search(regexp_str, line)
+        if search_result is None:
+            self.log.debug("log.txt line doesn't match expected regex\nline: \"" + line+ "\"\nregex:\"" + regexp_str + "\"")
+            return
+        
+        floor = int(search_result.group(1))
+        alt = search_result.group(2)
         self.getting_start_items = True
 
-        # Assume floors aren't cursed until we see they are
-        floor = int(floor_tuple[0])
-        alt = floor_tuple[1]
-
+        # we use generation of the first floor as our trigger that a new run started.
+        # in antibirth, this doesn't work; instead we have to use the seed being printed as our trigger
+        # that means if you s+q in antibirth, it resets the tracker.
         if floor == 1 and self.opt.game_version != "Antibirth":
             self.__trigger_new_run(line_number)
 
