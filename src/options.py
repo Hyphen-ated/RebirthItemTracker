@@ -23,6 +23,6 @@ class Options(object):
     def load_missing_defaults(self, filename):
         with open(filename, "r") as json_file:
             defaults = json.load(json_file)
-            for k,v in defaults.iteritems():
+            for k,v in defaults.items():
                 if k not in self._shared_state:
                     self._shared_state[k] = v

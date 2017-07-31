@@ -33,7 +33,7 @@ class LogParser(object):
         self.seek = 0
         self.spawned_coop_baby = 0
         self.log_file_handle = None
-        # if they switched between rebirth and afterbirth, the log file we use could change
+        # if they switched between rebirth and afterbirth, the log file we use could change        
         self.log_file_path = self.log_finder.find_log_file(self.wdir_prefix)
         self.state.reset(self.current_seed, Options().game_version)
 
@@ -143,7 +143,7 @@ class LogParser(object):
         if search_result is None:
             self.log.debug("log.txt line doesn't match expected regex\nline: \"" + line+ "\"\nregex:\"" + regexp_str + "\"")
             return
-        
+
         floor = int(search_result.group(1))
         alt = search_result.group(2)
         self.getting_start_items = True
@@ -262,14 +262,14 @@ class LogParser(object):
             return False
 
         if self.log_file_handle is None:
-            self.log_file_handle = open(self.log_file_path, 'rb')
+            self.log_file_handle = open(self.log_file_path, 'rt')
 
         cached_length = len(self.content)
         file_size = os.path.getsize(self.log_file_path)
 
         if cached_length > file_size or cached_length == 0: # New log file or first time loading the log
             self.reset()
-            self.content = open(self.log_file_path, 'rb').read()
+            self.content = open(self.log_file_path, 'rt').read()
         elif cached_length < file_size:  # Append existing content
             self.log_file_handle.seek(cached_length + 1)
             self.content += self.log_file_handle.read()

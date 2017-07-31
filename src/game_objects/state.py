@@ -9,11 +9,11 @@ class TrackerState(Serializable):
     """This class represents a tracker state, and handle the logic to
     modify it while keeping it coherent
     """
-    serialize = [('seed', basestring),
+    serialize = [('seed', str),
                  ('floor_list', list),
                  ('item_list', list),
-                 ('tracker_version', basestring),
-                 ('game_version', basestring)]
+                 ('tracker_version', str),
+                 ('game_version', str)]
     def __init__(self, seed, tracker_version, game_version):
         self.reset(seed, game_version)
         self.tracker_version = tracker_version

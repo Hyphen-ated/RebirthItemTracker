@@ -13,9 +13,9 @@ class Item(Serializable):
     items_info = {}
     custom_items_info = {}
 
-    serialize = [('item_id', basestring),
-                 ('floor_id', basestring),
-                 ('flags', basestring)]
+    serialize = [('item_id', str),
+                 ('floor_id', str),
+                 ('flags', str)]
 
     modded_item_id_prefix = "m"
 
@@ -145,7 +145,7 @@ class Item(Serializable):
     @staticmethod
     def determine_custom_item_names():
         """ For custom items that don't have a specific display name set, make the display name the same as the name id"""
-        for k,v in Item.custom_items_info.iteritems():
+        for k,v in Item.custom_items_info.items():
             if "name" not in v:
                 v["name"] = k
 

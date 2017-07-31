@@ -3,7 +3,7 @@ import json     # For importing the items and options
 import os
 import shutil
 import time     # For referencing the "state" timestamp that we get from the server
-import urllib2  # For checking for updates to the item tracker
+from urllib.request import urlopen  # For checking for updates to the item tracker
 import traceback
 
 # Import item tracker specific code
