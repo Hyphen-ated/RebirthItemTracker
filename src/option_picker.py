@@ -9,7 +9,8 @@ from tkinter import ttk
 import pygame.sysfont
 from options import Options
 import logging
-from urllib.request import urlopen
+import urllib.request
+
 import webbrowser
 import platform
 import threading
@@ -172,7 +173,7 @@ class OptionsMenu(object):
     def get_server_userlist_and_enqueue(self):
         try:
             url = self.entries['trackerserver_url'].get() + "/tracker/api/userlist/"
-            json_state = urllib2.urlopen(url).read()
+            json_state = urllib.request.urlopen(url).read()
             users = json.loads(json_state)
             success = True
         except Exception:
@@ -185,14 +186,14 @@ class OptionsMenu(object):
     def get_server_twitch_client_id(self):
         try:
             url = self.entries['trackerserver_url'].get() + "/tracker/api/twitchclientid/"
-            return urllib2.urlopen(url).read()
+            return urllib2.request.urlopen(url).read()
         except Exception:
             log_error("Couldn't get twitch client id from tracker server\n" + traceback.format_exc())
             return None
 
 
     def process_network_results(self):
-        while self.network_queue.qsize():
+        while not self.network_queue.empty():
             try:
                 network_result = self.network_queue.get(0)
                 users_combobox_list = []
@@ -510,7 +511,7 @@ class OptionsMenu(object):
         self.root.focus_force()
 
         # We're polling this queue for network results 10 times per second. This avoids blocking the main thread when we talk to the server
-        #self.root.after(100, self.process_network_results())
+        self.root.after(100, self.process_network_results())
 
         # Start the main loop
         mainloop()

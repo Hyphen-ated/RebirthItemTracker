@@ -36,7 +36,7 @@ class Item(Serializable):
 
         # If we get a flag string, use that to determine the values of those other variables
         if flagstr is not None:
-            for varname,flag in Item.serialization_flags.iteritems():
+            for varname,flag in Item.serialization_flags.items():
                 setattr(self, varname, flag in flagstr)
         else:
             # Is this an item the player has at the start of a run? like isaac's D6 or eden's things.
@@ -153,7 +153,7 @@ class Item(Serializable):
     def flags(self):
         """ Create a string containing single characters representing certain boolean member variables """
         flagstr = ""
-        for varname,flag in Item.serialization_flags.iteritems():
+        for varname,flag in Item.serialization_flags.items():
             if getattr(self, varname):
                 flagstr += flag
         return flagstr

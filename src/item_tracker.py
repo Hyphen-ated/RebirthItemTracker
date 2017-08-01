@@ -3,7 +3,7 @@ import json     # For importing the items and options
 import os
 import shutil
 import time     # For referencing the "state" timestamp that we get from the server
-from urllib.request import urlopen  # For checking for updates to the item tracker
+import urllib.request
 import traceback
 
 # Import item tracker specific code
@@ -136,11 +136,11 @@ class IsaacTracker(object):
                     base_url = opt.trackerserver_url + "/tracker/api/user/" + opt.twitch_name
                     json_dict = None
                     try:
-                        json_version = urllib2.urlopen(base_url + "/version").read()
+                        json_version = urllib.request.urlopen(base_url + "/version").read()
                         if int(json_version) > state_version:
                             # FIXME better handling of 404 error ?
-                            json_state = urllib2.urlopen(base_url).read()
-                            json_dict = json.loads(json_state, "utf-8")
+                            json_state = urllib.request.urlopen(base_url).read()
+                            json_dict = json.loads(json_state)
                             new_state = TrackerState.from_json(json_dict)
                             if new_state is None:
                                 raise Exception("server gave us empty state")
