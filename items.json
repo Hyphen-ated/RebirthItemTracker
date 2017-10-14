@@ -3681,6 +3681,36 @@
       "shown": true,
       "introduced_in": "Booster Pack #3"
    },
+   "530":{
+      "name": "Death's List",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "531":{
+      "name": "Haemolacria ",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "532":{
+      "name": "Lachryphagy",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "533":{
+      "name": "Trisagion",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "534":{
+      "name": "Schoolbag",
+      "text": "More active item room",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
    "1000":{
       "name":" ",
       "text": "",
@@ -4970,5 +5000,11 @@
       "text": "",
       "shown": true,
       "introduced_in": "Booster Pack #3"
+   },
+   "2124": {
+      "name": "Extension Cord",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
    }
 }
