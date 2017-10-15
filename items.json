@@ -3683,25 +3683,25 @@
    },
    "530":{
       "name": "Death's List",
-      "text": "",
+      "text": "Get rewards for killing enemies in order",
       "shown": true,
       "introduced_in": "Booster Pack #4"
    },
    "531":{
       "name": "Haemolacria ",
-      "text": "",
+      "text": "Tears down, tears do increased damage and split",
       "shown": true,
       "introduced_in": "Booster Pack #4"
    },
    "532":{
       "name": "Lachryphagy",
-      "text": "",
+      "text": "Tears that don't hit enemies eventually split, can be combined",
       "shown": true,
       "introduced_in": "Booster Pack #4"
    },
    "533":{
       "name": "Trisagion",
-      "text": "",
+      "text": "Tears turn into piercing light flashes",
       "shown": true,
       "introduced_in": "Booster Pack #4"
    },
@@ -5001,7 +5001,7 @@
       "shown": true,
       "introduced_in": "Booster Pack #3"
    },
-   "2124": {
+   "2125": {
       "name": "Extension Cord",
       "text": "",
       "shown": true,
