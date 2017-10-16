@@ -51,9 +51,11 @@ class OptionsMenu(object):
                        "twitch_name": "Their Twitch Name",
                        "bold_font": "Bold",
                        "blck_cndl_mode": "BLCK CNDL mode",
-                       "custom_title_enabled": "Change Window Title"}
-    label_after_text = {"message_duration":"seconds",
-                        "framerate_limit":"fps"}
+                       "custom_title_enabled": "Change Window Title",
+                       "log_file_check_seconds": "Check log file every"}
+    label_after_text = {"message_duration":"second(s)",
+                        "framerate_limit":"fps",
+                        "log_file_check_seconds": "second(s)"}
     connection_labels = {"starting":"Connecting to server for player list...",
                          "done": "Connecting to server for player list... Done",
                          "fail": "Connecting to server for player list... Failed"}
@@ -142,7 +144,8 @@ class OptionsMenu(object):
                 # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
                 setattr(self.options, key, int(float(value.get())))
             elif key in self.float_keys:
-                setattr(self.options, key, float(value.get()))
+                val = float(value.get())                
+                setattr(self.options, key, val)
             elif hasattr(value, "get"):
                 setattr(self.options, key, value.get())
         for key, value in self.checks.iteritems():
@@ -213,8 +216,8 @@ class OptionsMenu(object):
         return str(color).translate(table).upper()
 
     # From: http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
-    def OnValidate(self, d, i, P, s, S, v, V, W):
-        # This validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)
+    def ValidateNumeric(self, d, i, P, s, S, v, V, W):
+        # This validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)    
         return P == "" or re.search("^\d+(\.\d*)?$", P) is not None
 
     def run(self):
@@ -227,7 +230,7 @@ class OptionsMenu(object):
 
         # Generate numeric options by looping over option types
         self.integer_keys = ["message_duration", "framerate_limit", "read_delay"]
-        self.float_keys   = ["size_multiplier"]
+        self.float_keys   = ["size_multiplier", "log_file_check_seconds"]
         self.entries = {}
         self.labels = {}
         self.checks = {}
@@ -236,11 +239,11 @@ class OptionsMenu(object):
         # Draw the "Text Options" box
         text_options_frame = LabelFrame(self.root, text="Text Options", padx=20, pady=20)
         text_options_frame.grid(row=0, column=0, padx=5, pady=5)
-        vcmd = (self.root.register(self.OnValidate), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        validate_numeric_field = (self.root.register(self.ValidateNumeric), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
         next_row = 0
         for index, opt in enumerate(["message_duration"]):
             Label(text_options_frame, text=self.pretty_name(opt)).grid(row=next_row)
-            self.entries[opt] = Entry(text_options_frame, validate="key", validatecommand=vcmd)
+            self.entries[opt] = Entry(text_options_frame, validate="key", validatecommand=validate_numeric_field)
             self.entries[opt].grid(row=next_row, column=1)
             self.entries[opt].insert(0, getattr(self.options, opt))
             if opt in self.label_after_text:
@@ -294,9 +297,9 @@ class OptionsMenu(object):
             self.entries[opt].grid(row=next_row, column=1)
             next_row += 1
 
-        for index, opt in enumerate(["framerate_limit", "size_multiplier"]):
+        for index, opt in enumerate(["framerate_limit", "log_file_check_seconds", "size_multiplier"]):
             Label(display_options_frame, text=self.pretty_name(opt)).grid(row=next_row)
-            self.entries[opt] = Entry(display_options_frame, validate="key", validatecommand=vcmd)
+            self.entries[opt] = Entry(display_options_frame, validate="key", validatecommand=validate_numeric_field)
             self.entries[opt].grid(row=next_row, column=1)
             self.entries[opt].insert(0, getattr(self.options, opt))
             if opt in self.label_after_text:

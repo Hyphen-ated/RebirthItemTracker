@@ -19,8 +19,7 @@ wdir_prefix = log_dir # this is "../". doing it this way to avoid import cycle
 
 class IsaacTracker(object):
     """ The main class of the program """
-    def __init__(self, read_timer=1):
-        self.read_timer = read_timer
+    def __init__(self):
 
         new_updater_dir = wdir_prefix + "update_scratchdir/updater-lib"
         if os.path.exists(new_updater_dir):
@@ -75,7 +74,7 @@ class IsaacTracker(object):
         new_states_queue = []
         screen_error_message = None
         retry_in = 0
-        update_timer = 2
+        update_timer = opt.log_file_check_seconds
         last_game_version = None
 
         while event_result != Event.DONE:
@@ -97,12 +96,12 @@ class IsaacTracker(object):
                     state_version = -1
                     state = None
                     # Change the delay for polling, as we probably don't want to fetch it every second
-                    update_timer = 2
+                    update_timer_override = 2
                     # Show who we are watching in the title bar
                     drawing_tool.set_window_title_info(watching=True, watching_player=twitch_username, updates_queued=len(new_states_queue))
                 else:
                     drawing_tool.set_window_title_info(watching=False)
-                    update_timer = self.read_timer
+                    update_timer_override = 0
 
             # The user started or stopped broadcasting to the server
             if opt.write_to_server != write_to_server:
@@ -125,10 +124,20 @@ class IsaacTracker(object):
                 if state is not None:
                     state.modified = True
 
+            # normally we check for updates based on how the option is set
+            # when doing network stuff, this can be overridden
+            update_delay = opt.log_file_check_seconds
+            if update_timer_override != 0:
+                update_delay = update_timer_override
+                
             # Now we re-process the log file to get anything that might have loaded;
             # do it every update_timer seconds (making sure to truncate to an integer
             # or else it might never mod to 0)
-            if (framecount % int(Options().framerate_limit * update_timer) == 0):
+            frames_between_checks = int(Options().framerate_limit * update_delay)
+            if frames_between_checks <= 0:
+                frames_between_checks = 1
+            
+            if framecount % frames_between_checks == 0:
                 if retry_in != 0:
                     retry_in -= 1
                 # Let the parser do his thing and give us a state
