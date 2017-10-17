@@ -33,6 +33,12 @@
     "text": "You filthy cheater",
     "introduced_in": "Racing+"
   },
+  "Schoolbag": {
+    "shown": true,
+    "name":"Schoolbag",
+    "text": "More active item room",
+    "introduced_in": "Racing+"
+  },
   "Schoolbag (Vanilla)": {
     "shown": true,
     "name":"Schoolbag",
