@@ -3139,7 +3139,7 @@
    "445":{
       "name": "Dog Tooth",
       "text": "A wolf howl will sound when there's a secret room or trapdoor",
-      "damage": "0.3",
+      "dmg": "0.3",
       "speed": "0.1",
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3252,7 +3252,7 @@
    "463":{
       "name": "Sulfuric Acid",
       "text": "Tears have a chance to break objects",
-      "damage": "0.3",
+      "dmg": "0.3",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
