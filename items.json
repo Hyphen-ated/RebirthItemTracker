@@ -2825,7 +2825,7 @@
       "text": "Controlled tears",
       "shown": true,
       "height": "0.5",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "range": "5.25",
       "tears": "0.5",
       "introduced_in": "Afterbirth"
