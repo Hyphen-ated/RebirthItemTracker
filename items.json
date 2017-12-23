@@ -3024,7 +3024,7 @@
    },
    "428": {
       "name": "PJs",
-      "soulhearts": "4",
+      "soul_hearts": "4",
       "text": "Restores hp",
       "shown": true,
       "introduced_in": "Afterbirth"
@@ -3088,7 +3088,7 @@
    },
    "438": {
       "name": "Binky",
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "tears": "0.7",
       "text": "",
       "shown": true,
@@ -3165,7 +3165,7 @@
    "449":{
       "name":"Metal Plate",
       "text": "Chance to deflect enemy bullets",
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "shown": true
    },
    "450":{
@@ -3215,7 +3215,7 @@
    "457":{
       "name": "Cone Head",
       "text": "Chance of not taking damage when hit",
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3259,7 +3259,7 @@
    "464":{
       "name": "Glyph of Balance",
       "text": "Unknown effect",
-      "soulhearts": "2",
+      "soul_hearts": "2",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
