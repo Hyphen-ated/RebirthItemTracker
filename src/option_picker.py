@@ -21,6 +21,8 @@ class OptionsMenu(object):
     """
     def __init__(self):
         self.options = Options()
+        self.root = Tk()
+        self.root.destroy()
         # Our 'safe' list of fonts that should work in pygame
         self.fonts = ['Andalus', 'Angsana New', 'AngsanaUPC', 'Arial', 'Arial Black', 'Browallia New', 'BrowalliaUPC',
                       'Comic Sans MS', 'Cordia New', 'CordiaUPC', 'Courier New', 'DFKai-SB', 'David', 'DilleniaUPC',
