@@ -11,6 +11,7 @@ import string
 from Tkinter import Tk # For clipboard functionality
 from collections import defaultdict
 from options import Options
+from option_picker import OptionsMenu 
 from game_objects.floor import Curse
 from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
@@ -66,6 +67,8 @@ class DrawingTool(object):
         self.screen = None
         self.show_floors = False
         self.window_title_info = WindowTitleInfo()
+        # there's a problem on some platforms if pygame inits before tk, so work around it by making the options menu first
+        self.optionPicker = OptionsMenu()
         self.start_pygame()
 
 
@@ -162,7 +165,7 @@ class DrawingTool(object):
                     self.screen.fill(DrawingTool.color(opt.background_color))
                     self.write_message("Editing options...", flip=True)
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                    option_picker.OptionsMenu().run()
+                    self.optionPicker.run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset_options()
                     self.reset()
