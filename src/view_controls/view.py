@@ -11,7 +11,6 @@ import string
 from Tkinter import Tk # For clipboard functionality
 from collections import defaultdict
 from options import Options
-from option_picker import OptionsMenu 
 from game_objects.floor import Curse
 from game_objects.item import ItemInfo
 from view_controls.overlay import Overlay
@@ -67,8 +66,6 @@ class DrawingTool(object):
         self.screen = None
         self.show_floors = False
         self.window_title_info = WindowTitleInfo()
-        # there's a problem on some platforms if pygame inits before tk, so work around it by making the options menu first
-        self.optionPicker = OptionsMenu()
         self.start_pygame()
 
 
@@ -165,7 +162,7 @@ class DrawingTool(object):
                     self.screen.fill(DrawingTool.color(opt.background_color))
                     self.write_message("Editing options...", flip=True)
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                    self.optionPicker.run()
+                    option_picker.OptionsMenu().run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset_options()
                     self.reset()
@@ -533,9 +530,9 @@ class DrawingTool(object):
         except Exception:
             log_error("ERROR: Couldn't load font \"" + opt.show_font +"\", falling back to Arial\n" + traceback.format_exc())
             self.font = pygame.font.SysFont(
-                    "arial",
-                    font_size,
-                    bold=opt.bold_font
+                "arial",
+                font_size,
+                bold=opt.bold_font
             )
 
         self._image_library = {}
@@ -603,13 +600,13 @@ class DrawingTool(object):
             return True
         elif item.info.health_only and \
                 not opt.show_health_ups:
-                    return False
+            return False
         elif item.info.space and \
                 not opt.show_space_items:
-                    return False
+            return False
         elif item.was_rerolled and \
                 not opt.show_rerolled_items:
-                    return False
+            return False
         return True
 
 
@@ -628,9 +625,9 @@ class DrawableItem(Drawable):
             it's not one of our starting items
         """
         return Options().show_blind_icon and \
-            not Options().blck_cndl_mode and \
-            self.item.blind and \
-            not self.item.starting_item
+               not Options().blck_cndl_mode and \
+               self.item.blind and \
+               not self.item.starting_item
 
     def draw(self, selected=False):
         graphics_id = self.item.info.graphics_id
