@@ -8,7 +8,7 @@ import traceback
 
 # Import item tracker specific code
 from view_controls.view import DrawingTool, Event
-from game_objects.item  import Item
+from game_objects.item  import Item, ItemInfo
 from game_objects.state  import TrackerState, TrackerStateEncoder
 from log_parser import LogParser
 from log_finder import LogFinder
@@ -33,12 +33,15 @@ class IsaacTracker(object):
         # Load items/trinkets info
         with open(wdir_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
-
+        ItemInfo.check_item_keys(Item.items_info, "items.json")
+        
         with open(wdir_prefix + "items_custom.json", "r") as custom_items_file:
             Item.custom_items_info = json.load(custom_items_file)
         Item.determine_custom_item_names()
+        ItemInfo.check_item_keys(Item.custom_items_info, "items_custom.json")
 
-        # Load version
+
+    # Load version
         with open(wdir_prefix + 'version.txt', 'r') as f:
             self.tracker_version = f.read()
 

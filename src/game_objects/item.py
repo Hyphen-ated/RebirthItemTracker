@@ -182,35 +182,56 @@ class ItemInfo(dict):
     dict wrapper for item infos.
     Properties and stats can be accessed using instance.my_stat, if it does not
     exist, None is returned.
-
-    Here is a list of properties that may be available :
-        Stats :
-        - dmg
-        - dmg_x
-        - delay
-        - delay_x
-        - health
-        - speed
-        - shot_speed
-        - range
-        - height
-        - tears
-        - soul_hearts
-        - sin_hearts
-        Properties
-        - guppy, bob, conjoined, funguy, leviathan, ohcrap, seraphim, spun, yesmother, superbum, beelzebub, bookworm, spiderbaby
-        - name
-        - shown
-        - space
-        - health_only
-        - in_summary
-        - summary_name
-        # An item that needs to be present for this item to be mentioned in the summary;
-        # can only be one item right now
-        - summary_condition
     """
-    transform_list = ["guppy", "bob", "conjoined", "funguy", "leviathan", "ohcrap", "seraphim", "spun", "yesmother", "superbum", "beelzebub", "bookworm", "spiderbaby"]
-    stat_list = ["dmg", "delay", "speed", "shot_speed", "range", "height", "tears"]
+    transform_list = [
+        "guppy",
+        "bob",
+        "conjoined",
+        "funguy",
+        "leviathan",
+        "ohcrap",
+        "seraphim",
+        "spun",
+        "yesmother",
+        "superbum",
+        "beelzebub",
+        "bookworm",
+        "spiderbaby"
+    ]
+    stat_list = [
+        "dmg",
+        "delay",
+        "speed",
+        "shot_speed",
+        "range",
+        "height",
+        "tears"
+    ]
+    valid_key_list = [
+        "delay_x",
+        "dmg_x",
+        "graphics_id",
+        "health",
+        "health_only",
+        "in_summary",
+        "introduced_in",
+        "luck",
+        "name",
+        "shot_speed",
+        "shown",
+        "sin_hearts",
+        "soul_hearts",
+        "space",
+        "summary_condition",
+        "summary_name",
+        "text"
+    ]
+    valid_key_list.extend(stat_list)
+    valid_key_list.extend(transform_list)
+    valid_key_set = set(valid_key_list)
+    
+    
+    
     def __init__(self, values):
         super(ItemInfo, self).__init__(values)
         self.__dict__ = self
@@ -220,3 +241,19 @@ class ItemInfo(dict):
 
     def __missing__(self, name):
         return self.__getattr__(name)
+
+    @staticmethod
+    def check_item_keys(items_dic, filename):
+        """ 
+        Check for unexpected keys in an item dict. if we find any, complain about them in the error log.
+        This shouldn't actually stop the program though, because it just means some data won't be recognized,
+        and that data is only of limited importance.
+        """
+        invalid_keys = set()
+        for item_id in items_dic:
+            for item_info_key in items_dic[item_id]:
+                if item_info_key not in ItemInfo.valid_key_set:
+                    invalid_keys.add(item_info_key)
+        if len(invalid_keys) > 0:
+            log_error("The file " + filename + " contains unexpected keys: " + ", ".join(invalid_keys))
+        
