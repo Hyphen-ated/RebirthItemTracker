@@ -2825,7 +2825,7 @@
       "text": "Controlled tears",
       "shown": true,
       "height": "0.5",
-      "shotspeed": "0.16",
+      "shot_speed": "0.16",
       "range": "5.25",
       "tears": "0.5",
       "introduced_in": "Afterbirth"
@@ -3024,7 +3024,7 @@
    },
    "428": {
       "name": "PJs",
-      "soulhearts": "4",
+      "soul_hearts": "4",
       "text": "Restores hp",
       "shown": true,
       "introduced_in": "Afterbirth"
@@ -3088,7 +3088,7 @@
    },
    "438": {
       "name": "Binky",
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "tears": "0.7",
       "text": "",
       "shown": true,
@@ -3139,7 +3139,7 @@
    "445":{
       "name": "Dog Tooth",
       "text": "A wolf howl will sound when there's a secret room or trapdoor",
-      "damage": "0.3",
+      "dmg": "0.3",
       "speed": "0.1",
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3165,7 +3165,7 @@
    "449":{
       "name":"Metal Plate",
       "text": "Chance to deflect enemy bullets",
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "shown": true
    },
    "450":{
@@ -3215,7 +3215,7 @@
    "457":{
       "name": "Cone Head",
       "text": "Chance of not taking damage when hit",
-      "soulhearts": "1",
+      "soul_hearts": "1",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3252,14 +3252,14 @@
    "463":{
       "name": "Sulfuric Acid",
       "text": "Tears have a chance to break objects",
-      "damage": "0.3",
+      "dmg": "0.3",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
    "464":{
       "name": "Glyph of Balance",
       "text": "Unknown effect",
-      "soulhearts": "2",
+      "soul_hearts": "2",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3680,6 +3680,36 @@
       "text": "Turns your tears into floating eyeballs that can bounce off each other",
       "shown": true,
       "introduced_in": "Booster Pack #3"
+   },
+   "530":{
+      "name": "Death's List",
+      "text": "Get rewards for killing enemies in order",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "531":{
+      "name": "Haemolacria ",
+      "text": "Tears down, tears do increased damage and split",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "532":{
+      "name": "Lachryphagy",
+      "text": "Tears that don't hit enemies eventually split, can be combined",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "533":{
+      "name": "Trisagion",
+      "text": "Tears turn into piercing light flashes",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
+   },
+   "534":{
+      "name": "Schoolbag",
+      "text": "More active item room",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
    },
    "1000":{
       "name":" ",
@@ -4970,5 +5000,11 @@
       "text": "",
       "shown": true,
       "introduced_in": "Booster Pack #3"
+   },
+   "2125": {
+      "name": "Extension Cord",
+      "text": "",
+      "shown": true,
+      "introduced_in": "Booster Pack #4"
    }
 }

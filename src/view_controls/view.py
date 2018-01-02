@@ -534,9 +534,9 @@ class DrawingTool(object):
         except Exception:
             log_error("ERROR: Couldn't load font \"" + opt.show_font +"\", falling back to Arial\n" + traceback.format_exc())
             self.font = pygame.font.SysFont(
-                    "arial",
-                    font_size,
-                    bold=opt.bold_font
+                "arial",
+                font_size,
+                bold=opt.bold_font
             )
 
         self._image_library = {}
@@ -604,13 +604,13 @@ class DrawingTool(object):
             return True
         elif item.info.health_only and \
                 not opt.show_health_ups:
-                    return False
+            return False
         elif item.info.space and \
                 not opt.show_space_items:
-                    return False
+            return False
         elif item.was_rerolled and \
                 not opt.show_rerolled_items:
-                    return False
+            return False
         return True
 
 
@@ -629,9 +629,9 @@ class DrawableItem(Drawable):
             it's not one of our starting items
         """
         return Options().show_blind_icon and \
-            not Options().blck_cndl_mode and \
-            self.item.blind and \
-            not self.item.starting_item
+               not Options().blck_cndl_mode and \
+               self.item.blind and \
+               not self.item.starting_item
 
     def draw(self, selected=False):
         graphics_id = self.item.info.graphics_id

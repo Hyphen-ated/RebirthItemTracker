@@ -39,8 +39,10 @@ Antibirth vs Afterbirth+, for example. Normally this should not have to happen.)
 The tracker checks for updates each time you launch it, and will update itself if you allow it. This only works on Windows.
 You can toggle this in the options window.
 
-The tracker can be used on Linux or Mac, but you have to run it from source, and it can't autoupdate.
+The tracker can be used on Linux, but you have to run it from source, and it can't autoupdate.
 Read "HOW TO BUILD.txt" for instructions.
+
+The tracker doesn't work properly on a Mac. 
 
 ## Status Message Customization
 

@@ -1,7 +1,7 @@
 These instructions are for developers who want to make changes to this program or who want to run this program on linux or mac.
 If you use Windows and you're not a programmer, ignore this.
 ---
-You need Python 2.7 and pygame 1.9.1.
+You need Python 2.7 and pygame 1.9.x
 To run the tracker from the source, do "python run_item_tracker_directly.py"
 
 If you want to build a windows release, you need cx_freeze. Do "python release.py" and it will create a release zipfile in target/

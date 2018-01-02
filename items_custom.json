@@ -17,13 +17,6 @@
     "space": false,
     "introduced_in": "Racing+"
   },
-  "Crystal Ball": {
-    "shown": true,
-    "text": "Reveals the floor and spawns a card, rune, or soul heart",
-    "space": true,
-    "introduced_in": "Racing+",
-    "graphics_id": "158"
-  },
   "Debug": {
     "shown": true,
     "text": "NODUDE",
@@ -46,30 +39,21 @@
     "text": "More active item room",
     "introduced_in": "Racing+"
   },
+  "Schoolbag (Vanilla)": {
+    "shown": true,
+    "name":"Schoolbag",
+    "text": "More active item room",
+    "introduced_in": "Racing+"
+  },
   "Soul Jar": {
     "shown": true,
     "text": "Can't pick up soul/black hearts, but guaranteed deal if no damage",
     "space": true,
     "introduced_in": "Racing+"
   },
-  "Smelter": {
-    "shown": true,
-    "text": "Consumes trinket to make its effect permanent",
-    "space": true,
-    "introduced_in": "Racing+",
-    "graphics_id": "479"
-  },
-  "The Book of Sin": {
-    "shown": true,
-    "bookworm": true,
-    "text": "Spawns a random pickup",
-    "space": true,
-    "introduced_in": "Racing+",
-    "graphics_id": "97"
-  },
   "Victory Lap": {
     "shown": false,
-    "text": "Let's keep this build going",
+    "text": "Let's keep this run going",
     "introduced_in": "Racing+",
     "graphics_id": "127"
   },
