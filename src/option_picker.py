@@ -1,15 +1,16 @@
 import traceback
-from Tkinter import *
+from tkinter import *
 from multiprocessing import Queue
-from tkColorChooser import askcolor
+from tkinter.colorchooser import askcolor
 import json
-from string import maketrans, lower
+#from string import maketrans, lower
 import re
-import ttk
+from tkinter import ttk
 import pygame.sysfont
 from options import Options
 import logging
-import urllib2
+import urllib.request
+
 import webbrowser
 import platform
 import threading
@@ -21,6 +22,7 @@ class OptionsMenu(object):
     """
     def __init__(self):
         self.options = Options()
+
         # Our 'safe' list of fonts that should work in pygame
         self.fonts = ['Andalus', 'Angsana New', 'AngsanaUPC', 'Arial', 'Arial Black', 'Browallia New', 'BrowalliaUPC',
                       'Comic Sans MS', 'Cordia New', 'CordiaUPC', 'Courier New', 'DFKai-SB', 'David', 'DilleniaUPC',
@@ -34,17 +36,18 @@ class OptionsMenu(object):
 
         # Check if the system has the fonts installed, and remove them from the list if it doesn't
         try:
-            valid_pygame_fonts = [lower(x.replace(" ", "")) for x in self.fonts]
-            system_fonts = pygame.sysfont.get_fonts()
-            to_delete = []
-            for index, font in enumerate(valid_pygame_fonts):
-                if font not in system_fonts:
-                    to_delete += [index]
-            for index in to_delete[::-1]:
-                del self.fonts[index]
+             valid_pygame_fonts = [x.replace(" ", "") for x in self.fonts]
+             system_fonts = pygame.sysfont.get_fonts()
+             to_delete = []
+             for index, font in enumerate(valid_pygame_fonts):
+                 if font not in system_fonts:
+                     to_delete += [index]
+             for index in to_delete[::-1]:
+                 del self.fonts[index]
         except:
-            log_error("There may have been an error detecting system fonts.\n" + traceback.print_exc())
+             log_error("There may have been an error detecting system fonts.\n" + traceback.print_exc())
 
+        self.root = Tk()
 
     pretty_name_map = {"read_from_server": "Watch Someone Else",
                        "write_to_server": "Let Others Watch Me",
@@ -60,9 +63,10 @@ class OptionsMenu(object):
                          "done": "Connecting to server for player list... Done",
                          "fail": "Connecting to server for player list... Failed"}
 
+
     def pretty_name(self, s):
         # Change from a var name to something you'd show the users
-        if self.pretty_name_map.has_key(s):
+        if s in self.pretty_name_map:
             return self.pretty_name_map.get(s)
         return " ".join(s.split("_")).title()
 
@@ -76,7 +80,7 @@ class OptionsMenu(object):
 
     def checkbox_callback(self):
         # Just for the "show decription" checkbox -- to disable the message duration entry
-        if not self.checks.get("show_description").get():
+        if not self.checks.get("show_description",{}).get():
             self.entries["message_duration"].configure(state=DISABLED)
         else:
             self.entries["message_duration"].configure(state=NORMAL)
@@ -139,7 +143,7 @@ class OptionsMenu(object):
 
     def save_callback(self):
         # Callback for the "save" option -- rejiggers options and saves to options.json, then quits
-        for key, value in self.entries.iteritems():
+        for key, value in self.entries.items():
             if key in self.integer_keys:
                 # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
                 setattr(self.options, key, int(float(value.get())))
@@ -148,9 +152,14 @@ class OptionsMenu(object):
                 setattr(self.options, key, val)
             elif hasattr(value, "get"):
                 setattr(self.options, key, value.get())
-        for key, value in self.checks.iteritems():
+        for key, value in self.checks.items():
             setattr(self.options, key, True if value.get() else False)
         self.root.destroy()
+        self.root=None;
+
+    def cancel_callback(self):
+        self.root.destroy()
+        self.root=None;
 
     def seconds_to_text(self, seconds):
         if seconds < 60:
@@ -167,7 +176,7 @@ class OptionsMenu(object):
     def get_server_userlist_and_enqueue(self):
         try:
             url = self.entries['trackerserver_url'].get() + "/tracker/api/userlist/"
-            json_state = urllib2.urlopen(url).read()
+            json_state = urllib.request.urlopen(url).read()
             users = json.loads(json_state)
             success = True
         except Exception:
@@ -180,14 +189,14 @@ class OptionsMenu(object):
     def get_server_twitch_client_id(self):
         try:
             url = self.entries['trackerserver_url'].get() + "/tracker/api/twitchclientid/"
-            return urllib2.urlopen(url).read()
+            return urllib2.request.urlopen(url).read()
         except Exception:
             log_error("Couldn't get twitch client id from tracker server\n" + traceback.format_exc())
             return None
 
 
     def process_network_results(self):
-        while self.network_queue.qsize():
+        while not self.network_queue.empty():
             try:
                 network_result = self.network_queue.get(0)
                 users_combobox_list = []
@@ -212,8 +221,9 @@ class OptionsMenu(object):
     def opposite_color(self, color):
         # Get the opposite color of a hex color, just to make text on buttons readable
         color = color.lower()
-        table = maketrans('0123456789abcdef', 'fedcba9876543210')
-        return str(color).translate(table).upper()
+        return str(color)
+        #table = maketrans('0123456789abcdef', 'fedcba9876543210')
+        #return str(color).translate(table).upper()
 
     # From: http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
     def ValidateNumeric(self, d, i, P, s, S, v, V, W):
@@ -222,11 +232,13 @@ class OptionsMenu(object):
 
     def run(self):
         # Create root
-        self.root = Tk()
+        if self.root is None:
+            self.root = Tk()
+
+        #self.root.iconbitmap(default='options.ico')
         self.root.attributes("-topmost", True)
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
-        self.root.iconbitmap(default='options.ico')
 
         # Generate numeric options by looping over option types
         self.integer_keys = ["message_duration", "framerate_limit", "read_delay"]
@@ -235,6 +247,7 @@ class OptionsMenu(object):
         self.labels = {}
         self.checks = {}
         self.buttons = {}
+
 
         # Draw the "Text Options" box
         text_options_frame = LabelFrame(self.root, text="Text Options", padx=20, pady=20)
@@ -276,7 +289,7 @@ class OptionsMenu(object):
         for index, opt in enumerate(text_checkboxes):
             self.checks[opt] = IntVar()
             c = Checkbutton(text_options_frame, text=self.pretty_name(opt), variable=self.checks[opt])
-            c.grid(row=len(text_checkboxes) + 1 + index / 2, column=index % 2)  # 2 checkboxes per row
+            c.grid(row=int(len(text_checkboxes) + 1 + index / 2), column=int(index % 2))  # 2 checkboxes per row
             if getattr(self.options, opt):
                 c.select()
 
@@ -314,7 +327,7 @@ class OptionsMenu(object):
             self.entries[opt].insert(0, getattr(self.options, opt))
             next_row += 1
 
-        # Generate buttons by looping over option types
+        #Generate buttons by looping over option types
         for index, opt in enumerate(["background_color", "text_color"]):
             self.buttons[opt] = Button(
                 display_options_frame,
@@ -332,12 +345,12 @@ class OptionsMenu(object):
                  "check_for_updates", "custom_title_enabled"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(display_options_frame, text=self.pretty_name(opt), variable=self.checks[opt])
-            c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2) # 2 checkboxes per row
+            c.grid(row=int(len(self.entries) + 1 + index / 2), column=int(index % 2)) # 2 checkboxes per row
             if getattr(self.options, opt):
                 c.select()
             if opt == "custom_title_enabled":
                 c.configure(command=self.checkbox_callback)
-            next_row += len(self.entries) / 2 + 1
+            next_row += int(len(self.entries) / 2 + 1)
 
         # Generate label for custom title
         Label(display_options_frame, text=self.pretty_name("custom_title")).grid(row=next_row)
@@ -441,7 +454,7 @@ class OptionsMenu(object):
         cancel = Button(
             buttonframe,
             text="Cancel",
-            command=self.root.destroy
+            command=self.cancel_callback
         )
         cancel.grid(row=0, column=1, padx=5)
 
@@ -460,7 +473,7 @@ class OptionsMenu(object):
             self.root.state("zoomed")
             self.root.update()
         else:
-            self.root.attributes("-fullscreen", True)
+            #self.root.attributes("-fullscreen", True)
             # For some reason using 'update' here affects the actual window height we want to get later
             self.root.update_idletasks()
 
@@ -505,4 +518,3 @@ class OptionsMenu(object):
 
         # Start the main loop
         mainloop()
-

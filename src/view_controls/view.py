@@ -4,11 +4,12 @@ import logging
 import os
 import platform # For determining what operating system the script is being run on
 import traceback
+import option_picker
 
 import pygame   # This is the main graphics library used for the item tracker
 import webbrowser
 import string
-from Tkinter import Tk # For clipboard functionality
+from tkinter import * # For clipboard functionality
 from collections import defaultdict
 from options import Options
 from game_objects.floor import Curse
@@ -46,6 +47,8 @@ class Event(object):
 
 class DrawingTool(object):
     def __init__(self, prefix):
+
+        self.optionsPicker = option_picker.OptionsMenu()
         self.wdir_prefix = prefix
         self.next_item = (0, 0)
         self.item_position_index = []
@@ -71,6 +74,8 @@ class DrawingTool(object):
 
     def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
+
+
         pygame.init()
         pygame.display.set_icon(self.get_image("collectibles_333.png"))
         self.clock = pygame.time.Clock()
@@ -158,11 +163,10 @@ class DrawingTool(object):
                     self.load_selected_detail_page()
                 if event.button == 3:
                     self.save_window_position()
-                    import option_picker
                     self.screen.fill(DrawingTool.color(opt.background_color))
                     self.write_message("Editing options...", flip=True)
                     pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
-                    option_picker.OptionsMenu().run()
+                    self.optionsPicker.run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset_options()
                     self.reset()
@@ -376,7 +380,7 @@ class DrawingTool(object):
         w = opt.width
         h = opt.height
         # 2d array of size h, w
-        self.item_position_index = [[None for x in xrange(w)] for y in xrange(h)]
+        self.item_position_index = [[None for x in range(w)] for y in range(h)]
         num_displayed_items = 0
         size_multiplier = 64 * opt.size_multiplier
         for item in self.drawn_items:
