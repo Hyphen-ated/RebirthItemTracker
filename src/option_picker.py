@@ -21,6 +21,8 @@ class OptionsMenu(object):
     """
     def __init__(self):
         self.options = Options()
+        self.root = Tk()
+        self.root.destroy()
         # Our 'safe' list of fonts that should work in pygame
         self.fonts = ['Andalus', 'Angsana New', 'AngsanaUPC', 'Arial', 'Arial Black', 'Browallia New', 'BrowalliaUPC',
                       'Comic Sans MS', 'Cordia New', 'CordiaUPC', 'Courier New', 'DFKai-SB', 'David', 'DilleniaUPC',
@@ -144,7 +146,7 @@ class OptionsMenu(object):
                 # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
                 setattr(self.options, key, int(float(value.get())))
             elif key in self.float_keys:
-                val = float(value.get())                
+                val = float(value.get())
                 setattr(self.options, key, val)
             elif hasattr(value, "get"):
                 setattr(self.options, key, value.get())
@@ -187,7 +189,8 @@ class OptionsMenu(object):
 
 
     def process_network_results(self):
-        while self.network_queue.qsize():
+        # OSX qSize is not emplemented use empty rather.
+        while not self.network_queue.empty():
             try:
                 network_result = self.network_queue.get(0)
                 users_combobox_list = []
@@ -217,7 +220,7 @@ class OptionsMenu(object):
 
     # From: http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
     def ValidateNumeric(self, d, i, P, s, S, v, V, W):
-        # This validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)    
+        # This validation is a biiit janky, just some crazy regex that checks P (value of entry after modification)
         return P == "" or re.search("^\d+(\.\d*)?$", P) is not None
 
     def run(self):
@@ -226,7 +229,11 @@ class OptionsMenu(object):
         self.root.attributes("-topmost", True)
         self.root.wm_title("Item Tracker Options")
         self.root.resizable(False, False)
-        self.root.iconbitmap(default='options.ico')
+
+        if platform.system() == "Darwin":
+            self.root.iconbitmap('options.ico')
+        else:
+            self.root.iconbitmap(default = 'options.ico')
 
         # Generate numeric options by looping over option types
         self.integer_keys = ["message_duration", "framerate_limit", "read_delay"]
@@ -460,7 +467,9 @@ class OptionsMenu(object):
             self.root.state("zoomed")
             self.root.update()
         else:
-            self.root.attributes("-fullscreen", True)
+            if platform.system() != "Darwin":
+                self.root.attributes("-fullscreen", True) # Unix only?
+
             # For some reason using 'update' here affects the actual window height we want to get later
             self.root.update_idletasks()
 
@@ -477,7 +486,8 @@ class OptionsMenu(object):
         if platform.system() == "Windows":
             self.root.state("normal")
         else:
-            self.root.attributes("-fullscreen", False)
+            if platform.system() != "Darwin":
+                self.root.attributes("-fullscreen", False)
             self.root.update()
 
         # Here's the actual size of the window we're drawing
@@ -505,4 +515,3 @@ class OptionsMenu(object):
 
         # Start the main loop
         mainloop()
-
