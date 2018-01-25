@@ -71,7 +71,10 @@ class DrawingTool(object):
 
     def start_pygame(self):
         """ Initialize pygame system stuff and draw empty window """
-        pygame.init()
+        if not pygame.display.get_init():
+            pygame.display.init()
+        if not pygame.font.get_init():
+            pygame.font.init()
         pygame.display.set_icon(self.get_image("collectibles_333.png"))
         self.clock = pygame.time.Clock()
 
