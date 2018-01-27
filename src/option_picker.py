@@ -468,7 +468,9 @@ class OptionsMenu(object):
             self.root.update()
         else:
             if platform.system() != "Darwin":
-                self.root.attributes("-fullscreen", True) # Unix only?
+                # todo: figure out how to do this on mac. Right now this hacky logic to avoid going 
+                # off the edge of the screen is doing who-knows-what when run on a mac.
+                self.root.attributes("-fullscreen", True) 
 
             # For some reason using 'update' here affects the actual window height we want to get later
             self.root.update_idletasks()
@@ -487,7 +489,7 @@ class OptionsMenu(object):
             self.root.state("normal")
         else:
             if platform.system() != "Darwin":
-                self.root.attributes("-fullscreen", False)
+                self.root.attributes("-fullscreen", False) # todo: figure out how to do this on mac
             self.root.update()
 
         # Here's the actual size of the window we're drawing
