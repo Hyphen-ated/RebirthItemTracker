@@ -2,7 +2,7 @@
 # This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
 # This script ignores "in" and "out"
 
-import os
+import os, shutil
 
 def add_glow_to_dir(dirname):
     glows = {}
@@ -21,6 +21,7 @@ def add_glow_to_dir(dirname):
                       '-composite "' + file_glow_path + '"'
                 print(cmd)
                 os.system(cmd)
+                shutil.copy(file_glow_path, 'copy_of_new_glow_images/')
 
 add_glow_to_dir(os.path.join('..', 'collectibles'))
 add_glow_to_dir(os.path.join('..', 'collectibles', 'antibirth'))
