@@ -42,7 +42,7 @@ You can toggle this in the options window.
 The tracker can be used on Linux, but you have to run it from source, and it can't autoupdate.
 Read "HOW TO BUILD.txt" for instructions.
 
-The tracker doesn't work properly on a Mac. 
+The tracker doesn't work properly on a Mac.
 
 ## Status Message Customization
 
@@ -81,10 +81,9 @@ Ctrl-up and ctrl-down are shortcuts to change the delay, which is also shown in 
 
 ## Known issues
 
-* When using the _Glowing Hourglass_ right after taking any object, this object will remains in the tracker even if the
+* When using the _Glowing Hour Glass_ right after taking any object, this object will remains in the tracker even if the
 character doesn't have it anymore.
-
-* If you want to make a shortcut to the tracker, and you want autoupdates to work, make the shortcut to the file
+* If you want to make a shortcut to the tracker, and you want automatic updates to work, make the shortcut to the file
 "Rebirth Item Tracker.exe" and not "item_tracker.exe".
 
 * When playing Antibirth, it doesn't display detailed item information, nor can it keep track of what floor you're on.
