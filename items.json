@@ -3711,6 +3711,114 @@
       "shown": true,
       "introduced_in": "Booster Pack #4"
    },
+   "535":{
+      "name": "Blanket",
+      "text": "You feel safe",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "536":{
+      "name": "Sacrificial Altar",
+      "text": "He demands a sacrifice",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "537":{
+      "name": "Lil Spewer",
+      "text": "Puking buddy",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "538":{
+      "name": "Marbles",
+      "text": "Choking hazard",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "539":{
+      "name": "Mystery Egg",
+      "text": "Sacrificial insemination",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "540":{
+      "name": "Flat Stone",
+      "text": "Skipping tears",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "541":{
+      "name": "Marrow",
+      "text": "HP up?",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "542":{
+      "name": "Slipped Rib",
+      "text": "Projectile shield",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "543":{
+      "name": "Hallowed Ground",
+      "text": "Portable sanctuary",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "544":{
+      "name": "Pointy Rib",
+      "text": "Stabbing time",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "545":{
+      "name": "Book of the Dead",
+      "text": "Rise from the grave",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "546":{
+      "name": "Dad's Ring",
+      "text": "Father's blessing",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "547":{
+      "name": "Divorce Papers",
+      "text": "Tears up + you feel empty",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "548":{
+      "name": "Jaw Bone",
+      "text": "Fetch!",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "549":{
+      "name": "Brittle Bones",
+      "text": "Everything hurts",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "550":{
+      "name": "Broken Shovel",
+      "text": "It feels cursed",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "551":{
+      "name": "Broken Shovel",
+      "text": "It feels cursed",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "552":{
+      "name": "Mom's Shovel",
+      "text": "Lost but not forgotten",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
    "1000":{
       "name":" ",
       "text": "",
@@ -5006,5 +5114,23 @@
       "text": "",
       "shown": true,
       "introduced_in": "Booster Pack #4"
+   },
+   "2126": {
+      "name": "Rotten Penny",
+      "text": "Wealth of flies",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "2127": {
+      "name": "Baby-Bender",
+      "text": "Feed them magic!",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
+   },
+   "2128": {
+      "name": "Finger Bone",
+      "text": "It looks brittle",
+      "shown": true,
+      "introduced_in": "Booster Pack #5"
    }
 }
