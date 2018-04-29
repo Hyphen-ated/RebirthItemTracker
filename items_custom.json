@@ -13,36 +13,36 @@
   },
   "Checkpoint": {
     "shown": false,
-    "text": "You completed a run!",
+    "text": "Given at the end of a run",
     "space": false,
     "introduced_in": "Racing+"
   },
   "Debug": {
     "shown": true,
-    "text": "NODUDE",
+    "text": "Used for debugging Racing+",
     "space": true,
     "introduced_in": "Racing+"
   },
   "Finished": {
     "shown": false,
-    "text": "Race completed",
+    "text": "Given at the end of a race or multi-character speedrun",
     "introduced_in": "Racing+"
   },
   "Off Limits": {
     "shown": true,
-    "text": "You filthy cheater",
+    "text": "Given to filthy cheaters",
     "introduced_in": "Racing+"
   },
   "Schoolbag": {
     "shown": true,
     "name":"Schoolbag",
-    "text": "More active item room",
+    "text": "Can carry 2 active items instead of 1",
     "introduced_in": "Racing+"
   },
   "Schoolbag (Vanilla)": {
     "shown": true,
     "name":"Schoolbag",
-    "text": "More active item room",
+    "text": "Can carry 2 active items instead of 1",
     "introduced_in": "Racing+"
   },
   "Soul Jar": {
@@ -59,19 +59,19 @@
   },
   "Samael Dead Eye": {
     "shown": true,
-    "text": "Damage increases when you hit enemies, up to 2x. Has a chance to reset to when you miss.",
+    "text": "Dmg increases when you hit enemies (up to 2x), every miss has a chance to reset",
     "introduced_in": "Samael",
     "graphics_id": "373"
   },
   "Samael Chocolate Milk": {
     "shown": true,
-    "text": "charge tears (max is 4x dmg and 2.5x delay)",
+    "text": "Charge tears (max is 4x dmg and 2.5x delay)",
     "introduced_in": "Samael",
     "graphics_id": "69"
   },
   "Samael Dr. Fetus": {
     "shown": true,
-    "text": "Invulnerability and increased attack speed",
+    "text": "Bomb tears",
     "introduced_in": "Samael",
     "graphics_id": "52"
   },
@@ -83,7 +83,7 @@
   },
   "Wraith Skull": {
     "shown": true,
-    "text": "Invulnerability and increased attack speed",
+    "text": "Invulnerability and increased attack speed, gains charge by hitting enemies",
     "space": true,
     "introduced_in": "Samael"
   }
