@@ -28,6 +28,11 @@
     "text": "Given at the end of a race or multi-character speedrun",
     "introduced_in": "Racing+"
   },
+  "Mutant Spider's Inner Eye": {
+    "shown": false,
+    "text": "7 shot",
+    "introduced_in": "Racing+"
+  },
   "Off Limits": {
     "shown": true,
     "text": "Given to filthy cheaters",
