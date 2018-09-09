@@ -22,7 +22,8 @@ class LogParser(object):
     def reset(self):
         """Reset variable specific to the log file/run"""
         # Variables describing the parser state
-        self.getting_start_items = False
+        self.getting_start_items = False      
+        self.reseeding_floor = False
         self.current_room = ""
         self.current_seed = ""
         # Cached contents of log
@@ -100,6 +101,11 @@ class LogParser(object):
             self.__parse_trinket_gulp(line)
         if line.startswith('Removing collectible '):
             self.__parse_item_remove(line)
+        if line.startswith('Executing command: reseed'):
+            # racing+ re-generates floors if they contain duplicate rooms. we need to track that this is happening
+            # so we don't erroneously think the entire run is being restarted when it happens on b1.
+            self.reseeding_floor = True
+        
 
     def __trigger_new_run(self, line_number):
         self.log.debug("Starting new run, seed: %s", self.current_seed)
@@ -149,9 +155,12 @@ class LogParser(object):
         self.getting_start_items = True
 
         # we use generation of the first floor as our trigger that a new run started.
-        # in antibirth, this doesn't work; instead we have to use the seed being printed as our trigger
+        # in racing+, it doesn't count if the game is currently in the process of "reseeding" that floor.
+        # in antibirth, this doesn't work at all; instead we have to use the seed being printed as our trigger.
         # that means if you s+q in antibirth, it resets the tracker.
-        if floor == 1 and self.opt.game_version != "Antibirth":
+        if self.reseeding_floor:
+            self.reseeding_floor = False
+        elif floor == 1 and self.opt.game_version != "Antibirth":
             self.__trigger_new_run(line_number)
 
         # Special handling for the Cathedral and The Chest and Afterbirth
