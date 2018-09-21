@@ -91,5 +91,11 @@
     "text": "Invulnerability and increased attack speed, gains charge by hitting enemies",
     "space": true,
     "introduced_in": "Samael"
+  },
+  "Clockwork Assembly": {
+    "shown": true,
+    "text": "Spawns a Restock Machine",
+    "space": true,
+    "introduced_in": "Single Player Co-op Babies"
   }
 }
