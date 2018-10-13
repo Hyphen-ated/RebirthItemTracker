@@ -97,5 +97,12 @@
     "text": "Spawns a Restock Machine",
     "space": true,
     "introduced_in": "Single Player Co-op Babies"
+  },
+  "Flock of Succubi": {
+    "shown": true,
+    "text": "Spawns 28 Succubi",
+    "space": true,
+    "introduced_in": "Single Player Co-op Babies",
+    "graphics_id": "417"
   }
 }
