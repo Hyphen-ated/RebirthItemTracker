@@ -103,5 +103,11 @@
     "text": "Spawns 28 Succubi",
     "space": true,
     "introduced_in": "Single Player Co-op Babies"
+  },
+  "Charging Station": {
+    "shown": true,
+    "text": "Uses a coin to charge the Schoolbag item",
+    "space": true,
+    "introduced_in": "Single Player Co-op Babies"
   }
 }
