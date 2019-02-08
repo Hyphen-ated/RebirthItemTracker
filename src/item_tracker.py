@@ -185,6 +185,7 @@ class IsaacTracker(object):
                         request = urllib2.Request(put_url,
                                                   data=json_string)
                         request.add_header('Content-Type', 'application/json')
+                        request.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11')
                         request.get_method = lambda: 'PUT'
                         try:
                             result = opener.open(request)
