@@ -7,7 +7,7 @@ from error_stuff import log_error
 
 class Curse(object):
     """Curse enumaration"""
-    No_Curse, Blind, Darkness, Lost, Maze, Unknown, Labyrinth, Cursed = list(range(8))
+    No_Curse, Blind, Darkness, Lost, Maze, Unknown, Labyrinth, Cursed = range(8)
 
 class Floor(Serializable):
     """ This class represent a floor and handles everything related to its properties"""
@@ -36,7 +36,7 @@ class Floor(Serializable):
         "f6g": "SHOP",
         "f7g": "GREED",
         }
-    serialize = [('floor_id', str), ('curse', int)]
+    serialize = [('floor_id', basestring), ('curse', int)]
     def __init__(self, floor_id, curse=Curse.No_Curse):
         self.floor_id = floor_id
         self.curse = curse

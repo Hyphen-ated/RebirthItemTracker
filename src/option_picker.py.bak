@@ -3,6 +3,7 @@ from tkinter import *
 from multiprocessing import Queue
 from tkinter.colorchooser import askcolor
 import json
+from string import maketrans, lower
 import re
 import tkinter.ttk
 import pygame.sysfont
@@ -35,7 +36,7 @@ class OptionsMenu(object):
 
         # Check if the system has the fonts installed, and remove them from the list if it doesn't
         try:
-            valid_pygame_fonts = [str.lower(x.replace(" ", "")) for x in self.fonts]
+            valid_pygame_fonts = [lower(x.replace(" ", "")) for x in self.fonts]
             system_fonts = pygame.sysfont.get_fonts()
             to_delete = []
             for index, font in enumerate(valid_pygame_fonts):
@@ -140,7 +141,7 @@ class OptionsMenu(object):
 
     def save_callback(self):
         # Callback for the "save" option -- rejiggers options and saves to options.json, then quits
-        for key, value in list(self.entries.items()):
+        for key, value in self.entries.items():
             if key in self.integer_keys:
                 # Cast this as a float first to avoid errors if the user puts a value of 1.0 in an options, for example
                 setattr(self.options, key, int(float(value.get())))
@@ -149,7 +150,7 @@ class OptionsMenu(object):
                 setattr(self.options, key, val)
             elif hasattr(value, "get"):
                 setattr(self.options, key, value.get())
-        for key, value in list(self.checks.items()):
+        for key, value in self.checks.items():
             setattr(self.options, key, True if value.get() else False)
         self.root.destroy()
 
@@ -214,7 +215,7 @@ class OptionsMenu(object):
     def opposite_color(self, color):
         # Get the opposite color of a hex color, just to make text on buttons readable
         color = color.lower()
-        table = str.maketrans('0123456789abcdef', 'fedcba9876543210')
+        table = maketrans('0123456789abcdef', 'fedcba9876543210')
         return str(color).translate(table).upper()
 
     # From: http://stackoverflow.com/questions/4140437/interactively-validating-entry-widget-content-in-tkinter
