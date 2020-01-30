@@ -42,7 +42,9 @@ You can toggle this in the options window.
 The tracker can be used on Linux, but you have to run it from source, and it can't autoupdate.
 Read "HOW TO BUILD.txt" for instructions.
 
-The tracker doesn't work properly on a Mac.
+The tracker doesn't work properly on a Mac: it will crash when you open the options menu. If you're okay with manually
+editing your options.json file instead of using the gui to change your options, you might be able to run it on a Mac in
+the same way it can be run on Linux (see above).
 
 ## Status Message Customization
 
