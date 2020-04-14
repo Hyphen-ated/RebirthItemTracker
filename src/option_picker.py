@@ -233,7 +233,7 @@ class OptionsMenu(object):
         if platform.system() == "Darwin":
             self.root.iconbitmap('options.ico')
         else:
-            self.root.iconbitmap(default = 'options.ico')
+            self.root.iconbitmap('@options.xbm')
 
         # Generate numeric options by looping over option types
         self.integer_keys = ["message_duration", "framerate_limit", "read_delay"]
