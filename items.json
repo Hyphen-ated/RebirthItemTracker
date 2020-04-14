@@ -2929,7 +2929,7 @@
    },
    "413": {
       "name": "Immaculate Conception",
-      "text": "Chance to gain holy familiars when hit",
+      "text": "Gain a holy familiar and soul heart after each 15 heart pickups",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
