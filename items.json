@@ -3471,6 +3471,7 @@
       "name": "Euthanasia",
       "text": "Chance to shoot needle tears (3x dmg, if enemy is killed, explodes into more needles)",
       "shown": true,
+      "spun": true,
       "introduced_in": "Afterbirth+"
    },
    "497": {
