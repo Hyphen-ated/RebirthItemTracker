@@ -56,11 +56,11 @@
     "space": true,
     "introduced_in": "Racing+"
   },
-  "Victory Lap": {
+  "3 Dollar Bill (Seeded)": {
     "shown": false,
-    "text": "Let's keep this run going",
+    "text": "Rainbow tears",
     "introduced_in": "Racing+",
-    "graphics_id": "127"
+    "graphics_id": "191"
   },
   "Samael Dead Eye": {
     "shown": true,
