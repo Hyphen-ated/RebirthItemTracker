@@ -75,8 +75,6 @@ After getting an authkey once, this step doesn't need to happen again. Don't sho
 If you're in "Let Others Watch Me" mode, indicated by the text "uploading to server" in the title bar, then the host can
 see your items with the "Watch Someone Else" button.
 
-After closing the tracker, the tournament settings will turn themselves off automatically.
-
 The host needs to run a separate copy of the tracker for each competitor. To compensate for twitch delay, there's a
 "read delay" setting which makes the tracker wait that many seconds before displaying updates from the player.
 Ctrl-up and ctrl-down are shortcuts to change the delay, which is also shown in the title bar.
