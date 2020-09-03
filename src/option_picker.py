@@ -232,6 +232,8 @@ class OptionsMenu(object):
 
         if platform.system() == "Darwin":
             self.root.iconbitmap('options.ico')
+        elif platform.system() == "Linux":
+            self.root.iconbitmap('@options.xbm')
         else:
             self.root.iconbitmap(default = 'options.ico')
 
