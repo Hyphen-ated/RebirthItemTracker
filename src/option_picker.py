@@ -31,7 +31,7 @@ class OptionsMenu(object):
                       'Mangal', 'Microsoft Sans Serif', 'Miriam', 'Miriam Fixed', 'Narkisim', 'Raavi', 'Rod', 'Shruti',
                       'SimHei', 'Simplified Arabic', 'Simplified Arabic Fixed', 'Sylfaen', 'Tahoma', 'Times New Roman',
                       'Traditional Arabic', 'Trebuchet MS', 'Tunga', 'Verdana']
-        self.game_versions = ['Rebirth', 'Afterbirth', 'Afterbirth+', 'Antibirth']
+        self.game_versions = ['Rebirth', 'Afterbirth', 'Afterbirth+', 'Repentance', 'Antibirth']
         self.network_queue = Queue()
 
         # Check if the system has the fonts installed, and remove them from the list if it doesn't

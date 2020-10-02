@@ -546,7 +546,7 @@
    "75": {
       "name": "PhD",
       "shown": true,
-      "text": "Bad stat pills become good, free pill",
+      "text": "Bad stat pills become good, neutral pill",
       "introduced_in": "Rebirth"
    },
    "76": {
@@ -2040,7 +2040,7 @@
    "286": {
       "name": "Blank Card",
       "shown": true,
-      "text": "Mimics the effect of the currently held card or rune",
+      "text": "Mimics the effect of the currently held card",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -3831,6 +3831,616 @@
       "space": true,
       "introduced_in": "Booster Pack #5"
    },
+   "553": {
+      "name": "Mucormycosis",
+      "text": "Releases poison gas upon killing an enemy",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "554": {
+      "name": "2Spooky",
+      "text": "Aura that fears enemies",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "555": {
+      "name": "Sulfur",
+      "text": "Gives temporary Brimstone",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "556": {
+      "name": "Fortune Cookie",
+      "text": "Spawns a soul heart / card / rune / trinket",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "557": {
+      "name": "Eye Sore",
+      "text": "Extra tears are fired in random directions",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "558": {
+      "name": "120 Volt",
+      "text": "Zap tears (enemies zap other enemies)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "559": {
+      "name": "It Hurts",
+      "text": "Ring of bloody tears + increases tears on hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "560": {
+      "name": "Almond Milk",
+      "text": "+tears, tears gain raindom movement effects",
+      "dmg_x": "0.3",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "561": {
+      "name": "Rock Bottom",
+      "text": "Resets all of your stats",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "562": {
+      "name": "Enigma Bombs",
+      "text": "+5 bombs, bombs explode with a random effect",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "563": {
+      "name": "A Bar of Soap",
+      "text": "+tears, +shot speed",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "564": {
+      "name": "Book of Despair",
+      "text": "Temporarily halves tear delay",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "565": {
+      "name": "Paschal Candle",
+      "text": "-1 tear delay for each room cleared (max 6), resets on hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "566": {
+      "name": "Bowl of Tears",
+      "text": "Shoots a burst of tears, each tear shot grants a charge",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "567": {
+      "name": "Blood Oath",
+      "text": "Familiar that trades extra red health for damage at the beginning of a floor",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "568": {
+      "name": "Playdoh Cookie",
+      "text": "Random status effect tears (normal/petrify/homing/poison/fear)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "569": {
+      "name": "Orphan Socks",
+      "text": "Immunity from spike and creep damage, can enter Curse Rooms without taking damage",
+      "soul_hearts": "2",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "570": {
+      "name": "Eye of the Occult",
+      "text": "+height, tears can be controlled mid-flight",
+      "dmg": "1",
+      "range": "21",
+      "shot_speed": "-0.16",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "571": {
+      "name": "Immaculate Heart",
+      "text": "Additional set of orbiting spectral tears",
+      "health": "1",
+      "dmg_x": "1.2",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "572": {
+      "name": "Monstrance",
+      "text": "Grants aura that damages enemies",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "573": {
+      "name": "The Intruder",
+      "text": "Additional set of slowing tears, chance to spawn blue spiders and release Intruder familiar on hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "574": {
+      "name": "Dirty Mind",
+      "text": "Dips become friendly, spawns friendly Dips when destroying poop",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "575": {
+      "name": "Damocles",
+      "text": "Double item pedestals, chance of permanent death on hit",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "576": {
+      "name": "Free Lemonade",
+      "text": "Lemon Party effect",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "577": {
+      "name": "Spirit Sword",
+      "text": "Sword replaces tears",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "578": {
+      "name": "Red Key",
+      "text": "Unlocks the red outlines of a door",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "579": {
+      "name": "Psy Fly",
+      "text": "Orbital, reflects enemy projectiles as homing tears",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "580": {
+      "name": "Black Mushroom",
+      "text": "Temporary +tears, -speed, distorts graphics/sound",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "581": {
+      "name": "Rocket in a Jar",
+      "text": "+5 bombs, bombs become rockets",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "582": {
+      "name": "Book of Virtues",
+      "text": "Spawns a wisp orbital (max 16)",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "583": {
+      "name": "Alabaster Box",
+      "text": "Converts soul/black/immortal hearts to Angel Room items + various rewards",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "584": {
+      "name": "(Renamed in Rep)",
+      "text": "Start of each floor has ladder to Angel Room",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "585": {
+      "name": "Menorah",
+      "text": "Familiar, increases damage + tear delay on hit (max 7)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "586": {
+      "name": "Sol",
+      "text": "Reveals location of the boss, Sun card effect + active item recharge + 2x dmg + +1 luck + removes curses upon killing the boss",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "587": {
+      "name": "Luna",
+      "text": "Generates an extra Secret Room and Super Secret Room per floor",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "588": {
+      "name": "Mercurius",
+      "text": "Doors stay open, +speed",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "589": {
+      "name": "Venus",
+      "text": "Close enemies get charmed",
+      "health": "1",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "590": {
+      "name": "Terra",
+      "text": "Rock tears (knockback, can destroy obstacles)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "591": {
+      "name": "Mars",
+      "text": "Double tap to dash",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "592": {
+      "name": "Saturnus",
+      "text": "Grants orbiting tears aura, refreshes per room",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "593": {
+      "name": "Uranus",
+      "text": "Ice tears (enemies killed will become frozen)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "594": {
+      "name": "Pluto",
+      "text": "+tears, -range, size down, can pass between blocks",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "595": {
+      "name": "Voodoo Head",
+      "text": "Generates 2 Curse Rooms per floor",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "596": {
+      "name": "Eye Drops",
+      "text": "+tears (only on one eye)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "597": {
+      "name": "Act of Contrition",
+      "text": "+tears up, +immortal heart, allows Angel Rooms even if a devil deal has been taken",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "598": {
+      "name": "Member Card",
+      "text": "Every shop has a trapdoor to a special shop",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "599": {
+      "name": "Battery Pack",
+      "text": "Recharges active item, spawns 2-4 batteries on pickup",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "600": {
+      "name": "Mom's Bracelet",
+      "text": "Can throw obstacles",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "601": {
+      "name": "The Scooper",
+      "text": "Spawns a temporary familiar similar to The Peeper",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "602": {
+      "name": "Oculus Rift",
+      "text": "Chance to shoot rift tears (summons rifts that attract + deal contact dmg)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "603": {
+      "name": "Boiled Baby",
+      "text": "Familiar, acts like a Boil",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "604": {
+      "name": "Freezer Baby",
+      "text": "Familiar that fires freezing tears",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "605": {
+      "name": "Eternal D6",
+      "text": "Like a D6, but has a chance to disappear",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "606": {
+      "name": "Bird Cage",
+      "text": "Spawns bird familiar when hit (similar to Dead Bird)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "607": {
+      "name": "Donkey Jawbone",
+      "text": "Spin attack on hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "608": {
+      "name": "Lost Soul",
+      "text": "Familiar, 1 hit per floor, if it survives it grants a random reward",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "609": {
+      "name": "Blood Bombs",
+      "text": "Bombs leave behind red creep, can plant bombs for 1/2 heart, heals 4 hearts",
+      "health": "1",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "610": {
+      "name": "Lil' Dumpy",
+      "text": "Familiar, makes stun/poison farts on hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "611": {
+      "name": "Bird's Eye",
+      "text": "Chance to shoot a fire (similar to Ghost Pepper)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "612": {
+      "name": "Lodestone",
+      "text": "Chance to shoot magnetizing tears (attract enemies + tears + projectiles)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "613": {
+      "name": "Rotten Tomato",
+      "text": "Chance to shoot marked tears (other enemies will attack a marked enemy)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "614": {
+      "name": "Birthright",
+      "text": "Custom reward based on character",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "615": {
+      "name": "Voodoo Pin",
+      "text": "\"Hurts\" the player without doing damage (same as Dull Razor)",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "616": {
+      "name": "Red Stew",
+      "text": "Full heal, +dmg that wears off over time",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "617": {
+      "name": "Sausage",
+      "text": "Full heal",
+      "health": "1",
+      "dmg": "1",
+      "range": "5.25",
+      "height": "0.5",
+      "tears": "0.7",
+      "speed": "0.3",
+      "shot_speed": "0.16",
+      "luck": "1",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "618": {
+      "name": "Sharp Key",
+      "text": "Consumes a key and throws it to deal damage / open doors, +5 keys on pickup",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "619": {
+      "name": "Booster Pack",
+      "text": "Spawns 3 random cards on pickup",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "620": {
+      "name": "Mega Mush",
+      "text": "Gigantify for a short duration (+damage, -tears, invulnerable, crush rocks/blocks/doors)",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "621": {
+      "name": "Knife Piece 1",
+      "text": "Collect all 3 to get a knife familiar",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "622": {
+      "name": "Knife Piece 2",
+      "text": "Collect all 3 to get a knife familiar",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "623": {
+      "name": "Knife Piece 3",
+      "text": "Collect all 3 to get a knife familiar",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "624": {
+      "name": "Bot Fly",
+      "text": "Familiar, orbits and fires shielded tears",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "625": {
+      "name": "Meat Cleaver",
+      "text": "Splits all enemies in the room into 2 smaller versions",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "626": {
+      "name": "Evil Charm",
+      "text": "",
+      "luck": "3",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "627": {
+      "name": "Stone Bombs",
+      "text": "+5 bombs, bombs release rock waves",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "628": {
+      "name": "Stitches",
+      "text": "Spawns a temporary familiar, can swap positions with the familiar to deal damage",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "629": {
+      "name": "R Key",
+      "text": "Restarts the game to the first floor but keeps all items",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "630": {
+      "name": "Knockout Drops",
+      "text": "Chance to shoot fist tears (knockback + stun)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "631": {
+      "name": "Eraser",
+      "text": "Throw on an enemy to permanently remove that enemy type from the current run",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "632": {
+      "name": "Yuck Heart",
+      "text": "+1 rotton heart",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "633": {
+      "name": "Akeldama",
+      "text": "Spawns bloody tears behind the player",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "634": {
+      "name": "Magic Skin",
+      "text": "Converts 1 red heart / 2 soul hearts to a broken heart, spawns a pedestal item",
+      "shown": true,
+      "space": true,
+      "introduced_in": "Antibirth"
+   },
+   "635": {
+      "name": "Revelation",
+      "text": "Flight, +2 immortal hearts, -range, spectral, homing",
+      "shot_speed": "0.38",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "636": {
+      "name": "Consolation Prize",
+      "text": "+lowest stat, +3 coins or +1 bomb or +1 key (depending on lowest)",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "637": {
+      "name": "Tinytoma",
+      "text": "Orbital, splits into blue spiders on hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "638": {
+      "name": "Blank Rune",
+      "shown": true,
+      "text": "Mimics the effect of the currently held rune",
+      "space": true,
+      "introduced_in": "Repentance"
+   },
+   "639": {
+      "name": "Giant Cell",
+      "shown": true,
+      "text": "Spawn mini Isaacs that follow you when hit",
+      "introduced_in": "Repentance"
+   },
+   "640": {
+      "name": "Vade Retro",
+      "shown": true,
+      "text": "Spawn a little red ghost for each enemy killed and explodes when another enemy touches it",
+      "space": true,
+      "introduced_in": "Repentance"
+   },
+   "641": {
+      "name": "Spin to Win",
+      "shown": true,
+      "text": "Placeholder",
+      "space": true,
+      "introduced_in": "Repentance"
+   },
+   "642": {
+      "name": "Tropicamide",
+      "shown": true,
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
+   },
+   "643": {
+      "name": "Vasculitis",
+      "shown": true,
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
+   },
+   "644": {
+      "name": "Plum Flute",
+      "shown": true,
+      "text": "Spawns Baby Plum",
+      "space": true,
+      "introduced_in": "Repentance"
+   },
+   "645": {
+      "name": "False PHD",
+      "sin_hearts": "1",
+      "shown": true,
+      "text": "Good stat pills become bad, neutral pill",
+      "introduced_in": "Repentance"
+   },
+   "646": {
+      "name": "Dream Catcher",
+      "shown": true,
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
+   },
    "1000": {
       "name": "Mucormycosis",
       "text": "Releases poison gas upon killing an enemy",
@@ -5167,5 +5777,113 @@
       "text": "Chance to gain a bone heart on hit",
       "shown": true,
       "introduced_in": "Booster Pack #5"
+   },
+   "2129": {
+      "name": "Jawbreaker",
+      "text": "Tears can become a tooth",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2130": {
+      "name": "Chewed Pen",
+      "text": "Tears have a chance to slow enemies",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2131": {
+      "name": "Blessed Penny",
+      "text": "Chance to spawn half a soul heart when picking up a coin",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2132": {
+      "name": "Broken Syringe",
+      "text": "Gives you a random syringe effect every room",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2133": {
+      "name": "Exploded Firecracker",
+      "text": "Placed bombs explode almost instantly",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2134": {
+      "name": "Giant Bean",
+      "text": "Farts from isaac and familars are larger",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2135": {
+      "name": "A Lighter",
+      "text": "Chance for enemies to burn when entering a room",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2136": {
+      "name": "Broken Padlock",
+      "text": "Explosions can open locked doors",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2137": {
+      "name": "Myosotis",
+      "text": "Get max 8 pickups from the previous floor at the beginning of the new floor",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2138": {
+      "name": "'M",
+      "text": "Reroll your active item upon use",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2139": {
+      "name": "Teardrop Charm",
+      "text": "Tear-based effects have an extra chance of occurring",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2140": {
+      "name": "Song of the Siren",
+      "text": "Increase tear rate of familiars",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2141": {
+      "name": "Beth's Faith",
+      "text": "Spawn four wisps from Book of Virtues at the start of each floor",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2142": {
+      "name": "Old Capacitor",
+      "text": "Your active item don't charge but you drop more batteries",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2143": {
+      "name": "Brain Worm",
+      "text": "Missed tears will redirect themselves toward enemies",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2144": {
+      "name": "Perfection",
+      "text": "+10 luck but break when hit",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2145": {
+      "name": "Devil's Crown",
+      "text": "Treasure rooms are replaced with Devil Deals",
+      "shown": true,
+      "introduced_in": "Antibirth"
+   },
+   "2146": {
+      "name": "Electric Penny",
+      "text": "Gives a chance to gain 1 charge to your active item for each coin picked",
+      "shown": true,
+      "introduced_in": "Antibirth"
    }
 }

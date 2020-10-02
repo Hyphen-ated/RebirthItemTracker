@@ -78,9 +78,7 @@ class LogParser(object):
             line = line[len(luadebug_prefix):]
 
         # AB and AB+ version messages both start with this text (AB+ has a + at the end)
-        if line.startswith('Binding of Isaac: Afterbirth'):
-            self.__parse_version_number(line)
-        if line.startswith('Binding of Isaac: Rebirth'):
+        if line.startswith('Binding of Isaac: Repentance') or line.startswith('Binding of Isaac: Afterbirth') or line.startswith('Binding of Isaac: Rebirth'):
             self.__parse_version_number(line)
         if line.startswith('RNG Start Seed:'):
             self.__parse_seed(line, line_number)
