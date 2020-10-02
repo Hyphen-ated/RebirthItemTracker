@@ -171,6 +171,10 @@ class LogParser(object):
                 floor -= 1
             elif floor == 11 and alt == '1':
                 floor += 1
+            elif floor == 9:
+                floor = 13
+            elif floor == 12:
+                floor = 14    
         else:
             # In Rebirth, floors have different numbers
             if alt == '1' and (floor == 9 or floor == 11):
