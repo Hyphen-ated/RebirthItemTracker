@@ -137,7 +137,7 @@ class LogParser(object):
     def __parse_floor(self, line, line_number):
         """ Parse the floor in line and push it to the state """
         # Create a floor tuple with the floor id and the alternate id
-        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
+        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+" or self.opt.game_version == "Repentance":
             regexp_str = r"Level::Init m_Stage (\d+), m_StageType (\d+)"
         elif self.opt.game_version == "Rebirth" or self.opt.game_version == "Antibirth":
             regexp_str = r"Level::Init m_Stage (\d+), m_AltStage (\d+)"
@@ -162,14 +162,19 @@ class LogParser(object):
             self.__trigger_new_run(line_number)
 
         # Special handling for the Cathedral and The Chest and Afterbirth
-        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
+        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+" or self.opt.game_version == "Repentance":
+            self.log.debug("floor")
             # In Afterbirth, Cath is an alternate of Sheol (which is 10)
             # and Chest is an alternate of Dark Room (which is 11)
             if floor == 10 and alt == '0':
                 floor -= 1
             elif floor == 11 and alt == '1':
                 floor += 1
-        else:
+            elif floor == 9:
+                floor = 13
+            elif floor >= 12:
+                floor += 2
+        else:    
             # In Rebirth, floors have different numbers
             if alt == '1' and (floor == 9 or floor == 11):
                 floor += 1
