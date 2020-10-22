@@ -1,8 +1,14 @@
-# this takes png files it finds in scripts/in and makes copies of each one in scripts/out that are double size
-# the workflow is: put new files in, run this, put the new files in the appropriate place in collectibles/
-# then run add_missing_glow_images.py
+# This script takes png files from a directory and makes a copy that is twice the size.
+# The workflow is:
+# 1) Put new file images in the incoming_files_directory
+# 2) Run this script
+# 3) Put the files in the outgoing_files_directory in the appropriate place in collectibles/
+# 4) Run add_missing_glow_images.py
 
-# This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
+# This script uses the "convert" command, which is part of ImageMagick:
+# https://www.imagemagick.org/script/download.php
+# You must use an old version of ImageMagick for the convert command to work properly.
+# Version 6.9.3-7 Q16 x64 is confirmed to work
 
 import os
 import sys
