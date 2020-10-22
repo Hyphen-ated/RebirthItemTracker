@@ -1,6 +1,9 @@
-# Run this to add glow versions of any item images that don't currently have glow versions.
-# This script uses the "convert" command, which is part of ImageMagick: https://www.imagemagick.org/script/download.php
-# This script ignores "in" and "out"
+# This script add glow versions of any item images that don't currently have glow versions.
+
+# This script uses the "convert" command, which is part of ImageMagick:
+# https://www.imagemagick.org/script/download.php
+# You must use an old version of ImageMagick for the convert command to work properly.
+# Version 6.9.3-7 Q16 x64 is confirmed to work
 
 import os, shutil
 
@@ -23,6 +26,11 @@ def add_glow_to_dir(dirname):
                 os.system(cmd)
                 shutil.copy(file_glow_path, 'copy_of_new_glow_images/')
 
-add_glow_to_dir(os.path.join('..', 'collectibles'))
-add_glow_to_dir(os.path.join('..', 'collectibles', 'antibirth'))
-add_glow_to_dir(os.path.join('..', 'collectibles', 'custom'))
+paths_to_add = [
+  os.path.join('..', 'collectibles'),
+  os.path.join('..', 'collectibles', 'antibirth'),
+  os.path.join('..', 'collectibles', 'custom'),
+]
+for path in paths_to_add:
+    print('Scanning directory: ' + path)
+    add_glow_to_dir(path)
