@@ -24,6 +24,8 @@ class Floor(Serializable):
         "f10": "CATH",
         "f11": "DARK",
         "f12": "CHEST",
+        "f13": "HUSH",
+        "f14": "VOID",
         "f1x": "BXL",
         "f3x": "CXL",
         "f5x": "DXL",
@@ -78,6 +80,6 @@ class Floor(Serializable):
         if (floor_id not in Floor.__floor_id_to_label or
                 curse < Curse.No_Curse or
                 curse > Curse.Labyrinth):
-            log_error("ERROR: Invalid foor_id or curse (" + floor_id + ", " + curse + ")")
+            log_error("ERROR: Invalid floor_id or curse (" + floor_id + ", " + curse + ")")
             return None
         return Floor(floor_id, curse)
