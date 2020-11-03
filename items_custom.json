@@ -1,15 +1,49 @@
 {
+  "3 Dollar Bill (Seeded)": {
+    "shown": false,
+    "text": "Rainbow tears",
+    "introduced_in": "Racing+",
+    "graphics_id": "191",
+    "comment": "Replacing 191"
+  },
+  "Dad's Lost Coin": {
+    "text": "",
+    "range": "1.5",
+    "luck": "1",
+    "shown": true,
+    "introduced_in": "Racing+",
+    "graphics_id": "455",
+    "comment": "Replacing 455"
+  },
+  "Schoolbag": {
+    "shown": true,
+    "name":"Schoolbag",
+    "text": "Can carry 2 active items instead of 1",
+    "introduced_in": "Racing+",
+    "graphics_id": "534",
+    "comment": "Replacing 534"
+  },
+  "Soul Jar": {
+    "shown": true,
+    "text": "Can't pick up soul/black hearts, but guaranteed deal if no damage",
+    "space": true,
+    "introduced_in": "Racing+"
+  },
   "13 Luck": {
     "text": "",
     "shown": true,
     "luck": "13",
     "introduced_in": "Racing+"
   },
-  "Betrayal": {
-    "text": "Full-screen charm effect when hit",
+  "Mutant Spider's Inner Eye": {
+    "shown": false,
+    "text": "7 shot",
+    "introduced_in": "Racing+"
+  },
+  "Off Limits": {
     "shown": true,
-    "introduced_in": "Racing+",
-    "graphics_id": "391"
+    "text": "Given to filthy cheaters",
+    "introduced_in": "Racing+"
   },
   "Checkpoint": {
     "shown": false,
@@ -23,68 +57,34 @@
     "space": true,
     "introduced_in": "Racing+"
   },
-  "Finished": {
-    "shown": false,
-    "text": "Given at the end of a race or multi-character speedrun",
-    "introduced_in": "Racing+"
-  },
-  "Mutant Spider's Inner Eye": {
-    "shown": false,
-    "text": "7 shot",
-    "introduced_in": "Racing+"
-  },
-  "Off Limits": {
+
+  "Samael Dr. Fetus": {
     "shown": true,
-    "text": "Given to filthy cheaters",
-    "introduced_in": "Racing+"
-  },
-  "Schoolbag": {
-    "shown": true,
-    "name":"Schoolbag",
-    "text": "Can carry 2 active items instead of 1",
-    "introduced_in": "Racing+"
-  },
-  "Schoolbag (Vanilla)": {
-    "shown": true,
-    "name":"Schoolbag",
-    "text": "Can carry 2 active items instead of 1",
-    "introduced_in": "Racing+"
-  },
-  "Soul Jar": {
-    "shown": true,
-    "text": "Can't pick up soul/black hearts, but guaranteed deal if no damage",
-    "space": true,
-    "introduced_in": "Racing+"
-  },
-  "3 Dollar Bill (Seeded)": {
-    "shown": false,
-    "text": "Rainbow tears",
-    "introduced_in": "Racing+",
-    "graphics_id": "191"
-  },
-  "Samael Dead Eye": {
-    "shown": true,
-    "text": "Dmg increases when you hit enemies (up to 2x), every miss has a chance to reset",
+    "text": "Bomb tears",
     "introduced_in": "Samael",
-    "graphics_id": "373"
+    "graphics_id": "52",
+    "comment": "Replacing 52"
   },
   "Samael Chocolate Milk": {
     "shown": true,
     "text": "Charge tears (max is 4x dmg and 2.5x delay)",
     "introduced_in": "Samael",
-    "graphics_id": "69"
+    "graphics_id": "69",
+    "comment": "Replacing 69"
   },
-  "Samael Dr. Fetus": {
+  "Samael Dead Eye": {
     "shown": true,
-    "text": "Bomb tears",
+    "text": "Dmg increases when you hit enemies (up to 2x), every miss has a chance to reset",
     "introduced_in": "Samael",
-    "graphics_id": "52"
+    "graphics_id": "373",
+    "comment": "Replacing 373"
   },
   "Samael Marked": {
     "shown": true,
     "text": "Directed tears",
     "introduced_in": "Samael",
-    "graphics_id": "394"
+    "graphics_id": "394",
+    "comment": "Replacing 394"
   },
   "Wraith Skull": {
     "shown": true,
@@ -92,6 +92,7 @@
     "space": true,
     "introduced_in": "Samael"
   },
+
   "Clockwork Assembly": {
     "shown": true,
     "text": "Spawns a Restock Machine",
@@ -109,5 +110,132 @@
     "text": "Uses a coin to charge the Schoolbag item",
     "space": true,
     "introduced_in": "Single Player Co-op Babies"
+  },
+
+  "Holy Poop": {
+    "shown": true,
+    "text": "Makes a holy poop",
+    "space": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "comment": "Replacing 36"
+  },
+  "Mom's Bra (Improved)": {
+    "shown": true,
+    "yesmother": true,
+    "text": "Temporarily freezes enemies",
+    "space": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "39",
+    "comment": "Replacing 39"
+  },
+  "Monster Manual (Improved)": {
+    "shown": true,
+    "bookworm": true,
+    "text": "Summons a random familiar",
+    "space": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "123",
+    "comment": "Replacing 123"
+  },
+  "Technology 2.5": {
+    "shown": true,
+    "text": "Passive laser ring",
+    "introduced_in": "Racing+ Rebalanced",
+    "comment": "Replacing 152"
+  },
+  "Fanny Pack (Improved)": {
+    "shown": true,
+    "text": "Chance to spawn a coin, bomb, or key when hit",
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "204",
+    "comment": "Replacing 204"
+  },
+  "Fire Mind (Improved)": {
+    "shown": true,
+    "text": "Burns enemies, chance to shoot exploding tears (2x dmg + 22)",
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "257",
+    "comment": "Replacing 257"
+  },
+  "Box of Spiders (Improved)": {
+    "shown": true,
+    "spiderbaby": true,
+    "text": "Spawns 2-4 blue spiders",
+    "space": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "288",
+    "comment": "Replacing 288"
+  },
+  "Holy Mantle (Nerfed)": {
+    "shown": true,
+    "text": "Gives 1-hit shield at the start of each floor",
+    "seraphim": true,
+    "summary_name": "Mantle",
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "313",
+    "comment": "Replacing 313"
+  },
+  "Mr. Dolly (Nerfed)": {
+    "text": "",
+    "shown": true,
+    "tears": "0.7",
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "370",
+    "comment": "Replacing 370"
+  },
+  "Mega Blast (Single Use)": {
+    "text": "Huge blood laser for 15 seconds, lasts across rooms and floors",
+    "shown": true,
+    "space": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "441",
+    "comment": "Replacing 441"
+  },
+  "Adrenaline (Improved)": {
+    "text": "More damage the closer to death you are",
+    "shown": true,
+    "spun": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "493",
+    "comment": "Replacing 493"
+  },
+  "Poke Go (Improved)": {
+    "text": "Charm a random enemy each room",
+    "shown": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "graphics_id": "505",
+    "comment": "Replacing 505"
+  },
+  "Catalog": {
+    "shown": true,
+    "text": "Spawns a shop item; can't be used in certain rooms",
+    "space": true,
+    "introduced_in": "Racing+ Rebalanced"
+  },
+  "Strabismus": {
+    "shown": true,
+    "text": "Shoot extra tears in random directions",
+    "introduced_in": "Racing+ Rebalanced"
+  },
+  "U-235": {
+    "shown": true,
+    "text": "Shoot a bomb every 8 tears",
+    "introduced_in": "Racing+ Rebalanced"
+  },
+  "Walnut (Improved)": {
+    "text": "Chance to drop a pedestal item on hit from explosion",
+    "shown": true,
+    "introduced_in": "Racing+ Rebalanced",
+    "comment": "Replacing 108 (trinket)"
+  },
+  "Ethereal Penny": {
+    "text": "20% chance to spawn a 1/2 soul heart upon picking up a coin",
+    "shown": true,
+    "introduced_in": "Racing+ Rebalanced"
+  },
+  "Penny on a String": {
+    "text": "Everything that costs a coin is free",
+    "shown": true,
+    "introduced_in": "Racing+ Rebalanced"
   }
 }

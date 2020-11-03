@@ -92,6 +92,6 @@ class Floor(Serializable):
         if (floor_id not in Floor.__floor_id_to_label or
                 curse < Curse.No_Curse or
                 curse > Curse.Labyrinth):
-            log_error("ERROR: Invalid foor_id or curse (" + floor_id + ", " + curse + ")")
+            log_error("ERROR: Invalid floor_id or curse (" + floor_id + ", " + curse + ")")
             return None
         return Floor(floor_id, curse)

@@ -22,7 +22,7 @@ class LogParser(object):
     def reset(self):
         """Reset variable specific to the log file/run"""
         # Variables describing the parser state
-        self.getting_start_items = False      
+        self.getting_start_items = False
         self.reseeding_floor = False
         self.current_room = ""
         self.current_seed = ""
@@ -103,7 +103,7 @@ class LogParser(object):
             # racing+ re-generates floors if they contain duplicate rooms. we need to track that this is happening
             # so we don't erroneously think the entire run is being restarted when it happens on b1.
             self.reseeding_floor = True
-        
+
 
     def __trigger_new_run(self, line_number):
         self.log.debug("Starting new run, seed: %s", self.current_seed)
@@ -147,7 +147,7 @@ class LogParser(object):
         if search_result is None:
             self.log.debug("log.txt line doesn't match expected regex\nline: \"" + line+ "\"\nregex:\"" + regexp_str + "\"")
             return
-        
+
         floor = int(search_result.group(1))
         alt = search_result.group(2)
         self.getting_start_items = True
@@ -174,7 +174,7 @@ class LogParser(object):
                 floor = 13
             elif floor >= 12:
                 floor += 2
-        else:    
+        else:
             # In Rebirth, floors have different numbers
             if alt == '1' and (floor == 9 or floor == 11):
                 floor += 1
@@ -286,4 +286,3 @@ class LogParser(object):
             self.log_file_handle.seek(cached_length + 1)
             self.content += self.log_file_handle.read()
         return True
-

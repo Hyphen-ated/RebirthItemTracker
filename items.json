@@ -898,6 +898,7 @@
    "123": {
       "name": "Monster Manual",
       "shown": true,
+      "bookworm": true,
       "text": "Summons a random familiar",
       "space": true,
       "introduced_in": "Rebirth"
@@ -3782,6 +3783,7 @@
       "name": "Book of the Dead",
       "text": "Converts killed enemies into temporary orbitals or charmed Bonies",
       "shown": true,
+      "bookworm": true,
       "space": true,
       "introduced_in": "Booster Pack #5"
    },
