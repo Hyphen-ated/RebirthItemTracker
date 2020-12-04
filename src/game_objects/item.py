@@ -224,7 +224,8 @@ class ItemInfo(dict):
         "space",
         "summary_condition",
         "summary_name",
-        "text"
+        "text",
+        "comment"
     ]
     valid_key_list.extend(stat_list)
     valid_key_list.extend(transform_list)
