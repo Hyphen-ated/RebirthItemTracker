@@ -156,9 +156,11 @@ class LogParser(object):
         # in racing+, it doesn't count if the game is currently in the process of "reseeding" that floor.
         # in antibirth, this doesn't work at all; instead we have to use the seed being printed as our trigger.
         # that means if you s+q in antibirth, it resets the tracker.
+        # In Repentance, Downpour 1 and Dross 1 are considered Stage 1.
+        # So we need to add a condition to void tracker restarting when entering those floors.
         if self.reseeding_floor:
             self.reseeding_floor = False
-        elif floor == 1 and self.opt.game_version != "Antibirth":
+        elif floor == 1 and alt != "4" and alt != "5" and self.opt.game_version != "Antibirth":
             self.__trigger_new_run(line_number)
 
         # Special handling for the Cathedral and The Chest and Afterbirth
@@ -166,14 +168,17 @@ class LogParser(object):
             self.log.debug("floor")
             # In Afterbirth, Cath is an alternate of Sheol (which is 10)
             # and Chest is an alternate of Dark Room (which is 11)
-            if floor == 10 and alt == '0':
+            # In Repentance, alt paths are same stage as their counterparts (ex: Basement 1 = Downpour 1)
+            if alt == '4' or alt == '5':
+                floor += 14
+            elif floor == 10 and alt == '0':
                 floor -= 1
             elif floor == 11 and alt == '1':
                 floor += 1
             elif floor == 9:
                 floor = 13
-            elif floor >= 12:
-                floor += 2
+            elif floor == 12:
+                floor = 14
         else:
             # In Rebirth, floors have different numbers
             if alt == '1' and (floor == 9 or floor == 11):

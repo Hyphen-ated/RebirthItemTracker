@@ -4385,7 +4385,7 @@
       "introduced_in": "Antibirth"
    },
    "638": {
-      "name": "Blank Rune",
+      "name": "Clear Rune",
       "shown": true,
       "text": "Mimics the effect of the currently held rune",
       "space": true,
@@ -4440,7 +4440,13 @@
    "646": {
       "name": "Dream Catcher",
       "shown": true,
-      "text": "Placeholder",
+      "text": "Allows you to see the item in item room and the boss at the start of each floor",
+      "introduced_in": "Repentance"
+   },
+   "647": {
+      "name": "Divine Intervention",
+      "shown": true,
+      "text": "A shield that reflects bullets and brimstone lasers",
       "introduced_in": "Repentance"
    },
    "1000": {
