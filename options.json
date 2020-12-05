@@ -1,6 +1,6 @@
 {
    "background_color": "#3C3C3C", 
-   "blck_cndl_mode": true, 
+   "blck_cndl_mode": false, 
    "bold_font": true, 
    "change_server": true, 
    "check_for_updates": true, 
@@ -23,6 +23,7 @@
    "show_floors": true, 
    "show_font": "Arial", 
    "show_health_ups": true, 
+   "show_jacob_esau_items": true, 
    "show_rerolled_items": true, 
    "show_space_items": true, 
    "show_status_message": true, 
@@ -35,6 +36,6 @@
    "width": 1315, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 521, 
-   "y_position": 909
+   "x_position": 605, 
+   "y_position": 900
 }

@@ -54,6 +54,8 @@ class DrawingTool(object):
         self._image_library = {}
         self.blind_icon = None
         self.roll_icon = None
+        self.jacob_icon = None
+        self.Esau_icon = None
         self.font = None
         self.text_margin_size = None
         self.framecount = 0
@@ -545,6 +547,8 @@ class DrawingTool(object):
         self._image_library = {}
         self.roll_icon = self.get_scaled_icon(self.numeric_id_to_image_path("284"), font_size * 2)
         self.blind_icon = self.get_scaled_icon("questionmark.png", font_size * 2)
+        self.jacob_icon = self.get_scaled_icon("JacobHead.png", font_size * 2)
+        self.esau_icon = self.get_scaled_icon("EsauHead.png", font_size * 2)
         if opt.show_description or opt.show_status_message:
             self.text_height = self.write_message(" ")
         else:
@@ -664,6 +668,18 @@ class DrawableItem(Drawable):
                 self.tool.blind_icon,
                 (self.x, self.y + Options().size_multiplier * 24)
             )
+        # If we're showing Jacob&Esau items, draw their head next to the item  
+        if self.item.is_Jacob_item and Options().show_jacob_esau_items:
+            self.tool.screen.blit(
+                self.tool.jacob_icon,
+                (self.x + Options().size_multiplier * 32, self.y)
+            )
+        if self.item.is_Esau_item and Options().show_jacob_esau_items:
+            self.tool.screen.blit(
+                self.tool.esau_icon,
+                (self.x + Options().size_multiplier * 32, self.y)
+            )      
+
         # If we're selected, draw a box to highlight us
         if selected:
             self.tool.draw_selected_box(self.x, self.y)

@@ -20,7 +20,7 @@ class Item(Serializable):
     modded_item_id_prefix = "m"
 
     serialization_flags = {"blind":"b", "was_rerolled":"r", "starting_item":"s"}
-    def __init__(self, item_id, floor, starting_item=False, was_rerolled=False, blind=False, flagstr=None):
+    def __init__(self, item_id, floor, starting_item=False, was_rerolled=False, blind=False, flagstr=None, is_Jacob_item=False, is_Esau_item=False):
         # item_id is a string that identifies what kind of item it is.
         # If this is numeric, then it represents an item from the base game, an official expansion, or antibirth
         # If it's non-numeric, then it represents an item from a mod. numeric ids of modded items are unstable, so the
@@ -45,6 +45,10 @@ class Item(Serializable):
             self.blind = blind
             # Was this item rerolled ?
             self.was_rerolled = was_rerolled
+            # Does this item belong to Jacob ?
+            self.is_Jacob_item = is_Jacob_item
+            # Does this item belong to Esau ?
+            self.is_Esau_item = is_Esau_item
 
         # ItemInfo for the current item
         self.info = Item.get_item_info(item_id)

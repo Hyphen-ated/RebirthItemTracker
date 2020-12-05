@@ -157,7 +157,7 @@ class LogParser(object):
         # in antibirth, this doesn't work at all; instead we have to use the seed being printed as our trigger.
         # that means if you s+q in antibirth, it resets the tracker.
         # In Repentance, Downpour 1 and Dross 1 are considered Stage 1.
-        # So we need to add a condition to void tracker restarting when entering those floors.
+        # So we need to add a condition to avoid tracker reseting when entering those floors.
         if self.reseeding_floor:
             self.reseeding_floor = False
         elif floor == 1 and alt != "4" and alt != "5" and self.opt.game_version != "Antibirth":
@@ -206,9 +206,12 @@ class LogParser(object):
         if len(self.splitfile) > 1 and self.splitfile[line_number + self.seek - 1] == line:
             self.log.debug("Skipped duplicate item line from baby presence")
             return False
+        is_Jacob_item = line.endswith("on Subtype 19") and self.opt.game_version == "Repentance"
+        is_Esau_item = line.endswith("on Subtype 20") and self.opt.game_version == "Repentance"
+        end_name = -15 if is_Jacob_item or is_Esau_item else -1
         space_split = line.split(" ")
         numeric_id = space_split[2] # When you pick up an item, this has the form: "Adding collectible 105 (The D6)"
-        item_name = " ".join(space_split[3:])[1:-1]
+        item_name = " ".join(space_split[3:])[1:end_name]
         item_id = ""
 
         # Check if we recognize the numeric id
@@ -228,7 +231,7 @@ class LogParser(object):
 
         # It's a blind pickup if we're on a blind floor and we don't have the Black Candle
         blind_pickup = self.state.last_floor.floor_has_curse(Curse.Blind) and not self.state.contains_item('260')
-        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, blind=blind_pickup))
+        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, blind=blind_pickup, is_Jacob_item=is_Jacob_item, is_Esau_item=is_Esau_item))
         if not added:
             self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
         return True
@@ -238,7 +241,9 @@ class LogParser(object):
         space_split = line.split(" ")
         # When using a mod like racing+, a trinket gulp has the form: "Gulping trinket 10"
         numeric_id = str(int(space_split[2]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
-
+        is_Jacob_item = line.endswith("on Subtype 19") and self.opt.game_version == "Repentance"
+        is_Esau_item = line.endswith("on Subtype 20") and self.opt.game_version == "Repentance"
+        
         # Check if we recognize the numeric id
         if Item.contains_info(numeric_id):
             item_id = numeric_id
@@ -247,7 +252,7 @@ class LogParser(object):
 
         self.log.debug("Gulped trinket: %s", item_id)
 
-        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items))
+        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, is_Jacob_item=is_Jacob_item, is_Esau_item=is_Esau_item))
         if not added:
             self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
         return True
