@@ -3,6 +3,7 @@ from game_objects.serializable import Serializable
 import logging
 
 from error_stuff import log_error
+from options import Options
 
 
 class Item(Serializable):
@@ -11,6 +12,7 @@ class Item(Serializable):
     # These will be needed by both the log reader and the serializer. They're set in ItemTracker.__init__
     # they shouldn't change after that.
     items_info = {}
+    abplus_items_info = {}
     custom_items_info = {}
 
     serialize = [('item_id', basestring),
@@ -135,16 +137,20 @@ class Item(Serializable):
         """look for its informations in the loaded dictionary"""
         if item_id[0] == Item.modded_item_id_prefix:
             return ItemInfo(Item.custom_items_info[item_id[1:]])
-        else:
+        elif Options().game_version == "Repentance":
             return ItemInfo(Item.items_info[item_id])
+        else:
+            return ItemInfo(Item.abplus_items_info[item_id])
 
     @staticmethod
     def contains_info(item_id):
         """ Return true if we know an item with this id """
         if item_id[0] == Item.modded_item_id_prefix:
             return item_id[1:] in Item.custom_items_info
-        else:
+        elif Options().game_version == "Repentance":
             return item_id in Item.items_info
+        else:
+            return item_id in Item.abplus_items_info
 
     @staticmethod
     def determine_custom_item_names():

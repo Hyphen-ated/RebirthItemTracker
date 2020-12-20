@@ -1106,7 +1106,6 @@
    },
    "152": {
       "name": "Technology 2",
-      "dmg_x": "0.65",
       "shown": true,
       "text": "Laser tears (piercing)",
       "introduced_in": "Rebirth"
@@ -1767,6 +1766,7 @@
    },
    "245": {
       "name": "20/20",
+      "dmg_x": "0.75",
       "shown": true,
       "text": "Double shot",
       "in_summary": true,
@@ -2470,7 +2470,7 @@
       "name": "Match Book",
       "shown": true,
       "sin_hearts": "1",
-      "text": "+3 bombs",
+      "text": "+3 bombs and can spawn Match Stick",
       "introduced_in": "Rebirth"
    },
    "345": {
@@ -2801,7 +2801,7 @@
    },
    "394": {
       "name": "Marked",
-      "text": "Directed tears",
+      "text": "Directed tears (also synergize with familiars)",
       "shown": true,
       "height": "0.3",
       "range": "3.15",
@@ -2840,11 +2840,10 @@
    },
    "399": {
       "name": "Maw of the Void",
-      "text": "3 second charge for a black blood laser ring attack (which has 5% chance to drop a black heart per enemy killed)",
+      "text": "3 second charge for a black blood laser ring attack",
       "shown": true,
       "leviathan": true,
       "height": "0.5",
-      "dmg": "1",
       "introduced_in": "Afterbirth"
    },
    "400": {
@@ -3464,7 +3463,7 @@
    },
    "495": {
       "name": "Ghost Pepper",
-      "text": "Chance to shoot a fire (up to 125 dmg)",
+      "text": "Chance to shoot a blue fire (up to 184 dmg)",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3513,7 +3512,7 @@
    },
    "503": {
       "name": "Little Horn",
-      "text": "Chance to shoot void tears (piercing, instantly kills non-boss enemies)",
+      "text": "Chance to shoot void tears that invokes a Big Horn hand and squish the enemy",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3833,12 +3832,6 @@
       "space": true,
       "introduced_in": "Booster Pack #5"
    },
-   "553": {
-      "name": "Mucormycosis",
-      "text": "Releases poison gas upon killing an enemy",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
    "554": {
       "name": "2Spooky",
       "text": "Aura that fears enemies",
@@ -3900,13 +3893,6 @@
       "name": "A Bar of Soap",
       "text": "+tears, +shot speed",
       "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "564": {
-      "name": "Book of Despair",
-      "text": "Temporarily halves tear delay",
-      "shown": true,
-      "space": true,
       "introduced_in": "Antibirth"
    },
    "565": {
@@ -4205,7 +4191,7 @@
    },
    "611": {
       "name": "Bird's Eye",
-      "text": "Chance to shoot a fire (similar to Ghost Pepper)",
+      "text": "Chance to shoot a red fire",
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4414,7 +4400,7 @@
    "642": {
       "name": "Tropicamide",
       "shown": true,
-      "text": "Placeholder",
+      "text": "Tear size up + range up",
       "introduced_in": "Repentance"
    },
    "643": {
@@ -4449,569 +4435,384 @@
       "text": "A shield that reflects bullets and brimstone lasers",
       "introduced_in": "Repentance"
    },
-   "1000": {
-      "name": "Mucormycosis",
-      "text": "Releases poison gas upon killing an enemy",
+   "648": {
+      "name": "Genesis",
       "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1001": {
-      "name": "2Spooky",
-      "text": "Aura that fears enemies",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1002": {
-      "name": "Schoolbag",
-      "text": "Can carry 2 active items instead of 1",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1003": {
-      "name": "Sulfur",
-      "text": "Gives temporary Brimstone",
-      "shown": true,
+      "text": "Placeholder",
       "space": true,
-      "introduced_in": "Antibirth"
+      "introduced_in": "Repentance"
    },
-   "1004": {
-      "name": "Fortune Cookie",
-      "text": "Spawns a soul heart / card / rune / trinket",
+   "649": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1005": {
-      "name": "Eye Sore",
-      "text": "Extra tears are fired in random directions",
+   "650": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1006": {
-      "name": "120 Volt",
-      "text": "Zap tears (enemies zap other enemies)",
+   "651": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1007": {
-      "name": "It Hurts",
-      "text": "Ring of bloody tears + increases tears on hit",
+   "652": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1008": {
-      "name": "Almond Milk",
-      "text": "+tears, tears gain raindom movement effects",
-      "dmg_x": "0.3",
+   "653": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1009": {
-      "name": "Rock Bottom",
-      "text": "Resets all of your stats",
+   "654": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1010": {
-      "name": "Enigma Bombs",
-      "text": "+5 bombs, bombs explode with a random effect",
+   "655": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1011": {
-      "name": "A Bar of Soap",
-      "text": "+tears, +shot speed",
+   "656": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1012": {
-      "name": "Book of Despair",
-      "text": "Temporarily halves tear delay",
+   "657": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1013": {
-      "name": "D12",
-      "text": "Rerolls obstacles (rocks, etc.)",
+   "658": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1014": {
-      "name": "Paschal Candle",
-      "text": "-1 tear delay for each room cleared (max 6), resets on hit",
+   "659": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1015": {
-      "name": "Bowl of Tears",
-      "text": "Shoots a burst of tears, each tear shot grants a charge",
+   "660": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1016": {
-      "name": "Blood Oath",
-      "text": "Familiar that trades extra red health for damage at the beginning of a floor",
+   "661": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1017": {
-      "name": "Playdoh Cookie",
-      "text": "Random status effect tears (normal/petrify/homing/poison/fear)",
+   "662": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1018": {
-      "name": "Orphan Socks",
-      "text": "Immunity from spike and creep damage, can enter Curse Rooms without taking damage",
-      "soul_hearts": "2",
+   "663": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1019": {
-      "name": "Eye of the Occult",
-      "text": "+height, tears can be controlled mid-flight",
-      "dmg": "1",
-      "range": "21",
-      "shot_speed": "-0.16",
+   "664": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1020": {
-      "name": "Immaculate Heart",
-      "text": "Additional set of orbiting spectral tears",
-      "health": "1",
-      "dmg_x": "1.2",
+   "665": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1021": {
-      "name": "Monstrance",
-      "text": "Grants aura that damages enemies",
+   "666": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1022": {
-      "name": "The Intruder",
-      "text": "Additional set of slowing tears, chance to spawn blue spiders and release Intruder familiar on hit",
+   "667": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1023": {
-      "name": "Dirty Mind",
-      "text": "Dips become friendly, spawns friendly Dips when destroying poop",
+   "668": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1024": {
-      "name": "Damocles",
-      "text": "Double item pedestals, chance of permanent death on hit",
+   "669": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1025": {
-      "name": "Free Lemonade",
-      "text": "Lemon Party effect",
+   "670": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1026": {
-      "name": "Spirit Sword",
-      "text": "Sword replaces tears",
+   "671": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1027": {
-      "name": "Red Key",
-      "text": "Unlocks the red outlines of a door",
+   "672": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1028": {
-      "name": "Psy Fly",
-      "text": "Orbital, reflects enemy projectiles as homing tears",
+   "673": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1029": {
-      "name": "Black Mushroom",
-      "text": "Temporary +tears, -speed, distorts graphics/sound",
+   "674": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1030": {
-      "name": "Rocket in a Jar",
-      "text": "+5 bombs, bombs become rockets",
+   "675": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1031": {
-      "name": "Book of Virtues",
-      "text": "Spawns a wisp orbital (max 16)",
+   "676": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1032": {
-      "name": "Alabaster Box",
-      "text": "Converts soul/black/immortal hearts to Angel Room items + various rewards",
+   "677": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1033": {
-      "name": "Jacob's Ladder",
-      "text": "Start of each floor has ladder to Angel Room",
+   "678": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1034": {
-      "name": "Menorah",
-      "text": "Familiar, increases damage + tear delay on hit (max 7)",
+   "679": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1035": {
-      "name": "Sol",
-      "text": "Reveals location of the boss, Sun card effect + active item recharge + 2x dmg + +1 luck + removes curses upon killing the boss",
+   "680": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1036": {
-      "name": "Luna",
-      "text": "Generates an extra Secret Room and Super Secret Room per floor",
+   "681": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1037": {
-      "name": "Mercurius",
-      "text": "Doors stay open, +speed",
+   "682": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1038": {
-      "name": "Venus",
-      "text": "Close enemies get charmed",
-      "health": "1",
+   "683": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1039": {
-      "name": "Terra",
-      "text": "Rock tears (knockback, can destroy obstacles)",
+   "684": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1040": {
-      "name": "Mars",
-      "text": "Double tap to dash",
+   "685": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1042": {
-      "name": "Saturnus",
-      "text": "Grants orbiting tears aura, refreshes per room",
+   "686": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1043": {
-      "name": "Uranus",
-      "text": "Ice tears (enemies killed will become frozen)",
+   "687": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1045": {
-      "name": "Pluto",
-      "text": "+tears, -range, size down, can pass between blocks",
+   "688": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1046": {
-      "name": "Voodoo Head",
-      "text": "Generates 2 Curse Rooms per floor",
+   "689": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1047": {
-      "name": "Eye Drops",
-      "text": "+tears (only on one eye)",
+   "690": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1048": {
-      "name": "Act of Contrition",
-      "text": "+tears up, +immortal heart, allows Angel Rooms even if a devil deal has been taken",
+   "691": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1049": {
-      "name": "Member Card",
-      "text": "Every shop has a trapdoor to a special shop",
+   "692": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1050": {
-      "name": "Battery Pack",
-      "text": "Recharges active item, spawns 2-4 batteries on pickup",
+   "693": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1051": {
-      "name": "Mom's Bracelet",
-      "text": "Can throw obstacles",
+   "694": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1052": {
-      "name": "The Scooper",
-      "text": "Spawns a temporary familiar similar to The Peeper",
+   "695": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1053": {
-      "name": "Oculus Rift",
-      "text": "Chance to shoot rift tears (summons rifts that attract + deal contact dmg)",
+   "696": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1054": {
-      "name": "Boiled Baby",
-      "text": "Familiar, acts like a Boil",
+   "697": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1055": {
-      "name": "Freezer Baby",
-      "text": "Familiar that fires freezing tears",
+   "698": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1056": {
-      "name": "Eternal D6",
-      "text": "Like a D6, but has a chance to disappear",
+   "699": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1057": {
-      "name": "Bird Cage",
-      "text": "Spawns bird familiar when hit (similar to Dead Bird)",
+   "700": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1058": {
-      "name": "Donkey Jawbone",
-      "text": "Spin attack on hit",
+   "701": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1059": {
-      "name": "Lost Soul",
-      "text": "Familiar, 1 hit per floor, if it survives it grants a random reward",
+   "702": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1061": {
-      "name": "Blood Bombs",
-      "text": "Bombs leave behind red creep, can plant bombs for 1/2 heart, heals 4 hearts",
-      "health": "1",
+   "703": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1062": {
-      "name": "Lil' Dumpy",
-      "text": "Familiar, makes stun/poison farts on hit",
+   "704": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1063": {
-      "name": "Bird's Eye",
-      "text": "Chance to shoot a fire (similar to Ghost Pepper)",
+   "705": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1064": {
-      "name": "Lodestone",
-      "text": "Chance to shoot magnetizing tears (attract enemies + tears + projectiles)",
+   "706": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1065": {
-      "name": "Rotten Tomato",
-      "text": "Chance to shoot marked tears (other enemies will attack a marked enemy)",
+   "707": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1066": {
-      "name": "Birthright",
-      "text": "Custom reward based on character",
+   "708": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1067": {
-      "name": "Voodoo Pin",
-      "text": "\"Hurts\" the player without doing damage (same as Dull Razor)",
+   "709": {
+      "name": "Placeholder",
       "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
-   "1068": {
-      "name": "Red Stew",
-      "text": "Full heal, +dmg that wears off over time",
+   "710": {
+      "name": "Placeholder",
       "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1069": {
-      "name": "Sausage",
-      "text": "Full heal",
-      "health": "1",
-      "dmg": "1",
-      "range": "5.25",
-      "height": "0.5",
-      "tears": "0.7",
-      "speed": "0.3",
-      "shot_speed": "0.16",
-      "luck": "1",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1070": {
-      "name": "Sharp Key",
-      "text": "Consumes a key and throws it to deal damage / open doors, +5 keys on pickup",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1071": {
-      "name": "Booster Pack",
-      "text": "Spawns 3 random cards on pickup",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1072": {
-      "name": "Mega Mush",
-      "text": "Gigantify for a short duration (+damage, -tears, invulnerable, crush rocks/blocks/doors)",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1073": {
-      "name": "Knife Piece 1",
-      "text": "Collect all 3 to get a knife familiar",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1074": {
-      "name": "Knife Piece 2",
-      "text": "Collect all 3 to get a knife familiar",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1075": {
-      "name": "Knife Piece 3",
-      "text": "Collect all 3 to get a knife familiar",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1076": {
-      "name": "Bot Fly",
-      "text": "Familiar, orbits and fires shielded tears",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1078": {
-      "name": "Meat Cleaver",
-      "text": "Splits all enemies in the room into 2 smaller versions",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1079": {
-      "name": "Evil Charm",
-      "text": "",
-      "luck": "3",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1080": {
-      "name": "Stone Bombs",
-      "text": "+5 bombs, bombs release rock waves",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1082": {
-      "name": "Stitches",
-      "text": "Spawns a temporary familiar, can swap positions with the familiar to deal damage",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1083": {
-      "name": "R Key",
-      "text": "Restarts the game to the first floor but keeps all items",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1084": {
-      "name": "Knockout Drops",
-      "text": "Chance to shoot fist tears (knockback + stun)",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1085": {
-      "name": "Eraser",
-      "text": "Throw on an enemy to permanently remove that enemy type from the current run",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1086": {
-      "name": "Yuck Heart",
-      "text": "+1 rotton heart",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1088": {
-      "name": "Akeldama",
-      "text": "Spawns bloody tears behind the player",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1089": {
-      "name": "Magic Skin",
-      "text": "Converts 1 red heart / 2 soul hearts to a broken heart, spawns a pedestal item",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Antibirth"
-   },
-   "1090": {
-      "name": "Revelation",
-      "text": "Flight, +2 immortal hearts, -range, spectral, homing",
-      "shot_speed": "0.38",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1091": {
-      "name": "Consolation Prize",
-      "text": "+lowest stat, +3 coins or +1 bomb or +1 key (depending on lowest)",
-      "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "1092": {
-      "name": "Tinytoma",
-      "text": "Orbital, splits into blue spiders on hit",
-      "shown": true,
-      "introduced_in": "Antibirth"
+      "text": "Placeholder",
+      "introduced_in": "Repentance"
    },
    "2001": {
       "name": "Swallowed Penny",
@@ -5893,5 +5694,179 @@
       "text": "Gives a chance to gain 1 charge to your active item for each coin picked",
       "shown": true,
       "introduced_in": "Antibirth"
+   },
+   "2147": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2148": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2149": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2150": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2151": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2152": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2153": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2154": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2155": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2156": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2157": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2158": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2159": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2160": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2161": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2162": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2163": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2164": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2165": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2166": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2167": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2168": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2169": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2170": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2171": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2172": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2173": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2174": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
+   },
+   "2175": {
+      "name": "PlaceHolder",
+      "text": "Placeholder",
+      "shown": true,
+      "introduced_in": "Repentance"
    }
 }

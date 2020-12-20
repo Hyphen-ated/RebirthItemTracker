@@ -34,6 +34,10 @@ class IsaacTracker(object):
         with open(wdir_prefix + "items.json", "r") as items_file:
             Item.items_info = json.load(items_file)
         ItemInfo.check_item_keys(Item.items_info, "items.json")
+
+        with open(wdir_prefix + "items_abplus.json", "r") as abplus_items_file:
+            Item.abplus_items_info = json.load(abplus_items_file)
+        ItemInfo.check_item_keys(Item.abplus_items_info, "items_abplus.json")    
         
         with open(wdir_prefix + "items_custom.json", "r") as custom_items_file:
             Item.custom_items_info = json.load(custom_items_file)
