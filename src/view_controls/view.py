@@ -421,10 +421,12 @@ class DrawingTool(object):
     def get_scaled_icon(self, path, scale):
         return pygame.transform.scale(self.get_image(path), (scale, scale))
 
-    def make_path(self, imagename, antibirth=False):
+    def make_path(self, imagename, antibirth=False, afterbirthplus=False):
         path = self.wdir_prefix + "/collectibles/"
         if antibirth:
             path += "antibirth/"
+        if afterbirthplus:
+            path += "afterbirth+/"
         path += imagename
         return path.replace('/', os.sep).replace('\\', os.sep)
 
@@ -437,6 +439,10 @@ class DrawingTool(object):
             # if we're in antibirth mode, check if there's an antibirth version of the image first
             if self.state and self.state.game_version == "Antibirth":
                 path = self.make_path(imagename, True)
+                if os.path.isfile(path):
+                    need_path = False
+            elif self.state and self.state.game_version != "Repentance":
+                path = self.make_path(imagename, False, True)
                 if os.path.isfile(path):
                     need_path = False
 

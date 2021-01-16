@@ -29,6 +29,7 @@ def add_glow_to_dir(dirname):
 paths_to_add = [
   os.path.join('..', 'collectibles'),
   os.path.join('..', 'collectibles', 'antibirth'),
+  os.path.join('..', 'collectibles', 'afterbirth+'),
   os.path.join('..', 'collectibles', 'custom'),
 ]
 for path in paths_to_add:
