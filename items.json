@@ -262,6 +262,7 @@
       "name": "The Bible",
       "shown": true,
       "seraphim": true,
+      "bookworm": true,
       "text": "Temporary flight, instantly kills Mom / It Lives!",
       "space": true,
       "introduced_in": "Rebirth"
@@ -277,6 +278,7 @@
    "35": {
       "name": "The Necronomicon",
       "shown": true,
+      "bookworm": true,
       "text": "Deals 40 dmg to the room",
       "space": true,
       "introduced_in": "Rebirth"
@@ -463,7 +465,7 @@
    "64": {
       "name": "Steam Sale",
       "shown": true,
-      "text": "All shop items are half price",
+      "text": "Reduce shop items price where price = 1/(2^number of Steam sales)",
       "introduced_in": "Rebirth"
    },
    "65": {
@@ -2013,6 +2015,7 @@
    "282": {
       "name": "How To Jump",
       "shown": true,
+      "bookworm": true,
       "text": "Can jump over obstacles",
       "space": true,
       "introduced_in": "Rebirth"
@@ -2688,7 +2691,7 @@
    },
    "376": {
       "name": "Restock",
-      "text": "Stores get more items when you buy things (like in Greed Mode)",
+      "text": "Purchased items in shop are renewed but the more you buy them, the more the price increases",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -4010,14 +4013,15 @@
    },
    "582": {
       "name": "Book of Virtues",
-      "text": "Spawns a wisp orbital (max 16)",
+      "text": "Spawn a wisp orbital that have the effect of the active item that is inside the book (max 16)",
+      "bookworm": true,
       "shown": true,
       "space": true,
       "introduced_in": "Antibirth"
    },
    "583": {
       "name": "Alabaster Box",
-      "text": "Converts soul/black/immortal hearts to Angel Room items + various rewards",
+      "text": "Converts soul/black hearts to Angel Room items + various rewards",
       "shown": true,
       "space": true,
       "introduced_in": "Antibirth"
@@ -4103,7 +4107,7 @@
    },
    "597": {
       "name": "Act of Contrition",
-      "text": "+tears up, +immortal heart, allows Angel Rooms even if a devil deal has been taken",
+      "text": "+tears up, allows Angel Rooms even if a devil deal has been taken",
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4353,7 +4357,7 @@
    },
    "635": {
       "name": "Revelation",
-      "text": "Flight, +2 immortal hearts, -range, spectral, homing",
+      "text": "Flight, -range, spectral, homing",
       "shot_speed": "0.38",
       "shown": true,
       "introduced_in": "Antibirth"
@@ -4443,21 +4447,22 @@
       "introduced_in": "Repentance"
    },
    "649": {
-      "name": "Placeholder",
+      "name": "Neptunus",
       "shown": true,
-      "text": "Placeholder",
+      "text": "Charge an attack that makes you shoot several tears with decreasing fire rate",
       "introduced_in": "Repentance"
    },
    "650": {
-      "name": "Placeholder",
+      "name": "Jupiter",
       "shown": true,
       "text": "Placeholder",
       "introduced_in": "Repentance"
    },
    "651": {
-      "name": "Placeholder",
+      "name": "Urn of Souls",
       "shown": true,
-      "text": "Placeholder",
+      "text": "A flamethrower weapon that collects one soul per enemy killed",
+      "space": true,
       "introduced_in": "Repentance"
    },
    "652": {
