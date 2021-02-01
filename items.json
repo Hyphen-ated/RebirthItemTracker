@@ -263,6 +263,7 @@
       "shown": true,
       "seraphim": true,
       "bookworm": true,
+      "conjoined": true,
       "text": "Temporary flight, instantly kills Mom / It Lives!",
       "space": true,
       "introduced_in": "Rebirth"
@@ -820,6 +821,7 @@
    "113": {
       "name": "Demon Baby",
       "shown": true,
+      "conjoined": true,
       "text": "Familiar (3 dmg / tear)",
       "introduced_in": "Rebirth"
    },
@@ -4152,6 +4154,7 @@
    "604": {
       "name": "Freezer Baby",
       "text": "Familiar that fires freezing tears",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4253,7 +4256,7 @@
    },
    "619": {
       "name": "Booster Pack",
-      "text": "Spawns 3 random cards on pickup",
+      "text": "Spawns 5 random cards on pickup",
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4466,9 +4469,10 @@
       "introduced_in": "Repentance"
    },
    "652": {
-      "name": "Placeholder",
+      "name": "Guppy' Eye",
       "shown": true,
-      "text": "Placeholder",
+      "guppy": true,
+      "text": "Allow to see cards face up",
       "introduced_in": "Repentance"
    },
    "653": {

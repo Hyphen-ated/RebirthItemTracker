@@ -1617,7 +1617,7 @@
     "223": {
        "name": "Pyromaniac",
        "shown": true,
-       "text": "+5 bombs, explosions heal 1 red heart",
+       "text": "+5 bombs, explosions/stomps/rock waves heal 1 red heart",
        "in_summary": true,
        "introduced_in": "Rebirth"
     },
@@ -2685,7 +2685,7 @@
     },
     "375": {
        "name": "Host Hat",
-       "text": "Explosion immunity, chance to deflect enemy projectiles",
+       "text": "Explosion/Stomp/Rock wave immunity, chance to deflect enemy projectiles",
        "shown": true,
        "introduced_in": "Afterbirth"
     },

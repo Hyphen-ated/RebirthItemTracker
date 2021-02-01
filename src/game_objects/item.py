@@ -87,6 +87,7 @@ class Item(Serializable):
         tears = self.info.tears
         soul_hearts = self.info.soul_hearts
         sin_hearts = self.info.sin_hearts
+        rotten_hearts = self.info.rotten_hearts
         if dmg:
             desc += dmg + " dmg, "
         if dmg_x:
@@ -111,6 +112,8 @@ class Item(Serializable):
             desc += soul_hearts + " soul hearts, "
         if sin_hearts:
             desc += sin_hearts + " sin hearts, "
+        if rotten_hearts:
+            desc += rotten_hearts + " rotten hearts, "    
         if text:
             desc += text
         if desc.endswith(", "):
@@ -231,6 +234,7 @@ class ItemInfo(dict):
         "shown",
         "sin_hearts",
         "soul_hearts",
+        "rotten_hearts",
         "space",
         "summary_condition",
         "summary_name",
