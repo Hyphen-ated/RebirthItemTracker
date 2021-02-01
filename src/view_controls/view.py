@@ -4,11 +4,15 @@ import logging
 import os
 import platform # For determining what operating system the script is being run on
 import traceback
+import win32api # For transparent mode
+import win32con # For transparent mode
+import win32gui # For transparent mode
 
 import pygame   # This is the main graphics library used for the item tracker
 import webbrowser
 import string
 from Tkinter import Tk # For clipboard functionality
+from ctypes import windll # For transparent mode
 from collections import defaultdict
 from options import Options
 from option_picker import OptionsMenu
@@ -96,15 +100,17 @@ class DrawingTool(object):
 
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (xpos, ypos)
 
-        if self.screen is None: # If screen is none, we make our own
+        if self.screen is None and opt.transparent_mode: # If screen is none, we make our own
+            self.screen = pygame.display.set_mode((opt.width, opt.height), NOFRAME)
+            self.transparent_mode()
+        elif self.screen is None:
             self.screen = pygame.display.set_mode((opt.width, opt.height), RESIZABLE)
+            self.screen.fill(DrawingTool.color(opt.background_color))
         self.reset_options()
 
         if platform.system() == "Windows":
             self.win_info = pygameWindowInfo.PygameWindowInfo()
         del os.environ['SDL_VIDEO_WINDOW_POS']
-
-        self.screen.fill(DrawingTool.color(opt.background_color))
 
     def tick(self):
         """ Tick the clock. """
@@ -125,7 +131,11 @@ class DrawingTool(object):
                 return Event.DONE
 
             elif event.type == VIDEORESIZE:
-                self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
+                if opt.transparent_mode:
+                    self.screen = pygame.display.set_mode(event.dict['size'], NOFRAME)
+                    self.transparent_mode()
+                else:
+                    self.screen = pygame.display.set_mode(event.dict['size'], RESIZABLE)
                 opt.width = event.dict["w"]
                 opt.height = event.dict["h"]
                 self.__reflow()
@@ -168,9 +178,14 @@ class DrawingTool(object):
                 if event.button == 3:
                     self.save_window_position()
                     import option_picker
-                    self.screen.fill(DrawingTool.color(opt.background_color))
+                    # For unknown reason, setting a NOFRAME window after a RESIZABLE one puts the window's header on top inside the window, hiding the "Editing options..." text
+                    self.screen = pygame.display.set_mode((opt.width, opt.height), RESIZABLE)
+                    if opt.transparent_mode: # To keep the window on top of the other no matter what
+                        self.transparent_mode()
+                    # Clear the screen
+                    self.screen.fill(DrawingTool.color("#2C2C00" if opt.transparent_mode else opt.background_color))
                     self.write_message("Editing options...", flip=True)
-                    pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])                    
+                    pygame.event.set_blocked([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.optionPicker.run()
                     pygame.event.set_allowed([QUIT, MOUSEBUTTONDOWN, KEYDOWN, MOUSEMOTION])
                     self.reset_options()
@@ -192,8 +207,16 @@ class DrawingTool(object):
             self.state = state
 
         opt = Options()
-        # Clear the screen
-        self.screen.fill(DrawingTool.color(opt.background_color))
+        if opt.transparent_mode and self.state.modified:
+            self.screen = pygame.display.set_mode((opt.width, opt.height), NOFRAME)
+            self.transparent_mode()
+        elif opt.transparent_mode is False and self.state.modified:
+            self.screen = pygame.display.set_mode((opt.width, opt.height), RESIZABLE)
+            self.screen.fill(DrawingTool.color(opt.background_color))
+        elif opt.transparent_mode:
+            self.screen.fill(DrawingTool.color("#2C2C00"))
+        elif opt.transparent_mode is False:
+            self.screen.fill(DrawingTool.color(opt.background_color))  
 
         # If state is None we just want to clear the screen
         if self.state is None:
@@ -437,6 +460,7 @@ class DrawingTool(object):
             need_path = True
 
             # if we're in antibirth mode, check if there's an antibirth version of the image first
+            # if we're in rebirth/afterbirth/afterbirth+ mode, check if there's an afterbirth+ version of the image first
             if self.state and self.state.game_version == "Antibirth":
                 path = self.make_path(imagename, True)
                 if os.path.isfile(path):
@@ -491,9 +515,13 @@ class DrawingTool(object):
 
     def write_error_message(self, message):
         opt = Options()
+        if opt.transparent_mode:
+            self.screen = pygame.display.set_mode((opt.width, opt.height), NOFRAME)
+            self.transparent_mode()
         # Clear the screen
-        self.screen.fill(DrawingTool.color(opt.background_color))
+        self.screen.fill(DrawingTool.color("#2C2C00" if opt.transparent_mode else opt.background_color))
         self.write_message(message, flip=True)
+        pygame.time.wait(200) # slow the time to avoid some crashes in transparent mode (maybe due to some memory stuff)
 
     def write_message(self, message, flip=False):
         opt = Options()
@@ -525,7 +553,12 @@ class DrawingTool(object):
 
     @staticmethod
     def numeric_id_to_image_path(id):
-        return 'collectibles_%s.png' % id.zfill(3)
+        # Blue glow on Crown of light and Glowing Hour Glass sprites mess with transparent mode so we need to take their sprite without the blue glow
+        if Options().transparent_mode and id == "415" or Options().transparent_mode and id == "422":
+            id += "_without_glow"
+            return 'collectibles_%s.png' % id.zfill(16)
+        else:
+            return 'collectibles_%s.png' % id.zfill(3)
 
     def reset_options(self):
         """ Reset state variables affected by options """
@@ -626,6 +659,17 @@ class DrawingTool(object):
             return False
         return True
 
+    # We don't draw the NOFRAME window here because it would draw it every frame and can crash the option window after ~2 minutes
+    def transparent_mode(self):
+        opt = Options()
+
+        SetWindowPos = windll.user32.SetWindowPos
+        hwnd = pygame.display.get_wm_info()["window"]
+        win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED)
+        win32gui.SetLayeredWindowAttributes(hwnd, win32api.RGB(44, 44, 0), 0, win32con.LWA_COLORKEY) # RGB(44, 44, 0) = #2C2C00
+        SetWindowPos(hwnd, win32con.HWND_TOPMOST, opt.x_position, opt.y_position, opt.width, opt.height, win32con.SWP_NOMOVE + win32con.SWP_NOSIZE) # Always set it on the top, useful when playing in fullscreen 
+
+        self.screen.fill(DrawingTool.color("#2C2C00")) # This color is a good comprise between readability and performances. Somehow, using black or white make the tracker not responding.
 
 
 
@@ -655,7 +699,7 @@ class DrawableItem(Drawable):
         if graphics_id[0] == 'm':
             imagename = "custom/"
 
-        if Options().make_items_glow:
+        if Options().make_items_glow and Options().transparent_mode is False: # Disable item glow in transparent mode because background isn't completely removed with glow
             imagename += "glow/"
 
         if graphics_id[0] == 'm':
@@ -664,6 +708,7 @@ class DrawableItem(Drawable):
             imagename += DrawingTool.numeric_id_to_image_path(graphics_id)
 
         image = self.tool.get_image(imagename)
+
         self.tool.screen.blit(image, (self.x, self.y))
         # If we're a re-rolled item, draw a little d4 near us
         if self.item.was_rerolled:

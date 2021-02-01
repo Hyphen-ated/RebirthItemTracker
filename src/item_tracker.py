@@ -176,7 +176,7 @@ class IsaacTracker(object):
                             if their_version != self.tracker_version:
                                 screen_error_message = "They are using tracker version " + their_version + " but you have " + self.tracker_version
                 else:
-                    force_draw = state and state.modified
+                    force_draw = state is not None and state.modified
                     state = parser.parse()
                     if force_draw:
                         state.modified = True

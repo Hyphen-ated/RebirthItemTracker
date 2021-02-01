@@ -30,6 +30,7 @@
   "size_multiplier": 1.0,
   "status_message": "Seed: {seed} / Guppy: {guppy} / Leviathan: {leviathan} / Spun: {spun} / {version_number} / Room: {room_id}",
   "text_color": "#FFFFFF",
+  "transparent_mode": false,
   "trackerserver_authkey": "",
   "trackerserver_url": "http://isaacitemtracker.com:8080",
   "twitch_name": "",

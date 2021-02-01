@@ -1,8 +1,8 @@
 {
-   "background_color": "#3C3C3C", 
-   "blck_cndl_mode": false, 
+   "background_color": "#EB0214", 
+   "blck_cndl_mode": true, 
    "bold_font": true, 
-   "change_server": true, 
+   "change_server": false, 
    "check_for_updates": true, 
    "custom_title": "Racer 1 Items", 
    "custom_title_enabled": false, 
@@ -10,7 +10,7 @@
    "enable_mouseover": true, 
    "framerate_limit": 30, 
    "game_version": "Repentance", 
-   "height": 100, 
+   "height": 104, 
    "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID", 
    "log_file_check_seconds": 1.0, 
    "make_items_glow": true, 
@@ -32,10 +32,11 @@
    "text_color": "#FFFFFF", 
    "trackerserver_authkey": "", 
    "trackerserver_url": "http://isaacitemtracker.com:8080", 
+   "transparent_mode": false, 
    "twitch_name": "dea1h", 
-   "width": 1315, 
+   "width": 1078, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 605, 
-   "y_position": 900
+   "x_position": 546, 
+   "y_position": 861
 }

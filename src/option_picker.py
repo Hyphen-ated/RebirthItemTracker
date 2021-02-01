@@ -247,8 +247,8 @@ class OptionsMenu(object):
         self.buttons = {}
 
         # Draw the "Text Options" box
-        text_options_frame = LabelFrame(self.root, text="Text Options", padx=20, pady=20)
-        text_options_frame.grid(row=0, column=0, padx=5, pady=5)
+        text_options_frame = LabelFrame(self.root, text="Text Options", padx=40, pady=20)
+        text_options_frame.grid(row=0, column=0, padx=5, pady=2)
         validate_numeric_field = (self.root.register(self.ValidateNumeric), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
         next_row = 0
         for index, opt in enumerate(["message_duration"]):
@@ -295,8 +295,8 @@ class OptionsMenu(object):
                 c.configure(command=self.checkbox_callback)
 
         # Draw the other options box
-        display_options_frame = LabelFrame(self.root, text="", padx=20, pady=20)
-        display_options_frame.grid(row=1, column=0, padx=5, pady=5)
+        display_options_frame = LabelFrame(self.root, text="", padx=22, pady=20)
+        display_options_frame.grid(row=1, column=0, padx=5, pady=2)
         next_row = 0
 
         for index, opt in enumerate(["game_version"]):
@@ -362,8 +362,8 @@ class OptionsMenu(object):
         next_row += 1
 
         # Draw the "Tournament Settings" box
-        tournament_settings_frame = LabelFrame(self.root, text="Tournament Settings", padx=20, pady=20)
-        tournament_settings_frame.grid(row=0, column=1, rowspan=2, sticky=N)
+        tournament_settings_frame = LabelFrame(self.root, text="Tournament Settings", padx=19, pady=20)
+        tournament_settings_frame.grid(row=0, column=1, rowspan=2, sticky=N, pady=2)
         next_row = 0
 
         for index, opt in enumerate(["change_server"]):
@@ -437,28 +437,51 @@ class OptionsMenu(object):
 
         self.buttons["authkey_button"].grid(row=next_row, column=1, pady=5)
 
+
+        # Draw the "Transparent Mode" box
+        transparent_mode_frame = LabelFrame(self.root, text="Transparent Mode", padx=25, pady=9)
+        transparent_mode_frame.grid(row=1, column=1, pady=2, sticky=S)
+        transparent_mode_frame.grid_location(200,200)
+
+        if platform.system() == "Windows":
+            text = Label(transparent_mode_frame, text="The tracker will always be on top of other windows, except when the game is in fullscreen.\n\nYou can't resize/move the window in transparent mode, you have to right-click on it.\nWhen resizing diagonaly in the options menu will cause some black pixels to appear,\ndon't worry it shouldn't cause problems.\n\nThe background color will always be #2C2C00 (RGB(44, 44, 0)) because of performance\nand readability reasons. You can use this color to setup a chromakey in streaming\nsoftwares, setting the similarity and smoothness at minimum.\n\nThe \"Make Items Glow\" option is also disabled for readability reasons.\n\nYou can't close the window while being in this mode, you have to disable it or using\nAlt+F4 (be sure that this window is the active one by clicking on a non-transparent\npixel or otherwise it will close the window behind it!)")
+            text.pack()
+
+            for index, opt in enumerate(["transparent_mode"]):
+                self.checks[opt] = IntVar()
+                c = Checkbutton(transparent_mode_frame, text=self.pretty_name(opt), variable=self.checks[opt])
+                c.pack()
+                if getattr(self.options, opt):
+                    c.select()
+        else:
+            text = Label(transparent_mode_frame, text="This only works on Windows for the moment.\nIf you have a solution for it, fork the repository on GitHub,\nmake a feature and do a Pull Request")
+            text.pack()          
+
         # Check for coherency in options with priority to read
         self.read_callback()
 
         # Disable some textboxes if needed
         self.checkbox_callback()
 
-        buttonframe = LabelFrame(self.root, bd=0, padx=5, pady=5)
-        buttonframe.grid(row=2, column=1)
+        button_save_frame = LabelFrame(self.root, bd=0, pady=5)
+        button_save_frame.grid(row=2, column=0, sticky="e")
+
+        button_cancel_frame = LabelFrame(self.root, bd=0, pady=5)
+        button_cancel_frame.grid(row=2, column=1, sticky="w")
 
         # Save and cancel buttons
         save = Button(
-            buttonframe,
+            button_save_frame,
             text="Save",
             command=self.save_callback
         )
-        save.grid(row=0, column=0, padx=5)
+        save.grid(row=0, column=0, padx=2)
         cancel = Button(
-            buttonframe,
+            button_cancel_frame,
             text="Cancel",
             command=self.root.destroy
         )
-        cancel.grid(row=0, column=1, padx=5)
+        cancel.grid(row=0, column=0, padx=2)
 
         # We're going to jump through a lot of hoops so we can position the options window on top of the tracker...
         # ... WITHOUT going off the edge of the screen
