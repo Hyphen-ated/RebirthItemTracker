@@ -83,6 +83,7 @@ Ctrl-up and ctrl-down are shortcuts to change the delay, which is also shown in 
 
 * When using the _Glowing Hour Glass_ right after taking any object, this object will remains in the tracker even if the
 character doesn't have it anymore.
+
 * If you want to make a shortcut to the tracker, and you want automatic updates to work, make the shortcut to the file
 "Rebirth Item Tracker.exe" and not "item_tracker.exe".
 
@@ -90,3 +91,5 @@ character doesn't have it anymore.
 
 * If you ever save & quit and close the game, the tracker will forget anything that happened during that run when you
 relaunch the game.
+
+* Transparent mode only works on Windows.
