@@ -553,10 +553,16 @@ class DrawingTool(object):
 
     @staticmethod
     def numeric_id_to_image_path(id):
+        without_glow = ("415", "422")
+        greyed_items = ("32", "311", "433")
         # Blue glow on Crown of light and Glowing Hour Glass sprites mess with transparent mode so we need to take their sprite without the blue glow
-        if Options().transparent_mode and id == "415" or Options().transparent_mode and id == "422":
+        # Black pixels only items can be difficult to see if tracker is placed on black background so we make them a little greyer
+        if Options().transparent_mode and id in without_glow:
             id += "_without_glow"
             return 'collectibles_%s.png' % id.zfill(16)
+        elif Options().transparent_mode and id in greyed_items:
+            id += "_grey"
+            return 'collectibles_%s.png' % id.zfill(8)    
         else:
             return 'collectibles_%s.png' % id.zfill(3)
 
