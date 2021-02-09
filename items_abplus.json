@@ -1554,8 +1554,10 @@
        "name": "Anemic",
        "range": "5",
        "shown": true,
+       "space": true,
        "text": "Makes a trail of creep when hit",
-       "introduced_in": "Rebirth"
+       "introduced_in": "Rebirth",
+       "comment": "space :true is here only to avoid adding another Anemic if we already got it and if we respawn as Lazarus II"
     },
     "215": {
        "name": "Goat Head",

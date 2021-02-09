@@ -1555,6 +1555,7 @@
       "name": "Anemic",
       "range": "5",
       "shown": true,
+      "space": true,
       "text": "Makes a trail of creep when hit",
       "introduced_in": "Rebirth"
    },
