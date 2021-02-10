@@ -175,6 +175,15 @@ class DrawingTool(object):
             elif event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.load_selected_detail_page()
+                if event.button == 2:
+                    if opt.transparent_mode:
+                        self.screen = pygame.display.set_mode((opt.width, opt.height), RESIZABLE)
+                        self.screen.fill(DrawingTool.color(opt.background_color))
+                        opt.transparent_mode = False
+                    else:
+                        self.screen = pygame.display.set_mode((opt.width, opt.height), NOFRAME)
+                        self.transparent_mode()
+                        opt.transparent_mode = True
                 if event.button == 3:
                     self.save_window_position()
                     import option_picker

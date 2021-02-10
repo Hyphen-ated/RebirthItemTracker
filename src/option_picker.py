@@ -444,7 +444,7 @@ class OptionsMenu(object):
         transparent_mode_frame.grid_location(200,200)
 
         if platform.system() == "Windows":
-            text = Label(transparent_mode_frame, text="The tracker will always be on top of other windows, except when the game is in fullscreen.\n\nYou can't resize/move/minimize the window, you have to right-click on it before.\nWhen resizing diagonaly in the options menu will cause some black pixels to appear,\ndon't worry it shouldn't cause problems.\n\nThe background color will always be #2C2C00 (RGB(44, 44, 0)) because of performance\nand readability reasons. You can use this color to setup a chromakey in streaming\nsoftwares, setting the similarity and smoothness at minimum.\n\nThe \"Make Items Glow\" option is also disabled for readability reasons.\n\nYou can't close the window while being in this mode, you have to disable it or using\nAlt+F4 (be sure that this window is the active one by clicking on a non-transparent\npixel or otherwise it will close the window behind it!)")
+            text = Label(transparent_mode_frame, text="The tracker will always be on top of other windows, except when the game is in fullscreen.\n\nYou can't resize/move/minimize/close the window, you have to be in non-transparent\nmode. Middle-click on the tracker to switch modes.\n\nThe background color will always be #2C2C00 (RGB(44, 44, 0)) because of performance\nand readability reasons. You can use this color to setup a chromakey in streaming\nsoftwares, setting the similarity and smoothness at minimum.\n\nThe \"Make Items Glow\" option is also disabled for readability reasons.")
             text.pack()
 
             for index, opt in enumerate(["transparent_mode"]):
@@ -455,7 +455,7 @@ class OptionsMenu(object):
                     c.select()
         else:
             text = Label(transparent_mode_frame, text="This only works on Windows for the moment.\nIf you have a solution for it, fork the repository on GitHub,\nmake a feature and do a Pull Request")
-            text.pack()          
+            text.pack()
 
         # Check for coherency in options with priority to read
         self.read_callback()
