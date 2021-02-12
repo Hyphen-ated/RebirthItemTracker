@@ -37,6 +37,7 @@ class LogParser(object):
         # if they switched between rebirth and afterbirth, the log file we use could change
         self.log_file_path = self.log_finder.find_log_file(self.wdir_prefix)
         self.state.reset(self.current_seed, Options().game_version)
+        self.lazarus = False
 
     def parse(self):
         """
@@ -86,6 +87,12 @@ class LogParser(object):
             self.__parse_room(line)
         if line.startswith('Level::Init'):
             self.__parse_floor(line, line_number)
+        if line.endswith('Subtype 8'): # This is to detect if we play as Lazarus to avoid showing two Anemics in the tracker
+            self.lazarus = True
+        else: # To reset self.lazarus if we don't play it because it would never add Anemic again unless you close/re-open the game
+            for i in range(20):
+                if i != 8 and line.endswith("Subtype "+ str(i)):
+                    self.lazarus = False
         if line.startswith("Curse"):
             self.__parse_curse(line)
         if line.startswith("Spawn co-player!"):
@@ -206,8 +213,8 @@ class LogParser(object):
         if len(self.splitfile) > 1 and self.splitfile[line_number + self.seek - 1] == line:
             self.log.debug("Skipped duplicate item line from baby presence")
             return False
-        is_Jacob_item = line.endswith("on Subtype 19") and self.opt.game_version == "Repentance"
-        is_Esau_item = line.endswith("on Subtype 20") and self.opt.game_version == "Repentance"
+        is_Jacob_item = line.endswith("on Subtype 19") and self.opt.game_version == "Repentance" # The second part of the condition is to avoid showing Jacob's Head if you play on a modded char in AB+
+        is_Esau_item = line.endswith("on Subtype 20") and self.opt.game_version == "Repentance" # The second part of the condition is to avoid showing Esau's Head if you play on a modded char in AB+  
         end_name = -15 if is_Jacob_item or is_Esau_item else -1
         space_split = line.split(" ")
         numeric_id = space_split[2] # When you pick up an item, this has the form: "Adding collectible 105 (The D6)"
@@ -231,9 +238,12 @@ class LogParser(object):
 
         # It's a blind pickup if we're on a blind floor and we don't have the Black Candle
         blind_pickup = self.state.last_floor.floor_has_curse(Curse.Blind) and not self.state.contains_item('260')
-        added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, blind=blind_pickup, is_Jacob_item=is_Jacob_item, is_Esau_item=is_Esau_item))
-        if not added:
-            self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
+        if not (numeric_id == "214" and ((self.state.contains_item('214') and self.state.contains_item('332')) or (self.lazarus and self.state.contains_item('214')))):
+            added = self.state.add_item(Item(item_id, self.state.last_floor, self.getting_start_items, blind=blind_pickup, is_Jacob_item=is_Jacob_item, is_Esau_item=is_Esau_item))
+            if not added:
+                self.log.debug("Skipped adding item %s to avoid space-bar duplicate", item_id)
+        else:
+            self.log.debug("Skipped adding Anemic from Lazarus Rags because we already have Anemic")
         return True
 
     def __parse_trinket_gulp(self, line):
