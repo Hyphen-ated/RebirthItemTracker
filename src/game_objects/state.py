@@ -4,6 +4,7 @@ import json
 from game_objects.item  import Item, ItemInfo
 from game_objects.floor import Floor
 from game_objects.serializable import Serializable
+from options import Options
 
 class TrackerState(Serializable):
     """This class represents a tracker state, and handle the logic to
@@ -112,6 +113,7 @@ class TrackerState(Serializable):
     def reroll(self):
         """ Tag every (non-spacebar) items as rerolled """
         [item.rerolled() for item in self.item_list]
+        [self.__remove_stats_for_item(item) for item in self.item_list]
 
     # Add curse to last floor
     def add_curse(self, curse):
@@ -173,8 +175,8 @@ class TrackerState(Serializable):
         for transform in ItemInfo.transform_list:
             if not item_info[transform]:
                 continue
-            # TODO Handle transformations
-            #self.player_transforms[transform].add(item)
+            if not item.info.space and Options().game_version == "Repentance":
+                self.player_transforms[transform].discard(item)
 
             
 
