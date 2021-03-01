@@ -118,7 +118,7 @@
       "range": "5.25",
       "shown": true,
       "spun": true,
-      "speed": "0.6",
+      "speed": "0.3",
       "text": "",
       "introduced_in": "Rebirth"
    },
@@ -263,7 +263,6 @@
       "shown": true,
       "seraphim": true,
       "bookworm": true,
-      "conjoined": true,
       "text": "Temporary flight, instantly kills Mom / It Lives!",
       "space": true,
       "introduced_in": "Rebirth"
@@ -510,7 +509,7 @@
       "dmg": "1",
       "shown": true,
       "spun": true,
-      "speed": "0.4",
+      "speed": "0.2",
       "text": "",
       "introduced_in": "Rebirth"
    },
@@ -2783,6 +2782,7 @@
    "390": {
       "name": "Seraphim",
       "text": "Familiar (Sacred Heart tears)",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
