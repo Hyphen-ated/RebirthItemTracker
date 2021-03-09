@@ -10,7 +10,7 @@
    "enable_mouseover": true, 
    "framerate_limit": 30, 
    "game_version": "Afterbirth+", 
-   "height": 100, 
+   "height": 129, 
    "item_details_link": "http://platinumgod.co.uk/afterbirth?id=$ID", 
    "log_file_check_seconds": 1.0, 
    "make_items_glow": true, 
@@ -26,7 +26,7 @@
    "show_rerolled_items": true, 
    "show_space_items": true, 
    "show_status_message": true, 
-   "size_multiplier": 1.0, 
+   "size_multiplier": 1.2, 
    "status_message": "Seed: {seed} / Guppy: {guppy} / Leviathan: {leviathan} / Spun: {spun} / {version_number} / Room: {room_id}", 
    "text_color": "#FFFFFF", 
    "trackerserver_authkey": "", 
@@ -35,6 +35,6 @@
    "width": 1315, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 186, 
-   "y_position": 926
+   "x_position": 370, 
+   "y_position": 900
 }
