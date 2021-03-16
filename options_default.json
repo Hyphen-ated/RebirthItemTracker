@@ -20,6 +20,7 @@
   "read_from_server": false,
   "show_blind_icon": true,
   "show_description": true,
+  "show_item_ids": false,
   "show_floors": true,
   "show_font": "Arial",
   "show_health_ups": true,

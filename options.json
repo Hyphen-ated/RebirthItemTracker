@@ -23,6 +23,7 @@
    "show_floors": true, 
    "show_font": "Arial", 
    "show_health_ups": true, 
+   "show_item_ids": true, 
    "show_jacob_esau_items": true, 
    "show_rerolled_items": true, 
    "show_space_items": true, 
@@ -37,6 +38,6 @@
    "width": 1078, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 546, 
-   "y_position": 861
+   "x_position": 640, 
+   "y_position": 874
 }

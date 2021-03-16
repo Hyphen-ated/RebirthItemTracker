@@ -482,7 +482,11 @@ class DrawingTool(object):
             if need_path:
                 path = self.make_path(imagename)
 
-            image = pygame.image.load(path)
+            try:
+                image = pygame.image.load(path)
+            except:
+                image = pygame.image.load("..\collectibles\questionmark.png")
+
             size_multiplier = Options().size_multiplier
             scaled_image = image
             # Resize image iff we need to
@@ -519,7 +523,16 @@ class DrawingTool(object):
             return False
         item = self.drawn_items[item_index_to_display].item
         desc = item.generate_item_description()
-        self.text_height = self.write_message("%s%s" % (item.name, desc))
+        opt = Options()
+        if opt.show_item_ids:
+            if item.item_id.startswith("2") and len(item.item_id) == 4:
+                item.item_id = item.item_id.replace("2", "t", 1)
+                self.text_height = self.write_message("%s%s%s" % ("("+item.item_id+") ", item.name, desc))
+                item.item_id = item.item_id.replace("t", "2", 1) #revert it to avoid showing a question mark
+            else:
+                self.text_height = self.write_message("%s%s%s" % ("("+item.item_id+") ", item.name, desc))
+        else:  
+            self.text_height = self.write_message("%s%s" % (item.name, desc))
         return True
 
     def write_error_message(self, message):

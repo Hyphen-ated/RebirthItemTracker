@@ -337,17 +337,12 @@ class OptionsMenu(object):
 
         # Generate checkboxes, with special exception for show_description for message duration
         for index, opt in enumerate(
-                ["show_jacob_esau_items", "enable_mouseover", "show_floors", "show_rerolled_items", "show_health_ups",
+                ["show_jacob_esau_items", "show_item_ids", "enable_mouseover", "show_floors", "show_rerolled_items", "show_health_ups",
                  "show_space_items", "show_blind_icon", "make_items_glow", "blck_cndl_mode",
                  "check_for_updates", "custom_title_enabled"]):
             self.checks[opt] = IntVar()
             c = Checkbutton(display_options_frame, text=self.pretty_name(opt), variable=self.checks[opt])
-            if opt == "show_jacob_esau_items":
-                c.grid(row=len(self.entries) + 1 + index / 2, column=0)
-                Label(display_options_frame, text=self.pretty_name("(Repentance only)")).grid(row=len(self.entries) + 1 + index / 2, column=1)
-            else:
-                index+=1
-                c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2) # 2 checkboxes per row
+            c.grid(row=len(self.entries) + 1 + index / 2, column=index % 2) # 2 checkboxes per row
             if getattr(self.options, opt):
                 c.select()
             if opt == "custom_title_enabled":
