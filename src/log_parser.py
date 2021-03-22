@@ -38,6 +38,8 @@ class LogParser(object):
         self.log_file_path = self.log_finder.find_log_file(self.wdir_prefix)
         self.state.reset(self.current_seed, Options().game_version)
         self.lazarus = False
+        self.greedmode = 0
+        self.first_floor = None
 
     def parse(self):
         """
@@ -83,10 +85,23 @@ class LogParser(object):
             self.__parse_version_number(line)
         if line.startswith('RNG Start Seed:'):
             self.__parse_seed(line, line_number)
+            self.greedmode = 0
+        if self.opt.game_version == "Repentance" and line.startswith('Level::Init') and self.greedmode == 0: # Store the line of the first floor in Repentance because we can detect if we are in greed mode only after this line in the log
+            self.first_line = line
+        elif line.startswith('Level::Init'):
+            self.__parse_floor(line, line_number)   
         if line.startswith('Room'):
             self.__parse_room(line)
-        if line.startswith('Level::Init'):
-            self.__parse_floor(line, line_number)
+            # Detect Greed mode floor on Repentance
+            if self.opt.game_version == "Repentance":
+                if line.startswith('Room count'): # There is one line starting with "Room count" that wreck the system
+                    return
+                elif line.startswith('Room 1.2') and self.greedmode == 0:
+                    self.greedmode = 1
+                    self.__parse_floor(self.first_line, line_number)
+                elif self.greedmode == 0:
+                    self.greedmode = 2
+                    self.__parse_floor(self.first_line, line_number)
         if line.endswith('Subtype 8'): # This is to detect if we play as Lazarus to avoid showing two Anemics in the tracker
             self.lazarus = True
         else: # To reset self.lazarus if we don't play it because it would never add Anemic again unless you close/re-open the game
@@ -193,7 +208,7 @@ class LogParser(object):
         floor_id = 'f' + str(floor)
 
         # Greed mode
-        if alt == '3':
+        if (alt == '3' and self.opt.game_version != "Repentance") or (self.opt.game_version == "Repentance" and self.greedmode == 2):
             floor_id += 'g'
 
         self.state.add_floor(Floor(floor_id))
@@ -213,8 +228,8 @@ class LogParser(object):
         if len(self.splitfile) > 1 and self.splitfile[line_number + self.seek - 1] == line:
             self.log.debug("Skipped duplicate item line from baby presence")
             return False
-        is_Jacob_item = line.endswith("on Subtype 19") and self.opt.game_version == "Repentance" # The second part of the condition is to avoid showing Jacob's Head if you play on a modded char in AB+
-        is_Esau_item = line.endswith("on Subtype 20") and self.opt.game_version == "Repentance" # The second part of the condition is to avoid showing Esau's Head if you play on a modded char in AB+  
+        is_Jacob_item = line.endswith("(Jacob)") and self.opt.game_version == "Repentance" # The second part of the condition is to avoid showing Jacob's Head if you play on a modded char in AB+
+        is_Esau_item = line.endswith("(Esau)") and self.opt.game_version == "Repentance" # The second part of the condition is to avoid showing Esau's Head if you play on a modded char in AB+  
         end_name = -15 if is_Jacob_item or is_Esau_item else -1
         space_split = line.split(" ")
         numeric_id = space_split[2] # When you pick up an item, this has the form: "Adding collectible 105 (The D6)"
@@ -251,8 +266,8 @@ class LogParser(object):
         space_split = line.split(" ")
         # When using a mod like racing+, a trinket gulp has the form: "Gulping trinket 10"
         numeric_id = str(int(space_split[2]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
-        is_Jacob_item = line.endswith("on Subtype 19") and self.opt.game_version == "Repentance"
-        is_Esau_item = line.endswith("on Subtype 20") and self.opt.game_version == "Repentance"
+        is_Jacob_item = line.endswith("(Jacob)") and self.opt.game_version == "Repentance"
+        is_Esau_item = line.endswith("(Esau)") and self.opt.game_version == "Repentance"
         
         # Check if we recognize the numeric id
         if Item.contains_info(numeric_id):
