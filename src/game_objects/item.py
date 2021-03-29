@@ -57,8 +57,19 @@ class Item(Serializable):
 
     def rerolled(self):
         """Mark the item as rerolled"""
-        # Spacebar items can't be re-rolled by a D4, dice room, etc.
-        if not self.info.space:
+
+        # Passive items that can't be rerolled such as Key pieces or Knife pieces
+        if Options().game_version != "Repentance":
+            exceptions = ("10", "81", "238", "239", "258", "327", "328", "474")
+        else:
+            exceptions = ("81", "238", "239", "258", "327", "328", "626", "627")
+
+        trinket = False
+        if self.item_id.startswith("2") and len(self.item_id) == 4:
+            trinket = True
+
+        # Spacebar items and gulped trinkets can't be re-rolled by a D4, dice room, etc.
+        if not self.info.space and self.item_id not in exceptions and not trinket:
             self.was_rerolled = True
 
     @property
@@ -87,7 +98,6 @@ class Item(Serializable):
         tears = self.info.tears
         soul_hearts = self.info.soul_hearts
         sin_hearts = self.info.sin_hearts
-        rotten_hearts = self.info.rotten_hearts
         if dmg:
             desc += dmg + " dmg, "
         if dmg_x:
@@ -111,9 +121,7 @@ class Item(Serializable):
         if soul_hearts:
             desc += soul_hearts + " soul hearts, "
         if sin_hearts:
-            desc += sin_hearts + " sin hearts, "
-        if rotten_hearts:
-            desc += rotten_hearts + " rotten hearts, "    
+            desc += sin_hearts + " sin hearts, "  
         if text:
             desc += text
         if desc.endswith(", "):
@@ -234,7 +242,6 @@ class ItemInfo(dict):
         "shown",
         "sin_hearts",
         "soul_hearts",
-        "rotten_hearts",
         "space",
         "summary_condition",
         "summary_name",
