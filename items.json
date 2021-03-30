@@ -4230,13 +4230,6 @@
       "shown": true,
       "introduced_in": "Antibirth"
    },
-   "613": {
-      "name": "Salt Shaker",
-      "text": "Description coming later",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Repentance"
-   },
    "614": {
       "name": "Blood Bombs",
       "text": "Bombs leave behind red creep, can plant bombs for 1/2 heart, heals 4 hearts",
@@ -4272,13 +4265,6 @@
       "name": "Birthright",
       "text": "Custom reward based on character",
       "shown": true,
-      "introduced_in": "Antibirth"
-   },
-   "620": {
-      "name": "Voodoo Pin",
-      "text": "Description coming later",
-      "shown": true,
-      "space": true,
       "introduced_in": "Antibirth"
    },
    "621": {
@@ -4330,6 +4316,7 @@
       "name": "Death Certificate",
       "text": "Description coming later",
       "shown": true,
+      "space": true,
       "introduced_in": "Repentance"
    },
    "629": {
@@ -4337,12 +4324,6 @@
       "text": "Familiar, orbits and fires shielded tears",
       "shown": true,
       "introduced_in": "Antibirth"
-   },
-   "630": {
-      "name": "Lucky Seven",
-      "text": "Description coming later",
-      "shown": true,
-      "introduced_in": "Repentance"
    },
    "631": {
       "name": "Meat Cleaver",
@@ -4457,13 +4438,6 @@
       "shown": true,
       "introduced_in": "Repentance"
    },
-   "648": {
-      "name": "Pill Crusher",
-      "text": "Description coming later",
-      "shown": true,
-      "space": true,
-      "introduced_in": "Repentance"
-   },
    "649": {
       "name": "Fruity Plum",
       "text": "Baby Plum familiar that propel itself diagonally by shooting tears",
@@ -4538,7 +4512,6 @@
       "name": "Card Reading",
       "shown": true,
       "text": "Description coming later",
-      "space": true,
       "introduced_in": "Repentance"
    },
    "661": {
@@ -4852,6 +4825,7 @@
       "name": "Bag of Crafting",
       "shown": true,
       "text": "Description coming later",
+      "space": true,
       "introduced_in": "Repentance"
    },
    "711": {
