@@ -14,7 +14,9 @@ def add_glow_to_dir(dirname):
             glows[file] = True
 
     for file in os.listdir(dirname):
-        if file not in glows:
+        if file.endswith('grey.png') or file.endswith('without_glow.png') or file.endswith('Head.png'):
+            continue
+        elif file not in glows:
             if file.endswith('.png'):
                 file_path = os.path.join(dirname, file)
                 file_glow_path = os.path.join(dirname, 'glow', file)
@@ -30,6 +32,7 @@ paths_to_add = [
   os.path.join('..', 'collectibles'),
   os.path.join('..', 'collectibles', 'antibirth'),
   os.path.join('..', 'collectibles', 'afterbirth+'),
+  os.path.join('..', 'collectibles', 'glitch'),
   os.path.join('..', 'collectibles', 'custom'),
 ]
 for path in paths_to_add:
