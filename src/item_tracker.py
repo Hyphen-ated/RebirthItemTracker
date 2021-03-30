@@ -225,7 +225,7 @@ class IsaacTracker(object):
                 drawing_tool.write_error_message(screen_error_message)
             else:
                 # We got a state, now we draw it
-                drawing_tool.draw_state(state)
+                drawing_tool.draw_state(state,framecount)
 
             # if we're watching someone and they change their game version, it can require us to reset
             if state and last_game_version != state.game_version:

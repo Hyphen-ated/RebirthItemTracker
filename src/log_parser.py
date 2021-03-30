@@ -236,6 +236,9 @@ class LogParser(object):
         item_name = " ".join(space_split[3:])[1:end_name]
         item_id = ""
 
+        if int(numeric_id) < 0:
+            numeric_id = "-1"
+
         # Check if we recognize the numeric id
         if Item.contains_info(numeric_id):
             item_id = numeric_id
@@ -268,7 +271,7 @@ class LogParser(object):
         numeric_id = str(int(space_split[2]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
         is_Jacob_item = line.endswith("(Jacob)") and self.opt.game_version == "Repentance"
         is_Esau_item = line.endswith("(Esau)") and self.opt.game_version == "Repentance"
-        
+
         # Check if we recognize the numeric id
         if Item.contains_info(numeric_id):
             item_id = numeric_id

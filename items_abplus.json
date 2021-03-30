@@ -3406,7 +3406,7 @@
     },
     "486": {
        "name": "Dull Razor",
-       "text": "\"Hurts\" the player without doing damage",
+       "text": "Fake damaging you, triggering all the effects that should trigger on hit",
        "space": true,
        "shown": true,
        "introduced_in": "Afterbirth+"
@@ -3826,7 +3826,6 @@
        "name": "Broken Shovel",
        "text": "Used in the Booster Pack #5 quest",
        "shown": true,
-       "space": true,
        "introduced_in": "Booster Pack #5"
     },
     "552": {
@@ -3888,7 +3887,7 @@
     },
     "1008": {
        "name": "Almond Milk",
-       "text": "+tears, tears gain raindom movement effects",
+       "text": "+tears, tears gain random movement effects",
        "dmg_x": "0.3",
        "shown": true,
        "introduced_in": "Antibirth"
@@ -4014,7 +4013,7 @@
     },
     "1027": {
        "name": "Red Key",
-       "text": "Unlocks the red outlines of a door",
+       "text": "Creates additional red rooms",
        "shown": true,
        "space": true,
        "introduced_in": "Antibirth"
@@ -4078,7 +4077,8 @@
     },
     "1037": {
        "name": "Mercurius",
-       "text": "Doors stay open, +speed",
+       "text": "Non-special room doors stay open",
+       "speed": "0.3",
        "shown": true,
        "introduced_in": "Antibirth"
     },
@@ -4091,7 +4091,7 @@
     },
     "1039": {
        "name": "Terra",
-       "text": "Rock tears (knockback, can destroy obstacles)",
+       "text": "Rock tears (knockback, can destroy obstacles), random slight dmg up/down on some tears",
        "shown": true,
        "introduced_in": "Antibirth"
     },
@@ -4103,13 +4103,13 @@
     },
     "1042": {
        "name": "Saturnus",
-       "text": "Grants orbiting tears aura, refreshes per room",
+       "text": "Grants orbiting tears aura refreshing per room, can transform enemy tears into friendly tears",
        "shown": true,
        "introduced_in": "Antibirth"
     },
     "1043": {
        "name": "Uranus",
-       "text": "Ice tears (enemies killed will become frozen)",
+       "text": "Ice tears (enemies killed will become frozen and can be kicked)",
        "shown": true,
        "introduced_in": "Antibirth"
     },
@@ -4363,7 +4363,7 @@
     },
     "1086": {
        "name": "Yuck Heart",
-       "text": "+1 rotton heart",
+       "text": "+1 rotten heart on use",
        "shown": true,
        "space": true,
        "introduced_in": "Antibirth"
@@ -4456,7 +4456,8 @@
     },
     "2010": {
        "name": "Wiggle Worm",
-       "text": "Wave tears (only cosmetic)",
+       "text": "Wave tears",
+       "tears": "0.4",
        "shown": true,
        "introduced_in": "Rebirth"
     },
@@ -4474,7 +4475,7 @@
     },
     "2013": {
        "name": "Store Credit",
-       "text": "Free store item",
+       "text": "First shop item you will take while holding the trinket will be free",
        "shown": true,
        "introduced_in": "Rebirth"
     },

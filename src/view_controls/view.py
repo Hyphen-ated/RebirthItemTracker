@@ -7,6 +7,7 @@ import traceback
 import win32api # For transparent mode
 import win32con # For transparent mode
 import win32gui # For transparent mode
+import random # For glitched items
 
 import pygame   # This is the main graphics library used for the item tracker
 import webbrowser
@@ -56,6 +57,7 @@ class DrawingTool(object):
         self.item_position_index = []
         self.drawn_items = []
         self._image_library = {}
+        self.glitched_item = "1"
         self.blind_icon = None
         self.roll_icon = None
         self.jacob_icon = None
@@ -206,7 +208,7 @@ class DrawingTool(object):
 
         return None
 
-    def draw_state(self, state):
+    def draw_state(self, state, framecount):
         """
         Draws the state
         :param state:
@@ -294,7 +296,7 @@ class DrawingTool(object):
                 )
             if not floor_to_draw.is_drawn and self.show_floors:
                 floor_to_draw.draw()
-            drawable_item.draw(selected=(idx == self.selected_item_index))
+            drawable_item.draw(selected=(idx == self.selected_item_index),framecount=framecount)
 
             idx += 1
 
@@ -575,7 +577,7 @@ class DrawingTool(object):
 
     @staticmethod
     def numeric_id_to_image_path(id):
-        without_glow = ("415", "422")
+        without_glow = ("415", "422", "633")
         greyed_items = ("32", "311", "433")
         # Blue glow on Crown of light and Glowing Hour Glass sprites mess with transparent mode so we need to take their sprite without the blue glow
         # Black pixels only items can be difficult to see if tracker is placed on black background so we make them a little greyer
@@ -718,22 +720,32 @@ class DrawableItem(Drawable):
                self.item.blind and \
                not self.item.starting_item
 
-    def draw(self, selected=False):
+    def draw(self, selected=False, framecount=0):
         graphics_id = self.item.info.graphics_id
         if graphics_id is None or len(graphics_id) == 0:
             graphics_id = self.item.item_id
 
         imagename = ""
-        if graphics_id[0] == 'm':
-            imagename = "custom/"
-
-        if Options().make_items_glow and Options().transparent_mode is False: # Disable item glow in transparent mode because background isn't completely removed with glow
-            imagename += "glow/"
-
-        if graphics_id[0] == 'm':
-            imagename += graphics_id[1:] + ".png"
+        # For glitched items, put a random glitch sprite that will only change every two hours to not trigger people watching streams
+        if Options().make_items_glow and Options().transparent_mode is False and graphics_id == "-1":
+            if framecount % 216000 == 0:
+                self.glitched_item = str(random.randint(1,30))
+            imagename = "glitch/glow/"+ self.glitched_item +".png"
+        elif graphics_id == "-1":
+            if framecount % 216000 == 0:
+                self.glitched_item = str(random.randint(1,30))
+            imagename = "glitch/"+ self.glitched_item +".png"
         else:
-            imagename += DrawingTool.numeric_id_to_image_path(graphics_id)
+            if graphics_id[0] == 'm':
+                imagename = "custom/"
+
+            if Options().make_items_glow and Options().transparent_mode is False: # Disable item glow in transparent mode because background isn't completely removed with glow
+                imagename += "glow/"
+
+            if graphics_id[0] == 'm':
+                imagename += graphics_id[1:] + ".png"
+            else:
+                imagename += DrawingTool.numeric_id_to_image_path(graphics_id)
 
         image = self.tool.get_image(imagename)
 
