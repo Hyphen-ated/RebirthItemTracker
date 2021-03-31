@@ -41,6 +41,8 @@ class LogParser(object):
         self.greedmode = 0
         self.first_floor = None
         self.first_line = ""
+        # Avoid tracker resetting on B1 for Backasswards challenge
+        self.backasswards = False
 
     def parse(self):
         """
@@ -97,7 +99,11 @@ class LogParser(object):
             if self.opt.game_version == "Repentance":
                 if line.startswith('Room count'): # There is one line starting with "Room count" that wreck the system
                     return
-                elif line.startswith('Room 1.2') and self.greedmode == 0:
+                elif (line.startswith('Room 1.2') and self.greedmode == 0) or line.startswith('Room 5.5000'): # 5.5000 is Mega Satan's Room in Challenge #31
+                    if line.startswith('Room 5.5000'):
+                        self.backasswards = True
+                    else:
+                        self.backasswards = False
                     self.greedmode = 1
                     self.__parse_floor(self.first_line, line_number)
                 elif self.greedmode == 0:
@@ -120,7 +126,7 @@ class LogParser(object):
             self.__parse_item_add(line_number, line)
         if line.startswith('Gulping trinket ') or line.startswith('Adding smelted trinket '):
             self.__parse_trinket_gulp(line)
-        if line.startswith('Removing collectible '):
+        if line.startswith('Removing collectible ') or line.startswith('Removing voided collectible '):
             self.__parse_item_remove(line)
         if line.startswith('Executing command: reseed'):
             # racing+ re-generates floors if they contain duplicate rooms. we need to track that this is happening
@@ -141,6 +147,7 @@ class LogParser(object):
         """ Parse a seed line """
         # This assumes a fixed width, but from what I see it seems safe
         self.current_seed = line[16:25]
+        self.__trigger_new_run(line_number)
 
         # Antibirth doesn't have a proper way to detect run resets
         # it will wipe the tracker when doing a "continue"
@@ -183,7 +190,7 @@ class LogParser(object):
         # So we need to add a condition to avoid tracker reseting when entering those floors.
         if self.reseeding_floor:
             self.reseeding_floor = False
-        elif floor == 1 and alt != "4" and alt != "5" and self.opt.game_version != "Antibirth":
+        elif floor == 1 and alt != "4" and alt != "5" and self.opt.game_version != "Antibirth" and self.backasswards == False:
             self.__trigger_new_run(line_number)
 
         # Special handling for the Cathedral and The Chest and Afterbirth
@@ -297,9 +304,12 @@ class LogParser(object):
     def __parse_item_remove(self, line):
         """ Parse an item and remove it from the state """
         space_split = line.split(" ") # Hacky string manipulation
-        item_id = space_split[2] # When you lose an item, this has the form: "Removing collectible 105 (The D6)"
+        # When you lose an item, this has the form: "Removing collectible 105 (The D6)" or "Removing voided collectible 105 (The D6)"
+        if self.opt.game_version == "Repentance":
+            item_id = space_split[3]
+        else:
+            item_id = space_split[2]
         item_name = " ".join(space_split[3:])[1:-1]
-
         # Check if the item ID exists
         if Item.contains_info(item_id):
             removal_id = item_id
