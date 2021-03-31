@@ -117,7 +117,7 @@ class LogParser(object):
             self.state.reroll()
         if line.startswith('Adding collectible '):
             self.__parse_item_add(line_number, line)
-        if line.startswith('Gulping trinket '):
+        if line.startswith('Gulping trinket ') or line.startswith('Adding smelted trinket '):
             self.__parse_trinket_gulp(line)
         if line.startswith('Removing collectible '):
             self.__parse_item_remove(line)
@@ -267,8 +267,12 @@ class LogParser(object):
     def __parse_trinket_gulp(self, line):
         """ Parse a (modded) trinket gulp and push it to the state """
         space_split = line.split(" ")
-        # When using a mod like racing+, a trinket gulp has the form: "Gulping trinket 10"
-        numeric_id = str(int(space_split[2]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
+        # When using a mod like racing+ on AB+, a trinket gulp has the form: "Gulping trinket 10"
+        # In Repentance, a gulped trinket has the form : "Adding smelted trinket 10"
+        if self.opt.game_version == "Repentance":
+            numeric_id = str(int(space_split[3]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
+        else:
+            numeric_id = str(int(space_split[2]) + 2000) # the tracker hackily maps trinkets to items 2000 and up.
         is_Jacob_item = line.endswith("(Jacob)") and self.opt.game_version == "Repentance"
         is_Esau_item = line.endswith("(Esau)") and self.opt.game_version == "Repentance"
 
