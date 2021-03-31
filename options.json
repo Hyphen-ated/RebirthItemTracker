@@ -23,7 +23,7 @@
    "show_floors": true, 
    "show_font": "Arial", 
    "show_health_ups": true, 
-   "show_item_ids": true, 
+   "show_item_ids": false, 
    "show_jacob_esau_items": true, 
    "show_rerolled_items": true, 
    "show_space_items": true, 
@@ -34,10 +34,10 @@
    "trackerserver_authkey": "", 
    "trackerserver_url": "http://isaacitemtracker.com:8080", 
    "transparent_mode": false, 
-   "twitch_name": "dea1h", 
+   "twitch_name": "", 
    "width": 1078, 
    "word_wrap": false, 
    "write_to_server": false, 
-   "x_position": 640, 
-   "y_position": 874
+   "x_position": 573, 
+   "y_position": 886
 }

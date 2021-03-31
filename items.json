@@ -582,7 +582,6 @@
       "dmg": "1",
       "name": "The Mark",
       "shown": true,
-      "leviathan": true,
       "speed": "0.2",
       "soul_hearts": "1",
       "introduced_in": "Rebirth"
@@ -593,7 +592,7 @@
       "shown": true,
       "leviathan": true,
       "tears": "0.7",
-      "soul_hearts": "2",
+      "sin_hearts": "2",
       "introduced_in": "Rebirth"
    },
    "81": {
@@ -1095,7 +1094,8 @@
       "height": "13",
       "shown": true,
       "bob": true,
-      "text": "Explosive tears, +40 dmg",
+      "text": "Explosive tears",
+      "dmg": "40",
       "in_summary": true,
       "summary_name": "Cac",
       "introduced_in": "Rebirth"
@@ -2037,7 +2037,7 @@
    "283": {
       "name": "D100",
       "shown": true,
-      "text": "Rerolls current items and items + pickups in the room",
+      "text": "All dice effects at once",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -2964,7 +2964,7 @@
    },
    "416": {
       "name": "Deep Pockets",
-      "text": "Can carry 2 cards/pills instead of 1",
+      "text": "Extends your ",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -3224,7 +3224,7 @@
       "introduced_in": "Afterbirth+"
    },
    "456": {
-      "name": "Moldy Bread",
+      "name": "Midnight Snack",
       "health": "1",
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3873,6 +3873,7 @@
       "text": "Gives temporary Brimstone",
       "shown": true,
       "space": true,
+      "leviathan": true,
       "introduced_in": "Antibirth"
    },
    "557": {
@@ -3958,7 +3959,7 @@
       "introduced_in": "Antibirth"
    },
    "570": {
-      "name": "Playdoh Cookie",
+      "name": "Playdough Cookie",
       "text": "Random status effect tears (normal/petrify/homing/poison/fear) + random colors to tears",
       "shown": true,
       "introduced_in": "Antibirth"
@@ -4102,6 +4103,7 @@
    "592": {
       "name": "Terra",
       "text": "Rock tears (knockback, can destroy obstacles), random slight dmg up/down on some tears",
+      "dmg": "1",
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4137,7 +4139,8 @@
    },
    "598": {
       "name": "Pluto",
-      "text": "+tears, -range, size down, can pass between blocks",
+      "text": "-range, size down, can pass between blocks",
+      "tears": "0.7",
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4155,7 +4158,8 @@
    },
    "601": {
       "name": "Act of Contrition",
-      "text": "Tears up, +1 eternal heart, allows Angel Rooms even if a devil deal has been taken",
+      "text": "+1 eternal heart, allows Angel Rooms even if a devil deal has been taken",
+      "tears": "0.7",
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4186,7 +4190,7 @@
       "introduced_in": "Antibirth"
    },
    "606": {
-      "name": "Oculus Rift",
+      "name": "Ocular Rift",
       "text": "Chance to shoot rift tears (summons rifts that attract + deal contact dmg)",
       "shown": true,
       "introduced_in": "Antibirth"
@@ -4517,6 +4521,7 @@
    "661": {
       "name": "Quints",
       "shown": true,
+      "conjoined": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
@@ -4840,6 +4845,7 @@
       "shown": true,
       "text": "Description coming later",
       "space": true,
+      "bookworm": true,
       "introduced_in": "Repentance"
    },
    "713": {
@@ -5756,7 +5762,7 @@
       "introduced_in": "Antibirth"
    },
    "2134": {
-      "name": "Giant Bean",
+      "name": "Gigante Bean",
       "text": "Farts from isaac and familars are larger",
       "shown": true,
       "introduced_in": "Antibirth"
