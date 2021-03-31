@@ -192,7 +192,7 @@ class LogParser(object):
             # and Chest is an alternate of Dark Room (which is 11)
             # In Repentance, alt paths are same stage as their counterparts (ex: Basement 1 = Downpour 1)
             if alt == '4' or alt == '5':
-                floor += 14
+                floor += 15
             elif floor == 10 and alt == '0':
                 floor -= 1
             elif floor == 11 and alt == '1':
@@ -201,6 +201,8 @@ class LogParser(object):
                 floor = 13
             elif floor == 12:
                 floor = 14
+            elif floor == 13:
+                floor = 15    
         else:
             # In Rebirth, floors have different numbers
             if alt == '1' and (floor == 9 or floor == 11):
