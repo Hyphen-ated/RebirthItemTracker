@@ -82,7 +82,7 @@ class TrackerState(Serializable):
         # Find the item by iterating backwards through the list
         foundItem = False
         for item in reversed(self.item_list):
-            if item.item_id == item_id:
+            if item.item_id == item_id and not item.info.space:
                 foundItem = True
                 break
 

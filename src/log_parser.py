@@ -188,9 +188,10 @@ class LogParser(object):
         # that means if you s+q in antibirth, it resets the tracker.
         # In Repentance, Downpour 1 and Dross 1 are considered Stage 1.
         # So we need to add a condition to avoid tracker reseting when entering those floors.
+        # In Repentance, don't trigger a new run on floor 1 because of the R Key item
         if self.reseeding_floor:
             self.reseeding_floor = False
-        elif floor == 1 and alt != "4" and alt != "5" and self.opt.game_version != "Antibirth" and self.backasswards == False:
+        elif floor == 1 and self.opt.game_version != "Antibirth" and self.opt.game_version != "Repentance" and self.backasswards == False:
             self.__trigger_new_run(line_number)
 
         # Special handling for the Cathedral and The Chest and Afterbirth

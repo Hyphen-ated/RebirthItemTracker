@@ -62,7 +62,7 @@ class Item(Serializable):
         if Options().game_version != "Repentance":
             exceptions = ("10", "81", "238", "239", "258", "327", "328", "474")
         else:
-            exceptions = ("81", "238", "239", "258", "327", "328", "626", "627")
+            exceptions = ("238", "239", "258", "327", "328", "626", "627")
 
         trinket = False
         if self.item_id.startswith("2") and len(self.item_id) == 4:
