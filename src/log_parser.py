@@ -240,6 +240,8 @@ class LogParser(object):
 
         if int(numeric_id) < 0:
             numeric_id = "-1"
+        if int(numeric_id) == 577: # Damocles can't be rerolled by D4 so no need to show it twice
+            numeric_id = "656"
 
         # Check if we recognize the numeric id
         if Item.contains_info(numeric_id):
