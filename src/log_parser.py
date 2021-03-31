@@ -40,6 +40,7 @@ class LogParser(object):
         self.lazarus = False
         self.greedmode = 0
         self.first_floor = None
+        self.first_line = ""
 
     def parse(self):
         """
