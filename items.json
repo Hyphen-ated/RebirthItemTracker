@@ -19,8 +19,7 @@
    },
    "2": {
       "name": "The Inner Eye",
-      "delay": "3",
-      "delay_x": "2.1",
+      "delay_x": "1.95",
       "shown": true,
       "text": "Triple shot",
       "in_summary": true,
@@ -115,7 +114,7 @@
       "speed": "0.2",
       "shown": true,
       "spun": true,
-      "text": "Poison touch",
+      "text": "Poison touch, enemies take 12 dmg on contact",
       "introduced_in": "Rebirth"
    },
    "14": {
@@ -236,7 +235,7 @@
       "range": "5.25",
       "shown": true,
       "yesmother": true,
-      "text": "",
+      "text": "Spawn 3-6 blue flies on pickup",
       "introduced_in": "Rebirth"
    },
    "30": {
@@ -245,7 +244,7 @@
       "range": "5.25",
       "shown": true,
       "yesmother": true,
-      "text": "",
+      "text": "Deals 12 damage to enemies coming into contact with the player",
       "introduced_in": "Rebirth"
    },
    "31": {
@@ -254,7 +253,7 @@
       "range": "5.25",
       "shown": true,
       "yesmother": true,
-      "text": "",
+      "text": "Spawns a red heart on pickup",
       "introduced_in": "Rebirth"
    },
    "32": {
@@ -322,7 +321,7 @@
    "40": {
       "name": "Kamikaze",
       "shown": true,
-      "text": ".5 heart dmg to self, 40 dmg explosion",
+      "text": ".5 heart dmg to self, 185 dmg explosion",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -338,7 +337,7 @@
       "name": "Bob's Rotten Head",
       "shown": true,
       "bob": true,
-      "text": "Shoots a poison bomb (50 dmg + 6-8 / tick)",
+      "text": "Shoots a poison bomb that leaves a poisoning gas cloud (185 dmg + 6-8 / tick)",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -360,7 +359,7 @@
       "name": "Lucky Foot",
       "shown": true,
       "luck": "1",
-      "text": "Better gambling chances",
+      "text": "Better gambling chances, guarantee positive pills effects",
       "introduced_in": "Rebirth"
    },
    "47": {
@@ -401,7 +400,7 @@
    "52": {
       "name": "Dr. Fetus",
       "delay_x": "2.5",
-      "dmg_x": "3",
+      "dmg_x": "10",
       "shown": true,
       "text": "Bomb tears",
       "in_summary": true,
@@ -410,7 +409,7 @@
    "53": {
       "name": "Magneto",
       "shown": true,
-      "text": "Attracts pickups",
+      "text": "Attracts pickups, open chests at close range",
       "introduced_in": "Rebirth"
    },
    "54": {
@@ -459,6 +458,7 @@
    "62": {
       "name": "Charm of the Vampire",
       "shown": true,
+      "dmg": "0.3",
       "text": "Heals half heart every 13 enemy deaths",
       "introduced_in": "Rebirth"
    },
@@ -493,7 +493,7 @@
       "name": "Sister Maggy",
       "shown": true,
       "conjoined": true,
-      "text": "Familiar (3.5 dmg / tear)",
+      "text": "Familiar (5 dmg / tear)",
       "introduced_in": "Rebirth"
    },
    "68": {
@@ -533,6 +533,7 @@
       "name": "Rosary",
       "shown": true,
       "seraphim": true,
+      "tears": "0.5",
       "soul_hearts": "3",
       "text": "Puts the bible into most item pools",
       "introduced_in": "Rebirth"
@@ -614,9 +615,8 @@
       "dmg": "0.7",
       "name": "The Nail",
       "shown": true,
-      "speed": "-0.18",
       "leviathan": true,
-      "text": "+1 soul heart, temporarily crush rocks",
+      "text": "On use: +1 half black heart, temporarily crush rocks, temporary -0.18 speed and dmg up",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -780,13 +780,13 @@
    "106": {
       "name": "Mr. Mega",
       "shown": true,
-      "text": "+5 bombs, bomb blast radius increased, bomb dmg increased from 50 to 110",
+      "text": "+5 bombs, bomb blast radius increased, bomb dmg increased from 100 to 185",
       "introduced_in": "Rebirth"
    },
    "107": {
       "name": "Pinking Shears",
       "shown": true,
-      "text": "Spawns a melee familiar (?? dmg / second)",
+      "text": "Spawns a melee familiar, speed of the body depends of player's speed",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -863,7 +863,7 @@
       "delay_x": "3",
       "shown": true,
       "leviathan": true,
-      "text": "Tears become blood laser, hits 12 or 13 times",
+      "text": "Tears become blood laser, hits 9 times",
       "in_summary": true,
       "summary_name": "Brim",
       "introduced_in": "Rebirth"
@@ -887,12 +887,12 @@
    },
    "121": {
       "name": "Odd Mushroom (Thick)",
-      "dmg": "0.3",
+      "dmg": "1",
       "health": "1",
       "height": "0.5",
       "range": "0.25",
       "shown": true,
-      "speed": "-0.1",
+      "speed": "-0.2",
       "funguy": true,
       "text": "",
       "introduced_in": "Rebirth"
@@ -958,7 +958,7 @@
    "130": {
       "name": "A Pony",
       "shown": true,
-      "text": "flying, minimum speed 1.5",
+      "text": "flying, minimum speed 1.5, deals player's damage * 4 + 28 while charging enemies",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -1022,14 +1022,14 @@
       "name": "Mom's Purse",
       "shown": true,
       "yesmother": true,
-      "text": "Can carry 2 trinkets instead of 1",
+      "text": "Spawns a trinket",
       "introduced_in": "Rebirth"
    },
    "140": {
       "name": "Bob's Curse",
       "shown": true,
       "bob": true,
-      "text": "+5 bombs, bombs deal poison dmg",
+      "text": "+5 bombs, bombs deal poison dmg and leave poisoning gas cloud behind them",
       "introduced_in": "Rebirth"
    },
    "141": {
@@ -1078,7 +1078,7 @@
    "147": {
       "name": "Notched Axe",
       "shown": true,
-      "text": "Breaks rocks and secret doors",
+      "text": "Melee weapon that damage enemies and break rocks",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -1086,7 +1086,7 @@
       "name": "Infestation",
       "shown": true,
       "beelzebub": true,
-      "text": "Spawns blue flies when hit",
+      "text": "Spawns 2-6 blue flies when hit",
       "introduced_in": "Rebirth"
    },
    "149": {
@@ -1118,6 +1118,7 @@
    "152": {
       "name": "Technology 2",
       "shown": true,
+      "delay_x": "2",
       "text": "Laser tears (piercing)",
       "introduced_in": "Rebirth"
    },
@@ -1153,7 +1154,7 @@
    "157": {
       "name": "Bloody Lust",
       "shown": true,
-      "text": "+dmg when hit (only for the current floor, max +6.5 dmg at 6 hits)",
+      "text": "+dmg when hit (only for the current floor, max +6 dmg at 6 hits)",
       "introduced_in": "Rebirth"
    },
    "158": {
@@ -1272,7 +1273,7 @@
       "name": "Mitre",
       "shown": true,
       "seraphim": true,
-      "text": "Better chance of finding soul hearts",
+      "text": "33% to change red heart drop into soul heart",
       "introduced_in": "Rebirth"
    },
    "174": {
@@ -1294,7 +1295,7 @@
       "health": "1",
       "shot_speed": "0.16",
       "shown": true,
-      "text": "",
+      "text": "Heals 50% of your red hearts each floor if you have less than 50% of your red hearts fullfilled",
       "introduced_in": "Rebirth"
    },
    "177": {
@@ -1307,7 +1308,7 @@
    "178": {
       "name": "Holy Water",
       "shown": true,
-      "text": "Can be thrown, creates a pool when broken (8 dmg / tick)",
+      "text": "Can be thrown, creates a pool when broken (8 dmg / tick) that also freeze enemies",
       "introduced_in": "Rebirth"
    },
    "179": {
@@ -1325,7 +1326,7 @@
    "181": {
       "name": "White Pony",
       "shown": true,
-      "text": "Flying, minimum speed 1.5",
+      "text": "Flying, minimum speed 1.5, leaves trail of light beams that deals player's damage * 4 + 10",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -1382,7 +1383,7 @@
    "188": {
       "name": "Abel",
       "shown": true,
-      "text": "Familiar (3.5 dmg / tear)",
+      "text": "Familiar (3.5 dmg / tear, 5 dmg if picked by Cain)",
       "introduced_in": "Rebirth"
    },
    "189": {
@@ -1413,7 +1414,7 @@
       "name": "Telepathy for Dummies",
       "shown": true,
       "bookworm": true,
-      "text": "Temporary homing tears",
+      "text": "Temporary homing tears and range up",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -1491,7 +1492,7 @@
    "203": {
       "name": "Humbling Bundle",
       "shown": true,
-      "text": "Doubles coin, key, bomb, and heart pickups",
+      "text": "Chance to double coin, key, bomb, and heart pickups",
       "introduced_in": "Rebirth"
    },
    "204": {
@@ -1503,7 +1504,7 @@
    "205": {
       "name": "Sharp Plug",
       "shown": true,
-      "text": "Deals 2 heart dmg to self, fully recharges item (only when at 0 charge)",
+      "text": "Deals half red heart dmg to self per charge missing, fully recharges item",
       "introduced_in": "Rebirth"
    },
    "206": {
@@ -1546,7 +1547,7 @@
       "name": "Spider Baby",
       "shown": true,
       "spiderbaby": true,
-      "text": "Spawns 1-2 blue spiders when hit",
+      "text": "Spawns 2-5 blue spiders when hit",
       "introduced_in": "Rebirth"
    },
    "212": {
@@ -1630,7 +1631,7 @@
    "223": {
       "name": "Pyromaniac",
       "shown": true,
-      "text": "+5 bombs, explosions heal 1 red heart",
+      "text": "+5 bombs, explosions heal 1 half red heart, fire and bomb immunity",
       "in_summary": true,
       "introduced_in": "Rebirth"
    },
@@ -1683,13 +1684,13 @@
       "introduced_in": "Rebirth"
    },
    "230": {
-      "sin_hearts": "5",
+      "sin_hearts": "2",
       "dmg": "1.5",
       "name": "Abaddon",
       "leviathan": true,
       "shown": true,
       "speed": "0.2",
-      "text": "Removes all red hearts, chance to shoot fear tears",
+      "text": "Convert all red hearts to black hearts, chance to shoot fear tears",
       "introduced_in": "Rebirth"
    },
    "231": {
@@ -1702,7 +1703,7 @@
       "name": "Stop Watch",
       "shown": true,
       "speed": "0.3",
-      "text": "Slows enemies when hit",
+      "text": "Slows enemies",
       "introduced_in": "Rebirth"
    },
    "233": {
@@ -1862,7 +1863,7 @@
    "256": {
       "name": "Hot Bombs",
       "shown": true,
-      "text": "5 bombs, leaves fires that do 22 dmg",
+      "text": "+5 bombs, leaves fires that do 22 dmg, 16 dmg contact, fire immunity",
       "introduced_in": "Rebirth"
    },
    "257": {
@@ -1896,7 +1897,7 @@
    "261": {
       "name": "Proptosis",
       "shown": true,
-      "text": "Between x2 and x1.3 dmg based on range",
+      "text": "dmg up based on range",
       "in_summary": true,
       "summary_name": "Prop",
       "introduced_in": "Rebirth"
@@ -1905,7 +1906,7 @@
       "name": "Missing Page 2",
       "shown": true,
       "sin_hearts": "1",
-      "text": "Deals 40 dmg to enemies when hit if at 1 heart or lower",
+      "text": "Deals 80 dmg to enemies when hit if at 1 heart or lower and increase all kind of black heart dmg from 40 to 80",
       "introduced_in": "Rebirth"
    },
    "263": {
@@ -1980,21 +1981,21 @@
       "name": "Bob's Brain",
       "shown": true,
       "bob": true,
-      "text": "Familiar (60 dmg explosion + poison dmg)",
+      "text": "Familiar (100 dmg explosion + poison dmg)",
       "introduced_in": "Rebirth"
    },
    "274": {
       "name": "Best Bud",
       "shown": true,
       "beelzebub": true,
-      "text": "Spawns a fly orbital when hit (5 dmg / tick)",
+      "text": "Spawns a fly orbital when hit (10 dmg / tick)",
       "introduced_in": "Rebirth"
    },
    "275": {
       "name": "Lil' Brimstone",
       "shown": true,
       "conjoined": true,
-      "text": "Familiar (31.5 dmg / blood laser)",
+      "text": "Familiar (20 dmg / blood laser)",
       "in_summary": true,
       "summary_name": "Lil' Brim",
       "introduced_in": "Rebirth"
@@ -2002,7 +2003,7 @@
    "276": {
       "name": "Isaac's Heart",
       "shown": true,
-      "text": "Invincibility (but heart familiar takes dmg)",
+      "text": "Player's hitbox is on the heart (doesn't prevent self damage), charge it and release it to repel enemies and shoot tears in 8 directions",
       "in_summary": true,
       "summary_name": "Heart",
       "introduced_in": "Rebirth"
@@ -2017,7 +2018,7 @@
       "name": "Dark Bum",
       "shown": true,
       "superbum": true,
-      "text": "Converts 1.5 red heart pickups to a soul heart or spider",
+      "text": "Converts 1.5 red heart pickups to a black heart, spider, pill, card or rune",
       "introduced_in": "Rebirth"
    },
    "279": {
@@ -2031,7 +2032,7 @@
       "name": "Sissy Long Legs",
       "shown": true,
       "spiderbaby": true,
-      "text": "Spawns blue spiders",
+      "text": "Spawns blue spiders, charms enemies upon contact",
       "introduced_in": "Rebirth"
    },
    "281": {
@@ -2088,14 +2089,14 @@
       "name": "Box of Spiders",
       "shown": true,
       "spiderbaby": true,
-      "text": "Spawns 2-4 blue spiders",
+      "text": "Spawns 4-8 blue spiders",
       "space": true,
       "introduced_in": "Rebirth"
    },
    "289": {
       "name": "Red Candle",
       "shown": true,
-      "text": "Shoots a flame (up to 125 dmg)",
+      "text": "Shoots a flame that times out after ten seconds",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -2118,35 +2119,35 @@
       "name": "The Satanic Bible",
       "shown": true,
       "bookworm": true,
-      "text": "+1 black heart",
+      "text": "On use: +1 black heart, transforms boss item into a devil deal",
       "space": true,
       "introduced_in": "Rebirth"
    },
    "293": {
       "name": "Head of Krampus",
       "shown": true,
-      "text": "Create 4 blood lasers (approx. 451 dmg / laser)",
+      "text": "Create 4 blood lasers (190 dmg / laser)",
       "space": true,
       "introduced_in": "Rebirth"
    },
    "294": {
       "name": "Butter Bean",
       "shown": true,
-      "text": "Knocks back enemies",
+      "text": "Knocks back enemies. If pushed enemies hit a wall, they take 10 dmg",
       "space": true,
       "introduced_in": "Rebirth"
    },
    "295": {
       "name": "Magic Fingers",
       "shown": true,
-      "text": "Deals 2x dmg to the room, takes 1 coin per use",
+      "text": "Deals 2x + 10 dmg to the room, takes 1 coin per use, ignore +40 dmg from ipecac",
       "space": true,
       "introduced_in": "Rebirth"
    },
    "296": {
       "name": "Converter",
       "shown": true,
-      "text": "+1 heart container, -2 soul/black hearts",
+      "text": "+1 heart container, -1 soul/black hearts",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -2175,7 +2176,7 @@
       "name": "Aries",
       "shown": true,
       "speed": "0.25",
-      "text": "18 contact dmg if moving fast enough",
+      "text": "18 contact dmg + prevent dmg contact if moving fast enough",
       "introduced_in": "Rebirth"
    },
    "301": {
@@ -2452,7 +2453,7 @@
    "338": {
       "name": "Boomerang",
       "shown": true,
-      "text": "2x dmg",
+      "text": "2x dmg and is piercing, can grab pickups",
       "space": true,
       "introduced_in": "Rebirth"
    },
@@ -2617,7 +2618,7 @@
    },
    "360": {
       "name": "Incubus",
-      "text": "Familiar (copies your tears)",
+      "text": "Familiar that copies your tears effect and deals 75% of your damage",
       "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth"
@@ -2833,7 +2834,7 @@
    },
    "393": {
       "name": "Serpent's Kiss",
-      "text": "Change to shoot a poison tears, poison touch, poisoned enemies drop black hearts",
+      "text": "Change to shoot a poison tears, poison touch, poisoned enemies from contact drop black hearts",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -2898,7 +2899,7 @@
    },
    "402": {
       "name": "Chaos",
-      "text": "All item pools are combined",
+      "text": "All item pools are combined, higher chance to spawn item from a big pool",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -2937,13 +2938,13 @@
    },
    "408": {
       "name": "Athame",
-      "text": "Black blood laser ring when hit (which has 15% chance to drop a black heart per enemy killed)",
+      "text": "Black blood laser ring when hit",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
    "409": {
       "name": "Empty Vessel",
-      "text": "Does nothing if 1+ red heart containers, flight, procs a shield every minute",
+      "text": "Does nothing if 1+ red heart containers, flight, procs a shield after 40 seconds in a room",
       "shown": true,
       "sin_hearts": "2",
       "introduced_in": "Afterbirth"
@@ -2986,7 +2987,7 @@
    },
    "416": {
       "name": "Deep Pockets",
-      "text": "Increase your money cap to 999",
+      "text": "Increase your money cap to 999, spawns 1-3 coins when no rewards on room clear",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -3056,7 +3057,7 @@
    },
    "427": {
       "name": "Mine Crafter",
-      "text": "Spawns a TNT barrel",
+      "text": "Spawns a TNT barrel that can explode if you re-use it even if the active is not charged",
       "shown": true,
       "space": true,
       "introduced_in": "Afterbirth"
@@ -3161,7 +3162,7 @@
    },
    "442": {
       "name": "Dark Prince's Crown",
-      "text": "+1.5 range, +0.7 tears, and 0.2 shot speed when at exactly 1 red heart",
+      "text": "+1.5 range, +2 tears, and 0.2 shot speed when at exactly 1 red heart, tears up can go beyond soft cap",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3218,7 +3219,7 @@
    },
    "451": {
       "name": "Tarot Cloth",
-      "text": "Doubles the effect of cards, spawns a random card/rune on pickup",
+      "text": "Doubles the effect of tarot cards, spawns a random card/rune on pickup",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3302,7 +3303,7 @@
    },
    "464": {
       "name": "Glyph of Balance",
-      "text": "Modifies drops from champion enemies based on certain conditions",
+      "text": "Modifies drops from champion enemies and room clear",
       "soul_hearts": "2",
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3351,7 +3352,7 @@
    },
    "472": {
       "name": "King Baby",
-      "text": "Familiar, all other familiars follow it",
+      "text": "Familiar, all other familiars follow it and aim enemies automatically",
       "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3469,7 +3470,7 @@
    },
    "489": {
       "name": "D infinity",
-      "text": "Gives random dice on pickup, morphs to another dice on use",
+      "text": "Allow player to choose a dice, number of charges scaling depending of the chosen dice",
       "space": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3483,7 +3484,7 @@
    },
    "491": {
       "name": "Acid Baby",
-      "text": "Spawns a pill every few rooms cleared",
+      "text": "Spawns a pill every 6-7 rooms cleared, using pills deal 10 dmg and poison to enemies",
       "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3498,7 +3499,7 @@
    },
    "493": {
       "name": "Adrenaline",
-      "text": "+0.2 dmg for every empty red heart container",
+      "text": "dmg up for every empty red heart container, higher dmg ups the more empty red hearts you have",
       "shown": true,
       "spun": true,
       "introduced_in": "Afterbirth+"
@@ -3511,7 +3512,7 @@
    },
    "495": {
       "name": "Ghost Pepper",
-      "text": "Chance to shoot a blue fire (up to 184 dmg)",
+      "text": "Chance to shoot a blue fire that scale with the player's damage",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3566,7 +3567,7 @@
    },
    "504": {
       "name": "Brown Nugget",
-      "text": "Spawns a fly turret (2 dmg / shot)",
+      "text": "Spawns a fly turret (3.5 dmg / shot)",
       "space": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3585,7 +3586,7 @@
    },
    "507": {
       "name": "Sharp Straw",
-      "text": "Deals damage to all enemies in the room (1x dmg + 10% of enemy's max HP), enemies killed have a chance to drop a red/soul heart",
+      "text": "Deals damage to all enemies in the room (1x dmg + 10% of enemy's max HP), enemies killed have a chance to drop a red heart",
       "space": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3599,7 +3600,7 @@
    },
    "509": {
       "name": "Bloodshot Eye",
-      "text": "Orbital, 2 dmg / tick, shoots every 2 seconds (3.5 dmg / tear)",
+      "text": "Orbital, 2 dmg / tick, shoots every 2 seconds (3.5 dmg / tear), blocks enemy shots",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3686,21 +3687,21 @@
    },
    "522": {
       "name": "Telekinesis",
-      "text": "Freezes and then reflects enemy tears",
+      "text": "Repel enemies and reflects enemy tears",
       "shown": true,
       "space": true,
       "introduced_in": "Booster Pack #2"
    },
    "523": {
       "name": "Moving Box",
-      "text": "Stores all pickups / pedestals in the room, then spawns them when used again",
+      "text": "Stores max 6 pickups / pedestals in the room, then spawns them when used again",
       "shown": true,
       "space": true,
       "introduced_in": "Booster Pack #2"
    },
    "524": {
       "name": "Technology Zero",
-      "text": "Electric tears (tears are connected by electricity that deals 1x dmg / tick)",
+      "text": "Electric tears (tears are connected by electricity that deals 0.3x dmg / tick)",
       "shown": true,
       "introduced_in": "Booster Pack #2"
    },
@@ -3717,7 +3718,7 @@
       "introduced_in": "Booster Pack #3"
    },
    "527": {
-      "name": "Mr Me!",
+      "name": "Mr. Me!",
       "text": "Summons a helper to interact with whatever you target",
       "shown": true,
       "space": true,
@@ -3819,7 +3820,7 @@
    },
    "543": {
       "name": "Hallowed Ground",
-      "text": "Familiar, spawns a white poop on hit (makes an aura that halves tear delay + chance to block damage)",
+      "text": "Spawns a white poop on hit (makes an aura that halves tear delay + 1.25 dmg multiplier + chance to block damage)",
       "ohcrap": true,
       "shown": true,
       "introduced_in": "Booster Pack #5"
@@ -5034,7 +5035,7 @@
    },
    "2004": {
       "name": "Broken Remote",
-      "text": "Teleport on active item use",
+      "text": "Teleport on active item use, can influence teleport direction based on player's direction",
       "shown": true,
       "introduced_in": "Rebirth"
    },
@@ -5070,14 +5071,14 @@
    },
    "2010": {
       "name": "Wiggle Worm",
-      "text": "Wave tears",
+      "text": "Wave + spectral tears",
       "tears": "0.4",
       "shown": true,
       "introduced_in": "Rebirth"
    },
    "2011": {
       "name": "Ring Worm",
-      "text": "Ring tears (only cosmetic)",
+      "text": "Ring + spectral tears",
       "shown": true,
       "introduced_in": "Rebirth"
    },
@@ -5101,7 +5102,7 @@
    },
    "2015": {
       "name": "Lucky Rock",
-      "text": "Rocks drop coins when broken",
+      "text": "33% for rocks to drop coins when broken",
       "shown": true,
       "introduced_in": "Rebirth"
    },
@@ -5167,7 +5168,7 @@
    },
    "2026": {
       "name": "Hook Worm",
-      "text": "Hook tears (only cosmetic)",
+      "text": "Hook + spectral tears",
       "shown": true,
       "introduced_in": "Rebirth"
    },
@@ -5210,7 +5211,7 @@
    },
    "2033": {
       "name": "Umbilical Cord",
-      "text": "Gives Little Steven if damaged to 1/2 hearts",
+      "text": "Gives Little Steven if damaged to 1/2 hearts, high chance to proc a Gemini for the room when hit",
       "shown": true,
       "introduced_in": "Rebirth"
    },
@@ -5304,19 +5305,19 @@
    },
    "2049": {
       "name": "Bloody Penny",
-      "text": "50% chance to spawn a 1/2 red heart upon picking up a coin",
+      "text": "25% chance to spawn a 1/2 red heart upon picking up a coin",
       "shown": true,
       "introduced_in": "Rebirth"
    },
    "2050": {
       "name": "Burnt Penny",
-      "text": "50% chance to spawn a bomb upon picking up a coin",
+      "text": "25% chance to spawn a bomb upon picking up a coin",
       "shown": true,
       "introduced_in": "Rebirth"
    },
    "2051": {
       "name": "Flat Penny",
-      "text": "50% chance to spawns a key upon picking up a coin",
+      "text": "25% chance to spawns a key upon picking up a coin",
       "shown": true,
       "introduced_in": "Rebirth"
    },
@@ -5565,9 +5566,7 @@
    },
    "2092": {
       "name": "Cracked Crown",
-      "text": "Stat bonuses are increased by 33% (other than tears)",
-      "tears": "0.2",
-      "delay": "1",
+      "text": "Stat bonuses are increased by 20%",
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -5784,7 +5783,7 @@
    },
    "2128": {
       "name": "Finger Bone",
-      "text": "Chance to gain a bone heart on hit",
+      "text": "5% chance to gain a bone heart on hit",
       "shown": true,
       "introduced_in": "Booster Pack #5"
    },

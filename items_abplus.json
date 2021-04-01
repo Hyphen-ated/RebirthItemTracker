@@ -109,7 +109,7 @@
        "speed": "-0.1",
        "shown": true,
        "spun": true,
-       "text": "Poison touch",
+       "text": "Poison touch, poisoned enemies can drop black hearts",
        "introduced_in": "Rebirth"
     },
     "14": {
@@ -395,9 +395,8 @@
     "52": {
        "name": "Dr. Fetus",
        "delay_x": "2.5",
-       "dmg_x": "3",
        "shown": true,
-       "text": "Bomb tears",
+       "text": "Bomb tears, dmg formula is player's dmg * 5 + 30",
        "in_summary": true,
        "introduced_in": "Rebirth"
     },
@@ -608,9 +607,8 @@
        "dmg": "0.7",
        "name": "The Nail",
        "shown": true,
-       "speed": "-0.18",
        "leviathan": true,
-       "text": "+1 soul heart, temporarily crush rocks",
+       "text": "On use: +1 soul heart, temporarily crush rocks, temporary -0.18 speed and dmg up",
        "space": true,
        "introduced_in": "Rebirth"
     },
@@ -855,7 +853,7 @@
        "delay_x": "3",
        "shown": true,
        "leviathan": true,
-       "text": "Tears become blood laser, hits 12 or 13 times",
+       "text": "Tears become blood laser, hits 13 times",
        "in_summary": true,
        "summary_name": "Brim",
        "introduced_in": "Rebirth"
@@ -950,7 +948,7 @@
     "130": {
        "name": "A Pony",
        "shown": true,
-       "text": "flying, minimum speed 1.5",
+       "text": "flying, minimum speed 1.5, deals 40 dmg while charging enemies",
        "space": true,
        "introduced_in": "Rebirth"
     },
@@ -1078,7 +1076,7 @@
        "name": "Infestation",
        "shown": true,
        "beelzebub": true,
-       "text": "Spawns blue flies when hit",
+       "text": "Spawns 1-3 blue flies when hit",
        "introduced_in": "Rebirth"
     },
     "149": {
@@ -1262,7 +1260,7 @@
        "name": "Mitre",
        "shown": true,
        "seraphim": true,
-       "text": "Better chance of finding soul hearts",
+       "text": "50% to change red heart drop into soul heart",
        "introduced_in": "Rebirth"
     },
     "174": {
@@ -1846,7 +1844,7 @@
     "256": {
        "name": "Hot Bombs",
        "shown": true,
-       "text": "5 bombs, leaves fires that do 22 dmg",
+       "text": "5 bombs, leaves fires that do 22 dmg, 1 dmg contact",
        "introduced_in": "Rebirth"
     },
     "257": {
@@ -2060,7 +2058,7 @@
        "name": "Box of Spiders",
        "shown": true,
        "spiderbaby": true,
-       "text": "Spawns 2-4 blue spiders",
+       "text": "Spawns 1-4 blue spiders",
        "space": true,
        "introduced_in": "Rebirth"
     },
@@ -2097,7 +2095,7 @@
     "293": {
        "name": "Head of Krampus",
        "shown": true,
-       "text": "Create 4 blood lasers (approx. 451 dmg / laser)",
+       "text": "Create 4 blood lasers (approx. 440 dmg / laser)",
        "space": true,
        "introduced_in": "Rebirth"
     },
@@ -2423,7 +2421,7 @@
     "338": {
        "name": "Boomerang",
        "shown": true,
-       "text": "2x dmg",
+       "text": "2x dmg, can grab pickups",
        "space": true,
        "introduced_in": "Rebirth"
     },
@@ -2909,7 +2907,7 @@
     },
     "409": {
        "name": "Empty Vessel",
-       "text": "Does nothing if 1+ red heart containers, flight, procs a shield every minute",
+       "text": "Does nothing if 1+ red heart containers, flight, procs a shield every 40 seconds",
        "shown": true,
        "sin_hearts": "2",
        "introduced_in": "Afterbirth"
@@ -3112,6 +3110,7 @@
        "name": "Kidney Stone",
        "text": "Grants extra charge attack every 25 seconds",
        "shown": true,
+       "speed": "-0.2",
        "range": "-15",
        "height": "2",
        "introduced_in": "Afterbirth"
@@ -3443,7 +3442,7 @@
     },
     "491": {
        "name": "Acid Baby",
-       "text": "Spawns a pill every few rooms cleared",
+       "text": "Spawns a pill every 2-3 rooms cleared",
        "shown": true,
        "introduced_in": "Afterbirth+"
     },
@@ -3674,7 +3673,7 @@
        "introduced_in": "Booster Pack #3"
     },
     "527": {
-       "name": "Mr Me!",
+       "name": "Mr. Me!",
        "text": "Summons a helper to interact with whatever you target",
        "shown": true,
        "space": true,
@@ -5175,7 +5174,7 @@
     },
     "2128": {
        "name": "Finger Bone",
-       "text": "Chance to gain a bone heart on hit",
+       "text": "2% chance to gain a bone heart on hit",
        "shown": true,
        "introduced_in": "Booster Pack #5"
     }
