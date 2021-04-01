@@ -584,7 +584,7 @@
       "shown": true,
       "leviathan": true,
       "speed": "0.2",
-      "soul_hearts": "1",
+      "sin_hearts": "1",
       "introduced_in": "Rebirth"
    },
    "80": {
@@ -1338,6 +1338,7 @@
       "shown": true,
       "tears": "-0.4",
       "text": "+1 flat dmg, full heal",
+      "seraphim": true,
       "in_summary": true,
       "introduced_in": "Rebirth"
    },
@@ -1531,6 +1532,7 @@
    "209": {
       "name": "Butt Bombs",
       "shown": true,
+      "ohcrap": true,
       "text": "+5 bombs, bombs confuse all enemies, bombs deal 10 dmg to all enemies",
       "introduced_in": "Rebirth"
    },
@@ -1681,7 +1683,7 @@
       "introduced_in": "Rebirth"
    },
    "230": {
-      "sin_hearts": "6",
+      "sin_hearts": "5",
       "dmg": "1.5",
       "name": "Abaddon",
       "leviathan": true,
@@ -1714,6 +1716,7 @@
    "234": {
       "name": "Infestation 2",
       "shown": true,
+      "spiderbaby": true,
       "text": "Spawns a blue spider on enemy death",
       "introduced_in": "Rebirth"
    },
@@ -1804,6 +1807,7 @@
       "name": "Hive Mind",
       "shown": true,
       "beelzebub": true,
+      "spiderbaby": true,
       "text": "Blue spiders and flies do 2x dmg",
       "in_summary": true,
       "summary_condition": "Guppy",
@@ -1921,12 +1925,14 @@
    "265": {
       "name": "Dry Baby",
       "shown": true,
+      "conjoined": true,
       "text": "Blocks projectiles, chance to deal 40 dmg to the room on block",
       "introduced_in": "Rebirth"
    },
    "266": {
       "name": "Juicy Sack",
       "shown": true,
+      "spiderbaby": true,
       "text": "Spawns 1-2 blue spiders every room cleared, makes a trail of slowing creep",
       "introduced_in": "Rebirth"
    },
@@ -2024,6 +2030,7 @@
    "280": {
       "name": "Sissy Long Legs",
       "shown": true,
+      "spiderbaby": true,
       "text": "Spawns blue spiders",
       "introduced_in": "Rebirth"
    },
@@ -2611,6 +2618,7 @@
    "360": {
       "name": "Incubus",
       "text": "Familiar (copies your tears)",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -2656,6 +2664,7 @@
    "367": {
       "name": "Sticky Bombs",
       "text": "+5 bombs, bombs stick to enemies, spawns 4 spiders if bombs kill an enemy",
+      "spiderbaby": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -2721,12 +2730,14 @@
    "377": {
       "name": "Bursting Sack",
       "text": "Immunity to contact damage from spiders",
+      "spiderbaby": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
    "378": {
-      "name": "Number 2",
+      "name": "No. 2",
       "text": "Spawns a butt bomb after 3 seconds of uninterrupted firing",
+      "ohcrap": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -2901,6 +2912,7 @@
    "404": {
       "name": "Farting Baby",
       "text": "Familiar that blocks shots, 10% chance to poison/knockback/charm per block",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -3072,6 +3084,7 @@
    "431": {
       "name": "Multidimensional Baby",
       "text": "Familiar, tears that pass through it get 2x dmg",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -3127,6 +3140,7 @@
       "text": "Spawns a random trinket, doubles trinket effects while held",
       "shown": true,
       "space": true,
+      "yesmother": true,
       "luck": "1",
       "introduced_in": "Afterbirth"
    },
@@ -3268,6 +3282,7 @@
    "461": {
       "name": "Parasitoid",
       "text": "Chance to fire an egg tear (spawns creep + blue fly/spider)",
+      "beelzebub": true,
       "spiderbaby": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3337,6 +3352,7 @@
    "472": {
       "name": "King Baby",
       "text": "Familiar, all other familiars follow it",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3468,12 +3484,14 @@
    "491": {
       "name": "Acid Baby",
       "text": "Spawns a pill every few rooms cleared",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
    "492": {
       "name": "YO LISTEN!",
       "text": "Familiar, travels to Secret Rooms / Super Secret Rooms / tinted rocks / crawlspaces",
+      "beelzebub": true,
       "luck": "1",
       "shown": true,
       "introduced_in": "Afterbirth+"
@@ -3575,6 +3593,7 @@
    "508": {
       "name": "Mom's Razor",
       "text": "Orbital (non-blocking), deals 20% dmg / tick, adds bleed effect (kills after 50s of slow damage)",
+      "yesmother": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3642,6 +3661,7 @@
    "518": {
       "name": "Buddy in a Box",
       "text": "Familiar, random co-op baby (changes per floor)",
+      "conjoined": true,
       "shown": true,
       "introduced_in": "Booster Pack #1"
    },
@@ -3800,6 +3820,7 @@
    "543": {
       "name": "Hallowed Ground",
       "text": "Familiar, spawns a white poop on hit (makes an aura that halves tear delay + chance to block damage)",
+      "ohcrap": true,
       "shown": true,
       "introduced_in": "Booster Pack #5"
    },
@@ -3963,6 +3984,7 @@
    "568": {
       "name": "Divine Intervention",
       "shown": true,
+      "seraphim": true,
       "text": "A shield that reflects bullets, brimstone lasers and knock back enemies",
       "introduced_in": "Repentance"
    },
@@ -3993,6 +4015,7 @@
       "range": "21",
       "shot_speed": "-0.16",
       "shown": true,
+      "leviathan": true,
       "introduced_in": "Antibirth"
    },
    "573": {
@@ -4012,12 +4035,14 @@
    "575": {
       "name": "The Intruder",
       "text": "Add 4 slowing tears, chance to spawn blue spiders and release Intruder familiar on hit",
+      "spiderbaby": true,
       "shown": true,
       "introduced_in": "Antibirth"
    },
    "576": {
       "name": "Dirty Mind",
       "text": "Dips become friendly, spawns friendly Dips when destroying poop",
+      "ohcrap": true,
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4051,6 +4076,7 @@
    "581": {
       "name": "Psy Fly",
       "text": "Orbital, reflects enemy projectiles as homing tears",
+      "beelzebub": true,
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4193,6 +4219,7 @@
    "604": {
       "name": "Mom's Bracelet",
       "text": "Can throw obstacles",
+      "yesmother": true,
       "shown": true,
       "space": true,
       "introduced_in": "Antibirth"
@@ -4315,6 +4342,7 @@
    "625": {
       "name": "Mega Mush",
       "text": "Gigantify for a short duration (+damage, -tears, invulnerable, crush rocks/blocks/doors)",
+      "funguy": true,
       "shown": true,
       "space": true,
       "introduced_in": "Antibirth"
@@ -4431,6 +4459,7 @@
       "text": "Grants flight and an addtional angelic brimstone attack",
       "shot_speed": "0.38",
       "soul_hearts": "2",
+      "seraphim": true,
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4461,12 +4490,14 @@
    "649": {
       "name": "Fruity Plum",
       "text": "Baby Plum familiar that propel itself diagonally by shooting tears",
+      "beelzebub": true,
       "shown": true,
       "introduced_in": "Repentance"
    },
    "650": {
       "name": "Plum Flute",
       "shown": true,
+      "beelzebub": true,
       "text": "Spawns Baby Plum",
       "space": true,
       "introduced_in": "Repentance"
@@ -4650,12 +4681,14 @@
    "679": {
       "name": "Lil Abaddon",
       "shown": true,
+      "conjoined": true,
       "text": "Familiar that fires a Maw of the Void ring",
       "introduced_in": "Repentance"
    },
    "680": {
       "name": "Montezuma's Revenge",
       "shown": true,
+      "ohcrap": true,
       "text": "Fires a short diarrhea Brimstone backwards",
       "introduced_in": "Repentance"
    },
@@ -4724,6 +4757,7 @@
    "691": {
       "name": "Sacred Orb",
       "shown": true,
+      "seraphim": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
@@ -4736,6 +4770,7 @@
    "693": {
       "name": "The Swarm",
       "shown": true,
+      "beelzebub": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
@@ -4754,6 +4789,7 @@
    "696": {
       "name": "Salvation",
       "shown": true,
+      "seraphim": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
@@ -4766,6 +4802,7 @@
    "698": {
       "name": "Twisted Pair",
       "shown": true,
+      "conjoined": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
@@ -4895,6 +4932,7 @@
    "717": {
       "name": "Keeper's Kin",
       "shown": true,
+      "spiderbaby": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
@@ -4965,12 +5003,14 @@
    "728": {
       "name": "Gello",
       "shown": true,
+      "space": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
    "729": {
       "name": "Decap Attack",
       "shown": true,
+      "space": true,
       "text": "Description coming later",
       "introduced_in": "Repentance"
    },
