@@ -100,8 +100,8 @@ class LogParser(object):
                 greed_mode_starting_rooms = ('1.1000','1.1010','1.1011','1.1012','1.1013','1.1014','1.1015','1.1016','1.1017','1.1018','1.2000','1.2001','1.2002','1.2003','1.2004','1.2005','1.2006','1.2007','1.2008','1.2009','1.3000','1.3001','1.3002','1.3003','1.3004','1.3005','1.3006','1.3007','1.3008','1.3009','1.3010','1.4000','1.4001','1.4002','1.4003','1.4004','1.4005','1.4006','1.4007','1.4008','1.4009','1.4010','1.5000','1.5001','1.5002','1.5003','1.5004','1.5005','1.5006','1.5007','1.5008','1.5009','1.5010','1.6000','1.6001','1.6002','1.6003','1.6004','1.6005','1.6006','1.6007','1.6008','1.6009')
                 match = re.search(r"Room (.+?)\(", line)
                 room_id = match.group(1)
-                if line.startswith('Room count'): # There is one line starting with "Room count" that wreck the system
-                    return
+                if room_id == '18.1000':
+                    self.state.item_list = []
                 elif room_id in greed_mode_starting_rooms and self.greedmode == 0:
                     self.greedmode = 2
                     self.__parse_floor(self.first_line, line_number)    
@@ -328,7 +328,6 @@ class LogParser(object):
         # A check will be made inside the remove_item function
         # to see if this item is actually in our inventory or not.
         return self.state.remove_item(removal_id)
-
 
 
 
