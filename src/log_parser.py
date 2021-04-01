@@ -126,8 +126,8 @@ class LogParser(object):
             self.__parse_item_add(line_number, line)
         if line.startswith('Gulping trinket ') or line.startswith('Adding smelted trinket '):
             self.__parse_trinket_gulp(line)
-        if line.startswith('Removing collectible ') or line.startswith('Removing voided collectible '):
-            self.__parse_item_remove(line)
+        if line.startswith('Removing collectible ') or line.startswith('Removing voided collectible ') or line.startswith('Removing smelted trinket '):
+            self.__parse_item_remove(line)            
         if line.startswith('Executing command: reseed'):
             # racing+ re-generates floors if they contain duplicate rooms. we need to track that this is happening
             # so we don't erroneously think the entire run is being restarted when it happens on b1.
@@ -308,6 +308,8 @@ class LogParser(object):
         # When you lose an item, this has the form: "Removing collectible 105 (The D6)" or "Removing voided collectible 105 (The D6)"
         if self.opt.game_version == "Repentance":
             item_id = space_split[3]
+            if space_split[2] == "trinket":
+                item_id = str(int(space_split[3]) + 2000)
         else:
             item_id = space_split[2]
         item_name = " ".join(space_split[3:])[1:-1]
