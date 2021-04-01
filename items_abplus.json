@@ -1530,7 +1530,7 @@
        "introduced_in": "Rebirth"
     },
     "211": {
-       "name": "Spiderbaby",
+       "name": "Spider Baby",
        "shown": true,
        "spiderbaby": true,
        "text": "Spawns 1-2 blue spiders when hit",
@@ -2089,6 +2089,7 @@
     "292": {
        "name": "The Satanic Bible",
        "shown": true,
+       "bookworm": true,
        "text": "+1 black heart",
        "space": true,
        "introduced_in": "Rebirth"
@@ -3067,6 +3068,7 @@
     "434": {
        "name": "Jar of Flies",
        "text": "Creates flies when you kill enemies (max 20)",
+       "beelzebub": true,
        "shown": true,
        "space": true,
        "introduced_in": "Afterbirth"
@@ -3549,6 +3551,7 @@
     "508": {
        "name": "Mom's Razor",
        "text": "Orbital (non-blocking), deals 20% dmg / tick, adds bleed effect (kills after 50s of slow damage)",
+       "yesmother": true,
        "shown": true,
        "introduced_in": "Afterbirth+"
     },
@@ -3568,6 +3571,7 @@
     "511": {
        "name": "Angry Fly",
        "text": "Familiar, orbits around enemies, 2 dmg / tick",
+       "beelzebub": true,
        "shown": true,
        "introduced_in": "Booster Pack #1"
     },
@@ -3831,6 +3835,7 @@
     "552": {
        "name": "Mom's Shovel",
        "text": "Used in the Booster Pack #5 quest",
+       "yesmother": true,
        "shown": true,
        "space": true,
        "introduced_in": "Booster Pack #5"

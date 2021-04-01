@@ -112,7 +112,7 @@
    },
    "13": {
       "name": "The Virus",
-      "speed": "-0.1",
+      "speed": "0.2",
       "shown": true,
       "spun": true,
       "text": "Poison touch",
@@ -582,6 +582,7 @@
       "dmg": "1",
       "name": "The Mark",
       "shown": true,
+      "leviathan": true,
       "speed": "0.2",
       "soul_hearts": "1",
       "introduced_in": "Rebirth"
@@ -699,6 +700,7 @@
    "95": {
       "name": "Robo-Baby",
       "shown": true,
+      "conjoined": true,
       "text": "Familiar (3.5 dmg / laser)",
       "introduced_in": "Rebirth"
    },
@@ -1190,6 +1192,7 @@
    "163": {
       "name": "Ghost Baby",
       "shown": true,
+      "conjoined": true,
       "text": "Familiar (3.5 dmg / tear)",
       "introduced_in": "Rebirth"
    },
@@ -1244,6 +1247,7 @@
    },
    "170": {
       "name": "Daddy Longlegs",
+      "spiderbaby": true,
       "shown": true,
       "text": "Familiar (40 dmg / stomp)",
       "introduced_in": "Rebirth"
@@ -1274,6 +1278,7 @@
    "174": {
       "name": "Rainbow Baby",
       "shown": true,
+      "conjoined": true,
       "text": "Familiar (shoots random tears)",
       "introduced_in": "Rebirth"
    },
@@ -1536,7 +1541,7 @@
       "introduced_in": "Rebirth"
    },
    "211": {
-      "name": "Spiderbaby",
+      "name": "Spider Baby",
       "shown": true,
       "spiderbaby": true,
       "text": "Spawns 1-2 blue spiders when hit",
@@ -1927,6 +1932,7 @@
    },
    "267": {
       "name": "Robo-Baby 2.0",
+      "conjoined": true,
       "shown": true,
       "text": "Familiar (3.5 dmg / laser)",
       "introduced_in": "Rebirth"
@@ -1981,6 +1987,7 @@
    "275": {
       "name": "Lil' Brimstone",
       "shown": true,
+      "conjoined": true,
       "text": "Familiar (31.5 dmg / blood laser)",
       "in_summary": true,
       "summary_name": "Lil' Brim",
@@ -2103,6 +2110,7 @@
    "292": {
       "name": "The Satanic Bible",
       "shown": true,
+      "bookworm": true,
       "text": "+1 black heart",
       "space": true,
       "introduced_in": "Rebirth"
@@ -2355,6 +2363,7 @@
    "328": {
       "name": "The Negative",
       "shown": true,
+      "dmg": "1",
       "text": "Damage enemies when hit at 1/2 heart, can enter the Dark Room",
       "introduced_in": "Rebirth"
    },
@@ -2570,6 +2579,7 @@
       "range": "1.25",
       "luck": "1",
       "height": "0.5",
+      "soul_hearts": "1",
       "introduced_in": "Afterbirth"
    },
    "356": {
@@ -2964,7 +2974,7 @@
    },
    "416": {
       "name": "Deep Pockets",
-      "text": "Extends your ",
+      "text": "Increase your money cap to 999",
       "shown": true,
       "introduced_in": "Afterbirth"
    },
@@ -3080,6 +3090,7 @@
    "434": {
       "name": "Jar of Flies",
       "text": "Creates flies when you kill enemies (max 20)",
+      "beelzebub": true,
       "shown": true,
       "space": true,
       "introduced_in": "Afterbirth"
@@ -3257,6 +3268,7 @@
    "461": {
       "name": "Parasitoid",
       "text": "Chance to fire an egg tear (spawns creep + blue fly/spider)",
+      "spiderbaby": true,
       "shown": true,
       "introduced_in": "Afterbirth+"
    },
@@ -3582,6 +3594,7 @@
    "511": {
       "name": "Angry Fly",
       "text": "Familiar, orbits around enemies, 2 dmg / tick",
+      "beelzebub": true,
       "shown": true,
       "introduced_in": "Booster Pack #1"
    },
@@ -3845,6 +3858,7 @@
    "552": {
       "name": "Mom's Shovel",
       "text": "Used in the Booster Pack #5 quest",
+      "yesmother": true,
       "shown": true,
       "space": true,
       "introduced_in": "Booster Pack #5"
@@ -4043,6 +4057,7 @@
    "582": {
       "name": "Wavy Cap",
       "text": "Temporary +tears, -speed, distorts graphics/sound",
+      "funguy": true,
       "shown": true,
       "space": true,
       "introduced_in": "Antibirth"
@@ -4326,6 +4341,7 @@
    "629": {
       "name": "Bot Fly",
       "text": "Familiar, orbits and fires shielded tears",
+      "beelzebub": true,
       "shown": true,
       "introduced_in": "Antibirth"
    },
@@ -4464,6 +4480,7 @@
    "652": {
       "name": "Cube Baby",
       "shown": true,
+      "conjoined": true,
       "text": "A frozen baby familiar that can be kicked",
       "introduced_in": "Repentance"
    },
