@@ -97,17 +97,20 @@ class LogParser(object):
             self.__parse_room(line)
             # Detect Greed mode floor on Repentance
             if self.opt.game_version == "Repentance":
+                greed_mode_starting_rooms = ('1.1000','1.1010','1.1011','1.1012','1.1013','1.1014','1.1015','1.1016','1.1017','1.1018','1.2000','1.2001','1.2002','1.2003','1.2004','1.2005','1.2006','1.2007','1.2008','1.2009','1.3000','1.3001','1.3002','1.3003','1.3004','1.3005','1.3006','1.3007','1.3008','1.3009','1.3010','1.4000','1.4001','1.4002','1.4003','1.4004','1.4005','1.4006','1.4007','1.4008','1.4009','1.4010','1.5000','1.5001','1.5002','1.5003','1.5004','1.5005','1.5006','1.5007','1.5008','1.5009','1.5010','1.6000','1.6001','1.6002','1.6003','1.6004','1.6005','1.6006','1.6007','1.6008','1.6009')
+                match = re.search(r"Room (.+?)\(", line)
+                room_id = match.group(1)
                 if line.startswith('Room count'): # There is one line starting with "Room count" that wreck the system
                     return
-                elif (line.startswith('Room 1.2') and self.greedmode == 0) or line.startswith('Room 5.5000'): # 5.5000 is Mega Satan's Room in Challenge #31
+                elif room_id in greed_mode_starting_rooms and self.greedmode == 0:
+                    self.greedmode = 2
+                    self.__parse_floor(self.first_line, line_number)    
+                elif self.greedmode == 0 or room_id == '5.50000': # 5.5000 is Mega Satan's Room in Challenge #31
                     if line.startswith('Room 5.5000'):
                         self.backasswards = True
                     else:
                         self.backasswards = False
                     self.greedmode = 1
-                    self.__parse_floor(self.first_line, line_number)
-                elif self.greedmode == 0:
-                    self.greedmode = 2
                     self.__parse_floor(self.first_line, line_number)
         if line.endswith('Subtype 8'): # This is to detect if we play as Lazarus to avoid showing two Anemics in the tracker
             self.lazarus = True
