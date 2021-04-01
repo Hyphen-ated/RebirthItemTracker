@@ -98,7 +98,7 @@ class Updater(object):
             #if the update option isn't present, the default is to do updates.
             if update_option_name not in self.options or self.options[update_option_name]:
                 # check if github has a newer version than us
-                latest = "https://api.github.com/repos/Hyphen-ated/RebirthItemTracker/releases/latest"
+                latest = "https://api.github.com/repos/rchardon/RebirthItemTracker/releases/latest"
                 github_info_json = urllib2.urlopen(latest).read()
                 info = json.loads(github_info_json)
                 self.latest_version = info["name"]
@@ -172,7 +172,7 @@ class Updater(object):
 
 
     def open_report_page(self):
-        webbrowser.open("https://github.com/Hyphen-ated/RebirthItemTracker/issues", autoraise=True)
+        webbrowser.open("https://github.com/rchardon/RebirthItemTracker/issues", autoraise=True)
         self.root.destroy()
 
     def do_update(self):
@@ -194,7 +194,7 @@ class Updater(object):
             mkdir_p(scratch)
             try:
                 self.update_step = UpdateStep.DOWNLOAD
-                url = 'https://github.com/Hyphen-ated/RebirthItemTracker/releases/download/' + self.latest_version + '/Rebirth.Item.Tracker-' + self.latest_version + ".zip"
+                url = 'https://github.com/rchardon/RebirthItemTracker/releases/download/' + self.latest_version + '/Rebirth.Item.Tracker-' + self.latest_version + ".zip"
                 urlstream = urllib2.urlopen(url)
                 myzip = zipfile.ZipFile(StringIO(urlstream.read()))
                 self.update_step = UpdateStep.EXTRACT

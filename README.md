@@ -19,8 +19,8 @@ Additionally, the tracker...
 
 ![](http://i.imgur.com/zG3eV8V.png)
 
-Download it [here](https://github.com/Hyphen-ated/RebirthItemTracker/releases) (get the latest file that doesn't have
-"source code" in the name).
+Download it [here](https://github.com/rchardon/RebirthItemTracker/releases) or [here](https://github.com/Hyphen-ated/RebirthItemTracker/releases) for version 3.0.0 and downwards 
+(get the latest file that doesn't have "source code" in the name).
 
 To use it, first extract that zip file and then run the exe inside. Don't put it inside the same folder as any file
 \named log.txt.
@@ -93,3 +93,5 @@ character doesn't have it anymore.
 relaunch the game.
 
 * Transparent mode only works on Windows.
+
+* You can't see rerolled items with D4 in Repentance.
