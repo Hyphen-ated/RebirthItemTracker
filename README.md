@@ -1,3 +1,5 @@
+# For Repentance DLC support, get Gamonymous's updated version at https://github.com/Rchardon/RebirthItemTracker
+
 RebirthItemTracker
 ==================
 
