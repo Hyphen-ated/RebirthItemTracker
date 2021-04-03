@@ -78,9 +78,11 @@ class LogParser(object):
             line = line[len(luadebug_prefix):]
 
         # AB and AB+ version messages both start with this text (AB+ has a + at the end)
+        if line.startswith('Binding of Isaac: Rebirth'):
+            self.__parse_version_number(line)
         if line.startswith('Binding of Isaac: Afterbirth'):
             self.__parse_version_number(line)
-        if line.startswith('Binding of Isaac: Rebirth'):
+        if line.startswith('Binding of Isaac: Repentance'):
             self.__parse_version_number(line)
         if line.startswith('RNG Start Seed:'):
             self.__parse_seed(line, line_number)
@@ -139,7 +141,7 @@ class LogParser(object):
     def __parse_floor(self, line, line_number):
         """ Parse the floor in line and push it to the state """
         # Create a floor tuple with the floor id and the alternate id
-        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+":
+        if self.opt.game_version == "Afterbirth" or self.opt.game_version == "Afterbirth+" or self.opt.game_version == "Repentance":
             regexp_str = r"Level::Init m_Stage (\d+), m_StageType (\d+)"
         elif self.opt.game_version == "Rebirth" or self.opt.game_version == "Antibirth":
             regexp_str = r"Level::Init m_Stage (\d+), m_AltStage (\d+)"
